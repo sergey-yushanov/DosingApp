@@ -1,5 +1,6 @@
 ﻿using DosingApp.Models;
 using DosingApp.Services;
+using DosingApp.ViewModels;
 using System;
 
 using Xamarin.Forms;
@@ -7,7 +8,6 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FieldPage : ContentPage
     {
         string dbPath;

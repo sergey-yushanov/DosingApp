@@ -28,7 +28,8 @@ namespace DosingApp
                     db.SaveChanges();
                 }
             }
-            MainPage = new NavigationPage(new FieldsPage());
+            //MainPage = new NavigationPage(new FieldsPage());
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()

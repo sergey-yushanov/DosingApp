@@ -1,5 +1,6 @@
 ﻿using DosingApp.Models;
 using DosingApp.Services;
+using DosingApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,6 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FieldsPage : ContentPage
     {
         public FieldsPage()

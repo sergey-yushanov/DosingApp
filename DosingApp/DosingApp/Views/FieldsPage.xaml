@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              x:Class="DosingApp.Views.FieldsPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Margin="{StaticResource PageMargin}">
             <Button Text="Добавить" Clicked="CreateField" />
             <ListView x:Name="fieldsList" ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>

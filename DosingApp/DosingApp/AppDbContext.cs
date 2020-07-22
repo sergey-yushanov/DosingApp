@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DosingApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace DosingApp
     {
         private string _databasePath;
 
-        //public DbSet<Field> Fields { get; set; }
+        public DbSet<Field> Fields { get; set; }
 
         public AppDbContext(string databasePath)
         {

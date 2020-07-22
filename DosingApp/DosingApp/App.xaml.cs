@@ -1,4 +1,8 @@
-﻿using System;
+﻿using DosingApp.Models;
+using DosingApp.Services;
+using DosingApp.Views;
+using System;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -6,11 +10,25 @@ namespace DosingApp
 {
     public partial class App : Application
     {
+        public const string DBFILENAME = "dosingapp.db";
+
         public App()
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(DBFILENAME);
+            using (var db = new AppDbContext(dbPath))
+            {
+                // Создаем бд, если она отсутствует
+                db.Database.EnsureCreated();
+                if (db.Fields.Count() == 0)
+                {
+                    db.Fields.Add(new Field { Name = "Tom", Code = "tom@gmail.com" });
+                    db.Fields.Add(new Field { Name = "Alice", Code = "alice@gmail.com" });
+                    db.SaveChanges();
+                }
+            }
+            MainPage = new NavigationPage(new FieldsPage());
         }
 
         protected override void OnStart()

@@ -51,6 +51,18 @@
     <Compile Update="Views\FacilitiesPage.xaml.cs">
       <DependentUpon>FacilitiesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\ApplicatorPage.xaml.cs">
+      <DependentUpon>ApplicatorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ApplicatorsPage.xaml.cs">
+      <DependentUpon>ApplicatorsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ComponentPage.xaml.cs">
+      <DependentUpon>ComponentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ComponentsPage.xaml.cs">
+      <DependentUpon>ComponentsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\TransportPage.xaml.cs">
       <DependentUpon>TransportPage.xaml</DependentUpon>
     </Compile>

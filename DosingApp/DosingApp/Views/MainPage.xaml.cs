@@ -26,9 +26,12 @@ namespace DosingApp.Views
             {
                 switch (id)
                 {
-                    //case (int)MenuItemType.Applicators:
-                    //MenuPages.Add(id, new NavigationPage(new ProcessingTypesListPage()));
-                    //break;
+                    case (int)MenuItemType.Components:
+                        MenuPages.Add(id, new NavigationPage(new ComponentsPage()));
+                        break;
+                    case (int)MenuItemType.Applicators:
+                        MenuPages.Add(id, new NavigationPage(new ApplicatorsPage()));
+                        break;
                     case (int)MenuItemType.Facilities:
                         MenuPages.Add(id, new NavigationPage(new FacilitiesPage()));
                         break;

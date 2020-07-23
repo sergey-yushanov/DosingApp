@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="DosingApp.Views.ComponentPage"
+             Title="Компонент">
+    <ContentPage.Content>
+        <StackLayout Margin="{StaticResource PageMargin}">
+            <StackLayout>
+                <Label Text="Название" />
+                <Entry Placeholder="Введите название компонента" Text="{Binding Name}" />
+                <Label Text="Форма компонента" />
+                <Picker SelectedItem="{Binding Consistency}">
+                    <Picker.Items>
+                        <x:String>Жидкий</x:String>
+                        <x:String>Сухой</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Label Text="Плотность" />
+                <Entry Placeholder="Введите плотность" Text="{Binding Density}" Keyboard="Numeric" />
+                
+            </StackLayout>
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Text="Сохранить" Clicked="SaveButton" />
+                    <Button Grid.Column="1" Text="Удалить" Clicked="DeleteButton" />
+                </Grid>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

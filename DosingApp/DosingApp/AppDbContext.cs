@@ -17,7 +17,7 @@ namespace DosingApp
         public DbSet<Crop> Crops { get; set; }
         public DbSet<Field> Fields { get; set; }
         //public DbSet<Mixture> Mixtures { get; set; }
-        public DbSet<Models.Object> Objects { get; set; }
+        public DbSet<Facility> Facilities { get; set; }
         public DbSet<ProcessingType> ProcessingTypes { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeComponent> RecipeComponents { get; set; }

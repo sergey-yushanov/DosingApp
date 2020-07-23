@@ -12,7 +12,7 @@ namespace DosingApp.Models
         Recipes,
         Components,
         Applicators,
-        Objects,
+        Facilities,
         Transports,
         Crops,
         ProcessingTypes,

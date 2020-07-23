@@ -27,7 +27,7 @@ namespace DosingApp.Views
                 new HomeMenuItem {Id = MenuItemType.Recipes, Title="Рецепты" },
                 new HomeMenuItem {Id = MenuItemType.Components, Title="Компоненты" },
                 new HomeMenuItem {Id = MenuItemType.Applicators, Title="Аппликаторы" },
-                new HomeMenuItem {Id = MenuItemType.Objects, Title="Объекты" },
+                new HomeMenuItem {Id = MenuItemType.Facilities, Title="Объекты" },
                 new HomeMenuItem {Id = MenuItemType.Transports, Title="Транспорты" },
                 new HomeMenuItem {Id = MenuItemType.Crops, Title="Культуры" },
                 new HomeMenuItem {Id = MenuItemType.ProcessingTypes, Title="Виды обработки" },

@@ -12,15 +12,16 @@
                 <Label Text="Название" />
                 <Entry Placeholder="Введите название компонента" Text="{Binding Name}" />
                 <Label Text="Форма компонента" />
-                <Picker SelectedItem="{Binding Consistency}">
+                <Picker Title="Выберите тип компонента" SelectedItem="{Binding Consistency}">
                     <Picker.Items>
                         <x:String>Жидкий</x:String>
                         <x:String>Сухой</x:String>
                     </Picker.Items>
                 </Picker>
-                <Label Text="Плотность" />
+                <Label Text="Плотность, гр/мл" />
                 <Entry Placeholder="Введите плотность" Text="{Binding Density}" Keyboard="Numeric" />
-                
+                <Label Text="Фасовка" />
+                <Entry Placeholder="Введите тип фасовки" Text="{Binding Packing}" />
             </StackLayout>
             <StackLayout>
                 <Grid>

@@ -1,6 +1,5 @@
 ﻿using DosingApp.Models;
 using DosingApp.Services;
-using DosingApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +11,9 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class FieldsPage : ContentPage
+    public partial class AgrYearsPage : ContentPage
     {
-        public FieldsPage()
+        public AgrYearsPage()
         {
             InitializeComponent();
         }
@@ -24,7 +23,7 @@ namespace DosingApp.Views
             string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
             using (AppDbContext db = new AppDbContext(dbPath))
             {
-                itemsList.ItemsSource = db.Fields.ToList();
+                itemsList.ItemsSource = db.AgrYears.ToList();
             }
             base.OnAppearing();
         }
@@ -32,19 +31,19 @@ namespace DosingApp.Views
         // обработка нажатия элемента в списке
         private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            Field selectedField = (Field)e.SelectedItem;
-            FieldPage fieldPage = new FieldPage();
-            fieldPage.BindingContext = selectedField;
-            await Navigation.PushAsync(fieldPage);
+            AgrYear selectedAgrYear = (AgrYear)e.SelectedItem;
+            AgrYearPage agrYearPage = new AgrYearPage();
+            agrYearPage.BindingContext = selectedAgrYear;
+            await Navigation.PushAsync(agrYearPage);
         }
 
         // обработка нажатия кнопки добавления
         private async void CreateButton(object sender, EventArgs e)
         {
-            Field field = new Field();
-            FieldPage fieldPage = new FieldPage();
-            fieldPage.BindingContext = field;
-            await Navigation.PushAsync(fieldPage);
+            AgrYear agrYear = new AgrYear();
+            AgrYearPage agrYearPage = new AgrYearPage();
+            agrYearPage.BindingContext = agrYear;
+            await Navigation.PushAsync(agrYearPage);
         }
     }
 }

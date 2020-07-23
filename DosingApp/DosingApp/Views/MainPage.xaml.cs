@@ -29,12 +29,12 @@ namespace DosingApp.Views
                     //case (int)MenuItemType.Applicators:
                     //MenuPages.Add(id, new NavigationPage(new ProcessingTypesListPage()));
                     //break;
-                    //case (int)MenuItemType.ProcessingTypes:
-                        //MenuPages.Add(id, new NavigationPage(new ProcessingTypesListPage()));
-                        //break;
-                    //case (int)MenuItemType.AgriculturalYears:
-                        //MenuPages.Add(id, new NavigationPage(new AgriculturalYearsListPage()));
-                        //break;
+                    case (int)MenuItemType.ProcessingTypes:
+                        MenuPages.Add(id, new NavigationPage(new ProcessingTypesPage()));
+                        break;
+                    case (int)MenuItemType.AgrYears:
+                        MenuPages.Add(id, new NavigationPage(new AgrYearsPage()));
+                        break;
                     case (int)MenuItemType.Fields:
                         MenuPages.Add(id, new NavigationPage(new FieldsPage()));
                         break;

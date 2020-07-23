@@ -4,8 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.FieldsPage"
-             Title="Список полей">
+             x:Class="DosingApp.Views.AgrYearsPage"
+             Title="Список сельхоз. годов">
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
             <Button Text="Добавить" Clicked="CreateButton" />

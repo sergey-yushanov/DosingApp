@@ -12,9 +12,9 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class FieldsPage : ContentPage
+    public partial class ProcessingTypesPage : ContentPage
     {
-        public FieldsPage()
+        public ProcessingTypesPage()
         {
             InitializeComponent();
         }
@@ -24,7 +24,7 @@ namespace DosingApp.Views
             string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
             using (AppDbContext db = new AppDbContext(dbPath))
             {
-                itemsList.ItemsSource = db.Fields.ToList();
+                itemsList.ItemsSource = db.ProcessingTypes.ToList();
             }
             base.OnAppearing();
         }
@@ -32,19 +32,19 @@ namespace DosingApp.Views
         // обработка нажатия элемента в списке
         private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            Field selectedField = (Field)e.SelectedItem;
-            FieldPage fieldPage = new FieldPage();
-            fieldPage.BindingContext = selectedField;
-            await Navigation.PushAsync(fieldPage);
+            ProcessingType selectedProcessingType = (ProcessingType)e.SelectedItem;
+            ProcessingTypePage processingTypePage = new ProcessingTypePage();
+            processingTypePage.BindingContext = selectedProcessingType;
+            await Navigation.PushAsync(processingTypePage);
         }
 
         // обработка нажатия кнопки добавления
         private async void CreateButton(object sender, EventArgs e)
         {
-            Field field = new Field();
-            FieldPage fieldPage = new FieldPage();
-            fieldPage.BindingContext = field;
-            await Navigation.PushAsync(fieldPage);
+            ProcessingType processingType = new ProcessingType();
+            ProcessingTypePage processingTypePage = new ProcessingTypePage();
+            processingTypePage.BindingContext = processingType;
+            await Navigation.PushAsync(processingTypePage);
         }
     }
 }

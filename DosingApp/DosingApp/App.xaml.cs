@@ -20,15 +20,9 @@ namespace DosingApp
             using (var db = new AppDbContext(dbPath))
             {
                 // Создаем бд, если она отсутствует
+                db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
-                if (db.Fields.Count() == 0)
-                {
-                    db.Fields.Add(new Field { Name = "Tom", Code = "tom@gmail.com" });
-                    db.Fields.Add(new Field { Name = "Alice", Code = "alice@gmail.com" });
-                    db.SaveChanges();
-                }
             }
-            //MainPage = new NavigationPage(new FieldsPage());
             MainPage = new MainPage();
         }
 

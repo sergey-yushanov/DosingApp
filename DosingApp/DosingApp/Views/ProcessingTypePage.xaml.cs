@@ -1,18 +1,21 @@
 ﻿using DosingApp.Models;
 using DosingApp.Services;
-using DosingApp.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class FieldPage : ContentPage
+    public partial class ProcessingTypePage : ContentPage
     {
         string dbPath;
 
-        public FieldPage()
+        public ProcessingTypePage()
         {
             InitializeComponent();
             dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
@@ -20,21 +23,21 @@ namespace DosingApp.Views
 
         private void Back()
         {
-            Navigation.PopAsync();
+            this.Navigation.PopAsync();
         }
 
         private void SaveButton(object sender, EventArgs e)
         {
-            var field = (Field)BindingContext;
-            if (!String.IsNullOrEmpty(field.Name))
+            var processingType = (ProcessingType)BindingContext;
+            if (!String.IsNullOrEmpty(processingType.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
                 {
-                    if (field.Id == 0)
-                        db.Fields.Add(field);
+                    if (processingType.Id == 0)
+                        db.ProcessingTypes.Add(processingType);
                     else
                     {
-                        db.Fields.Update(field);
+                        db.ProcessingTypes.Update(processingType);
                     }
                     db.SaveChanges();
                 }
@@ -44,14 +47,13 @@ namespace DosingApp.Views
 
         private void DeleteButton(object sender, EventArgs e)
         {
-            var field = (Field)BindingContext;
+            var processingType = (ProcessingType)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
-                db.Fields.Remove(field);
+                db.ProcessingTypes.Remove(processingType);
                 db.SaveChanges();
             }
             Back();
         }
-
     }
 }

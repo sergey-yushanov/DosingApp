@@ -4,15 +4,15 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.FieldPage"
-             Title="Поле">
+             x:Class="DosingApp.Views.ProcessingTypePage"
+             Title="Вид обработки">
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
             <StackLayout>
                 <Label Text="Название" />
-                <Entry Placeholder="Введите название поля" Text="{Binding Name}" />
+                <Entry Placeholder="Введите вид обработки" Text="{Binding Name}" />
                 <Label Text="Код" />
-                <Entry Placeholder="Введите код поля" Text="{Binding Code}" />
+                <Entry Placeholder="Введите код обработки" Text="{Binding Code}" />
             </StackLayout>
             <StackLayout>
                 <Grid>

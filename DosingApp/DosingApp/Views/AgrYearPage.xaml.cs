@@ -1,18 +1,21 @@
 ﻿using DosingApp.Models;
 using DosingApp.Services;
-using DosingApp.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class FieldPage : ContentPage
+    public partial class AgrYearPage : ContentPage
     {
         string dbPath;
 
-        public FieldPage()
+        public AgrYearPage()
         {
             InitializeComponent();
             dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
@@ -20,21 +23,21 @@ namespace DosingApp.Views
 
         private void Back()
         {
-            Navigation.PopAsync();
+            this.Navigation.PopAsync();
         }
 
         private void SaveButton(object sender, EventArgs e)
         {
-            var field = (Field)BindingContext;
-            if (!String.IsNullOrEmpty(field.Name))
+            var agrYear = (AgrYear)BindingContext;
+            if (!String.IsNullOrEmpty(agrYear.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
                 {
-                    if (field.Id == 0)
-                        db.Fields.Add(field);
+                    if (agrYear.Id == 0)
+                        db.AgrYears.Add(agrYear);
                     else
                     {
-                        db.Fields.Update(field);
+                        db.AgrYears.Update(agrYear);
                     }
                     db.SaveChanges();
                 }
@@ -44,14 +47,13 @@ namespace DosingApp.Views
 
         private void DeleteButton(object sender, EventArgs e)
         {
-            var field = (Field)BindingContext;
+            var agrYear = (AgrYear)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
-                db.Fields.Remove(field);
+                db.AgrYears.Remove(agrYear);
                 db.SaveChanges();
             }
             Back();
         }
-
     }
 }

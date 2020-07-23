@@ -29,6 +29,12 @@ namespace DosingApp.Views
                     //case (int)MenuItemType.Applicators:
                     //MenuPages.Add(id, new NavigationPage(new ProcessingTypesListPage()));
                     //break;
+                    case (int)MenuItemType.Transports:
+                        MenuPages.Add(id, new NavigationPage(new TransportsPage()));
+                        break;
+                    case (int)MenuItemType.Crops:
+                        MenuPages.Add(id, new NavigationPage(new CropsPage()));
+                        break;
                     case (int)MenuItemType.ProcessingTypes:
                         MenuPages.Add(id, new NavigationPage(new ProcessingTypesPage()));
                         break;

@@ -20,7 +20,7 @@ namespace DosingApp
             using (var db = new AppDbContext(dbPath))
             {
                 // Создаем бд, если она отсутствует
-                db.Database.EnsureDeleted();
+                //db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
             }
             MainPage = new MainPage();

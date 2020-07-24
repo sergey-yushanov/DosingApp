@@ -26,6 +26,9 @@ namespace DosingApp.Views
             {
                 switch (id)
                 {
+                    case (int)MenuItemType.Recipes:
+                        MenuPages.Add(id, new NavigationPage(new RecipesPage()));
+                        break;
                     case (int)MenuItemType.Components:
                         MenuPages.Add(id, new NavigationPage(new ComponentsPage()));
                         break;

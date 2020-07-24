@@ -63,6 +63,12 @@
     <Compile Update="Views\ComponentsPage.xaml.cs">
       <DependentUpon>ComponentsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\RecipePage.xaml.cs">
+      <DependentUpon>RecipePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RecipesPage.xaml.cs">
+      <DependentUpon>RecipesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\TransportPage.xaml.cs">
       <DependentUpon>TransportPage.xaml</DependentUpon>
     </Compile>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DosingApp.Models
 {
-    public class Object
+    public class Facility
     {
         public int Id { get; set; }
         public string Name { get; set; }

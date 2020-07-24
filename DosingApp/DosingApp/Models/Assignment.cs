@@ -14,7 +14,7 @@ namespace DosingApp.Models
         public string DestTank { get; set; }
         public AgrYear AgrYear { get; set; }
         public Field Field { get; set; }
-        public Object Object { get; set; }
+        public Facility Facility { get; set; }
         public float VolumeRate { get; set; }
     }
 }

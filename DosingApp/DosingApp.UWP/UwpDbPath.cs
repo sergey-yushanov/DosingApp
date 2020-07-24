@@ -12,6 +12,7 @@ namespace DosingApp.UWP
         public string GetDatabasePath(string filename)
         {
             return Path.Combine(ApplicationData.Current.LocalFolder.Path, filename);
+            //return Path.Combine("C:\\Users\\yushanov\\source\\repos\\", filename);
         }
     }
 }

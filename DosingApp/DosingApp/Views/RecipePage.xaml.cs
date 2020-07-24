@@ -15,6 +15,20 @@ namespace DosingApp.Views
     {
         string dbPath;
 
+        //public Crop crop { get; private set; }
+
+        public Crop SelectedCrop
+        {
+            get
+            {
+                var recipe = (Recipe)BindingContext;
+                using (AppDbContext db = new AppDbContext(dbPath))
+                {
+                    return db.Crops.Find(recipe.CropId);
+                }
+            }
+        }
+
         public RecipePage()
         {
             InitializeComponent();
@@ -45,7 +59,6 @@ namespace DosingApp.Views
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
                 {
-
                     db.ChangeTracker.TrackGraph(recipe, r => {
                         if (r.Entry.IsKeySet)
                         {
@@ -57,20 +70,9 @@ namespace DosingApp.Views
                         }
                     });
 
+                    //db.ChangeTracker.TrackGraph(recipe.Crop, r => r.Entry.State = EntityState.Modified);
 
-                    //var crop = db.Crops.Find(recipe.Crop.Id);
-                    //recipe.Crop = crop;
-
-                    //if (recipe.Id == 0)
-                    //{
-                    //db.Recipes.Add(recipe);
-                    //}
-                    //else
-                    //{
-                    //db.Recipes.Update(recipe);
-                    //}
                     db.SaveChanges();
-                    var recipes = db.Recipes.ToList();
                 }
             }
             Back();

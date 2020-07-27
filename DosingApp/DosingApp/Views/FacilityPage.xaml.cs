@@ -25,7 +25,7 @@ namespace DosingApp.Views
 
         private void SaveButton(object sender, EventArgs e)
         {
-            var facility = (Facility)BindingContext;
+            /*var facility = (Facility)BindingContext;
             if (!String.IsNullOrEmpty(facility.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
@@ -39,18 +39,18 @@ namespace DosingApp.Views
                     db.SaveChanges();
                 }
             }
-            Back();
+            Back();*/
         }
 
         private void DeleteButton(object sender, EventArgs e)
         {
-            var facility = (Facility)BindingContext;
+            /*var facility = (Facility)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
                 db.Facilities.Remove(facility);
                 db.SaveChanges();
             }
-            Back();
+            Back();*/
         }
 
     }

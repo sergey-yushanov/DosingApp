@@ -1,23 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                  mc:Ignorable="d"
-                  x:Class="DosingApp.Views.MainPage"
-                  xmlns:pages="clr-namespace:DosingApp.Views"
-                  Title="DosingApp">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:ViewModel="clr-namespace:DosingApp.ViewModels"
+             x:Class="DosingApp.Views.MainPage"
+             Title="DosingApp">
 
-    <MasterDetailPage.Master>
-        <pages:MenuPage />
-    </MasterDetailPage.Master>
+    <ContentPage.BindingContext>
+        <ViewModel:MainViewModel/>
+    </ContentPage.BindingContext>
 
-    <MasterDetailPage.Detail>
-        <NavigationPage>
-            <x:Arguments>
-                <pages:FieldsPage />
-            </x:Arguments>
-        </NavigationPage>
-    </MasterDetailPage.Detail>
-    
-</MasterDetailPage>
+
+    <StackLayout  Margin="{StaticResource PageMargin}">
+        <StackLayout Orientation="Horizontal">
+            <Frame
+                CornerRadius="20"
+                WidthRequest="20"
+                HeightRequest="20"
+                HorizontalOptions="Start">
+                <Image
+                    Source="monkey.png"
+                    WidthRequest="20"
+                    HeightRequest="20"/>
+            </Frame>
+            <Label
+                Text="User"
+                VerticalOptions="CenterAndExpand"
+                FontSize="Medium"
+                Margin="20"
+                HorizontalOptions="StartAndExpand"/>
+        </StackLayout>
+
+        <ListView
+            ItemsSource="{Binding Menu}"
+            HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+
+                        <Grid Padding="10">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectMenuItemCommand}"/>
+                            </Grid.GestureRecognizers>
+                            <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="Medium"/>
+                        </Grid>
+
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+</ContentPage>

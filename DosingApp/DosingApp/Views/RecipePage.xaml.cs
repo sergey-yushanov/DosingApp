@@ -1,4 +1,5 @@
-﻿using DosingApp.Models;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
 using DosingApp.Services;
 using DosingApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -37,13 +38,13 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            using (AppDbContext db = new AppDbContext(dbPath))
+            /*using (AppDbContext db = new AppDbContext(dbPath))
             {
                 pickerCrop.ItemsSource = db.Crops.ToList();
                 pickerProcessingType.ItemsSource = db.ProcessingTypes.ToList();
                 pickerComponent.ItemsSource = db.Components.ToList();
             }
-            base.OnAppearing();
+            base.OnAppearing();*/
         }
 
         private void Back()
@@ -57,7 +58,7 @@ namespace DosingApp.Views
 
             if (!String.IsNullOrEmpty(recipe.Name))
             {
-                using (AppDbContext db = new AppDbContext(dbPath))
+/*                using (AppDbContext db = new AppDbContext(dbPath))
                 {
                     db.ChangeTracker.TrackGraph(recipe, r => {
                         if (r.Entry.IsKeySet)
@@ -73,20 +74,20 @@ namespace DosingApp.Views
                     //db.ChangeTracker.TrackGraph(recipe.Crop, r => r.Entry.State = EntityState.Modified);
 
                     db.SaveChanges();
-                }
+                }*/
             }
             Back();
         }
 
         private void DeleteButton(object sender, EventArgs e)
         {
-            var recipe = (Recipe)BindingContext;
+/*            var recipe = (Recipe)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
                 db.Recipes.Remove(recipe);
                 db.SaveChanges();
             }
-            Back();
+            Back();*/
         }
 
     }

@@ -25,7 +25,7 @@ namespace DosingApp.Views
 
         private void SaveButton(object sender, EventArgs e)
         {
-            var applicator = (Applicator)BindingContext;
+/*            var applicator = (Applicator)BindingContext;
             if (!String.IsNullOrEmpty(applicator.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
@@ -39,18 +39,18 @@ namespace DosingApp.Views
                     db.SaveChanges();
                 }
             }
-            Back();
+            Back();*/
         }
 
         private void DeleteButton(object sender, EventArgs e)
         {
-            var applicator = (Applicator)BindingContext;
+/*            var applicator = (Applicator)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
                 db.Applicators.Remove(applicator);
                 db.SaveChanges();
             }
-            Back();
+            Back();*/
         }
 
     }

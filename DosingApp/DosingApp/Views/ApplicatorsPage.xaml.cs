@@ -21,12 +21,12 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
+            /*string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
             using (AppDbContext db = new AppDbContext(dbPath))
             {
                 itemsList.ItemsSource = db.Applicators.ToList();
             }
-            base.OnAppearing();
+            base.OnAppearing();*/
         }
 
         // обработка нажатия элемента в списке

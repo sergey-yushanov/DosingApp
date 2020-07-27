@@ -1,4 +1,5 @@
-﻿using DosingApp.Models;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
 using DosingApp.Services;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace DosingApp.Views
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
                 {
-                    if (agrYear.Id == 0)
+                    if (agrYear.AgrYearId == 0)
                         db.AgrYears.Add(agrYear);
                     else
                     {

@@ -25,7 +25,7 @@ namespace DosingApp.Views
 
         private void SaveButton(object sender, EventArgs e)
         {
-            var component = (Component)BindingContext;
+            /*var component = (Component)BindingContext;
             if (!String.IsNullOrEmpty(component.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
@@ -39,18 +39,18 @@ namespace DosingApp.Views
                     db.SaveChanges();
                 }
             }
-            Back();
+            Back();*/
         }
 
         private void DeleteButton(object sender, EventArgs e)
         {
-            var component = (Component)BindingContext;
+            /*var component = (Component)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
                 db.Components.Remove(component);
                 db.SaveChanges();
             }
-            Back();
+            Back();*/
         }
 
     }

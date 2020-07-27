@@ -25,7 +25,7 @@ namespace DosingApp.Views
 
         private void SaveButton(object sender, EventArgs e)
         {
-            var crop = (Crop)BindingContext;
+            /*var crop = (Crop)BindingContext;
             if (!String.IsNullOrEmpty(crop.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
@@ -39,18 +39,18 @@ namespace DosingApp.Views
                     db.SaveChanges();
                 }
             }
-            Back();
+            Back();*/
         }
 
         private void DeleteButton(object sender, EventArgs e)
         {
-            var crop = (Crop)BindingContext;
+ /*           var crop = (Crop)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
                 db.Crops.Remove(crop);
                 db.SaveChanges();
             }
-            Back();
+            Back();*/
         }
 
     }

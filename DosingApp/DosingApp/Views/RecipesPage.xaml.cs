@@ -24,11 +24,11 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            using (AppDbContext db = new AppDbContext(dbPath))
+            /*using (AppDbContext db = new AppDbContext(dbPath))
             {
                 itemsList.ItemsSource = db.Recipes.ToList();
             }
-            base.OnAppearing();
+            base.OnAppearing();*/
         }
 
         // обработка нажатия элемента в списке

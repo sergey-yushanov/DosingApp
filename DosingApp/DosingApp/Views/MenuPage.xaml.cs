@@ -13,26 +13,26 @@ namespace DosingApp.Views
     public partial class MenuPage : ContentPage
     {
         MainPage RootPage { get => Application.Current.MainPage as MainPage; }
-        List<HomeMenuItem> menuItems;
+        List<Models.HomeMenuItem> menuItems;
 
         public MenuPage()
         {
             InitializeComponent();
 
-            menuItems = new List<HomeMenuItem>
+            menuItems = new List<Models.HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Mixtures, Title="Сделать смесь" },
-                new HomeMenuItem {Id = MenuItemType.Reports, Title="Отчеты" },
-                new HomeMenuItem {Id = MenuItemType.Assignments, Title="Задания" },
-                new HomeMenuItem {Id = MenuItemType.Recipes, Title="Рецепты" },
-                new HomeMenuItem {Id = MenuItemType.Components, Title="Компоненты" },
-                new HomeMenuItem {Id = MenuItemType.Applicators, Title="Аппликаторы" },
-                new HomeMenuItem {Id = MenuItemType.Facilities, Title="Объекты" },
-                new HomeMenuItem {Id = MenuItemType.Transports, Title="Транспорты" },
-                new HomeMenuItem {Id = MenuItemType.Crops, Title="Культуры" },
-                new HomeMenuItem {Id = MenuItemType.ProcessingTypes, Title="Виды обработки" },
-                new HomeMenuItem {Id = MenuItemType.AgrYears, Title="Сельхоз. годы" },
-                new HomeMenuItem {Id = MenuItemType.Fields, Title="Поля" }
+                new Models.HomeMenuItem { Id = MenuItemType.Mixtures, Title="Сделать смесь" },
+                new Models.HomeMenuItem { Id = MenuItemType.Reports, Title="Отчеты" },
+                new Models.HomeMenuItem { Id = MenuItemType.Assignments, Title="Задания" },
+                new Models.HomeMenuItem { Id = MenuItemType.Recipes, Title="Рецепты" },
+                new Models.HomeMenuItem { Id = MenuItemType.Components, Title="Компоненты" },
+                new Models.HomeMenuItem { Id = MenuItemType.Applicators, Title="Аппликаторы" },
+                new Models.HomeMenuItem { Id = MenuItemType.Facilities, Title="Объекты" },
+                new Models.HomeMenuItem { Id = MenuItemType.Transports, Title="Транспорты" },
+                new Models.HomeMenuItem { Id = MenuItemType.Crops, Title="Культуры" },
+                new Models.HomeMenuItem { Id = MenuItemType.ProcessingTypes, Title="Виды обработки" },
+                new Models.HomeMenuItem { Id = MenuItemType.AgrYears, Title="Сельхоз. годы" },
+                new Models.HomeMenuItem { Id = MenuItemType.Fields, Title="Поля" }
             };
 
             ListViewMenu.ItemsSource = menuItems;
@@ -43,8 +43,8 @@ namespace DosingApp.Views
                 if (e.SelectedItem == null)
                     return;
 
-                var id = (int)((HomeMenuItem)e.SelectedItem).Id;
-                await RootPage.NavigateFromMenu(id);
+                var id = (int)((Models.HomeMenuItem)e.SelectedItem).Id;
+                //await RootPage.NavigateFromMenu(id);
             };
         }
     }

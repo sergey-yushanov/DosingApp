@@ -6,10 +6,8 @@ namespace DosingApp.Models
 {
     public class Crop
     {
-        public int Id { get; set; }
+        public int CropId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
-
-        public List<Recipe> Recipes { get; set; } = new List<Recipe>();
     }
 }

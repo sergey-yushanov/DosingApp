@@ -28,7 +28,7 @@ namespace DosingApp.Views
 
         private void SaveButton(object sender, EventArgs e)
         {
-            var processingType = (ProcessingType)BindingContext;
+/*            var processingType = (ProcessingType)BindingContext;
             if (!String.IsNullOrEmpty(processingType.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
@@ -42,18 +42,18 @@ namespace DosingApp.Views
                     db.SaveChanges();
                 }
             }
-            Back();
+            Back();*/
         }
 
         private void DeleteButton(object sender, EventArgs e)
         {
-            var processingType = (ProcessingType)BindingContext;
+/*            var processingType = (ProcessingType)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
                 db.ProcessingTypes.Remove(processingType);
                 db.SaveChanges();
             }
-            Back();
+            Back();*/
         }
     }
 }

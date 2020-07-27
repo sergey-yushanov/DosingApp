@@ -1,4 +1,5 @@
-﻿using DosingApp.Models;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
 using DosingApp.Services;
 using DosingApp.Views;
 using System;
@@ -15,15 +16,23 @@ namespace DosingApp
         public App()
         {
             InitializeComponent();
+            GetContext().Database.EnsureCreated();
 
+            //string dbPath = DependencyService.Get<IPath>().GetDatabasePath(DBFILENAME);
+            //using (var db = new AppDbContext(dbPath))
+            //{
+            // Создаем бд, если она отсутствует
+            //db.Database.EnsureDeleted();
+            //db.Database.EnsureCreated();
+            //}
+            MainPage = new NavigationPage(new MainPage());
+        }
+
+        // Получение контекста БД при запуске приложения
+        public static AppDbContext GetContext()
+        {
             string dbPath = DependencyService.Get<IPath>().GetDatabasePath(DBFILENAME);
-            using (var db = new AppDbContext(dbPath))
-            {
-                // Создаем бд, если она отсутствует
-                //db.Database.EnsureDeleted();
-                db.Database.EnsureCreated();
-            }
-            MainPage = new MainPage();
+            return new AppDbContext(dbPath);
         }
 
         protected override void OnStart()

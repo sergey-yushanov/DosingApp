@@ -10,48 +10,14 @@ namespace DosingApp.Views
 {
     public partial class FieldPage : ContentPage
     {
-        string dbPath;
-
-        public FieldPage()
+        //public FieldViewModel FieldViewModel { get; private set; }
+        
+        public FieldPage(FieldViewModel fieldViewModel)
         {
             InitializeComponent();
-            dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
-        }
 
-        private void Back()
-        {
-            Navigation.PopAsync();
+            //FieldViewModel = fieldViewModel;
+            //this.BindingContext = FieldViewModel;
         }
-
-        private void SaveButton(object sender, EventArgs e)
-        {
-            var field = (Field)BindingContext;
-            if (!String.IsNullOrEmpty(field.Name))
-            {
-                using (AppDbContext db = new AppDbContext(dbPath))
-                {
-                    if (field.Id == 0)
-                        db.Fields.Add(field);
-                    else
-                    {
-                        db.Fields.Update(field);
-                    }
-                    db.SaveChanges();
-                }
-            }
-            Back();
-        }
-
-        private void DeleteButton(object sender, EventArgs e)
-        {
-            var field = (Field)BindingContext;
-            using (AppDbContext db = new AppDbContext(dbPath))
-            {
-                db.Fields.Remove(field);
-                db.SaveChanges();
-            }
-            Back();
-        }
-
     }
 }

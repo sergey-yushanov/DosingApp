@@ -1,23 +1,12 @@
-﻿using DosingApp.Models;
-using DosingApp.Services;
-using DosingApp.ViewModels;
-using System;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace DosingApp.Views
 {
     public partial class FieldPage : ContentPage
-    {
-        //public FieldViewModel FieldViewModel { get; private set; }
-        
-        public FieldPage(FieldViewModel fieldViewModel)
+    {        
+        public FieldPage()
         {
             InitializeComponent();
-
-            //FieldViewModel = fieldViewModel;
-            //this.BindingContext = FieldViewModel;
         }
     }
 }

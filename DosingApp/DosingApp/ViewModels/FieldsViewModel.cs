@@ -1,7 +1,10 @@
-﻿using DosingApp.Views;
+﻿using DosingApp.Models;
+using DosingApp.Services;
+using DosingApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -10,29 +13,49 @@ namespace DosingApp.ViewModels
 {
     public class FieldsViewModel : BaseViewModel
     {
-        public ObservableCollection<FieldViewModel> Fields { get; set; }
+        #region Services
+        private readonly DBDataAccess<Field> dataServiceFields;
+        #endregion Services
 
-        public ICommand CreateFieldCommand { protected set; get; }
-        public ICommand DeleteFieldCommand { protected set; get; }
-        public ICommand SaveFieldCommand { protected set; get; }
+        #region Attributes
+        private ObservableCollection<Field> fields;
+        private Field selectedField;
+        //private Field field;
+        private string name;
+        private string code;
+        public ICommand CreateCommand { protected set; get; }
+        public ICommand DeleteCommand { protected set; get; }
+        public ICommand SaveCommand { protected set; get; }
         public ICommand BackCommand { protected set; get; }
-        
-        FieldViewModel selectedField;
+        #endregion Attributes
 
-        public INavigation Navigation { get; set; }
-
-        public FieldsViewModel()
+        #region Properties
+        public ObservableCollection<Field> Fields
         {
-            Fields = new ObservableCollection<FieldViewModel>();
-            CreateFieldCommand = new Command(CreateField);
-            DeleteFieldCommand = new Command(DeleteField);
-            SaveFieldCommand = new Command(SaveField);
-            BackCommand = new Command(Back);
+            get { return this.fields; }
+            set { SetValue(ref this.fields, value); }
         }
 
-        public FieldViewModel SelectedField
+        public Field SelectedField
         {
-            get { return selectedField; }
+            get { return this.selectedField; }
+            set 
+            {
+                SetValue(ref this.selectedField, value);
+                this.Name = selectedField.Name;
+                this.Code = selectedField.Code;
+                Application.Current.MainPage.Navigation.PushAsync(new FieldPage());
+            }
+        }
+
+
+        /*public Field SelectedField
+        {
+            get { return this.selectedField; }
+            set { 
+                SetValue(ref this.selectedField, value);
+                Application.Current.MainPage.Navigation.PushAsync(new FieldPage());
+            }
             set
             {
                 if (selectedField != value)
@@ -43,38 +66,106 @@ namespace DosingApp.ViewModels
                     Navigation.PushAsync(new FieldPage(tempField));
                 }
             }
+        }*/
+
+        public string Name
+        {
+            get { return this.name; }
+            set { SetValue(ref this.name, value); }
         }
 
+        public string Code
+        {
+            get { return this.code; }
+            set { SetValue(ref this.code, value); }
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                return (!string.IsNullOrEmpty(this.Name));
+            }
+        }
+        #endregion Properties
+
+        #region Constructor
+        public FieldsViewModel()
+        {
+            this.dataServiceFields = new DBDataAccess<Field>();
+
+            CreateCommand = new Command(CreateField);
+            DeleteCommand = new Command(DeleteField);
+            SaveCommand = new Command(SaveField);
+            BackCommand = new Command(Back);
+
+            //this.CreateFields();
+            this.LoadFields();
+        }
+        #endregion Constructor
+
+        #region Commands
         private void Back()
         {
-            Navigation.PopAsync();
+            Application.Current.MainPage.Navigation.PopAsync();
         }
 
         private void CreateField()
         {
-            Navigation.PushAsync(new FieldPage(new FieldViewModel() { FieldsViewModel = this }));
+            this.Name = string.Empty;
+            this.Code = string.Empty;
+            Application.Current.MainPage.Navigation.PushAsync(new FieldPage());
         }
 
         private void DeleteField(object fieldInstance)
         {
-            FieldViewModel field = fieldInstance as FieldViewModel;
+            Field field = fieldInstance as Field;
             if (field != null)
             {
-                Fields.Remove(field);
+                this.dataServiceFields.Delete(field);
             }
             Back();
         }
 
-        private void SaveField(object fieldInstance)
+        private void SaveField()
         {
-            FieldViewModel field = fieldInstance as FieldViewModel;
-            if (field != null && field.IsValid)
+            if (IsValid)
             {
-                Fields.Add(field);
+                var newField = new Field()
+                {
+                    Name = this.Name,
+                    Code = this.Code
+                };
+
+                if (this.dataServiceFields.Create(newField))
+                {
+                    this.Name = string.Empty;
+                    this.Code = string.Empty;
+                }
             }
             Back();
         }
+        #endregion Commands
 
+        #region Methods
+        public void LoadFields()
+        {
+            var fieldsDB = this.dataServiceFields.Get().ToList() as List<Field>;
+            this.Fields = new ObservableCollection<Field>(fieldsDB);
+        }
+
+        private void CreateFields()
+        {
+            var fields = new List<Field>()
+            {
+                new Field { Name = "Field 1", Code = "f1" },
+                new Field { Name = "Field 2", Code = "f2" },
+                new Field { Name = "Field 3", Code = "f3" }
+            };
+
+            this.dataServiceFields.SaveList(fields);
+        }
+        #endregion Methods
 
     }
 }

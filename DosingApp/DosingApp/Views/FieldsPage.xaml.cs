@@ -1,14 +1,5 @@
-﻿using DosingApp.Models;
-using DosingApp.Services;
-using DosingApp.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using DosingApp.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
@@ -17,7 +8,14 @@ namespace DosingApp.Views
         public FieldsPage()
         {
             InitializeComponent();
-            //BindingContext = new FieldsViewModel() { Navigation = this.Navigation; }
+            BindingContext = new FieldsViewModel();
+        }
+
+        protected override void OnAppearing()
+        {
+            FieldsViewModel fieldsViewModel = (FieldsViewModel)this.BindingContext;
+            fieldsViewModel.LoadFields();
+            base.OnAppearing();
         }
     }
 }

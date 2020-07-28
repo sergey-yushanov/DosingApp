@@ -16,15 +16,10 @@ namespace DosingApp
         public App()
         {
             InitializeComponent();
+
+            //GetContext().Database.EnsureDeleted();
             GetContext().Database.EnsureCreated();
 
-            //string dbPath = DependencyService.Get<IPath>().GetDatabasePath(DBFILENAME);
-            //using (var db = new AppDbContext(dbPath))
-            //{
-            // Создаем бд, если она отсутствует
-            //db.Database.EnsureDeleted();
-            //db.Database.EnsureCreated();
-            //}
             MainPage = new NavigationPage(new MainPage());
         }
 

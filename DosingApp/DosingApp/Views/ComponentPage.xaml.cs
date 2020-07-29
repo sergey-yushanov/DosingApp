@@ -1,4 +1,5 @@
-﻿using DosingApp.Models;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
 using DosingApp.Services;
 using DosingApp.ViewModels;
 using System;
@@ -25,12 +26,12 @@ namespace DosingApp.Views
 
         private void SaveButton(object sender, EventArgs e)
         {
-            /*var component = (Component)BindingContext;
+            var component = (Component)BindingContext;
             if (!String.IsNullOrEmpty(component.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
                 {
-                    if (component.Id == 0)
+                    if (component.ComponentId == 0)
                         db.Components.Add(component);
                     else
                     {
@@ -39,18 +40,18 @@ namespace DosingApp.Views
                     db.SaveChanges();
                 }
             }
-            Back();*/
+            Back();
         }
 
         private void DeleteButton(object sender, EventArgs e)
         {
-            /*var component = (Component)BindingContext;
+            var component = (Component)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
                 db.Components.Remove(component);
                 db.SaveChanges();
             }
-            Back();*/
+            Back();
         }
 
     }

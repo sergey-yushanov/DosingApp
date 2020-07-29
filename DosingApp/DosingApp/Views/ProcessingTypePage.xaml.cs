@@ -1,4 +1,5 @@
-﻿using DosingApp.Models;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
 using DosingApp.Services;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,12 @@ namespace DosingApp.Views
 
         private void SaveButton(object sender, EventArgs e)
         {
-/*            var processingType = (ProcessingType)BindingContext;
+            var processingType = (ProcessingType)BindingContext;
             if (!String.IsNullOrEmpty(processingType.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
                 {
-                    if (processingType.Id == 0)
+                    if (processingType.ProcessingTypeId == 0)
                         db.ProcessingTypes.Add(processingType);
                     else
                     {
@@ -42,18 +43,18 @@ namespace DosingApp.Views
                     db.SaveChanges();
                 }
             }
-            Back();*/
+            Back();
         }
 
         private void DeleteButton(object sender, EventArgs e)
         {
-/*            var processingType = (ProcessingType)BindingContext;
+            var processingType = (ProcessingType)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
                 db.ProcessingTypes.Remove(processingType);
                 db.SaveChanges();
             }
-            Back();*/
+            Back();
         }
     }
 }

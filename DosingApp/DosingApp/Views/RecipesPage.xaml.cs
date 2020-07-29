@@ -1,4 +1,5 @@
-﻿using DosingApp.Models;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
 using DosingApp.Services;
 using DosingApp.ViewModels;
 using System;
@@ -24,11 +25,11 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            /*using (AppDbContext db = new AppDbContext(dbPath))
+            using (AppDbContext db = new AppDbContext(dbPath))
             {
                 itemsList.ItemsSource = db.Recipes.ToList();
             }
-            base.OnAppearing();*/
+            base.OnAppearing();
         }
 
         // обработка нажатия элемента в списке

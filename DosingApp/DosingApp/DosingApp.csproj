@@ -23,12 +23,6 @@
     <EmbeddedResource Update="Views\AgrYearsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\FieldPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\FieldsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\MenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -39,6 +33,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\FieldsPage.xaml.cs">
+      <DependentUpon>FieldsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FieldPage.xaml.cs">
+      <DependentUpon>FieldPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CropsPage.xaml.cs">
       <DependentUpon>CropsPage.xaml</DependentUpon>
     </Compile>

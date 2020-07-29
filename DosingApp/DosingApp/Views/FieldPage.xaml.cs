@@ -1,9 +1,10 @@
-﻿using Xamarin.Forms;
+﻿using DosingApp.Models;
+using Xamarin.Forms;
 
 namespace DosingApp.Views
 {
     public partial class FieldPage : ContentPage
-    {        
+    {
         public FieldPage()
         {
             InitializeComponent();

@@ -8,7 +8,7 @@ namespace DosingApp.Views
         public FieldsPage()
         {
             InitializeComponent();
-            BindingContext = new FieldsViewModel();
+            //BindingContext = new FieldsViewModel();
         }
 
         protected override void OnAppearing()

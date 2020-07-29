@@ -47,9 +47,9 @@ namespace DosingApp.ViewModels
                 case MenuItemType.Transports:
                     Application.Current.MainPage.Navigation.PushAsync(new TransportsPage());
                     break;
-                case MenuItemType.Crops:
-                    Application.Current.MainPage.Navigation.PushAsync(new CropsPage());
-                    break;
+                //case MenuItemType.Crops:
+                    //Application.Current.MainPage.Navigation.PushAsync(new CropsPage());
+                    //break;
                 case MenuItemType.ProcessingTypes:
                     Application.Current.MainPage.Navigation.PushAsync(new ProcessingTypesPage());
                     break;

@@ -20,9 +20,10 @@ namespace DosingApp.ViewModels
         #region Attributes
         private ObservableCollection<Field> fields;
         private Field selectedField;
-        //private Field field;
+        
         private string name;
         private string code;
+
         public ICommand CreateCommand { protected set; get; }
         public ICommand DeleteCommand { protected set; get; }
         public ICommand SaveCommand { protected set; get; }
@@ -39,34 +40,14 @@ namespace DosingApp.ViewModels
         public Field SelectedField
         {
             get { return this.selectedField; }
-            set 
-            {
+            set
+            { 
                 SetValue(ref this.selectedField, value);
                 this.Name = selectedField.Name;
                 this.Code = selectedField.Code;
                 Application.Current.MainPage.Navigation.PushAsync(new FieldPage());
             }
         }
-
-
-        /*public Field SelectedField
-        {
-            get { return this.selectedField; }
-            set { 
-                SetValue(ref this.selectedField, value);
-                Application.Current.MainPage.Navigation.PushAsync(new FieldPage());
-            }
-            set
-            {
-                if (selectedField != value)
-                {
-                    FieldViewModel tempField = value;
-                    selectedField = null;
-                    OnPropertyChanged(nameof(SelectedField));
-                    Navigation.PushAsync(new FieldPage(tempField));
-                }
-            }
-        }*/
 
         public string Name
         {
@@ -78,14 +59,6 @@ namespace DosingApp.ViewModels
         {
             get { return this.code; }
             set { SetValue(ref this.code, value); }
-        }
-
-        public bool IsValid
-        {
-            get
-            {
-                return (!string.IsNullOrEmpty(this.Name));
-            }
         }
         #endregion Properties
 
@@ -117,19 +90,18 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PushAsync(new FieldPage());
         }
 
-        private void DeleteField(object fieldInstance)
+        private void DeleteField()
         {
-            Field field = fieldInstance as Field;
-            if (field != null)
+            if (selectedField != null)
             {
-                this.dataServiceFields.Delete(field);
+                this.dataServiceFields.Delete(selectedField);
             }
             Back();
         }
 
         private void SaveField()
         {
-            if (IsValid)
+            if (IsValid(this.Name))
             {
                 var newField = new Field()
                 {

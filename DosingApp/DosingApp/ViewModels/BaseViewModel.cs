@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -22,6 +23,11 @@ namespace DosingApp.ViewModels
 
             backingField = value;
             OnPropertyChanged(propertyName);
+        }
+
+        protected bool IsValid(string value)
+        {
+            return (!string.IsNullOrEmpty(value));
         }
     }
 }

@@ -25,7 +25,7 @@ namespace DosingApp.ViewModels
             OnPropertyChanged(propertyName);
         }
 
-        protected T SetValue<T>(T backingField, T value, [CallerMemberName] string propertyName = null)
+        /*protected T SetValue<T>(T backingField, T value, [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingField, value))
             {
@@ -33,6 +33,6 @@ namespace DosingApp.ViewModels
             }
             OnPropertyChanged(propertyName);
             return value;
-        }
+        }*/
     }
 }

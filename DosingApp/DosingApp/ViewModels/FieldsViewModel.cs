@@ -18,13 +18,14 @@ namespace DosingApp.ViewModels
         #endregion Services
 
         #region Attributes
-        public ObservableCollection<Field> Fields { get; set; }
+        //public ObservableCollection<Field> Fields { get; set; }
         public ICommand CreateCommand { protected set; get; }
         public ICommand DeleteCommand { protected set; get; }
         public ICommand SaveCommand { protected set; get; }
         public ICommand BackCommand { protected set; get; }
         public INavigation Navigation { get; set; }
-        FieldViewModel selectedField;
+        ObservableCollection<Field> fields;
+        Field selectedField;
         #endregion Attributes
 
         #region Constructor
@@ -35,6 +36,7 @@ namespace DosingApp.ViewModels
             SaveCommand = new Command(SaveField);
             BackCommand = new Command(Back);
 
+            //Fields = new ObservableCollection<FieldViewModel>();
             dataServiceFields = new DBDataAccess<Field>();
             //this.CreateFields();
             this.LoadFields();
@@ -42,14 +44,27 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
-        public FieldViewModel SelectedField
+        public ObservableCollection<Field> Fields
+        {
+            get { return fields; }
+            set
+            {
+                if (fields != value)
+                {
+                    fields = value;
+                    OnPropertyChanged(nameof(Fields));
+                }
+            }
+        }
+
+        public Field SelectedField
         {
             get { return selectedField; }
             set
             {
                 if (selectedField != value)
                 {
-                    FieldViewModel tempField = value;
+                    FieldViewModel tempField = new FieldViewModel() { Field = value, FieldsViewModel = this };
                     selectedField = null;
                     OnPropertyChanged(nameof(SelectedField));
                     Navigation.PushAsync(new FieldPage(tempField));
@@ -74,7 +89,7 @@ namespace DosingApp.ViewModels
             FieldViewModel fieldViewModel = fieldInstance as FieldViewModel;
             if (fieldViewModel != null)
             {
-                dataServiceFields.Delete(fieldViewModel.Field);
+                dataServiceFields.Delete(fieldViewModel.Field, fieldViewModel.Field.FieldId);
             }
             Back();
         }

@@ -11,11 +11,11 @@ namespace DosingApp.Views
             BindingContext = new FieldsViewModel() { Navigation = this.Navigation };
         }
 
-        /*protected override void OnAppearing()
+        protected override void OnAppearing()
         {
-            FieldsViewModel fieldsViewModel = (FieldsViewModel)this.BindingContext;
+            FieldsViewModel fieldsViewModel = BindingContext as FieldsViewModel;
             fieldsViewModel.LoadFields();
             base.OnAppearing();
-        }*/
+        }
     }
 }

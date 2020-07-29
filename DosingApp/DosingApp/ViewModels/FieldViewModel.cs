@@ -9,7 +9,7 @@ namespace DosingApp.ViewModels
     {
         #region Attributes
         FieldsViewModel fieldsViewModel;
-        public Field Field { get; private set; }
+        Field field;
         #endregion Attributes
 
         #region Constructor
@@ -20,6 +20,19 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public Field Field
+        {
+            get { return field; }
+            set
+            {
+                if (field != value)
+                {
+                    field = value;
+                    OnPropertyChanged(nameof(Field));
+                }
+            }
+        }
+
         public FieldsViewModel FieldsViewModel
         {
             get { return fieldsViewModel; }

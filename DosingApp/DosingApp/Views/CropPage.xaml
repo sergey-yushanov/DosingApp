@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.AgrYearPage"
+             x:Class="DosingApp.Views.CropPage"
              Title="Сельхоз. год">
     <ContentPage.Content>
         <StackLayout 
@@ -13,13 +13,13 @@
                 <Label 
                     Text="Название" />
                 <Entry 
-                    Placeholder="Введите название года" 
+                    Placeholder="Введите название культуры" 
                     Text="{Binding Name}" />
                 <Label 
-                    Text="Дата окончания" />
+                    Text="Код" />
                 <Entry 
-                    Placeholder="Введите дату окончания" 
-                    Text="{Binding FinishDate}" />
+                    Placeholder="Введите код культуры" 
+                    Text="{Binding Code}" />
             </StackLayout>
             <StackLayout>
                 <Grid>

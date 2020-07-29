@@ -25,9 +25,14 @@ namespace DosingApp.ViewModels
             OnPropertyChanged(propertyName);
         }
 
-        protected bool IsValid(string value)
+        protected T SetValue<T>(T backingField, T value, [CallerMemberName] string propertyName = null)
         {
-            return (!string.IsNullOrEmpty(value));
+            if (EqualityComparer<T>.Default.Equals(backingField, value))
+            {
+                return backingField;
+            }
+            OnPropertyChanged(propertyName);
+            return value;
         }
     }
 }

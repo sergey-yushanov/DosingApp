@@ -4,14 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             xmlns:ViewModel="clr-namespace:DosingApp.ViewModels"
              x:Class="DosingApp.Views.FieldPage"
              Title="Поле" >
 
-    <ContentPage.BindingContext>
-        <ViewModel:FieldsViewModel/>
-    </ContentPage.BindingContext>
-    
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
             <StackLayout>
@@ -37,11 +32,13 @@
                     </Grid.ColumnDefinitions>
                     <Button
                         Text="Сохранить"
-                        Command="{Binding SaveCommand}" />
+                        Command="{Binding FieldsViewModel.SaveCommand}"
+                        CommandParameter="{Binding}" />
                     <Button
                         Grid.Column="1"
                         Text="Удалить"
-                        Command="{Binding DeleteCommand}" />
+                        Command="{Binding FieldsViewModel.DeleteCommand}"
+                        CommandParameter="{Binding}" />
                 </Grid>
 
             </StackLayout>

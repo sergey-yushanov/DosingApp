@@ -8,14 +8,14 @@ namespace DosingApp.Views
         public FieldsPage()
         {
             InitializeComponent();
-            //BindingContext = new FieldsViewModel();
+            BindingContext = new FieldsViewModel() { Navigation = this.Navigation };
         }
 
-        protected override void OnAppearing()
+        /*protected override void OnAppearing()
         {
             FieldsViewModel fieldsViewModel = (FieldsViewModel)this.BindingContext;
             fieldsViewModel.LoadFields();
             base.OnAppearing();
-        }
+        }*/
     }
 }

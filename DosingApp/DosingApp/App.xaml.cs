@@ -10,7 +10,7 @@ namespace DosingApp
 {
     public partial class App : Application
     {
-        public const string DBFILENAME = "dosingapp.db";
+        public const string DBFILENAME = "dosing_app.db";
 
         public App()
         {

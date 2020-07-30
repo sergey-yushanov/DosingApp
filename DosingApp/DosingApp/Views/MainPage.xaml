@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              xmlns:ViewModel="clr-namespace:DosingApp.ViewModels"
              x:Class="DosingApp.Views.MainPage"
-             Title="DosingApp">
+             Title="Главная страница">
 
     <ContentPage.BindingContext>
         <ViewModel:MainViewModel/>
@@ -16,12 +16,9 @@
     <StackLayout  Margin="{StaticResource PageMargin}">
         <StackLayout Orientation="Horizontal">
             <Frame
-                CornerRadius="20"
-                WidthRequest="20"
-                HeightRequest="20"
                 HorizontalOptions="Start">
                 <Image
-                    Source="monkey.png"
+                    Source="user.png"
                     WidthRequest="20"
                     HeightRequest="20"/>
             </Frame>

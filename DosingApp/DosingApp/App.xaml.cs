@@ -20,7 +20,7 @@ namespace DosingApp
             //GetContext().Database.EnsureDeleted();
             GetContext().Database.EnsureCreated();
 
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new NavigationPage(new LoginPage());
         }
 
         // Получение контекста БД при запуске приложения

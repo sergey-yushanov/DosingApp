@@ -86,7 +86,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\user.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DosingApp\DosingApp.csproj">
       <Project>{A3449F7D-6031-4404-81B1-618D984C6E9F}</Project>

@@ -27,7 +27,7 @@ namespace DosingApp.Views
         {
             using (AppDbContext db = new AppDbContext(dbPath))
             {
-                itemsList.ItemsSource = db.Recipes.ToList();
+                recipesList.ItemsSource = db.Recipes.ToList();
             }
             base.OnAppearing();
         }

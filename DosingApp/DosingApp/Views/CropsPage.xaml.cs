@@ -24,7 +24,7 @@ namespace DosingApp.Views
             string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
             using (AppDbContext db = new AppDbContext(dbPath))
             {
-                itemsList.ItemsSource = db.Crops.ToList();
+                cropsList.ItemsSource = db.Crops.ToList() as List<Crop>;
             }
             base.OnAppearing();
         }

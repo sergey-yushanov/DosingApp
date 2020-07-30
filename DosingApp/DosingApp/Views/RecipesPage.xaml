@@ -7,15 +7,25 @@
              x:Class="DosingApp.Views.RecipesPage"
              Title="Список рецептов">
     <ContentPage.Content>
+        
         <StackLayout Margin="{StaticResource PageMargin}">
-            <Button Text="Добавить" Clicked="CreateButton" />
-            <ListView x:Name="itemsList" ItemSelected="OnItemSelected">
+        
+            <Button 
+                Text="Добавить" 
+                Clicked="CreateButton" />
+            
+            <ListView 
+                x:Name="recipesList" 
+                ItemSelected="OnItemSelected">
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
                                 <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Name}" FontSize="Medium" />
+                                    <Label 
+                                        Text="{Binding Name}" 
+                                        FontSize="Medium" />
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>

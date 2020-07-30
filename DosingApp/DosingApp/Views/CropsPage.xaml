@@ -9,7 +9,9 @@
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
             <Button Text="Добавить" Clicked="CreateButton" />
-            <ListView x:Name="itemsList" ItemSelected="OnItemSelected">
+            <ListView
+                x:Name="cropsList"
+                ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

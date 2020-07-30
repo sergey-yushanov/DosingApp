@@ -16,33 +16,27 @@ namespace DosingApp.Views
     {
         string dbPath;
 
-        //public Crop crop { get; private set; }
-
-        public Crop SelectedCrop
-        {
-            get
-            {
-                var recipe = (Recipe)BindingContext;
-                using (AppDbContext db = new AppDbContext(dbPath))
-                {
-                    return db.Crops.Find(recipe.CropId);
-                }
-            }
-        }
-
         public RecipePage()
         {
             InitializeComponent();
             dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
+            
+            using (AppDbContext db = new AppDbContext(dbPath))
+            {
+                cropsList.ItemsSource = db.Crops.ToList() as List<Crop>;
+                processingTypesList.ItemsSource = db.ProcessingTypes.ToList() as List<ProcessingType>;
+                carriersList.ItemsSource = db.Components.ToList() as List<Component>;
+            }
         }
 
         protected override void OnAppearing()
         {
+            var recipe = (Recipe)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
-                pickerCrop.ItemsSource = db.Crops.ToList();
-                pickerProcessingType.ItemsSource = db.ProcessingTypes.ToList();
-                pickerComponent.ItemsSource = db.Components.ToList();
+                cropsList.SelectedIndex = (cropsList.ItemsSource as List<Crop>).FindIndex(a => a.CropId == recipe.CropId);
+                processingTypesList.SelectedIndex = (processingTypesList.ItemsSource as List<ProcessingType>).FindIndex(a => a.ProcessingTypeId == recipe.ProcessingTypeId);
+                carriersList.SelectedIndex = (carriersList.ItemsSource as List<Component>).FindIndex(a => a.ComponentId == recipe.CarrierId);
             }
             base.OnAppearing();
         }
@@ -55,25 +49,19 @@ namespace DosingApp.Views
         private void SaveButton(object sender, EventArgs e)
         {
             var recipe = (Recipe)BindingContext;
-
             if (!String.IsNullOrEmpty(recipe.Name))
             {
                 using (AppDbContext db = new AppDbContext(dbPath))
                 {
-                    db.ChangeTracker.TrackGraph(recipe, r =>
+                    if (recipe.RecipeId == 0)
                     {
-                        if (r.Entry.IsKeySet)
-                        {
-                            r.Entry.State = EntityState.Modified;
-                        }
-                        else
-                        {
-                            r.Entry.State = EntityState.Added;
-                        }
-                    });
-
-                    //db.ChangeTracker.TrackGraph(recipe.Crop, r => r.Entry.State = EntityState.Modified);
-
+                        db.Entry(recipe).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.Recipes.Attach(recipe);
+                        db.Recipes.Update(recipe);
+                    }
                     db.SaveChanges();
                 }
             }
@@ -85,6 +73,7 @@ namespace DosingApp.Views
             var recipe = (Recipe)BindingContext;
             using (AppDbContext db = new AppDbContext(dbPath))
             {
+                db.Recipes.Attach(recipe);
                 db.Recipes.Remove(recipe);
                 db.SaveChanges();
             }

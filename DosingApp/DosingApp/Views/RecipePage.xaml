@@ -87,6 +87,26 @@
         </ContentPage>
         
         <ContentPage Title="Компоненты">
+
+            <StackLayout Margin="{StaticResource PageMargin}">
+
+                <ListView x:Name="recipeComponentsList" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal">
+                                        
+                                        
+                                        
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+            </StackLayout>
             
         </ContentPage>
     </TabbedPage.Children>

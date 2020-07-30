@@ -37,6 +37,9 @@ namespace DosingApp.Views
                 cropsList.SelectedIndex = (cropsList.ItemsSource as List<Crop>).FindIndex(a => a.CropId == recipe.CropId);
                 processingTypesList.SelectedIndex = (processingTypesList.ItemsSource as List<ProcessingType>).FindIndex(a => a.ProcessingTypeId == recipe.ProcessingTypeId);
                 carriersList.SelectedIndex = (carriersList.ItemsSource as List<Component>).FindIndex(a => a.ComponentId == recipe.CarrierId);
+
+                recipeComponentsList.ItemsSource = db.RecipeComponents.Where(rc => rc.RecipeId == recipe.RecipeId).OrderBy(rc => rc.Order).ToList();
+                //db.RecipeComponents.Find().ToList();
             }
             base.OnAppearing();
         }
@@ -80,5 +83,29 @@ namespace DosingApp.Views
             Back();
         }
 
+/*        // добавление компонента
+        private void AddComponent(object sender, EventArgs e)
+        {
+            var recipe = (Recipe)BindingContext;
+            recipe.RecipeComponents.Add(new RecipeComponent { });
+            using (AppDbContext db = new AppDbContext(dbPath))
+            {
+                db.Recipes.Attach(recipe);
+                db.Recipes.Remove(recipe);
+                db.SaveChanges();
+            }
+            Back();
+        }
+
+        // удаление компонента
+        private void RemoveComponent(object sender, EventArgs e)
+        {
+            //Phone phone = phonesList.SelectedItem as Phone;
+            if (phone != null)
+            {
+                Phones.Remove(phone);
+                phonesList.SelectedItem = null;
+            }
+        }*/
     }
 }

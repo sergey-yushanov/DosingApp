@@ -9,5 +9,7 @@ namespace DosingApp.Models
         public int CropId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+
+        public List<Recipe> Recipes { get; set; }
     }
 }

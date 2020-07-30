@@ -20,6 +20,17 @@ namespace DosingApp.DataContext
         public DbSet<RecipeComponent> RecipeComponents { get; set; }
         public DbSet<Transport> Transports { get; set; }
 
+/*        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Crop>()
+                .HasMany(c => c.Recipes)
+                .WithOne(r => r.Crop)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+                //.IsRequired(false);
+        }*/
+
+
+
         public AppDbContext(string dbPath)
         {
             _dbPath = dbPath;

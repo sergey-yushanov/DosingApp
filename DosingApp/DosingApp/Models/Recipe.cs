@@ -21,5 +21,7 @@ namespace DosingApp.Models
         public string Note { get; set; }
         public float ValueInit { get; set; }
         public float ValueMin { get; set; }
+
+        public ICollection<RecipeComponent> RecipeComponents { get; set; }
     }
 }

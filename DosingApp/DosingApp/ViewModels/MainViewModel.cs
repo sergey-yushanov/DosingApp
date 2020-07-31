@@ -32,18 +32,19 @@ namespace DosingApp.ViewModels
             this.Menu = new ObservableCollection<MenuItemViewModel>();
 
             this.Menu.Clear();
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Mixtures, Title = "Сделать смесь" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Reports, Title = "Отчеты" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Assignments, Title = "Задания" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Recipes, Title = "Рецепты" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Components, Title = "Компоненты" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Applicators, Title = "Аппликаторы" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Facilities, Title = "Объекты" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Transports, Title = "Транспорты" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Crops, Title = "Культуры" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.ProcessingTypes, Title = "Виды обработки" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.AgrYears, Title = "Сельхоз. годы" } );
-            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Fields, Title = "Поля" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Mixtures, Access = MenuItemAccess.MainMenu, IsSeparatorVisible = false, Title = "Сделать смесь" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Reports, Access = MenuItemAccess.MainMenu, IsSeparatorVisible = true, Title = "Отчеты" });
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Assignments, Access = MenuItemAccess.MainParams, IsSeparatorVisible = false, Title = "Задания" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Recipes, Access = MenuItemAccess.MainParams, IsSeparatorVisible = false, Title = "Рецепты" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Components, Access = MenuItemAccess.MainParams, IsSeparatorVisible = true, Title = "Компоненты" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Applicators, Access = MenuItemAccess.AdditionalParams, IsSeparatorVisible = false, Title = "Аппликаторы" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Facilities, Access = MenuItemAccess.AdditionalParams, IsSeparatorVisible = false, Title = "Объекты" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Transports, Access = MenuItemAccess.AdditionalParams, IsSeparatorVisible = false, Title = "Транспорты" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Crops, Access = MenuItemAccess.AdditionalParams, IsSeparatorVisible = false, Title = "Культуры" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.ProcessingTypes, Access = MenuItemAccess.AdditionalParams, IsSeparatorVisible = false, Title = "Виды обработки" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.AgrYears, Access = MenuItemAccess.AdditionalParams, IsSeparatorVisible = false, Title = "Сельхоз. годы" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Fields, Access = MenuItemAccess.AdditionalParams, IsSeparatorVisible = true, Title = "Поля" } );
+            this.Menu.Add(new MenuItemViewModel { Id = MenuItemType.Users, Access = MenuItemAccess.Admin, IsSeparatorVisible = false, Title = "Инженерное меню" });
         }
         #endregion Methods
     }

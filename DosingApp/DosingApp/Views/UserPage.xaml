@@ -4,12 +4,106 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.UserPage">
+             x:Class="DosingApp.Views.UserPage"
+             Title="Пользователь">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Margin="{StaticResource PageMargin}">
+            <StackLayout>
+                
+                <Label 
+                    Text="Имя пользователя" />
+                <Entry 
+                    x:Name="userEntry"
+                    Placeholder="Введите имя пользователя" 
+                    Text="{Binding Username}" />
+                
+                <Label 
+                    Text="Пароль" />
+                <Entry 
+                    x:Name="passwordEntry"
+                    Placeholder="Введите пароль"
+                    IsPassword="True" />
+                
+                <Label 
+                    Text="Имя для отбражения" />
+                <Entry 
+                    Placeholder="Введите имя для отображения" 
+                    Text="{Binding DisplayName}" />
+
+
+                <StackLayout
+                    Orientation="Vertical"
+                    Spacing="10">
+                    <BoxView HeightRequest="1" Color="#00000" IsVisible="True" />
+                    <Label
+                        Text="Уровни доступа"/>
+                    <BoxView HeightRequest="1" Color="#00000" IsVisible="True" />
+                
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label 
+                            Text="Главное меню"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand" />
+                        <Switch 
+                            x:Name="accessMainMenuSwitch"
+                            IsToggled="{Binding AccessMainMenu}"
+                            HorizontalOptions="End" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label 
+                            Text="Основные параметры"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Switch 
+                            x:Name="accessMainParamsSwitch"
+                            IsToggled="{Binding AccessMainParams}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label 
+                            Text="Дополнительные параметры"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Switch 
+                            x:Name="accessAdditionalParamsSwitch"
+                            IsToggled="{Binding AccessAdditionalParams}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" />
+
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label 
+                            Text="Инженерное меню"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Switch 
+                            x:Name="accessAdminSwitch"
+                            IsToggled="{Binding AccessAdmin}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" />
+                    </StackLayout>
+
+                </StackLayout>
+                
+
+            </StackLayout>
+            
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Text="Сохранить" Clicked="SaveButton" />
+                    <Button Grid.Column="1" Text="Удалить" Clicked="DeleteButton" />
+                </Grid>
+            </StackLayout>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

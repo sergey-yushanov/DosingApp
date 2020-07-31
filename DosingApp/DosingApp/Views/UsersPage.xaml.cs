@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,30 +20,29 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            /*string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
-            using (AppDbContext db = new AppDbContext(dbPath))
+            using (UserDbContext db = App.GetUserContext())
             {
-                itemsList.ItemsSource = db.Transports.ToList();
+                itemsList.ItemsSource = db.Users.ToList();
             }
-            base.OnAppearing();*/
+            base.OnAppearing();
         }
 
         // обработка нажатия элемента в списке
         private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            /*Transport selectedTransport = (Transport)e.SelectedItem;
-            TransportPage transportPage = new TransportPage();
-            transportPage.BindingContext = selectedTransport;
-            await Navigation.PushAsync(transportPage);*/
+            User selectedUser = (User)e.SelectedItem;
+            UserPage userPage = new UserPage();
+            userPage.BindingContext = selectedUser;
+            await Navigation.PushAsync(userPage);
         }
 
         // обработка нажатия кнопки добавления
         private async void CreateButton(object sender, EventArgs e)
         {
-            /*Transport transport = new Transport();
-            TransportPage transportPage = new TransportPage();
-            transportPage.BindingContext = transport;
-            await Navigation.PushAsync(transportPage);*/
+            User user = new User();
+            UserPage userPage = new UserPage();
+            userPage.BindingContext = user;
+            await Navigation.PushAsync(userPage);
         }
     }
 }

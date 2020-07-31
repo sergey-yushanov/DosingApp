@@ -17,12 +17,22 @@ namespace DosingApp.Models
         Crops,
         ProcessingTypes,
         AgrYears,
-        Fields
+        Fields,
+        Users
+    }
+
+    public enum MenuItemAccess
+    {
+        MainMenu,
+        MainParams,
+        AdditionalParams,
+        Admin
     }
 
     class HomeMenuItem
     {
         public MenuItemType Id { get; set; }
+        public MenuItemAccess Access { get; set; }
         public string Title { get; set; }
         public string Icon { get; set; }
     }

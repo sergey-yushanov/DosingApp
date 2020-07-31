@@ -15,7 +15,8 @@ namespace DosingApp.Views
         {
             using (UserDbContext db = App.GetUserContext())
             {
-                userLabel.Text = App.ActiveUser.DisplayName;
+                userLabel.Text = App.ActiveUser.DisplayName ?? App.ActiveUser.Username;
+
             }
             base.OnAppearing();
         }

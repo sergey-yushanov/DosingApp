@@ -15,17 +15,14 @@ namespace DosingApp.Views
 {
     public partial class RecipesPage : ContentPage
     {
-        string dbPath;
-
         public RecipesPage()
         {
             InitializeComponent();
-            dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
         }
 
         protected override void OnAppearing()
         {
-            using (AppDbContext db = new AppDbContext(dbPath))
+            using (AppDbContext db = App.GetContext())
             {
                 recipesList.ItemsSource = db.Recipes.ToList();
             }

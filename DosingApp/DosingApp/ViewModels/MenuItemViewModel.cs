@@ -11,8 +11,10 @@ namespace DosingApp.ViewModels
         //public HomeMenuItem HomeMenuItem { get; set; }
 
         public MenuItemType Id { get; set; }
+        public MenuItemAccess Access { get; set; }
         public string Title { get; set; }
         public string Icon { get; set; }
+        public bool IsSeparatorVisible { get; set; }
 
         //List<MenuItem> menuItems;
         #endregion Attributes
@@ -58,6 +60,9 @@ namespace DosingApp.ViewModels
                     break;
                 case MenuItemType.Fields:
                     Application.Current.MainPage.Navigation.PushAsync(new FieldsPage());
+                    break;
+                case MenuItemType.Users:
+                    Application.Current.MainPage.Navigation.PushAsync(new UsersPage());
                     break;
             }
         }

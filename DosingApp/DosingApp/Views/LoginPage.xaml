@@ -26,7 +26,7 @@
                 Placeholder="Введите пароль"
                 IsPassword="True"/>
             <Button 
-                Text="Ok" 
+                Text="Войти"
                 Clicked="SignInButton" />
         </StackLayout>
     </ContentPage.Content>

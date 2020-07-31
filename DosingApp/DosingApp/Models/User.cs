@@ -13,5 +13,10 @@ namespace DosingApp.Models
         public string DisplayName { get; set; }
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
+
+        public bool AccessMainMenu { get; set; }
+        public bool AccessMainParams { get; set; }
+        public bool AccessAdditionalParams { get; set; }
+        public bool AccessAdmin { get; set; }
     }
 }

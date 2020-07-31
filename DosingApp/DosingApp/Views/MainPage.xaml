@@ -31,19 +31,22 @@
         </StackLayout>
 
         <ListView
-            ItemsSource="{Binding Menu}"
-            HasUnevenRows="True">
+            ItemsSource="{Binding Menu}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-
                         <Grid Padding="10">
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectMenuItemCommand}"/>
                             </Grid.GestureRecognizers>
-                            <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="Medium"/>
+                            <StackLayout Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="Medium"/>
+                                    <Image Source="{Binding Icon}"/>
+                                </StackLayout>
+                                <BoxView HeightRequest="1" Color="#00000" IsVisible="{Binding IsSeparatorVisible}"/>
+                            </StackLayout>
                         </Grid>
-
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -15,6 +15,8 @@ namespace DosingApp
         public const string DBFILENAME = "dosingapp.db";
         public const string USERDBFILENAME = "dosinguser.db";
 
+        public const string AdminName = "admin";
+
         private static User activeUser;
         public static User ActiveUser
         {
@@ -29,7 +31,7 @@ namespace DosingApp
             //GetContext().Database.EnsureDeleted();
             GetContext().Database.EnsureCreated();
 
-            GetUserContext().Database.EnsureDeleted();
+            //GetUserContext().Database.EnsureDeleted();
             GetUserContext().Database.EnsureCreated();
 
             CreateAdminUser();
@@ -56,13 +58,17 @@ namespace DosingApp
         {
             using (UserDbContext db = GetUserContext())
             {
-                if (!db.Users.Any(u => u.Username == "admin"))
+                if (!db.Users.Any(u => u.Username == AdminName))
                 {
                     User user = new User();
-                    user.Username = "admin";
-                    user.DisplayName = "admin";
+                    user.Username = AdminName;
+                    user.DisplayName = AdminName;
                     user.PasswordSalt = CryptoService.GenerateSalt();
-                    user.PasswordHash = CryptoService.ComputeHash("admin", user.PasswordSalt);
+                    user.PasswordHash = CryptoService.ComputeHash(AdminName, user.PasswordSalt);
+                    user.AccessMainMenu = true;
+                    user.AccessMainParams = true;
+                    user.AccessAdditionalParams = true;
+                    user.AccessAdmin = true;
                     db.Users.Add(user);
                     db.SaveChanges();
                 }

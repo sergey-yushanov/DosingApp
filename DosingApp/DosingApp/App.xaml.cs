@@ -4,6 +4,7 @@ using DosingApp.Services;
 using DosingApp.Views;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,6 +13,14 @@ namespace DosingApp
     public partial class App : Application
     {
         public const string DBFILENAME = "dosingapp.db";
+        public const string USERDBFILENAME = "dosinguser.db";
+
+        private static User activeUser;
+        public static User ActiveUser
+        {
+            get { return activeUser; }
+            set { activeUser = value; }
+        }
 
         public App()
         {
@@ -19,6 +28,11 @@ namespace DosingApp
 
             //GetContext().Database.EnsureDeleted();
             GetContext().Database.EnsureCreated();
+
+            GetUserContext().Database.EnsureDeleted();
+            GetUserContext().Database.EnsureCreated();
+
+            CreateAdminUser();
 
             MainPage = new NavigationPage(new LoginPage());
         }
@@ -30,6 +44,31 @@ namespace DosingApp
             return new AppDbContext(dbPath);
         }
 
+        // Получение контекста БД пользователей при запуске приложения
+        public static UserDbContext GetUserContext()
+        {
+            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(USERDBFILENAME);
+            return new UserDbContext(dbPath);
+        }
+
+        // Создаем админа с пустым паролем, если его нет в базе
+        protected static void CreateAdminUser()
+        {
+            using (UserDbContext db = GetUserContext())
+            {
+                if (!db.Users.Any(u => u.Username == "admin"))
+                {
+                    User user = new User();
+                    user.Username = "admin";
+                    user.DisplayName = "admin";
+                    user.PasswordSalt = CryptoService.GenerateSalt();
+                    user.PasswordHash = CryptoService.ComputeHash("admin", user.PasswordSalt);
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                }
+            }
+        }
+        
         protected override void OnStart()
         {
         }

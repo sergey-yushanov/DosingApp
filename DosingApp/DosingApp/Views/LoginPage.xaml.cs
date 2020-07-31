@@ -1,4 +1,6 @@
-﻿using DosingApp.Models;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
+using DosingApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +21,33 @@ namespace DosingApp.Views
 
         private void SignInButton(object sender, EventArgs e)
         {
-            User user = new User(userEntry.Text, passwordEntry.Text);
-            if(user.CheckInformation())
+            using (UserDbContext db = App.GetUserContext())
             {
-                Application.Current.MainPage.Navigation.PushAsync(new MainPage());
-            }
-            else
-            {
-                DisplayAlert("", "Неправильное имя пользователя или пароль", "Ok");
-            }
+                User user = db.Users.FirstOrDefault(u => u.Username == userEntry.Text);
+
+                if (user != null)
+                {
+                    var password = String.IsNullOrEmpty(passwordEntry.Text) ? "" : passwordEntry.Text;
+                    if (CryptoService.VerifyPassword(password, user.PasswordSalt, user.PasswordHash))
+                    {
+                        App.ActiveUser = user;
+                        Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        userEntry.Text = null;
+                        passwordEntry.Text = null;
+                    }
+                    else
+                    {
+                        passwordEntry.Text = null;
+                        DisplayAlert("Авторизация", "Пароль указан неверно", "Ok");
+                    }
+                }
+                else
+                {
+                    DisplayAlert("Авторизация", "Пользователь с именем " + userEntry.Text + " не зарегистрирован", "Ok");
+                    userEntry.Text = null;
+                    passwordEntry.Text = null;
+                }
+            }            
         }
     }
 }

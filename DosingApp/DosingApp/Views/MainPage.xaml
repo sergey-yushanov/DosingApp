@@ -23,7 +23,7 @@
                     HeightRequest="20"/>
             </Frame>
             <Label
-                Text="User"
+                x:Name="userLabel"
                 VerticalOptions="CenterAndExpand"
                 FontSize="Medium"
                 Margin="20"

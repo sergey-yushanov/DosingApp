@@ -4,10 +4,10 @@ using System.IO;
 using Windows.Storage;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(UwpDbPath))]
+[assembly: Dependency(typeof(UwpUserDbPath))]
 namespace DosingApp.UWP
 {
-    public class UwpDbPath : IPath
+    public class UwpUserDbPath : IPath
     {
         public string GetDatabasePath(string filename)
         {

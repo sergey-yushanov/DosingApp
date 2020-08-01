@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="DosingApp.Views.AssignmentPage"
+            Title="Задание">
+
+    <ContentPage.Content>
+
+        <ScrollView>
+
+            <StackLayout Margin="{StaticResource PageMargin}">
+
+                <StackLayout>
+
+                    <Label 
+                        Text="Название" />
+                    <Entry 
+                        Placeholder="Введите название задания" 
+                        Text="{Binding Name}" />
+
+                    <Label 
+                        Text="Заметка" />
+                    <Editor 
+                        Placeholder="Введите текст заметки здесь"
+                        Text="{Binding Note}" />
+
+                    <Label 
+                        Text="Рецепт смеси" />
+                    <Picker 
+                        x:Name="recipesList"
+                        Title="Выберите рецепт"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding Recipe, Mode=TwoWay}" />
+
+                    <Label
+                        Text="Откуда носитель смеси" />
+                    <Picker 
+                        Title="Выберите тип источника"
+                        x:Name="sourceTypesList"
+                        SelectedItem="{Binding SourceType}"
+                        SelectedIndexChanged="SourceTypeChanged">
+                        <Picker.Items>
+                            <x:String>Объект</x:String>
+                            <x:String>Транспорт</x:String>
+                            <x:String>Аппликатор</x:String>
+                        </Picker.Items>
+                    </Picker>
+                    <Picker 
+                        x:Name="sourceFacilitiesList"
+                        Title="Выберите объект"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SourceFacility, Mode=TwoWay}"
+                        IsVisible="{Binding IsSourceFacility}">
+
+                        <Picker.Triggers>
+                            <DataTrigger 
+                                TargetType="Picker"
+                                Binding="{Binding Source={x:Reference sourceTypesList}, Path=SelectedItem}"
+                                Value="Объект">
+                                <Setter 
+                                    Property="IsVisible" 
+                                    Value="True"/>
+                            </DataTrigger>
+                        </Picker.Triggers>
+                    </Picker>
+
+                    <Picker 
+                        x:Name="sourceTransportsList"
+                        Title="Выберите транспорт"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SourceTransport, Mode=TwoWay}"
+                        IsVisible="{Binding IsSourceTransport}">
+                        <Picker.Triggers>
+                            <DataTrigger 
+                                TargetType="Picker"
+                                Binding="{Binding Source={x:Reference sourceTypesList}, Path=SelectedItem}"
+                                Value="Объект">
+                                <Setter 
+                                    Property="IsVisible" 
+                                    Value="False"/>
+                            </DataTrigger>
+                        </Picker.Triggers>
+                    </Picker>
+                    <Picker 
+                        x:Name="sourceApplicatorsList"
+                        Title="Выберите аппликатор"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SourceApplicator, Mode=TwoWay}"
+                        IsVisible="{Binding IsSourceApplicator}"/>
+
+                    <Label 
+                        Text="Куда производится смесь" />
+                    <Picker 
+                        Title="Выберите тип приемника"
+                        x:Name="destTypesList"
+                        SelectedItem="{Binding DestType}"
+                        SelectedIndexChanged="DestTypeChanged">
+                        <Picker.Items>
+                            <x:String>Объект</x:String>
+                            <x:String>Транспорт</x:String>
+                            <x:String>Аппликатор</x:String>
+                        </Picker.Items>
+                    </Picker>
+                    <Picker 
+                        x:Name="destFacilitiesList"
+                        Title="Выберите объект"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding DestFacility, Mode=TwoWay}"
+                        IsVisible="{Binding IsDestFacility}"/>
+                    <Picker 
+                        x:Name="destTransportsList"
+                        Title="Выберите транспорт"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding DestTransport, Mode=TwoWay}"
+                        IsVisible="{Binding IsDestTransport}"/>
+                    <Picker 
+                        x:Name="destApplicatorsList"
+                        Title="Выберите аппликатор"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding DestApplicator, Mode=TwoWay}"
+                        IsVisible="{Binding IsDestApplicator}"/>
+
+                    <Label 
+                        Text="Сельхоз. год" />
+                    <Picker 
+                        x:Name="agrYearsList"
+                        Title="Выберите сельхоз. год"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding AgrYear, Mode=TwoWay}" />
+
+                    <Label 
+                        Text="Место обработки СЗР" />
+                    <Picker 
+                        x:Name="fieldsList"
+                        Title="Выберите поле"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding Field, Mode=TwoWay}" />
+                    <Entry 
+                        Placeholder="Введите размер поля, га" 
+                        Text="{Binding FieldArea}" 
+                        Keyboard="Numeric" />
+
+                    <Label 
+                        Text="Место производства смеси" />
+                    <Picker 
+                        x:Name="facilitiesList"
+                        Title="Выберите место"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding Facility, Mode=TwoWay}" />
+
+                    <Label     
+                        Text="Норма внесения" />
+                    <Entry 
+                        Placeholder="Введите норму внесения" 
+                        Text="{Binding VolumeRate}" 
+                        Keyboard="Numeric" />
+                    <Picker 
+                        Title="Выберите единицу измерения"
+                        x:Name="unitsList"
+                        SelectedItem="{Binding Unit, Mode=TwoWay}">
+                        <Picker.Items>
+                            <x:String>л/га</x:String>
+                            <x:String>кг/га</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                </StackLayout>
+                
+                <StackLayout>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button 
+                                Text="Сохранить" 
+                                Clicked="SaveButton" />
+                        <Button 
+                                Grid.Column="1" 
+                                Text="Удалить" 
+                                Clicked="DeleteButton" />
+                    </Grid>
+                </StackLayout>
+
+            </StackLayout>
+
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>

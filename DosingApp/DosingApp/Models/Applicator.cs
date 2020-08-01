@@ -6,7 +6,7 @@ namespace DosingApp.Models
 {
     public class Applicator
     {
-        public int Id { get; set; }
+        public int ApplicatorId { get; set; }
         public string Name { get; set; }
     }
 }

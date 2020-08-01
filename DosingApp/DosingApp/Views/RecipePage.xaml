@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="DosingApp.Views.RecipePage"
+            Title="Рецепт">
+    <TabbedPage.Children>
+        <ContentPage Title="Параметры">
+
+            <ScrollView>
+                
+                <StackLayout Margin="{StaticResource PageMargin}">
+
+                    <StackLayout>
+
+                        <Label 
+                            Text="Название" />
+                        <Entry 
+                            Placeholder="Введите название рецепта" 
+                            Text="{Binding Name}" />
+
+                        <Label 
+                            Text="Культура" />
+                        <Picker 
+                            x:Name="cropsList"
+                            Title="Выберите культуру"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding Crop, Mode=TwoWay}" />
+
+                        <Label 
+                            Text="Вид обработки" />
+                        <Picker 
+                            x:Name="processingTypesList"
+                            Title="Выберите вид обработки"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding ProcessingType, Mode=TwoWay}" />
+
+                        <Label 
+                            Text="Носитель смеси" />
+                        <Picker 
+                            x:Name="carriersList"
+                            Title="Выберите носитель смеси"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding Carrier, Mode=TwoWay}" />
+
+                        <Label 
+                            Text="Заметка" />
+                        <Editor 
+                            Placeholder="Введите текст заметки здесь"
+                            Text="{Binding Note}" />
+
+                        <Label 
+                            Text="Предварительное заполнение носителем, кг" />
+                        <Entry 
+                            Placeholder="Введите, сколько требуется носителя" 
+                            Text="{Binding ValueInit}" 
+                            Keyboard="Numeric" />
+
+                        <Label 
+                            Text="Минимум носителя в запасе, %" />
+                        <Entry 
+                            Placeholder="Введите запас носителя" 
+                            Text="{Binding ValueMin}" 
+                            Keyboard="Numeric" />
+
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button 
+                                Text="Сохранить" 
+                                Clicked="SaveButton" />
+                            <Button 
+                                Grid.Column="1" 
+                                Text="Удалить" 
+                                Clicked="DeleteButton" />
+                        </Grid>
+                    </StackLayout>
+
+                </StackLayout>
+
+            </ScrollView>
+
+        </ContentPage>
+        
+        <ContentPage Title="Компоненты">
+
+            <StackLayout Margin="{StaticResource PageMargin}">
+
+                <ListView x:Name="recipeComponentsList" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal">
+                                        
+                                        
+                                        
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+            </StackLayout>
+            
+        </ContentPage>
+    </TabbedPage.Children>
+</TabbedPage>

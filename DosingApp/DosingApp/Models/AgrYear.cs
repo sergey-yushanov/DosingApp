@@ -6,7 +6,7 @@ namespace DosingApp.Models
 {
     public class AgrYear
     {
-        public int Id { get; set; }
+        public int AgrYearId { get; set; }
         public string Name { get; set; }
         public string FinishDate { get; set; }
     }

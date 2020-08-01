@@ -11,8 +11,91 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.6" />
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.495" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\AgrYearPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\AgrYearsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MenuPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\UsersPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\CropPage.xaml.cs">
+      <DependentUpon>CropPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CropsPage.xaml.cs">
+      <DependentUpon>CropsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ProcessingTypePage.xaml.cs">
+      <DependentUpon>ProcessingTypePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ProcessingTypesPage.xaml.cs">
+      <DependentUpon>ProcessingTypesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FieldsPage.xaml.cs">
+      <DependentUpon>FieldsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FieldPage.xaml.cs">
+      <DependentUpon>FieldPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FacilityPage.xaml.cs">
+      <DependentUpon>FacilityPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FacilitiesPage.xaml.cs">
+      <DependentUpon>FacilitiesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ApplicatorPage.xaml.cs">
+      <DependentUpon>ApplicatorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ApplicatorsPage.xaml.cs">
+      <DependentUpon>ApplicatorsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ComponentPage.xaml.cs">
+      <DependentUpon>ComponentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ComponentsPage.xaml.cs">
+      <DependentUpon>ComponentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\AssignmentPage.xaml.cs">
+      <DependentUpon>AssignmentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RecipePage.xaml.cs">
+      <DependentUpon>RecipePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\AssignmentsPage.xaml.cs">
+      <DependentUpon>AssignmentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RecipesPage.xaml.cs">
+      <DependentUpon>RecipesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransportPage.xaml.cs">
+      <DependentUpon>TransportPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransportsPage.xaml.cs">
+      <DependentUpon>TransportsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

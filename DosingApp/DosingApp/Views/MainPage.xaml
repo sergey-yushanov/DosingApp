@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:ViewModel="clr-namespace:DosingApp.ViewModels"
+             x:Class="DosingApp.Views.MainPage"
+             Title="Главная страница">
+
+    <ContentPage.BindingContext>
+        <ViewModel:MainViewModel/>
+    </ContentPage.BindingContext>
+
+
+    <StackLayout  Margin="{StaticResource PageMargin}">
+        <StackLayout Orientation="Horizontal">
+            <Frame
+                HorizontalOptions="Start">
+                <Image
+                    Source="user.png"
+                    WidthRequest="20"
+                    HeightRequest="20"/>
+            </Frame>
+            <Label
+                x:Name="userLabel"
+                VerticalOptions="CenterAndExpand"
+                FontSize="Medium"
+                Margin="20"
+                HorizontalOptions="StartAndExpand"/>
+        </StackLayout>
+
+        <ListView
+            ItemsSource="{Binding Menu}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectMenuItemCommand}"/>
+                            </Grid.GestureRecognizers>
+                            <StackLayout Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="Medium"/>
+                                    <Image Source="{Binding Icon}"/>
+                                </StackLayout>
+                                <BoxView HeightRequest="1" Color="#00000" IsVisible="{Binding IsSeparatorVisible}"/>
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+</ContentPage>

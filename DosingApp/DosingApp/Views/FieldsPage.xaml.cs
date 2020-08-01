@@ -20,16 +20,5 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new FieldsViewModel();
         }
-
-        protected override void OnAppearing()
-        {
-            var FieldsViewModel = (FieldsViewModel)BindingContext;
-            using (AppDbContext db = App.GetContext())
-            {
-                FieldsViewModel.LoadFields();
-                fieldsList.ItemsSource = FieldsViewModel.Fields;
-            }
-            base.OnAppearing();
-        }
     }
 }

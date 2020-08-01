@@ -18,34 +18,18 @@ namespace DosingApp.Views
         public TransportsPage()
         {
             InitializeComponent();
+            BindingContext = new TransportsViewModel();
         }
 
         protected override void OnAppearing()
         {
-            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
-            using (AppDbContext db = new AppDbContext(dbPath))
+            var TransportsViewModel = (TransportsViewModel)BindingContext;
+            using (AppDbContext db = App.GetContext())
             {
-                itemsList.ItemsSource = db.Transports.ToList();
+                TransportsViewModel.LoadTransports();
+                transportsList.ItemsSource = TransportsViewModel.Transports;
             }
             base.OnAppearing();
-        }
-
-        // обработка нажатия элемента в списке
-        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Transport selectedTransport = (Transport)e.SelectedItem;
-            TransportPage transportPage = new TransportPage();
-            transportPage.BindingContext = selectedTransport;
-            await Navigation.PushAsync(transportPage);
-        }
-
-        // обработка нажатия кнопки добавления
-        private async void CreateButton(object sender, EventArgs e)
-        {
-            Transport transport = new Transport();
-            TransportPage transportPage = new TransportPage();
-            transportPage.BindingContext = transport;
-            await Navigation.PushAsync(transportPage);
         }
     }
 }

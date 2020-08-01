@@ -20,16 +20,5 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new CropsViewModel();
         }
-
-        protected override void OnAppearing()
-        {
-            var CropsViewModel = (CropsViewModel)BindingContext;
-            using (AppDbContext db = App.GetContext())
-            {
-                CropsViewModel.LoadCrops();
-                cropsList.ItemsSource = CropsViewModel.Crops;
-            }
-            base.OnAppearing();
-        }
     }
 }

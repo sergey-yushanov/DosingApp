@@ -20,16 +20,5 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new ProcessingTypesViewModel();
         }
-
-        protected override void OnAppearing()
-        {
-            var ProcessingTypesViewModel = (ProcessingTypesViewModel)BindingContext;
-            using (AppDbContext db = App.GetContext())
-            {
-                ProcessingTypesViewModel.LoadProcessingTypes();
-                processingTypesList.ItemsSource = ProcessingTypesViewModel.ProcessingTypes;
-            }
-            base.OnAppearing();
-        }
     }
 }

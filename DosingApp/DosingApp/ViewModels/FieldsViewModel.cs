@@ -22,7 +22,7 @@ namespace DosingApp.ViewModels
         #endregion Services
 
         #region Attributes
-        public ObservableCollection<Field> Fields { get; set; }
+        private ObservableCollection<Field> fields;
         private Field selectedField;
 
         public ICommand CreateCommand { get; protected set; }
@@ -35,6 +35,7 @@ namespace DosingApp.ViewModels
         public FieldsViewModel()
         {
             db = App.GetContext();
+            LoadFields();
             //CreateFields();
 
             CreateCommand = new Command(CreateField);
@@ -45,6 +46,12 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public ObservableCollection<Field> Fields
+        {
+            get { return fields; }
+            set { SetProperty(ref fields, value); }
+        }
+
         public Field SelectedField
         {
             get { return selectedField; }
@@ -80,6 +87,7 @@ namespace DosingApp.ViewModels
                 db.Fields.Attach(fieldViewModel.Field);
                 db.Fields.Remove(fieldViewModel.Field);
                 db.SaveChanges();
+                LoadFields();
                 Back();
             }
         }
@@ -91,7 +99,6 @@ namespace DosingApp.ViewModels
             {
                 if (fieldViewModel.Field.FieldId == 0)
                 {
-                    //db.Fields.Add(fieldViewModel.Field);
                     db.Entry(fieldViewModel.Field).State = EntityState.Added;
                 }
                 else
@@ -101,6 +108,7 @@ namespace DosingApp.ViewModels
                 }
                 db.SaveChanges();
             }
+            LoadFields();
             Back();
         }
         #endregion Commands

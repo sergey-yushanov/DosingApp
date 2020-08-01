@@ -22,7 +22,7 @@ namespace DosingApp.ViewModels
         #endregion Services
 
         #region Attributes
-        public ObservableCollection<AgrYear> AgrYears { get; set; }
+        private ObservableCollection<AgrYear> agrYears;
         private AgrYear selectedAgrYear;
 
         public ICommand CreateCommand { get; protected set; }
@@ -35,6 +35,7 @@ namespace DosingApp.ViewModels
         public AgrYearsViewModel()
         {
             db = App.GetContext();
+            LoadAgrYears();
             //CreateAgrYears();
 
             CreateCommand = new Command(CreateAgrYear);
@@ -45,6 +46,12 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public ObservableCollection<AgrYear> AgrYears 
+        {
+            get { return agrYears; }
+            set { SetProperty(ref agrYears, value); }
+        }
+
         public AgrYear SelectedAgrYear
         {
             get { return selectedAgrYear; }
@@ -91,7 +98,6 @@ namespace DosingApp.ViewModels
             {
                 if (agrYearViewModel.AgrYear.AgrYearId == 0)
                 {
-                    //db.AgrYears.Add(agrYearViewModel.AgrYear);
                     db.Entry(agrYearViewModel.AgrYear).State = EntityState.Added;
                 }
                 else

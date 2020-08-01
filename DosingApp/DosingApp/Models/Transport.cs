@@ -9,7 +9,7 @@ namespace DosingApp.Models
         public int TransportId { get; set; }
         public string Name { get; set; }
         public string Number { get; set; }
-
-        public virtual List<TransportTank> TransportTanks { get; set; }
+        
+        public virtual List<TransportTank> Tanks { get; set; }
     }
 }

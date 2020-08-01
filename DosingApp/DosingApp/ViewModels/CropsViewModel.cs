@@ -22,7 +22,7 @@ namespace DosingApp.ViewModels
         #endregion Services
 
         #region Attributes
-        public ObservableCollection<Crop> Crops { get; set; }
+        private ObservableCollection<Crop> crops;
         private Crop selectedCrop;
 
         public ICommand CreateCommand { get; protected set; }
@@ -45,6 +45,12 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public ObservableCollection<Crop> Crops 
+        {
+            get { return crops; }
+            set { SetProperty(ref crops, value); }
+        }
+
         public Crop SelectedCrop
         {
             get { return selectedCrop; }
@@ -91,7 +97,6 @@ namespace DosingApp.ViewModels
             {
                 if (cropViewModel.Crop.CropId == 0)
                 {
-                    //db.Crops.Add(cropViewModel.Crop);
                     db.Entry(cropViewModel.Crop).State = EntityState.Added;
                 }
                 else

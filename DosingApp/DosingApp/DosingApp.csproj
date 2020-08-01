@@ -46,6 +46,12 @@
     <Compile Update="Views\CropsPage.xaml.cs">
       <DependentUpon>CropsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\TransportPage.xaml.cs">
+      <DependentUpon>TransportPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransportsPage.xaml.cs">
+      <DependentUpon>TransportsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ProcessingTypePage.xaml.cs">
       <DependentUpon>ProcessingTypePage.xaml</DependentUpon>
     </Compile>
@@ -90,12 +96,6 @@
     </Compile>
     <Compile Update="Views\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\TransportPage.xaml.cs">
-      <DependentUpon>TransportPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\TransportsPage.xaml.cs">
-      <DependentUpon>TransportsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

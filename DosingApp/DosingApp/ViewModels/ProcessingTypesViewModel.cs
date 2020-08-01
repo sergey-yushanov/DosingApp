@@ -22,7 +22,7 @@ namespace DosingApp.ViewModels
         #endregion Services
 
         #region Attributes
-        public ObservableCollection<ProcessingType> ProcessingTypes { get; set; }
+        private ObservableCollection<ProcessingType> processingTypes;
         private ProcessingType selectedProcessingType;
 
         public ICommand CreateCommand { get; protected set; }
@@ -35,6 +35,7 @@ namespace DosingApp.ViewModels
         public ProcessingTypesViewModel()
         {
             db = App.GetContext();
+            LoadProcessingTypes();
             //CreateProcessingTypes();
 
             CreateCommand = new Command(CreateProcessingType);
@@ -45,6 +46,12 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public ObservableCollection<ProcessingType> ProcessingTypes
+        {
+            get { return processingTypes; }
+            set { SetProperty(ref processingTypes, value); } 
+        }
+
         public ProcessingType SelectedProcessingType
         {
             get { return selectedProcessingType; }

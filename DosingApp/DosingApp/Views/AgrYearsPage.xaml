@@ -11,7 +11,10 @@
             <StackLayout Margin="{StaticResource PageMargin}">
                 <Button Text="Добавить" Command="{Binding CreateCommand}"/>
 
-                <ListView x:Name="agrYearsList" SelectedItem="{Binding SelectedAgrYear, Mode=TwoWay}">
+                <ListView
+                    x:Name="agrYearsList" 
+                    ItemsSource="{Binding AgrYears}"
+                    SelectedItem="{Binding SelectedAgrYear, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

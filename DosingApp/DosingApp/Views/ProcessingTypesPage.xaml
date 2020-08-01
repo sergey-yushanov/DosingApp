@@ -11,7 +11,10 @@
             <StackLayout Margin="{StaticResource PageMargin}">
                 <Button Text="Добавить" Command="{Binding CreateCommand}"/>
 
-                <ListView x:Name="processingTypesList" SelectedItem="{Binding SelectedProcessingType, Mode=TwoWay}">
+                <ListView
+                    x:Name="processingTypesList"
+                    ItemsSource="{Binding ProcessingTypes}"
+                    SelectedItem="{Binding SelectedProcessingType, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

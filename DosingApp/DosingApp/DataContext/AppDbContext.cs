@@ -19,15 +19,16 @@ namespace DosingApp.DataContext
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeComponent> RecipeComponents { get; set; }
         public DbSet<Transport> Transports { get; set; }
+        public DbSet<TransportTank> TransportTanks { get; set; }
 
-/*        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Crop>()
-                .HasMany(c => c.Recipes)
-                .WithOne(r => r.Crop)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-                //.IsRequired(false);
-        }*/
+        /*        protected override void OnModelCreating(ModelBuilder modelBuilder)
+                {
+                    modelBuilder.Entity<Crop>()
+                        .HasMany(c => c.Recipes)
+                        .WithOne(r => r.Crop)
+                        .OnDelete(DeleteBehavior.ClientSetNull);
+                        //.IsRequired(false);
+                }*/
 
 
 

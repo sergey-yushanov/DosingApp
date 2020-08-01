@@ -12,7 +12,9 @@
                 <Label Text="Название" />
                 <Entry Placeholder="Введите название компонента" Text="{Binding Name}" />
                 <Label Text="Форма компонента" />
-                <Picker Title="Выберите тип компонента" SelectedItem="{Binding Consistency}">
+                <Picker 
+                    Title="Выберите тип компонента"
+                    SelectedItem="{Binding Consistency}">
                     <Picker.Items>
                         <x:String>Жидкий</x:String>
                         <x:String>Сухой</x:String>

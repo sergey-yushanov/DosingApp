@@ -70,8 +70,14 @@
     <Compile Update="Views\ComponentsPage.xaml.cs">
       <DependentUpon>ComponentsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\AssignmentPage.xaml.cs">
+      <DependentUpon>AssignmentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\RecipePage.xaml.cs">
       <DependentUpon>RecipePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\AssignmentsPage.xaml.cs">
+      <DependentUpon>AssignmentsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\RecipesPage.xaml.cs">
       <DependentUpon>RecipesPage.xaml</DependentUpon>

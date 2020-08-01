@@ -34,6 +34,9 @@ namespace DosingApp.ViewModels
         {
             switch (this.Id)
             {
+                case MenuItemType.Assignments:
+                    Application.Current.MainPage.Navigation.PushAsync(new AssignmentsPage());
+                    break;
                 case MenuItemType.Recipes:
                     Application.Current.MainPage.Navigation.PushAsync(new RecipesPage());
                     break;

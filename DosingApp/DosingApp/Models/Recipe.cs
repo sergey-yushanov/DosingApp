@@ -9,14 +9,14 @@ namespace DosingApp.Models
         public int RecipeId { get; set; }
         public string Name { get; set; }
         
-        public int CropId { get; set; }
-        public Crop Crop { get; set; }
+        public int? CropId { get; set; }
+        public virtual Crop Crop { get; set; }
         
-        public int ProcessingTypeId { get; set; }
-        public ProcessingType ProcessingType { get; set; }
+        public int? ProcessingTypeId { get; set; }
+        public virtual ProcessingType ProcessingType { get; set; }
 
-        public int CarrierId { get; set; }
-        public Component Carrier { get; set; }
+        public int? CarrierId { get; set; }
+        public virtual Component Carrier { get; set; }
 
         public string Note { get; set; }
         public float ValueInit { get; set; }

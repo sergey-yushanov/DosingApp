@@ -1,6 +1,7 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Services;
+using DosingApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,47 +15,12 @@ namespace DosingApp.Views
 {
     public partial class AgrYearPage : ContentPage
     {
-        string dbPath;
-
-        public AgrYearPage()
+        public AgrYearViewModel ViewModel { get; private set; }
+        public AgrYearPage(AgrYearViewModel viewModel)
         {
             InitializeComponent();
-            dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
-        }
-
-        private void Back()
-        {
-            this.Navigation.PopAsync();
-        }
-
-        private void SaveButton(object sender, EventArgs e)
-        {
-            var agrYear = (AgrYear)BindingContext;
-            if (!String.IsNullOrEmpty(agrYear.Name))
-            {
-                using (AppDbContext db = new AppDbContext(dbPath))
-                {
-                    if (agrYear.AgrYearId == 0)
-                        db.AgrYears.Add(agrYear);
-                    else
-                    {
-                        db.AgrYears.Update(agrYear);
-                    }
-                    db.SaveChanges();
-                }
-            }
-            Back();
-        }
-
-        private void DeleteButton(object sender, EventArgs e)
-        {
-            var agrYear = (AgrYear)BindingContext;
-            using (AppDbContext db = new AppDbContext(dbPath))
-            {
-                db.AgrYears.Remove(agrYear);
-                db.SaveChanges();
-            }
-            Back();
+            ViewModel = viewModel;
+            BindingContext = ViewModel;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Services;
+using DosingApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,34 +18,18 @@ namespace DosingApp.Views
         public CropsPage()
         {
             InitializeComponent();
+            BindingContext = new CropsViewModel();
         }
 
         protected override void OnAppearing()
         {
-            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
-            using (AppDbContext db = new AppDbContext(dbPath))
+            var CropsViewModel = (CropsViewModel)BindingContext;
+            using (AppDbContext db = App.GetContext())
             {
-                cropsList.ItemsSource = db.Crops.ToList() as List<Crop>;
+                CropsViewModel.LoadCrops();
+                cropsList.ItemsSource = CropsViewModel.Crops;
             }
             base.OnAppearing();
-        }
-
-        // обработка нажатия элемента в списке
-        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Crop selectedCrop = (Crop)e.SelectedItem;
-            CropPage cropPage = new CropPage();
-            cropPage.BindingContext = selectedCrop;
-            await Navigation.PushAsync(cropPage);
-        }
-
-        // обработка нажатия кнопки добавления
-        private async void CreateButton(object sender, EventArgs e)
-        {
-            Crop crop = new Crop();
-            CropPage cropPage = new CropPage();
-            cropPage.BindingContext = crop;
-            await Navigation.PushAsync(cropPage);
         }
     }
 }

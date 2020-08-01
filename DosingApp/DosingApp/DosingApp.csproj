@@ -40,6 +40,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\CropPage.xaml.cs">
+      <DependentUpon>CropPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CropsPage.xaml.cs">
+      <DependentUpon>CropsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ProcessingTypePage.xaml.cs">
       <DependentUpon>ProcessingTypePage.xaml</DependentUpon>
     </Compile>
@@ -51,12 +57,6 @@
     </Compile>
     <Compile Update="Views\FieldPage.xaml.cs">
       <DependentUpon>FieldPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\CropsPage.xaml.cs">
-      <DependentUpon>CropsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\CropPage.xaml.cs">
-      <DependentUpon>CropPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\FacilityPage.xaml.cs">
       <DependentUpon>FacilityPage.xaml</DependentUpon>

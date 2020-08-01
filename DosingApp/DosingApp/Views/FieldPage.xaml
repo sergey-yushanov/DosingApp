@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
              x:Class="DosingApp.Views.FieldPage"
              Title="Поле">
     <ContentPage.Content>
@@ -11,7 +8,8 @@
             Margin="{StaticResource PageMargin}">
             <StackLayout>
                 <Label 
-                    Text="Название" />
+                    Text="Название"
+                    TextColor="{StaticResource LabelEntry}"/>
                 <Entry 
                     Placeholder="Введите название поля" 
                     Text="{Binding Name}" />
@@ -29,11 +27,13 @@
                     </Grid.ColumnDefinitions>
                     <Button 
                         Text="Сохранить" 
-                        Clicked="SaveButton" />
+                        Command="{Binding FieldsViewModel.SaveCommand}" 
+                        CommandParameter="{Binding}" />
                     <Button 
                         Grid.Column="1" 
                         Text="Удалить" 
-                        Clicked="DeleteButton" />
+                        Command="{Binding FieldsViewModel.DeleteCommand}" 
+                        CommandParameter="{Binding}" />
                 </Grid>
             </StackLayout>
 

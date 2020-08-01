@@ -7,21 +7,24 @@
              x:Class="DosingApp.Views.FieldsPage"
              Title="Список полей">
     <ContentPage.Content>
-        <StackLayout Margin="{StaticResource PageMargin}">
-            <Button Text="Добавить" Clicked="CreateButton" />
-            <ListView x:Name="itemsList" ItemSelected="OnItemSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Name}" FontSize="Medium" />
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Margin="{StaticResource PageMargin}">
+                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
+
+                <ListView x:Name="fieldsList" SelectedItem="{Binding SelectedField, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                        <Label Text="{Binding Name}" FontSize="Medium" />
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

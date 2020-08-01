@@ -7,11 +7,11 @@ using System.Linq.Expressions;
 
 namespace DosingApp.Services
 {
-    public class DBDataAccess<T> where T : class
+    public class DataService<T> where T : class
     {
         private readonly AppDbContext _context;
 
-        public DBDataAccess() => _context = App.GetContext();
+        public DataService() => _context = App.GetContext();
 
         // Создание элемента БД
         public bool Create(T entity)
@@ -81,9 +81,9 @@ namespace DosingApp.Services
         }
 
         // Удаляем запись из БД
-        public void Delete(T entity)
+        public void Delete(int Id)
         {
-            T existing = _context.Set<T>().Find(entity);
+            T existing = _context.Set<T>().Find(Id);
 
             if (existing != null)
             {

@@ -8,6 +8,8 @@
     <Application.Resources>
 
         <Thickness x:Key="PageMargin">20</Thickness>
-        
+
+        <Color x:Key="LabelEntry">#Accent</Color>
+
     </Application.Resources>
 </Application>

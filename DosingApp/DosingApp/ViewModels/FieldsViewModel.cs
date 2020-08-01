@@ -1,6 +1,8 @@
-﻿using DosingApp.Models;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
 using DosingApp.Services;
 using DosingApp.Views;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,21 +10,20 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace DosingApp.ViewModels
 {
     public class FieldsViewModel : BaseViewModel
     {
         #region Services
-        private readonly DBDataAccess<Field> dataServiceFields;
+        //private readonly DataService<Field> dataServiceFields;
+        public readonly AppDbContext db;
         #endregion Services
 
         #region Attributes
-        private ObservableCollection<Field> fields;
+        public ObservableCollection<Field> Fields { get; set; }
         private Field selectedField;
-        
-        private string name;
-        private string code;
 
         public ICommand CreateCommand { protected set; get; }
         public ICommand DeleteCommand { protected set; get; }
@@ -30,52 +31,35 @@ namespace DosingApp.ViewModels
         public ICommand BackCommand { protected set; get; }
         #endregion Attributes
 
-        #region Properties
-        public ObservableCollection<Field> Fields
-        {
-            get { return this.fields; }
-            set { SetValue(ref this.fields, value); }
-        }
-
-        public Field SelectedField
-        {
-            get { return this.selectedField; }
-            set
-            { 
-                SetValue(ref this.selectedField, value);
-                this.Name = selectedField.Name;
-                this.Code = selectedField.Code;
-                Application.Current.MainPage.Navigation.PushAsync(new FieldPage());
-            }
-        }
-
-        public string Name
-        {
-            get { return this.name; }
-            set { SetValue(ref this.name, value); }
-        }
-
-        public string Code
-        {
-            get { return this.code; }
-            set { SetValue(ref this.code, value); }
-        }
-        #endregion Properties
-
         #region Constructor
         public FieldsViewModel()
         {
-            this.dataServiceFields = new DBDataAccess<Field>();
+            db = App.GetContext();
+            //CreateFields();
 
             CreateCommand = new Command(CreateField);
             DeleteCommand = new Command(DeleteField);
             SaveCommand = new Command(SaveField);
             BackCommand = new Command(Back);
-
-            //this.CreateFields();
-            this.LoadFields();
         }
         #endregion Constructor
+
+        #region Properties
+        public Field SelectedField
+        {
+            get { return selectedField; }
+            set
+            {
+                if (selectedField != value)
+                {
+                    FieldViewModel tempField = new FieldViewModel(value) { FieldsViewModel = this };
+                    selectedField = null;
+                    OnPropertyChanged(nameof(SelectedField));
+                    Application.Current.MainPage.Navigation.PushAsync(new FieldPage(tempField));
+                }
+            }
+        }
+        #endregion Properties
 
         #region Commands
         private void Back()
@@ -85,35 +69,37 @@ namespace DosingApp.ViewModels
 
         private void CreateField()
         {
-            this.Name = string.Empty;
-            this.Code = string.Empty;
-            Application.Current.MainPage.Navigation.PushAsync(new FieldPage());
+            Application.Current.MainPage.Navigation.PushAsync(new FieldPage(new FieldViewModel(new Field()) { FieldsViewModel = this }));
         }
 
-        private void DeleteField()
+        private void DeleteField(object fieldInstance)
         {
-            if (selectedField != null)
+            FieldViewModel fieldViewModel = fieldInstance as FieldViewModel;
+            if (fieldViewModel.Field != null && fieldViewModel.Field.FieldId != 0)
             {
-                this.dataServiceFields.Delete(selectedField);
+                db.Fields.Attach(fieldViewModel.Field);
+                db.Fields.Remove(fieldViewModel.Field);
+                db.SaveChanges();
+                Back();
             }
-            Back();
         }
 
-        private void SaveField()
+        private void SaveField(object fieldInstance)
         {
-            if (IsValid(this.Name))
+            FieldViewModel fieldViewModel = fieldInstance as FieldViewModel;
+            if (fieldViewModel.Field != null && fieldViewModel.IsValid)
             {
-                var newField = new Field()
+                if (fieldViewModel.Field.FieldId == 0)
                 {
-                    Name = this.Name,
-                    Code = this.Code
-                };
-
-                if (this.dataServiceFields.Create(newField))
-                {
-                    this.Name = string.Empty;
-                    this.Code = string.Empty;
+                    //db.Fields.Add(fieldViewModel.Field);
+                    db.Entry(fieldViewModel.Field).State = EntityState.Added;
                 }
+                else
+                {
+                    db.Fields.Attach(fieldViewModel.Field);
+                    db.Fields.Update(fieldViewModel.Field);
+                }
+                db.SaveChanges();
             }
             Back();
         }
@@ -122,8 +108,7 @@ namespace DosingApp.ViewModels
         #region Methods
         public void LoadFields()
         {
-            var fieldsDB = this.dataServiceFields.Get().ToList() as List<Field>;
-            this.Fields = new ObservableCollection<Field>(fieldsDB);
+            Fields = new ObservableCollection<Field>(db.Fields.ToList());
         }
 
         private void CreateFields()
@@ -135,7 +120,8 @@ namespace DosingApp.ViewModels
                 new Field { Name = "Field 3", Code = "f3" }
             };
 
-            this.dataServiceFields.SaveList(fields);
+            db.Fields.AddRange(fields);
+            db.SaveChanges();
         }
         #endregion Methods
 

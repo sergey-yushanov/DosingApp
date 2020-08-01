@@ -13,7 +13,7 @@ namespace DosingApp.ViewModels
         public ObservableCollection<MenuItemViewModel> Menu
         {
             get { return this.menu; }
-            set { SetValue(ref this.menu, value); }
+            set { SetProperty(ref this.menu, value); }
         }
         #endregion Properties
 

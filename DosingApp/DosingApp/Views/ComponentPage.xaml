@@ -20,7 +20,7 @@
                         <x:String>Сухой</x:String>
                     </Picker.Items>
                 </Picker>
-                <Label Text="Плотность, гр/мл" />
+                <Label Text="Плотность, г/мл" />
                 <Entry Placeholder="Введите плотность" Text="{Binding Density}" Keyboard="Numeric" />
                 <Label Text="Фасовка" />
                 <Entry Placeholder="Введите тип фасовки" Text="{Binding Packing}" />

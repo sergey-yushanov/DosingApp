@@ -8,26 +8,26 @@ namespace DosingApp.ViewModels
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected void SetValue<T>(ref T backingField, T value, [CallerMemberName] string propertyName = null)
+        protected bool SetProperty<T>(ref T backField, T value, [CallerMemberName] string propertyName = null)
         {
-            if (EqualityComparer<T>.Default.Equals(backingField, value))
+            if (EqualityComparer<T>.Default.Equals(backField, value))
             {
-                return;
+                return false;
             }
 
-            backingField = value;
+            backField = value;
             OnPropertyChanged(propertyName);
+            return true;
         }
 
-        protected bool IsValid(string value)
+/*        protected bool IsValid(string value)
         {
             return (!string.IsNullOrEmpty(value));
-        }
+        }*/
     }
 }

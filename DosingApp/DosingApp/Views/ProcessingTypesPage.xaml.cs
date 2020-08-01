@@ -18,34 +18,18 @@ namespace DosingApp.Views
         public ProcessingTypesPage()
         {
             InitializeComponent();
+            BindingContext = new ProcessingTypesViewModel();
         }
 
         protected override void OnAppearing()
         {
-            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
-            using (AppDbContext db = new AppDbContext(dbPath))
+            var ProcessingTypesViewModel = (ProcessingTypesViewModel)BindingContext;
+            using (AppDbContext db = App.GetContext())
             {
-                itemsList.ItemsSource = db.ProcessingTypes.ToList();
+                ProcessingTypesViewModel.LoadProcessingTypes();
+                processingTypesList.ItemsSource = ProcessingTypesViewModel.ProcessingTypes;
             }
             base.OnAppearing();
-        }
-
-        // обработка нажатия элемента в списке
-        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            ProcessingType selectedProcessingType = (ProcessingType)e.SelectedItem;
-            ProcessingTypePage processingTypePage = new ProcessingTypePage();
-            processingTypePage.BindingContext = selectedProcessingType;
-            await Navigation.PushAsync(processingTypePage);
-        }
-
-        // обработка нажатия кнопки добавления
-        private async void CreateButton(object sender, EventArgs e)
-        {
-            ProcessingType processingType = new ProcessingType();
-            ProcessingTypePage processingTypePage = new ProcessingTypePage();
-            processingTypePage.BindingContext = processingType;
-            await Navigation.PushAsync(processingTypePage);
         }
     }
 }

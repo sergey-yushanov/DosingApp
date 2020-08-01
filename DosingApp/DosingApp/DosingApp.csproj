@@ -40,6 +40,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\ProcessingTypePage.xaml.cs">
+      <DependentUpon>ProcessingTypePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ProcessingTypesPage.xaml.cs">
+      <DependentUpon>ProcessingTypesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\FieldsPage.xaml.cs">
       <DependentUpon>FieldsPage.xaml</DependentUpon>
     </Compile>
@@ -90,12 +96,6 @@
     </Compile>
     <Compile Update="Views\TransportsPage.xaml.cs">
       <DependentUpon>TransportsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ProcessingTypesPage.xaml.cs">
-      <DependentUpon>ProcessingTypesPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ProcessingTypePage.xaml.cs">
-      <DependentUpon>ProcessingTypePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

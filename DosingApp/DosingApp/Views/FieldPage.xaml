@@ -14,7 +14,8 @@
                     Placeholder="Введите название поля" 
                     Text="{Binding Name}" />
                 <Label 
-                    Text="Код" />
+                    Text="Код"
+                    TextColor="{StaticResource LabelEntry}"/>
                 <Entry 
                     Placeholder="Введите код поля" 
                     Text="{Binding Code}" />

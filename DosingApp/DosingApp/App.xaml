@@ -9,7 +9,7 @@
 
         <Thickness x:Key="PageMargin">20</Thickness>
 
-        <Color x:Key="LabelEntry">#Accent</Color>
+        <Color x:Key="LabelEntry">#Blue</Color>
 
     </Application.Resources>
 </Application>

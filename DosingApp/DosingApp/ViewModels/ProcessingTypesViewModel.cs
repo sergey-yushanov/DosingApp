@@ -87,6 +87,7 @@ namespace DosingApp.ViewModels
                 db.ProcessingTypes.Attach(processingTypeViewModel.ProcessingType);
                 db.ProcessingTypes.Remove(processingTypeViewModel.ProcessingType);
                 db.SaveChanges();
+                LoadProcessingTypes();
                 Back();
             }
         }
@@ -108,6 +109,7 @@ namespace DosingApp.ViewModels
                 }
                 db.SaveChanges();
             }
+            LoadProcessingTypes();
             Back();
         }
         #endregion Commands

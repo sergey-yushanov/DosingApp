@@ -35,6 +35,7 @@ namespace DosingApp.ViewModels
         public CropsViewModel()
         {
             db = App.GetContext();
+            LoadCrops();
             //CreateCrops();
 
             CreateCommand = new Command(CreateCrop);
@@ -86,6 +87,7 @@ namespace DosingApp.ViewModels
                 db.Crops.Attach(cropViewModel.Crop);
                 db.Crops.Remove(cropViewModel.Crop);
                 db.SaveChanges();
+                LoadCrops();
                 Back();
             }
         }
@@ -106,6 +108,7 @@ namespace DosingApp.ViewModels
                 }
                 db.SaveChanges();
             }
+            LoadCrops();
             Back();
         }
         #endregion Commands

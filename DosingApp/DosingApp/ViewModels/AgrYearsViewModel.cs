@@ -87,6 +87,7 @@ namespace DosingApp.ViewModels
                 db.AgrYears.Attach(agrYearViewModel.AgrYear);
                 db.AgrYears.Remove(agrYearViewModel.AgrYear);
                 db.SaveChanges();
+                LoadAgrYears();
                 Back();
             }
         }
@@ -107,6 +108,7 @@ namespace DosingApp.ViewModels
                 }
                 db.SaveChanges();
             }
+            LoadAgrYears();
             Back();
         }
         #endregion Commands

@@ -32,9 +32,8 @@
                             ItemsSource="{Binding Tanks}"
                             ItemDisplayBinding="{Binding Name}"
                             SelectedItem="{Binding Tank, Mode=TwoWay}" />
-                        <Entry 
+                        <Entry
                             Placeholder="Объем емкости, л" 
-                            IsReadOnly="True"
                             Text="{Binding Volume}" />
                     </StackLayout>
                     <StackLayout>
@@ -76,9 +75,6 @@
                                             <Entry 
                                                 Placeholder="Введите название емкости" 
                                                 Text="{Binding Name}" />
-                                            <Entry 
-                                                Placeholder="Введите объем емкости" 
-                                                Text="{Binding Volume}" />
                                         </StackLayout>
                                     </ViewCell.View>
                                 </ViewCell>

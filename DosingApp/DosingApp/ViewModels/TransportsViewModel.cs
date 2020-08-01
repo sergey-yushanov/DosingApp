@@ -35,6 +35,7 @@ namespace DosingApp.ViewModels
         public TransportsViewModel()
         {
             db = App.GetContext();
+            LoadTransports();
             //CreateTransports();
 
             CreateCommand = new Command(CreateTransport);
@@ -80,6 +81,7 @@ namespace DosingApp.ViewModels
                 db.Transports.Attach(transportViewModel.Transport);
                 db.Transports.Remove(transportViewModel.Transport);
                 db.SaveChanges();
+                LoadTransports();
                 Back();
             }
         }
@@ -101,6 +103,7 @@ namespace DosingApp.ViewModels
                 }
                 db.SaveChanges();
             }
+            LoadTransports();
             Back();
         }
         #endregion Commands

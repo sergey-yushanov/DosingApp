@@ -25,10 +25,10 @@ namespace DosingApp.ViewModels
         public ObservableCollection<Field> Fields { get; set; }
         private Field selectedField;
 
-        public ICommand CreateCommand { protected set; get; }
-        public ICommand DeleteCommand { protected set; get; }
-        public ICommand SaveCommand { protected set; get; }
-        public ICommand BackCommand { protected set; get; }
+        public ICommand CreateCommand { get; protected set; }
+        public ICommand DeleteCommand { get; protected set; }
+        public ICommand SaveCommand { get; protected set; }
+        public ICommand BackCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor

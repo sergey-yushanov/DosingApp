@@ -87,9 +87,9 @@ namespace DosingApp.ViewModels
                 db.Fields.Attach(fieldViewModel.Field);
                 db.Fields.Remove(fieldViewModel.Field);
                 db.SaveChanges();
-                LoadFields();
-                Back();
             }
+            LoadFields();
+            Back();
         }
 
         private void SaveField(object fieldInstance)

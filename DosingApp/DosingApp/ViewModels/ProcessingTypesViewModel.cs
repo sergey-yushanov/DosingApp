@@ -87,9 +87,9 @@ namespace DosingApp.ViewModels
                 db.ProcessingTypes.Attach(processingTypeViewModel.ProcessingType);
                 db.ProcessingTypes.Remove(processingTypeViewModel.ProcessingType);
                 db.SaveChanges();
-                LoadProcessingTypes();
-                Back();
             }
+            LoadProcessingTypes();
+            Back();
         }
 
         private void SaveProcessingType(object processingTypeInstance)

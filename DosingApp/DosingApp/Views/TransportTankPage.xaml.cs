@@ -13,10 +13,10 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class TransportPage : ContentPage
+    public partial class TransportTankPage : ContentPage
     {
-        public TransportViewModel ViewModel { get; private set; }
-        public TransportPage(TransportViewModel viewModel)
+        public TransportTankViewModel ViewModel { get; private set; }
+        public TransportTankPage(TransportTankViewModel viewModel)
         {
             InitializeComponent();
             ViewModel = viewModel;

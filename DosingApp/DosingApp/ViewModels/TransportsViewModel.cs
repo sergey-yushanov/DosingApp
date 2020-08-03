@@ -22,7 +22,7 @@ namespace DosingApp.ViewModels
         #endregion Services
 
         #region Attributes
-        public ObservableCollection<Transport> Transports { get; set; }
+        private ObservableCollection<Transport> transports;
         private Transport selectedTransport;
 
         public ICommand CreateCommand { get; protected set; }
@@ -46,6 +46,12 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public ObservableCollection<Transport> Transports
+        {
+            get { return transports; }
+            set { SetProperty(ref transports, value); }
+        }
+
         public Transport SelectedTransport
         {
             get { return selectedTransport; }
@@ -81,9 +87,9 @@ namespace DosingApp.ViewModels
                 db.Transports.Attach(transportViewModel.Transport);
                 db.Transports.Remove(transportViewModel.Transport);
                 db.SaveChanges();
-                LoadTransports();
-                Back();
             }
+            LoadTransports();
+            Back();
         }
 
         private void SaveTransport(object transportInstance)
@@ -93,7 +99,6 @@ namespace DosingApp.ViewModels
             {
                 if (transportViewModel.Transport.TransportId == 0)
                 {
-                    //db.Transports.Add(transportViewModel.Transport);
                     db.Entry(transportViewModel.Transport).State = EntityState.Added;
                 }
                 else

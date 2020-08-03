@@ -87,9 +87,9 @@ namespace DosingApp.ViewModels
                 db.AgrYears.Attach(agrYearViewModel.AgrYear);
                 db.AgrYears.Remove(agrYearViewModel.AgrYear);
                 db.SaveChanges();
-                LoadAgrYears();
-                Back();
             }
+            LoadAgrYears();
+            Back();
         }
 
         private void SaveAgrYear(object agrYearInstance)

@@ -4,17 +4,17 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.TransportsPage"
-             Title="Список транспортов">
+             x:Class="DosingApp.Views.TransportTanksPage"
+             Title="Список емкостей транспорта">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">
-                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
+                <Button Text="Добавить" Command="{Binding CreateTankCommand}"/>
 
-                <ListView
-                    x:Name="transportsList"
-                    ItemsSource="{Binding Transports}"
-                    SelectedItem="{Binding SelectedTransport, Mode=TwoWay}">
+                <ListView 
+                    x:Name="transportTanksList"
+                    ItemsSource="{Binding Tanks}"
+                    SelectedItem="{Binding SelectedTank, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

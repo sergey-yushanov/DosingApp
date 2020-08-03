@@ -20,16 +20,5 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new TransportsViewModel();
         }
-
-        protected override void OnAppearing()
-        {
-            var TransportsViewModel = (TransportsViewModel)BindingContext;
-            using (AppDbContext db = App.GetContext())
-            {
-                TransportsViewModel.LoadTransports();
-                transportsList.ItemsSource = TransportsViewModel.Transports;
-            }
-            base.OnAppearing();
-        }
     }
 }

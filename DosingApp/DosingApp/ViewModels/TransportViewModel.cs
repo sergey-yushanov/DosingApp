@@ -1,6 +1,7 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Services;
+using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,18 @@ namespace DosingApp.ViewModels
         #region Attributes
         TransportsViewModel transportsViewModel;
         public Transport Transport { get; private set; }
+
         private ObservableCollection<TransportTank> tanks;
+        private TransportTank selectedTank;
+        
+        //private TransportTank tank;
+
+        public ICommand EditTanksCommand { get; protected set; }
 
         public ICommand CreateTankCommand { get; protected set; }
         public ICommand DeleteTankCommand { get; protected set; }
         public ICommand SaveTankCommand { get; protected set; }
+        public ICommand BackCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -33,16 +41,38 @@ namespace DosingApp.ViewModels
         {
             db = App.GetContext();
             Transport = transport;
-            Tanks = new ObservableCollection<TransportTank>();
             LoadTanks();
 
+            EditTanksCommand = new Command(EditTanks);
             CreateTankCommand = new Command(CreateTank);
             DeleteTankCommand = new Command(DeleteTank);
             SaveTankCommand = new Command(SaveTank);
+            BackCommand = new Command(Back);
         }
         #endregion Constructor
 
         #region Properties
+        public ObservableCollection<TransportTank> Tanks
+        {
+            get { return tanks; }
+            set { SetProperty(ref tanks, value); }
+        }
+
+        public TransportTank SelectedTank
+        {
+            get { return selectedTank; }
+            set
+            {
+                if (selectedTank != value)
+                {
+                    TransportTankViewModel tempTank = new TransportTankViewModel(value) { TransportViewModel = this };
+                    selectedTank = null;
+                    OnPropertyChanged(nameof(SelectedTank));
+                    Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(tempTank));
+                }
+            }
+        }
+
         public TransportsViewModel TransportsViewModel
         {
             get { return transportsViewModel; }
@@ -75,25 +105,25 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public ObservableCollection<TransportTank> Tanks
-        {
-            get { return tanks; }
-            set { SetProperty(ref tanks, value); }
-        }
-
 /*        public TransportTank Tank
         {
-            get { return Transport.Tank; }
+            get { return tank; }
+            set { SetProperty(ref tank, value); }
+        }*/
+
+        public float Volume
+        {
+            get { return Transport.Volume; }
             set
             {
-                if (Transport.Tank != value)
+                if (Transport.Volume != value)
                 {
-                    Transport.Tank = value;
-                    OnPropertyChanged(nameof(Tank));
+                    Transport.Volume = value;
+                    OnPropertyChanged(nameof(Number));
                 }
             }
         }
-*/
+
         public bool IsValid
         {
             get { return (!string.IsNullOrEmpty(Name)); }
@@ -101,54 +131,68 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
+        private void Back()
+        {
+            Application.Current.MainPage.Navigation.PopAsync();
+        }
+
+        private void EditTanks()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new TransportTanksPage(this));
+        }
+
         private void CreateTank()
         {
-            TransportTank tank = new TransportTank();// { Transport = this.Transport };
-            Tanks.Add(tank);
-
-            //db.Entry(tank).State = EntityState.Added;
-            //db.SaveChanges();
+            Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(new TransportTankViewModel(new TransportTank()) { TransportViewModel = this }));
         }
 
-        private void DeleteTank(object transportInstance)
+        private void DeleteTank(object tankInstance)
         {
-            /*TransportViewModel transportViewModel = transportInstance as TransportViewModel;
-            if (transportViewModel.Transport != null && transportViewModel.Transport.TransportId != 0)
+            TransportTankViewModel transportTankViewModel = tankInstance as TransportTankViewModel;
+            if (transportTankViewModel != null)
             {
-                db.Transports.Attach(transportViewModel.Transport);
-                db.Transports.Remove(transportViewModel.Transport);
-                db.SaveChanges();
-                Back();
-            }*/
-        }
-
-        private void SaveTank(object transportInstance)
-        {
-            /*TransportViewModel transportViewModel = transportInstance as TransportViewModel;
-            if (transportViewModel.Transport != null && transportViewModel.IsValid)
-            {
-                if (transportViewModel.Transport.TransportId == 0)
-                {
-                    //db.Transports.Add(transportViewModel.Transport);
-                    db.Entry(transportViewModel.Transport).State = EntityState.Added;
-                }
-                else
-                {
-                    db.Transports.Attach(transportViewModel.Transport);
-                    db.Transports.Update(transportViewModel.Transport);
-                }
-                db.SaveChanges();
+                Tanks.Remove(transportTankViewModel.Tank);
             }
-            Back();*/
+            Back();
+        }
+
+        private void SaveTank(object tankInstance)
+        {
+            TransportTankViewModel transportTankViewModel = tankInstance as TransportTankViewModel;
+            if (transportTankViewModel != null && transportTankViewModel.IsValid)
+            {
+                Tanks.Add(transportTankViewModel.Tank);
+            }
+            Back();
         }
         #endregion Commands
 
         #region Methods
         public void LoadTanks()
         {
-            //var tanksDB = db.TransportTanks.Where(t => t.TransportId == Transport.TransportId).ToList();
-            //Tanks = new ObservableCollection<TransportTank>(tanksDB);
+            var tanksDB = db.TransportTanks.Where(t => t.TransportId == Transport.TransportId).ToList();
+            Tanks = new ObservableCollection<TransportTank>(tanksDB);
         }
+
+        /*private void SetUsedTank(TransportTank tank)
+        {
+            if (!Tanks.Contains(tank))
+            {
+                throw new ArgumentException("Tank is not in list");
+            }
+            var currentUsedTank = GetUsedTank();
+            if (currentUsedTank != null)
+            {
+                currentUsedTank.IsUsedTank = false;
+            }
+            tank.IsUsedTank = true;
+        }
+
+        private TransportTank GetUsedTank()
+        {
+            var currentUsedTank = Tanks.FirstOrDefault(tt => tt.IsUsedTank == true);
+            return currentUsedTank;
+        }*/
         #endregion Methods
     }
 }

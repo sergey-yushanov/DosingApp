@@ -87,9 +87,9 @@ namespace DosingApp.ViewModels
                 db.Crops.Attach(cropViewModel.Crop);
                 db.Crops.Remove(cropViewModel.Crop);
                 db.SaveChanges();
-                LoadCrops();
-                Back();
             }
+            LoadCrops();
+            Back();
         }
 
         private void SaveCrop(object cropInstance)

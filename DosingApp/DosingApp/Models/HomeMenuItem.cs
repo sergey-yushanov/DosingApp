@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace DosingApp.Models
@@ -21,18 +22,18 @@ namespace DosingApp.Models
         Users
     }
 
-    public enum MenuItemAccess
+    public static class MenuItemGroup
     {
-        MainMenu,
-        MainParams,
-        AdditionalParams,
-        Admin
+        public static string MainMenu = "Главное меню";
+        public static string MainParams = "Основные параметры";
+        public static string AdditionalParams = "Дополнительные параметры";
+        public static string AdminParams = "Инженерное меню";
     }
 
-    class HomeMenuItem
+    public class HomeMenuItem
     {
         public MenuItemType Id { get; set; }
-        public MenuItemAccess Access { get; set; }
+        public string Group { get; set; }
         public string Title { get; set; }
         public string Icon { get; set; }
     }

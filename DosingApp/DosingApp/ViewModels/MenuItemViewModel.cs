@@ -11,7 +11,7 @@ namespace DosingApp.ViewModels
         //public HomeMenuItem HomeMenuItem { get; set; }
 
         public MenuItemType Id { get; set; }
-        public MenuItemAccess Access { get; set; }
+        public string Group { get; set; }
         public string Title { get; set; }
         public string Icon { get; set; }
         public bool IsSeparatorVisible { get; set; }

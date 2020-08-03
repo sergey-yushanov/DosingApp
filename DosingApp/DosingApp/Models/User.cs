@@ -17,6 +17,6 @@ namespace DosingApp.Models
         public bool AccessMainMenu { get; set; }
         public bool AccessMainParams { get; set; }
         public bool AccessAdditionalParams { get; set; }
-        public bool AccessAdmin { get; set; }
+        public bool AccessAdminParams { get; set; }
     }
 }

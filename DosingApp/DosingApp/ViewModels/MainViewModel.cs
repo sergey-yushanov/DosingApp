@@ -29,9 +29,6 @@ namespace DosingApp.ViewModels
         public ObservableCollection<MenuGrouping<string, MenuItemViewModel>> MenuGroups { get; private set; }
 
         private ObservableCollection<MenuItemViewModel> mainMenu;
-        //private ObservableCollection<MenuItemViewModel> mainParams;
-        //private ObservableCollection<MenuItemViewModel> additionalParams;
-        //private ObservableCollection<MenuItemViewModel> adminParams;
         private bool accessMainParams;
         private bool accessAdditionalParams;
         private bool accessAdminParams;
@@ -43,24 +40,6 @@ namespace DosingApp.ViewModels
             get { return this.mainMenu; }
             set { SetProperty(ref this.mainMenu, value); }
         }
-
-/*        public ObservableCollection<MenuItemViewModel> MainParams
-        {
-            get { return this.mainParams; }
-            set { SetProperty(ref this.mainParams, value); }
-        }
-
-        public ObservableCollection<MenuItemViewModel> AdditionalParams
-        {
-            get { return this.additionalParams; }
-            set { SetProperty(ref this.additionalParams, value); }
-        }
-
-        public ObservableCollection<MenuItemViewModel> AdminParams
-        {
-            get { return this.adminParams; }
-            set { SetProperty(ref this.adminParams, value); }
-        }*/
 
         public bool AccessMainParams
         {

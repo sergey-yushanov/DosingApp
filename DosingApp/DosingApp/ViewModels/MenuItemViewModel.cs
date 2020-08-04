@@ -8,15 +8,10 @@ namespace DosingApp.ViewModels
     public class MenuItemViewModel
     {
         #region Attributes
-        //public HomeMenuItem HomeMenuItem { get; set; }
-
         public MenuItemType Id { get; set; }
         public string Group { get; set; }
         public string Title { get; set; }
         public string Icon { get; set; }
-        public bool IsSeparatorVisible { get; set; }
-
-        //List<MenuItem> menuItems;
         #endregion Attributes
 
         #region Commands

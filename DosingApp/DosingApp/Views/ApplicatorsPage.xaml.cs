@@ -18,34 +18,7 @@ namespace DosingApp.Views
         public ApplicatorsPage()
         {
             InitializeComponent();
-        }
-
-        protected override void OnAppearing()
-        {
-            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
-            using (AppDbContext db = new AppDbContext(dbPath))
-            {
-                itemsList.ItemsSource = db.Applicators.ToList();
-            }
-            base.OnAppearing();
-        }
-
-        // обработка нажатия элемента в списке
-        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Applicator selectedApplicator = (Applicator)e.SelectedItem;
-            ApplicatorPage applicatorPage = new ApplicatorPage();
-            applicatorPage.BindingContext = selectedApplicator;
-            await Navigation.PushAsync(applicatorPage);
-        }
-
-        // обработка нажатия кнопки добавления
-        private async void CreateButton(object sender, EventArgs e)
-        {
-            Applicator applicator = new Applicator();
-            ApplicatorPage applicatorPage = new ApplicatorPage();
-            applicatorPage.BindingContext = applicator;
-            await Navigation.PushAsync(applicatorPage);
+            BindingContext = new ApplicatorsViewModel();
         }
     }
 }

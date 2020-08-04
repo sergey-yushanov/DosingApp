@@ -7,22 +7,48 @@
              x:Class="DosingApp.Views.ApplicatorPage"
              Title="Аппликатор">
     <ContentPage.Content>
-        <StackLayout Margin="{StaticResource PageMargin}">
-            <StackLayout>
-                <Label Text="Название" />
-                <Entry Placeholder="Введите название аппликатора" Text="{Binding Name}" />
-            </StackLayout>
-            <StackLayout>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Button Text="Сохранить" Clicked="SaveButton" />
-                    <Button Grid.Column="1" Text="Удалить" Clicked="DeleteButton" />
-                </Grid>
-            </StackLayout>
+        <ScrollView>
+        
+            <StackLayout Margin="{StaticResource PageMargin}">
+                
+                <StackLayout>
+                    <Label
+                        Text="Название" 
+                        TextColor="{StaticResource LabelEntry}"/>
+                    <Entry 
+                        Placeholder="Введите название аппликатора" 
+                        Text="{Binding Name}" />
 
-        </StackLayout>
+                    <Label 
+                        Text="Емкость"
+                        TextColor="{StaticResource LabelEntry}"/>
+                    <Entry 
+                        Placeholder="Введите название емкости" 
+                        Text="{Binding Tank}" />
+                    <Entry
+                        Placeholder="Объем емкости, л" 
+                        Keyboard="Numeric"
+                        Text="{Binding Volume}"/>
+                
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button 
+                            Text="Сохранить" 
+                            Command="{Binding ApplicatorsViewModel.SaveCommand}" 
+                            CommandParameter="{Binding}" />
+                        <Button 
+                            Grid.Column="1" 
+                            Text="Удалить" 
+                            Command="{Binding ApplicatorsViewModel.DeleteCommand}" 
+                            CommandParameter="{Binding}" />
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

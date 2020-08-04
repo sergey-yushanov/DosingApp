@@ -11,21 +11,24 @@
             <StackLayout>
                 
                 <Label 
-                    Text="Имя пользователя" />
+                    Text="Имя пользователя"
+                    TextColor="{StaticResource LabelEntry}"/>
                 <Entry 
                     x:Name="userEntry"
                     Placeholder="Введите имя пользователя" 
                     Text="{Binding Username}" />
                 
                 <Label 
-                    Text="Пароль" />
+                    Text="Пароль"
+                    TextColor="{StaticResource LabelEntry}"/>
                 <Entry 
                     x:Name="passwordEntry"
                     Placeholder="Введите пароль"
                     IsPassword="True" />
                 
                 <Label 
-                    Text="Имя для отбражения" />
+                    Text="Имя для отображения"
+                    TextColor="{StaticResource LabelEntry}"/>
                 <Entry 
                     Placeholder="Введите имя для отображения" 
                     Text="{Binding DisplayName}" />
@@ -34,11 +37,10 @@
                 <StackLayout
                     Orientation="Vertical"
                     Spacing="10">
-                    <BoxView HeightRequest="1" Color="#00000" IsVisible="True" />
+
                     <Label
-                        Text="Уровни доступа"/>
-                    <BoxView HeightRequest="1" Color="#00000" IsVisible="True" />
-                
+                        Text="Уровни доступа"
+                        TextColor="{StaticResource LabelEntry}"/>
 
                     <StackLayout Orientation="Horizontal">
                         <Label 

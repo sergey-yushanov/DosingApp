@@ -6,7 +6,7 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
-            Margin="{StaticResource PageMargin}">
+                Margin="{StaticResource PageMargin}">
                 <StackLayout>
                     <Label 
                         Text="Название"

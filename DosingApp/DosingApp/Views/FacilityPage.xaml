@@ -7,33 +7,60 @@
              x:Class="DosingApp.Views.FacilityPage"
              Title="Объект">
     <ContentPage.Content>
-        <StackLayout Margin="{StaticResource PageMargin}">
-            <StackLayout>
-                <Label Text="Название" />
-                <Entry Placeholder="Введите название объекта" Text="{Binding Name}" />
-                <Label Text="Тип объекта" />
-                <Picker SelectedItem="{Binding Type}">
-                    <Picker.Items>
-                        <x:String>Склад</x:String>
-                        <x:String>Отгрузка</x:String>
-                    </Picker.Items>
-                </Picker>
-                <Label Text="Адрес" />
-                <Entry Placeholder="Введите адрес объекта" Text="{Binding Address}" />
-                <Label Text="Код" />
-                <Entry Placeholder="Введите код объекта" Text="{Binding Code}" />
-            </StackLayout>
-            <StackLayout>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Button Text="Сохранить" Clicked="SaveButton" />
-                    <Button Grid.Column="1" Text="Удалить" Clicked="DeleteButton" />
-                </Grid>
-            </StackLayout>
+        <ScrollView>
+            <StackLayout 
+                Margin="{StaticResource PageMargin}">
 
-        </StackLayout>
+                <StackLayout>
+                    <Label 
+                        Text="Название" 
+                        TextColor="{StaticResource LabelEntry}"/>
+                    <Entry 
+                        Placeholder="Введите название объекта" 
+                        Text="{Binding Name}" />
+                    <Label 
+                        Text="Тип объекта" 
+                        TextColor="{StaticResource LabelEntry}"/>
+                    <Picker 
+                        Title="Выберите тип объекта"
+                        SelectedItem="{Binding Type}">
+                        <Picker.Items>
+                            <x:String>Склад</x:String>
+                            <x:String>Отгрузка</x:String>
+                        </Picker.Items>
+                    </Picker>
+                    <Label 
+                        Text="Адрес" 
+                        TextColor="{StaticResource LabelEntry}"/>
+                    <Entry 
+                        Placeholder="Введите адрес объекта" 
+                        Text="{Binding Address}" />
+                    <Label 
+                        Text="Код" 
+                        TextColor="{StaticResource LabelEntry}"/>
+                    <Entry 
+                        Placeholder="Введите код объекта" 
+                        Text="{Binding Code}" />
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button 
+                            Text="Сохранить" 
+                            Command="{Binding FacilitiesViewModel.SaveCommand}" 
+                            CommandParameter="{Binding}" />
+                        <Button 
+                            Grid.Column="1" 
+                            Text="Удалить" 
+                            Command="{Binding FacilitiesViewModel.DeleteCommand}" 
+                            CommandParameter="{Binding}" />
+                    </Grid>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

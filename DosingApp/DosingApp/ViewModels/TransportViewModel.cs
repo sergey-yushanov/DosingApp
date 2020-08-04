@@ -41,18 +41,18 @@ namespace DosingApp.ViewModels
         {
             db = App.GetContext();
             Transport = transport;
-            LoadTanks();
+            //LoadTanks();
 
-            EditTanksCommand = new Command(EditTanks);
+/*            EditTanksCommand = new Command(EditTanks);
             CreateTankCommand = new Command(CreateTank);
             DeleteTankCommand = new Command(DeleteTank);
-            SaveTankCommand = new Command(SaveTank);
+            SaveTankCommand = new Command(SaveTank);*/
             BackCommand = new Command(Back);
         }
         #endregion Constructor
 
         #region Properties
-        public ObservableCollection<TransportTank> Tanks
+/*        public ObservableCollection<TransportTank> Tanks
         {
             get { return tanks; }
             set { SetProperty(ref tanks, value); }
@@ -71,7 +71,7 @@ namespace DosingApp.ViewModels
                     Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(tempTank));
                 }
             }
-        }
+        }*/
 
         public TransportsViewModel TransportsViewModel
         {
@@ -105,11 +105,18 @@ namespace DosingApp.ViewModels
             }
         }
 
-/*        public TransportTank Tank
+        public string Tank
         {
-            get { return tank; }
-            set { SetProperty(ref tank, value); }
-        }*/
+            get { return Transport.Tank; }
+            set
+            {
+                if (Transport.Tank != value)
+                {
+                    Transport.Tank = value;
+                    OnPropertyChanged(nameof(Tank));
+                }
+            }
+        }
 
         public float Volume
         {
@@ -119,7 +126,7 @@ namespace DosingApp.ViewModels
                 if (Transport.Volume != value)
                 {
                     Transport.Volume = value;
-                    OnPropertyChanged(nameof(Number));
+                    OnPropertyChanged(nameof(Volume));
                 }
             }
         }
@@ -136,7 +143,7 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void EditTanks()
+/*        private void EditTanks()
         {
             Application.Current.MainPage.Navigation.PushAsync(new TransportTanksPage(this));
         }
@@ -165,13 +172,14 @@ namespace DosingApp.ViewModels
             }
             Back();
         }
+*/        
         #endregion Commands
 
         #region Methods
         public void LoadTanks()
         {
-            var tanksDB = db.TransportTanks.Where(t => t.TransportId == Transport.TransportId).ToList();
-            Tanks = new ObservableCollection<TransportTank>(tanksDB);
+/*            var tanksDB = db.TransportTanks.Where(t => t.TransportId == Transport.TransportId).ToList();
+            Tanks = new ObservableCollection<TransportTank>(tanksDB);*/
         }
 
         /*private void SetUsedTank(TransportTank tank)

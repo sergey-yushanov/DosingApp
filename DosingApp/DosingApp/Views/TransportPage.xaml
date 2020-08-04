@@ -25,18 +25,21 @@
                     <Label 
                         Text="Емкость"
                         TextColor="{StaticResource LabelEntry}"/>
-                    <Picker 
+                    <Entry 
+                        Placeholder="Введите название емкости" 
+                        Text="{Binding Tank}" />
+                    <!--<Picker 
                         x:Name="tanksList"
                         Title="Выберите емкость"
                         ItemsSource="{Binding Tanks}"
                         ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding Tank, Mode=TwoWay}" />
+                        SelectedItem="{Binding Tank, Mode=TwoWay}" />-->
                     <Entry
                         Placeholder="Объем емкости, л" 
                         Keyboard="Numeric"
                         Text="{Binding Volume}"/>
 
-                    <Grid>
+                    <!--<Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -45,7 +48,7 @@
                             Grid.Column="1"
                             Text="Емкости"
                             Command="{Binding EditTanksCommand}" />
-                    </Grid>
+                    </Grid>-->
                 </StackLayout>
                 <StackLayout>
                     <Grid>

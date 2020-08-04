@@ -8,5 +8,6 @@ namespace DosingApp.Models
     {
         public int ApplicatorId { get; set; }
         public string Name { get; set; }
+        public string Tank { get; set; }
     }
 }

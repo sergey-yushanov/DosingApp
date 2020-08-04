@@ -42,17 +42,6 @@
 
                     <StackLayout Orientation="Horizontal">
                         <Label 
-                            Text="Главное меню"
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand" />
-                        <Switch 
-                            x:Name="accessMainMenuSwitch"
-                            IsToggled="{Binding AccessMainMenu}"
-                            HorizontalOptions="End" />
-                    </StackLayout>
-
-                    <StackLayout Orientation="Horizontal">
-                        <Label 
                             Text="Основные параметры"
                             FontSize="Medium"
                             HorizontalOptions="StartAndExpand"/>
@@ -82,8 +71,8 @@
                             FontSize="Medium"
                             HorizontalOptions="StartAndExpand"/>
                         <Switch 
-                            x:Name="accessAdminSwitch"
-                            IsToggled="{Binding AccessAdmin}"
+                            x:Name="accessAdminParamsSwitch"
+                            IsToggled="{Binding AccessAdminParams}"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="End" />
                     </StackLayout>

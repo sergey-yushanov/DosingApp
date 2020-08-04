@@ -20,10 +20,9 @@ namespace DosingApp.Views
         {
             var user = (User)BindingContext;
             userEntry.IsReadOnly = String.Equals(user.Username, App.AdminName);
-            accessMainMenuSwitch.IsEnabled = !String.Equals(user.Username, App.AdminName);
-            accessMainParamsSwitch.IsEnabled = !String.Equals(user.Username, App.AdminName);
-            accessAdditionalParamsSwitch.IsEnabled = !String.Equals(user.Username, App.AdminName);
-            accessAdminSwitch.IsEnabled = !String.Equals(user.Username, App.AdminName);
+            accessMainParamsSwitch.IsEnabled = App.ActiveUser.AccessMainParams && !String.Equals(user.Username, App.AdminName);
+            accessAdditionalParamsSwitch.IsEnabled = App.ActiveUser.AccessAdditionalParams && !String.Equals(user.Username, App.AdminName);
+            accessAdminParamsSwitch.IsEnabled = App.ActiveUser.AccessAdminParams && !String.Equals(user.Username, App.AdminName);
             base.OnAppearing();
         }
 

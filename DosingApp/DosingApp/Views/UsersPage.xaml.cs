@@ -31,6 +31,10 @@ namespace DosingApp.Views
         private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             User selectedUser = (User)e.SelectedItem;
+            if (String.Equals(selectedUser.Username, App.AdminName) && !String.Equals(App.ActiveUser.Username, App.AdminName))
+            {
+                return;
+            }
             UserPage userPage = new UserPage();
             userPage.BindingContext = selectedUser;
             await Navigation.PushAsync(userPage);

@@ -11,6 +11,7 @@ namespace DosingApp.Models
         public string Type { get; set; }
         public string Address { get; set; }
         public string Tank { get; set; }
+        public float Volume { get; set; }
         public string Code { get; set; }
     }
 }

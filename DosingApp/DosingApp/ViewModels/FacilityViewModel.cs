@@ -83,6 +83,19 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public float Volume
+        {
+            get { return Facility.Volume; }
+            set
+            {
+                if (Facility.Volume != value)
+                {
+                    Facility.Volume = value;
+                    OnPropertyChanged(nameof(Volume));
+                }
+            }
+        }
+
         public string Code
         {
             get { return Facility.Code; }

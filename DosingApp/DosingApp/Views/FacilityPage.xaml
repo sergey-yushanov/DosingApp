@@ -10,14 +10,15 @@
         <ScrollView>
             <StackLayout 
                 Margin="{StaticResource PageMargin}">
-
                 <StackLayout>
+                    
                     <Label 
                         Text="Название" 
                         TextColor="{StaticResource LabelEntry}"/>
                     <Entry 
                         Placeholder="Введите название объекта" 
                         Text="{Binding Name}" />
+                    
                     <Label 
                         Text="Тип объекта" 
                         TextColor="{StaticResource LabelEntry}"/>
@@ -29,18 +30,32 @@
                             <x:String>Отгрузка</x:String>
                         </Picker.Items>
                     </Picker>
+                    
                     <Label 
                         Text="Адрес" 
                         TextColor="{StaticResource LabelEntry}"/>
                     <Entry 
                         Placeholder="Введите адрес объекта" 
                         Text="{Binding Address}" />
+
+                    <Label 
+                        Text="Емкость"
+                        TextColor="{StaticResource LabelEntry}"/>
+                    <Entry 
+                        Placeholder="Введите название емкости" 
+                        Text="{Binding Tank}" />
+                    <Entry
+                        Placeholder="Объем емкости, л" 
+                        Keyboard="Numeric"
+                        Text="{Binding Volume}"/>
+                    
                     <Label 
                         Text="Код" 
                         TextColor="{StaticResource LabelEntry}"/>
                     <Entry 
                         Placeholder="Введите код объекта" 
                         Text="{Binding Code}" />
+                    
                 </StackLayout>
                 <StackLayout>
                     <Grid>

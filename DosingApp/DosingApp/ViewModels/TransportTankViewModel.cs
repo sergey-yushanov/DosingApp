@@ -9,37 +9,55 @@ namespace DosingApp.ViewModels
     public class TransportTankViewModel : BaseViewModel
     {
         #region Services
-
+        //private readonly DataService<TransportTank> dataServiceTransportTanks;
         #endregion Services
 
         #region Attributes
-        TransportViewModel transportViewModel;
-        public TransportTank Tank { get; private set; }
+        TransportTanksViewModel transportTanksViewModel;
+        public TransportTank TransportTank { get; private set; }
+        private string title;
         #endregion Attributes
 
         #region Constructor
-        public TransportTankViewModel(TransportTank tank)
+        public TransportTankViewModel(TransportTank transportTank)
         {
-            Tank = tank;
+            TransportTank = transportTank;
         }
         #endregion Constructor
 
         #region Properties
-        public TransportViewModel TransportViewModel
+        public TransportTanksViewModel TransportTanksViewModel
         {
-            get { return transportViewModel; }
-            set { SetProperty(ref transportViewModel, value); }
+            get { return transportTanksViewModel; }
+            set { SetProperty(ref transportTanksViewModel, value); }
         }
 
         public string Name
         {
-            get { return Tank.Name; }
+            get
+            {
+                Title = (TransportTank.TransportTankId == 0) ? "Новая емкость" : "Емкость: " + TransportTank.Name;
+                return TransportTank.Name;
+            }
             set
             {
-                if (Tank.Name != value)
+                if (TransportTank.Name != value)
                 {
-                    Tank.Name = value;
+                    TransportTank.Name = value;
                     OnPropertyChanged(nameof(Name));
+                }
+            }
+        }
+
+        public float? Volume
+        {
+            get { return TransportTank.Volume; }
+            set
+            {
+                if (TransportTank.Volume != value)
+                {
+                    TransportTank.Volume = value;
+                    OnPropertyChanged(nameof(Volume));
                 }
             }
         }
@@ -50,6 +68,12 @@ namespace DosingApp.ViewModels
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
     }

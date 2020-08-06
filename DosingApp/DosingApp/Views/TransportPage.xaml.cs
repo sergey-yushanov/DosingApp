@@ -22,5 +22,11 @@ namespace DosingApp.Views
             ViewModel = viewModel;
             BindingContext = ViewModel;
         }
+
+        protected override void OnAppearing()
+        {
+            var transportViewModel = (TransportViewModel)BindingContext;
+            transportViewModel.LoadTransportTanks();
+        }
     }
 }

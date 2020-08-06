@@ -105,11 +105,17 @@ namespace DosingApp.ViewModels
                 {
                     db.Transports.Attach(transportViewModel.Transport);
                     db.Transports.Update(transportViewModel.Transport);
+                    if (transportViewModel.Transport.TransportTanks != null)
+                    {
+                        db.TransportTanks.AttachRange(transportViewModel.Transport.TransportTanks);
+                        db.TransportTanks.UpdateRange(transportViewModel.Transport.TransportTanks);
+                    }
                 }
                 db.SaveChanges();
             }
             LoadTransports();
-            Back();
+            //transportViewModel.SetIsEditTanksEnabled();
+            //Back();
         }
         #endregion Commands
 
@@ -121,7 +127,7 @@ namespace DosingApp.ViewModels
 
         private void CreateTransports()
         {
-            var transports = new List<Transport>()
+/*            var transports = new List<Transport>()
             {
                 new Transport { Name = "Transport 1", Number = "tr1" },
                 new Transport { Name = "Transport 2", Number = "tr2" },
@@ -129,7 +135,7 @@ namespace DosingApp.ViewModels
             };
 
             db.Transports.AddRange(transports);
-            db.SaveChanges();
+            db.SaveChanges();*/
         }
         #endregion Methods
 

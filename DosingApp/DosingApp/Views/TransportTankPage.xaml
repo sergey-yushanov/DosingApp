@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.TransportTankPage"
-             Title="Емкость транспорта">
+             Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
@@ -14,6 +14,14 @@
                     <Entry 
                         Placeholder="Введите название емкости" 
                         Text="{Binding Name}" />
+
+                    <Label 
+                        Text="Объем, л"
+                        TextColor="{StaticResource LabelEntry}"/>
+                    <Entry 
+                        Placeholder="Введите объем емкости" 
+                        Text="{Binding Volume}" 
+                        Keyboard="Numeric"/>
                 </StackLayout>
                 <StackLayout>
                     <Grid>
@@ -23,12 +31,12 @@
                         </Grid.ColumnDefinitions>
                         <Button 
                             Text="Сохранить" 
-                            Command="{Binding TransportViewModel.SaveTankCommand}" 
+                            Command="{Binding TransportTanksViewModel.SaveCommand}" 
                             CommandParameter="{Binding}" />
                         <Button 
                             Grid.Column="1" 
                             Text="Удалить" 
-                            Command="{Binding TransportViewModel.DeleteTankCommand}" 
+                            Command="{Binding TransportTanksViewModel.DeleteCommand}" 
                             CommandParameter="{Binding}" />
                     </Grid>
                 </StackLayout>

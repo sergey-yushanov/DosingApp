@@ -49,7 +49,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string Tank
+/*        public string Tank
         {
             get { return Applicator.Tank; }
             set
@@ -73,7 +73,7 @@ namespace DosingApp.ViewModels
                     OnPropertyChanged(nameof(Volume));
                 }
             }
-        }
+        }*/
 
         public bool IsValid
         {

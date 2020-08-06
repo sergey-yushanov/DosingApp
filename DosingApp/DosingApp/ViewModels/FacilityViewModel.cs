@@ -75,7 +75,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string Tank
+/*        public string Tank
         {
             get { return Facility.Tank; }
             set
@@ -99,7 +99,7 @@ namespace DosingApp.ViewModels
                     OnPropertyChanged(nameof(Volume));
                 }
             }
-        }
+        }*/
 
         public string Code
         {

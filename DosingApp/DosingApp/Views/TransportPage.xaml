@@ -25,30 +25,21 @@
                     <Label 
                         Text="Емкость транспорта"
                         TextColor="{StaticResource LabelEntry}"/>
-                    <Entry 
-                        Placeholder="Введите название емкости" 
-                        Text="{Binding Tank}" />
-                    <!--<Picker 
-                        x:Name="tanksList"
+                    <Button
+                        Text="Задать емкости"
+                        Command="{Binding EditTanksCommand}"/>
+                    <Picker 
+                        x:Name="transportTanksList"
                         Title="Выберите емкость"
-                        ItemsSource="{Binding Tanks}"
+                        ItemsSource="{Binding TransportTanks}"
                         ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding Tank, Mode=TwoWay}" />-->
+                        SelectedItem="{Binding SelectedTransportTank, Mode=TwoWay}" />
                     <Entry
-                        Placeholder="Введите объем емкости, л"
+                        Placeholder="Объем емкости, л"
                         Keyboard="Numeric"
-                        Text="{Binding Volume}"/>
+                        Text="{Binding Volume}"
+                        IsReadOnly="True"/>
 
-                    <!--<Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Button 
-                            Grid.Column="1"
-                            Text="Емкости"
-                            Command="{Binding EditTanksCommand}" />
-                    </Grid>-->
                 </StackLayout>
                 <StackLayout>
                     <Grid>

@@ -23,17 +23,14 @@ namespace DosingApp.ViewModels
         TransportsViewModel transportsViewModel;
         public Transport Transport { get; private set; }
 
-        private ObservableCollection<TransportTank> tanks;
-        private TransportTank selectedTank;
+        private ObservableCollection<TransportTank> transportTanks;
+        private TransportTank selectedTransportTank;
         private string title;
+        //private bool isEditTanksEnabled;
 
         //private TransportTank tank;
 
         public ICommand EditTanksCommand { get; protected set; }
-
-        public ICommand CreateTankCommand { get; protected set; }
-        public ICommand DeleteTankCommand { get; protected set; }
-        public ICommand SaveTankCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
         #endregion Attributes
 
@@ -42,37 +39,30 @@ namespace DosingApp.ViewModels
         {
             db = App.GetContext();
             Transport = transport;
-            //LoadTanks();
+            //LoadTransportTanks();
+            //SelectedTransportTank = GetUsedTransportTank();
 
-/*            EditTanksCommand = new Command(EditTanks);
-            CreateTankCommand = new Command(CreateTank);
-            DeleteTankCommand = new Command(DeleteTank);
-            SaveTankCommand = new Command(SaveTank);*/
+            EditTanksCommand = new Command(EditTanks);
             BackCommand = new Command(Back);
         }
         #endregion Constructor
 
         #region Properties
-/*        public ObservableCollection<TransportTank> Tanks
+        public ObservableCollection<TransportTank> TransportTanks
         {
-            get { return tanks; }
-            set { SetProperty(ref tanks, value); }
+            get { return transportTanks; }
+            set { SetProperty(ref transportTanks, value); }
         }
 
-        public TransportTank SelectedTank
+        public TransportTank SelectedTransportTank
         {
-            get { return selectedTank; }
+            get { return selectedTransportTank; }
             set
-            {
-                if (selectedTank != value)
-                {
-                    TransportTankViewModel tempTank = new TransportTankViewModel(value) { TransportViewModel = this };
-                    selectedTank = null;
-                    OnPropertyChanged(nameof(SelectedTank));
-                    Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(tempTank));
-                }
+            { 
+                SetProperty(ref selectedTransportTank, value);
+                //SetUsedTransportTank(selectedTransportTank);
             }
-        }*/
+        }
 
         public TransportsViewModel TransportsViewModel
         {
@@ -82,10 +72,10 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get 
+            get
             {
                 Title = (Transport.TransportId == 0) ? "Новый транспорт" : "Транспорт: " + Transport.Name;
-                return Transport.Name; 
+                return Transport.Name;
             }
             set
             {
@@ -110,7 +100,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string Tank
+        /*public string Tank
         {
             get { return Transport.Tank; }
             set
@@ -123,7 +113,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        /*public float? Volume
+        public float? Volume
         {
             get { return Transport.Volume; }
             set
@@ -154,64 +144,59 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-/*        private void EditTanks()
+        private async void EditTanks()
         {
-            Application.Current.MainPage.Navigation.PushAsync(new TransportTanksPage(this));
-        }
-
-        private void CreateTank()
-        {
-            Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(new TransportTankViewModel(new TransportTank()) { TransportViewModel = this }));
-        }
-
-        private void DeleteTank(object tankInstance)
-        {
-            TransportTankViewModel transportTankViewModel = tankInstance as TransportTankViewModel;
-            if (transportTankViewModel != null)
+            if (!IsValid)
             {
-                Tanks.Remove(transportTankViewModel.Tank);
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя транспорта.", "Ok");
+                return;
             }
-            Back();
-        }
-
-        private void SaveTank(object tankInstance)
-        {
-            TransportTankViewModel transportTankViewModel = tankInstance as TransportTankViewModel;
-            if (transportTankViewModel != null && transportTankViewModel.IsValid)
+            
+            if (Transport.TransportId == 0)
             {
-                Tanks.Add(transportTankViewModel.Tank);
+                bool result = await Application.Current.MainPage.DisplayAlert("Предупреждение", "Для перехода к списку емкостей необходимо сохранить транспорт. Выполнить сохранение", "Да", "Нет");
+                if (result)
+                {
+                    TransportsViewModel.SaveCommand.Execute(this);
+                }
             }
-            Back();
+
+            if (Transport.TransportId != 0)
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new TransportTanksPage(this));
+            }
         }
-*/        
         #endregion Commands
 
         #region Methods
-        public void LoadTanks()
+        public void LoadTransportTanks()
         {
-/*            var tanksDB = db.TransportTanks.Where(t => t.TransportId == Transport.TransportId).ToList();
-            Tanks = new ObservableCollection<TransportTank>(tanksDB);*/
+            var transportTanksDB = db.TransportTanks.Where(tt => tt.TransportId == Transport.TransportId).ToList();
+            TransportTanks =  new ObservableCollection<TransportTank>(transportTanksDB);
         }
 
-        /*private void SetUsedTank(TransportTank tank)
+        private void SetUsedTransportTank(TransportTank transportTank)
         {
-            if (!Tanks.Contains(tank))
+            if (transportTank == null)
+                return;
+
+            if (!TransportTanks.Contains(transportTank))
             {
                 throw new ArgumentException("Tank is not in list");
             }
-            var currentUsedTank = GetUsedTank();
-            if (currentUsedTank != null)
+            var currentUsedTransportTank = GetUsedTransportTank();
+            if (currentUsedTransportTank != null)
             {
-                currentUsedTank.IsUsedTank = false;
+                currentUsedTransportTank.IsUsedTank = false;
             }
-            tank.IsUsedTank = true;
+            transportTank.IsUsedTank = true;
         }
 
-        private TransportTank GetUsedTank()
+        private TransportTank GetUsedTransportTank()
         {
-            var currentUsedTank = Tanks.FirstOrDefault(tt => tt.IsUsedTank == true);
-            return currentUsedTank;
-        }*/
+            var currentUsedTransportTank = TransportTanks.FirstOrDefault(tt => tt.IsUsedTank == true);
+            return currentUsedTransportTank;
+        }
         #endregion Methods
     }
 }

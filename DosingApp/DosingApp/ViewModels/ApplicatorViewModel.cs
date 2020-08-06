@@ -15,6 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         ApplicatorsViewModel applicatorsViewModel;
         public Applicator Applicator { get; private set; }
+        private string title;
         #endregion Attributes
 
         #region Constructor
@@ -33,7 +34,11 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get { return Applicator.Name; }
+            get 
+            {
+                Title = (Applicator.ApplicatorId == 0) ? "Новый аппликатор" : "Аппликатор: " + Applicator.Name;
+                return Applicator.Name; 
+            }
             set
             {
                 if (Applicator.Name != value)
@@ -76,6 +81,12 @@ namespace DosingApp.ViewModels
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
     }

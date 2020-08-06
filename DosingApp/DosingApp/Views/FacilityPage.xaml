@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="DosingApp.Views.FacilityPage"
-             Title="Объект">
+             Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 

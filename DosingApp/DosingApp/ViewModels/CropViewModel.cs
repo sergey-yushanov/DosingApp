@@ -15,6 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         CropsViewModel cropsViewModel;
         public Crop Crop { get; private set; }
+        private string title;
         #endregion Attributes
 
         #region Constructor
@@ -33,7 +34,11 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get { return Crop.Name; }
+            get 
+            {
+                Title = (Crop.CropId == 0) ? "Новая культура" : "Культура: " + Crop.Name;
+                return Crop.Name; 
+            }
             set
             {
                 if (Crop.Name != value)
@@ -63,6 +68,12 @@ namespace DosingApp.ViewModels
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
     }

@@ -15,6 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         FacilitiesViewModel facilitiesViewModel;
         public Facility Facility { get; private set; }
+        private string title;
         #endregion Attributes
 
         #region Constructor
@@ -33,7 +34,11 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get { return Facility.Name; }
+            get 
+            {
+                Title = (Facility.FacilityId == 0) ? "Новый объект" : "Объект: " + Facility.Name;
+                return Facility.Name; 
+            }
             set
             {
                 if (Facility.Name != value)
@@ -115,6 +120,12 @@ namespace DosingApp.ViewModels
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
     }

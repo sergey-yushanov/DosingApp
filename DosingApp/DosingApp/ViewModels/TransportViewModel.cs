@@ -25,7 +25,8 @@ namespace DosingApp.ViewModels
 
         private ObservableCollection<TransportTank> tanks;
         private TransportTank selectedTank;
-        
+        private string title;
+
         //private TransportTank tank;
 
         public ICommand EditTanksCommand { get; protected set; }
@@ -81,7 +82,11 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get { return Transport.Name; }
+            get 
+            {
+                Title = (Transport.TransportId == 0) ? "Новый транспорт" : "Транспорт: " + Transport.Name;
+                return Transport.Name; 
+            }
             set
             {
                 if (Transport.Name != value)
@@ -134,6 +139,12 @@ namespace DosingApp.ViewModels
         public bool IsValid
         {
             get { return (!string.IsNullOrEmpty(Name)); }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
 

@@ -15,6 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         ProcessingTypesViewModel processingTypesViewModel;
         public ProcessingType ProcessingType { get; private set; }
+        private string title;
         #endregion Attributes
 
         #region Constructor
@@ -33,7 +34,11 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get { return ProcessingType.Name; }
+            get 
+            {
+                Title = (ProcessingType.ProcessingTypeId == 0) ? "Новый вид обработки" : "Вид обработки: " + ProcessingType.Name;
+                return ProcessingType.Name; 
+            }
             set
             {
                 if (ProcessingType.Name != value)
@@ -63,6 +68,12 @@ namespace DosingApp.ViewModels
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
     }

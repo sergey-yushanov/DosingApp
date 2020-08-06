@@ -15,6 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         ComponentsViewModel componentsViewModel;
         public Component Component { get; private set; }
+        private string title;
         #endregion Attributes
 
         #region Constructor
@@ -33,7 +34,11 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get { return Component.Name; }
+            get
+            {
+                Title = (Component.ComponentId == 0) ? "Новый компонент" : "Компонент: " + Component.Name;
+                return Component.Name; 
+            }
             set
             {
                 if (Component.Name != value)
@@ -89,6 +94,12 @@ namespace DosingApp.ViewModels
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
     }

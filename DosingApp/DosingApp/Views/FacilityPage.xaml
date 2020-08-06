@@ -39,7 +39,7 @@
                         Text="{Binding Address}" />
 
                     <Label 
-                        Text="Емкость"
+                        Text="Емкость объекта"
                         TextColor="{StaticResource LabelEntry}"/>
                     <Entry 
                         Placeholder="Введите название емкости" 

@@ -20,7 +20,7 @@
                         Text="{Binding Name}" />
 
                     <Label 
-                        Text="Емкость"
+                        Text="Емкость аппликатора"
                         TextColor="{StaticResource LabelEntry}"/>
                     <Entry 
                         Placeholder="Введите название емкости" 

@@ -23,7 +23,7 @@
                         Text="{Binding Number}" />
 
                     <Label 
-                        Text="Емкость"
+                        Text="Емкость транспорта"
                         TextColor="{StaticResource LabelEntry}"/>
                     <Entry 
                         Placeholder="Введите название емкости" 
@@ -35,7 +35,7 @@
                         ItemDisplayBinding="{Binding Name}"
                         SelectedItem="{Binding Tank, Mode=TwoWay}" />-->
                     <Entry
-                        Placeholder="Объем емкости, л" 
+                        Placeholder="Введите объем емкости, л"
                         Keyboard="Numeric"
                         Text="{Binding Volume}"/>
 

@@ -118,7 +118,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public float Volume
+        /*public float? Volume
         {
             get { return Transport.Volume; }
             set
@@ -129,7 +129,7 @@ namespace DosingApp.ViewModels
                     OnPropertyChanged(nameof(Volume));
                 }
             }
-        }
+        }*/
 
         public bool IsValid
         {

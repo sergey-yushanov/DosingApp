@@ -12,8 +12,7 @@ namespace DosingApp.Models
         public string Name { get; set; }
         public string Number { get; set; }
         public string Tank { get; set; }
-        public float Volume { get; set; }
 
-        public virtual List<TransportTank> Tanks { get; set; }
+        public virtual List<TransportTank> TransportTanks { get; set; }
     }
 }

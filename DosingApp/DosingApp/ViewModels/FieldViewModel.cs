@@ -37,7 +37,7 @@ namespace DosingApp.ViewModels
             get
             {
                 Title = (Field.FieldId == 0) ? "Новое поле" : "Поле: " + Field.Name;
-                return Field.Name; 
+                return Field.Name;
             }
             set
             {

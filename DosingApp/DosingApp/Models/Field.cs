@@ -11,5 +11,6 @@ namespace DosingApp.Models
         [Required]
         public string Name { get; set; }
         public string Code { get; set; }
+        public float? Size { get; set; }
     }
 }

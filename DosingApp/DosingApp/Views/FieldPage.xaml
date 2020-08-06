@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.FieldPage"
-             Title="Поле">
+             Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
@@ -20,6 +20,13 @@
                     <Entry 
                         Placeholder="Введите код поля" 
                         Text="{Binding Code}" />
+                    <Label 
+                        Text="Размер, га"
+                        TextColor="{StaticResource LabelEntry}"/>
+                    <Entry 
+                        Placeholder="Введите размер поля" 
+                        Text="{Binding Size}" 
+                        Keyboard="Numeric"/>
                 </StackLayout>
                 <StackLayout>
                     <Grid>

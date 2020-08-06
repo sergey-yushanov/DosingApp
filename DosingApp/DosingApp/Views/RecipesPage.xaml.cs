@@ -18,7 +18,7 @@ namespace DosingApp.Views
         public RecipesPage()
         {
             InitializeComponent();
-            BindingContext = new RecipesViewModel();
+            //BindingContext = new RecipesViewModel();
         }
     }
 }

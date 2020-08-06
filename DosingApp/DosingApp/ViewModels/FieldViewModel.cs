@@ -15,6 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         FieldsViewModel fieldsViewModel;
         public Field Field { get; private set; }
+        private string title;
         #endregion Attributes
 
         #region Constructor
@@ -33,7 +34,11 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get { return Field.Name; }
+            get
+            {
+                Title = (Field.FieldId == 0) ? "Новое поле" : "Поле: " + Field.Name;
+                return Field.Name; 
+            }
             set
             {
                 if (Field.Name != value)
@@ -57,12 +62,31 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public float? Size
+        {
+            get { return Field.Size; }
+            set
+            {
+                if (Field.Size != value)
+                {
+                    Field.Size = value;
+                    OnPropertyChanged(nameof(Size));
+                }
+            }
+        }
+
         public bool IsValid
         {
             get
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
     }

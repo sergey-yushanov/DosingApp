@@ -10,28 +10,9 @@
         
         <StackLayout Margin="{StaticResource PageMargin}">
         
-            <Button 
-                Text="Добавить" 
-                Clicked="CreateButton" />
+
             
-            <ListView 
-                x:Name="recipesList" 
-                ItemSelected="OnItemSelected">
-                
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label 
-                                        Text="{Binding Name}" 
-                                        FontSize="Medium" />
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

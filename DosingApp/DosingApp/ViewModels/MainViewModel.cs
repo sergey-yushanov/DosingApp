@@ -77,24 +77,24 @@ namespace DosingApp.ViewModels
             this.MainMenu = new ObservableCollection<MenuItemViewModel>();
             this.MainMenu.Clear();
             this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Mixtures, Group = MenuItemGroup.MainMenu, Title = "Сделать смесь" } );
-            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Reports, Group = MenuItemGroup.MainMenu, Title = "Отчеты" });
+            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Reports, Group = MenuItemGroup.MainMenu, Title = "Отчетность" });
 
             if (AccessMainParams)
             { 
-                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Assignments, Group = MenuItemGroup.MainParams, Title = "Задания" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Assignments, Group = MenuItemGroup.MainParams, Title = "Задания на смешивание" });
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Recipes, Group = MenuItemGroup.MainParams, Title = "Рецепты" });
-                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Components, Group = MenuItemGroup.MainParams, Title = "Компоненты" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Components, Group = MenuItemGroup.MainParams, Title = "Компоненты смеси" });
             }
 
             if (AccessAdditionalParams)
             {
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Applicators, Group = MenuItemGroup.AdditionalParams, Title = "Аппликаторы" });
-                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Facilities, Group = MenuItemGroup.AdditionalParams, Title = "Объекты" });
-                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Transports, Group = MenuItemGroup.AdditionalParams, Title = "Транспорты" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Facilities, Group = MenuItemGroup.AdditionalParams, Title = "Стационарные объекты" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Transports, Group = MenuItemGroup.AdditionalParams, Title = "Транспорт" });
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Crops, Group = MenuItemGroup.AdditionalParams, Title = "Культуры" });
-                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.ProcessingTypes, Group = MenuItemGroup.AdditionalParams, Title = "Виды обработки" });
-                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.AgrYears, Group = MenuItemGroup.AdditionalParams, Title = "Сельхоз. годы" });
-                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Fields, Group = MenuItemGroup.AdditionalParams, Title = "Поля" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.ProcessingTypes, Group = MenuItemGroup.AdditionalParams, Title = "Вид обработки" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.AgrYears, Group = MenuItemGroup.AdditionalParams, Title = "Сельскохозяйственный год" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Fields, Group = MenuItemGroup.AdditionalParams, Title = "Поля для обработки" });
             }
 
             if (AccessAdminParams)

@@ -105,17 +105,16 @@ namespace DosingApp.ViewModels
                 {
                     db.Transports.Attach(transportViewModel.Transport);
                     db.Transports.Update(transportViewModel.Transport);
-                    if (transportViewModel.Transport.TransportTanks != null)
-                    {
-                        db.TransportTanks.AttachRange(transportViewModel.Transport.TransportTanks);
-                        db.TransportTanks.UpdateRange(transportViewModel.Transport.TransportTanks);
-                    }
+                    //if (transportViewModel.TransportTanks != null)
+                    //{
+                        //db.TransportTanks.AttachRange(transportViewModel.TransportTanks);
+                        //db.TransportTanks.UpdateRange(transportViewModel.TransportTanks);
+                    //}
                 }
                 db.SaveChanges();
             }
             LoadTransports();
-            //transportViewModel.SetIsEditTanksEnabled();
-            //Back();
+            Back();
         }
         #endregion Commands
 

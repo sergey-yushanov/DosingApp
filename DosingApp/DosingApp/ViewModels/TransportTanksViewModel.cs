@@ -38,10 +38,8 @@ namespace DosingApp.ViewModels
         {
             TransportViewModel = transportViewModel;
 
-            db = App.GetContext();
-            //TransportTanks = transportViewModel.LoadTransportTanks();
+            db = transportViewModel.db;
             LoadTransportTanks();
-            //CreateTransportTanks();
 
             CreateCommand = new Command(CreateTransportTank);
             DeleteCommand = new Command(DeleteTransportTank);

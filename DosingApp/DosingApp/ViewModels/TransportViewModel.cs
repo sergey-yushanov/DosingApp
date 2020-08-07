@@ -23,12 +23,10 @@ namespace DosingApp.ViewModels
         TransportsViewModel transportsViewModel;
         public Transport Transport { get; private set; }
 
-        private ObservableCollection<TransportTank> transportTanks;
+        //private ObservableCollection<TransportTank> transportTanks;
         private TransportTank selectedTransportTank;
+        private TransportTank usedTransportTank;
         private string title;
-        //private bool isEditTanksEnabled;
-
-        //private TransportTank tank;
 
         public ICommand EditTanksCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
@@ -39,8 +37,9 @@ namespace DosingApp.ViewModels
         {
             db = App.GetContext();
             Transport = transport;
-            //LoadTransportTanks();
-            //SelectedTransportTank = GetUsedTransportTank();
+            LoadTransportTanks();
+            //UsedTransportTank = GetUsedTransportTank();
+            //SelectedTransportTank = UsedTransportTank;
 
             EditTanksCommand = new Command(EditTanks);
             BackCommand = new Command(Back);
@@ -50,19 +49,29 @@ namespace DosingApp.ViewModels
         #region Properties
         public ObservableCollection<TransportTank> TransportTanks
         {
-            get { return transportTanks; }
-            set { SetProperty(ref transportTanks, value); }
-        }
-
-        public TransportTank SelectedTransportTank
-        {
-            get { return selectedTransportTank; }
+            get { return new ObservableCollection<TransportTank>(Transport.TransportTanks.ToList()); }
             set
-            { 
-                SetProperty(ref selectedTransportTank, value);
-                //SetUsedTransportTank(selectedTransportTank);
+            {
+                Transport.TransportTanks = value.ToList();
+                OnPropertyChanged(nameof(TransportTanks));
             }
         }
+
+        /*public TransportTank SelectedTransportTank
+        {
+            get { return selectedTransportTank; }
+            set 
+            { 
+                SetProperty(ref selectedTransportTank, value);
+                SetUsedTransportTank(selectedTransportTank);
+            }
+        }*/
+
+/*        public TransportTank UsedTransportTank
+        {
+            get { return usedTransportTank; }
+            set { SetProperty(ref usedTransportTank, value); }
+        }*/
 
         public TransportsViewModel TransportsViewModel
         {
@@ -175,9 +184,16 @@ namespace DosingApp.ViewModels
             TransportTanks =  new ObservableCollection<TransportTank>(transportTanksDB);
         }
 
-        private void SetUsedTransportTank(TransportTank transportTank)
+        /*private void SetUsedTransportTank(TransportTank transportTank)
         {
-            if (transportTank == null)
+            if (UsedTransportTank != null)
+            {
+                UsedTransportTank.IsUsedTank = false;
+            }
+            UsedTransportTank = transportTank;
+            UsedTransportTank.IsUsedTank = true;*/
+
+/*            if (transportTank == null)
                 return;
 
             if (!TransportTanks.Contains(transportTank))
@@ -190,13 +206,22 @@ namespace DosingApp.ViewModels
                 currentUsedTransportTank.IsUsedTank = false;
             }
             transportTank.IsUsedTank = true;
-        }
+*/        
+        //}
 
-        private TransportTank GetUsedTransportTank()
-        {
-            var currentUsedTransportTank = TransportTanks.FirstOrDefault(tt => tt.IsUsedTank == true);
-            return currentUsedTransportTank;
-        }
+        //private TransportTank GetUsedTransportTank()
+        //{
+            //return TransportTanks == null ? null : TransportTanks.FirstOrDefault(tt => tt.IsUsedTank == true);
+            //if (TransportTanks == null)
+            //{
+                //return null;
+            //}
+            //else
+            //{
+                //var currentUsedTransportTank = TransportTanks.FirstOrDefault(tt => tt.IsUsedTank == true);
+                //return currentUsedTransportTank;
+            //}
+        //}
         #endregion Methods
     }
 }

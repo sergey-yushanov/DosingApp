@@ -36,7 +36,6 @@ namespace DosingApp.ViewModels
         {
             db = App.GetContext();
             LoadFacilities();
-            //CreateFacilities();
 
             CreateCommand = new Command(CreateFacility);
             DeleteCommand = new Command(DeleteFacility);

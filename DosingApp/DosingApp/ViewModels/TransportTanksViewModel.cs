@@ -17,19 +17,12 @@ namespace DosingApp.ViewModels
     public class TransportTanksViewModel : BaseViewModel
     {
         #region Services
-        //private readonly DataService<TransportTank> dataServiceTransportTanks;
-        public readonly AppDbContext db;
+
         #endregion Services
 
         #region Attributes
         public TransportViewModel TransportViewModel { get; private set; }
-
-        private ObservableCollection<TransportTank> transportTanks;
-        private TransportTank selectedTransportTank;
-
         public ICommand CreateCommand { get; protected set; }
-        public ICommand DeleteCommand { get; protected set; }
-        public ICommand SaveCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
         #endregion Attributes
 
@@ -37,38 +30,35 @@ namespace DosingApp.ViewModels
         public TransportTanksViewModel(TransportViewModel transportViewModel)
         {
             TransportViewModel = transportViewModel;
-
-            db = transportViewModel.db;
-            LoadTransportTanks();
+            TransportViewModel.LoadTransportTanks();
+            //LoadTransportTanks();
 
             CreateCommand = new Command(CreateTransportTank);
-            DeleteCommand = new Command(DeleteTransportTank);
-            SaveCommand = new Command(SaveTransportTank);
             BackCommand = new Command(Back);
         }
         #endregion Constructor
 
         #region Properties
-        public ObservableCollection<TransportTank> TransportTanks
-        {
-            get { return transportTanks; }
-            set { SetProperty(ref transportTanks, value); }
-        }
+        //public ObservableCollection<TransportTank> TransportTanks
+        //{
+            //get { return transportTanks; }
+            //set { SetProperty(ref transportTanks, value); }
+        //}
 
-        public TransportTank SelectedTransportTank
-        {
-            get { return selectedTransportTank; }
-            set
-            {
-                if (selectedTransportTank != value)
-                {
-                    TransportTankViewModel tempTransportTank = new TransportTankViewModel(value) { TransportTanksViewModel = this };
-                    selectedTransportTank = null;
-                    OnPropertyChanged(nameof(SelectedTransportTank));
-                    Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(tempTransportTank));
-                }
-            }
-        }
+        //public TransportTank SelectedTransportTank
+        //{
+            //get { return selectedTransportTank; }
+            //set
+            //{
+                //if (selectedTransportTank != value)
+                //{
+                    //TransportTankViewModel tempTransportTank = new TransportTankViewModel(value) { TransportTanksViewModel = this };
+                    //selectedTransportTank = null;
+                    //OnPropertyChanged(nameof(SelectedTransportTank));
+                    //Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(tempTransportTank));
+                //}
+            //}
+        //}
         #endregion Properties
 
         #region Commands
@@ -82,7 +72,7 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(new TransportTankViewModel(new TransportTank()) { TransportTanksViewModel = this }));
         }
 
-        private void DeleteTransportTank(object transportTankInstance)
+        /*private void DeleteTransportTank(object transportTankInstance)
         {
             TransportTankViewModel transportTankViewModel = transportTankInstance as TransportTankViewModel;
             if (transportTankViewModel.TransportTank != null && transportTankViewModel.TransportTank.TransportTankId != 0)
@@ -116,15 +106,15 @@ namespace DosingApp.ViewModels
             LoadTransportTanks();
             //TransportTanks = TransportViewModel.LoadTransportTanks();
             Back();
-        }
+        }*/
         #endregion Commands
 
         #region Methods
-        public void LoadTransportTanks()
+/*        public void LoadTransportTanks()
         {
             var transportTanksDB = db.TransportTanks.Where(tt => tt.TransportId == TransportViewModel.Transport.TransportId).ToList();
             TransportTanks = new ObservableCollection<TransportTank>(transportTanksDB);
-        }
+        }*/
 
         private void CreateTransportTanks()
         {

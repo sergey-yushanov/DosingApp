@@ -17,7 +17,6 @@ namespace DosingApp.ViewModels
     public class TransportsViewModel : BaseViewModel
     {
         #region Services
-        //private readonly DataService<Transport> dataServiceTransports;
         public readonly AppDbContext db;
         #endregion Services
 
@@ -36,7 +35,6 @@ namespace DosingApp.ViewModels
         {
             db = App.GetContext();
             LoadTransports();
-            //CreateTransports();
 
             CreateCommand = new Command(CreateTransport);
             DeleteCommand = new Command(DeleteTransport);
@@ -116,25 +114,45 @@ namespace DosingApp.ViewModels
             LoadTransports();
             Back();
         }
+
+        private void DeleteTransportTank(object transportTankInstance)
+        {
+            TransportTankViewModel transportTankViewModel = transportTankInstance as TransportTankViewModel;
+            if (transportTankViewModel.TransportTank != null && transportTankViewModel.TransportTank.TransportTankId != 0)
+            {
+                db.TransportTanks.Attach(transportTankViewModel.TransportTank);
+                db.TransportTanks.Remove(transportTankViewModel.TransportTank);
+                db.SaveChanges();
+            }
+            //LoadTransportTanks();
+            Back();
+        }
+
+        private void SaveTransportTank(object transportTankInstance)
+        {
+            TransportTankViewModel transportTankViewModel = transportTankInstance as TransportTankViewModel;
+            if (transportTankViewModel.TransportTank != null && transportTankViewModel.IsValid)
+            {
+                if (transportTankViewModel.TransportTank.TransportTankId == 0)
+                {
+                    db.Entry(transportTankViewModel.TransportTank).State = EntityState.Added;
+                }
+                else
+                {
+                    db.TransportTanks.Attach(transportTankViewModel.TransportTank);
+                    db.TransportTanks.Update(transportTankViewModel.TransportTank);
+                }
+                db.SaveChanges();
+            }
+            //LoadTransportTanks();
+            Back();
+        }
         #endregion Commands
 
         #region Methods
         public void LoadTransports()
         {
             Transports = new ObservableCollection<Transport>(db.Transports.ToList());
-        }
-
-        private void CreateTransports()
-        {
-/*            var transports = new List<Transport>()
-            {
-                new Transport { Name = "Transport 1", Number = "tr1" },
-                new Transport { Name = "Transport 2", Number = "tr2" },
-                new Transport { Name = "Transport 3", Number = "tr3" }
-            };
-
-            db.Transports.AddRange(transports);
-            db.SaveChanges();*/
         }
         #endregion Methods
 

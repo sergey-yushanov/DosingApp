@@ -12,7 +12,7 @@
                 
                 <Label 
                     Text="Имя пользователя"
-                    TextColor="{StaticResource LabelEntry}"/>
+                    TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     x:Name="userEntry"
                     Placeholder="Введите имя пользователя" 
@@ -20,7 +20,7 @@
                 
                 <Label 
                     Text="Пароль"
-                    TextColor="{StaticResource LabelEntry}"/>
+                    TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     x:Name="passwordEntry"
                     Placeholder="Введите пароль"
@@ -28,7 +28,7 @@
                 
                 <Label 
                     Text="Имя для отображения"
-                    TextColor="{StaticResource LabelEntry}"/>
+                    TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     Placeholder="Введите имя для отображения" 
                     Text="{Binding DisplayName}" />
@@ -40,7 +40,7 @@
 
                     <Label
                         Text="Уровни доступа"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
 
                     <StackLayout Orientation="Horizontal">
                         <Label 

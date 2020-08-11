@@ -4,15 +4,25 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.FacilityTanksPage"
-             Title="Список емкостей объекта">
+             x:Class="DosingApp.Views.FacilityTanksPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label
+                x:Name="labelTitle"
+                Text="{Binding Title}"
+                FontSize="Medium"
+                TextColor="{StaticResource TitleColor}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">
                 <Button Text="Добавить" Command="{Binding CreateCommand}"/>
 
                 <ListView 
-                    x:Name="fieldsList"
+                    x:Name="facilitiesList"
                     ItemsSource="{Binding FacilityTanks}"
                     SelectedItem="{Binding SelectedFacilityTank, Mode=TwoWay}">
                     <ListView.ItemTemplate>

@@ -13,7 +13,6 @@ namespace DosingApp.Models
         public string Address { get; set; }
         public string Code { get; set; }
 
-        public virtual ObservableCollection<FacilityTank> FacilityTanks { get; set; }
-        //public virtual FacilityTank SelectedFacilityTank { get; set; }
+        public virtual List<FacilityTank> FacilityTanks { get; set; }
     }
 }

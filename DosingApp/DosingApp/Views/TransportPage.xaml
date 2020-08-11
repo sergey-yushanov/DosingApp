@@ -10,21 +10,21 @@
 
                     <Label 
                         Text="Название"    
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название транспорта" 
                         Text="{Binding Name}" />
 
                     <Label 
                         Text="Гос. номер"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите гос. номер" 
                         Text="{Binding Number}" />
 
                     <Label 
                         Text="Емкость транспорта"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Button
                         Text="Задать емкости"
                         Command="{Binding EditTanksCommand}"/>

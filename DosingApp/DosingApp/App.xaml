@@ -7,9 +7,15 @@
              x:Class="DosingApp.App">
     <Application.Resources>
 
-        <Thickness x:Key="PageMargin">20</Thickness>
+        <!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <Thickness x:Key="PageMargin">20</Thickness>
+            <Color x:Key="LabelEntryColor">#0000FF</Color>
+            <Color x:Key="TitleColor">#FFFFFF</Color>
 
-        <Color x:Key="LabelEntry">#Blue</Color>
-
+            <Style ApplyToDerivedTypes="true" TargetType="NavigationPage">
+                <Setter Property="BarTextColor" Value="{StaticResource Key=TitleColor}"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

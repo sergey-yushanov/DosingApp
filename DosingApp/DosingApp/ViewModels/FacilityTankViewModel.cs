@@ -36,7 +36,7 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                Title = (FacilityTank.FacilityTankId == 0) ? "Новая емкость" : "Емкость: " + FacilityTank.Name;
+                Title = "Объект: " + FacilityTanksViewModel.Facility.Name + ((FacilityTank.FacilityTankId == 0) ? "\nНовая емкость" : "\nЕмкость: " + FacilityTank.Name);
                 return FacilityTank.Name;
             }
             set

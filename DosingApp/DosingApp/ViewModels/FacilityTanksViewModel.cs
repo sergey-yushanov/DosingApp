@@ -23,6 +23,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         private ObservableCollection<FacilityTank> facilityTanks;
         private FacilityTank selectedFacilityTank;
+        private string title;
 
         public Facility Facility { get; private set; }
 
@@ -38,6 +39,7 @@ namespace DosingApp.ViewModels
             db = App.GetContext();
             Facility = facility;
             LoadFacilityTanks();
+            Title = "Объект: " + Facility.Name + "\nСписок емкостей";
 
             CreateCommand = new Command(CreateFacilityTank);
             DeleteCommand = new Command(DeleteFacilityTank);
@@ -66,6 +68,12 @@ namespace DosingApp.ViewModels
                     Application.Current.MainPage.Navigation.PushAsync(new FacilityTankPage(tempFacilityTank));
                 }
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
 

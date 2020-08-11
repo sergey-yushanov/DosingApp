@@ -14,14 +14,14 @@
                     
                     <Label 
                         Text="Название" 
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название объекта" 
                         Text="{Binding Name}" />
                     
                     <Label 
                         Text="Тип объекта" 
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Picker 
                         Title="Выберите тип объекта"
                         SelectedItem="{Binding Type}">
@@ -33,14 +33,14 @@
                     
                     <Label 
                         Text="Адрес" 
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите адрес объекта" 
                         Text="{Binding Address}" />
 
                     <Label 
                         Text="Емкость объекта"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Button
                         Text="Задать емкости"
                         Command="{Binding EditTanksCommand}"/>
@@ -53,7 +53,7 @@
 
                     <Label 
                         Text="Код" 
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите код объекта" 
                         Text="{Binding Code}" />

@@ -12,14 +12,14 @@
                 <StackLayout>
                     <Label 
                         Text="Название" 
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название компонента" 
                         Text="{Binding Name}" />
                     
                     <Label
                         Text="Форма компонента" 
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Picker 
                         Title="Выберите тип компонента"
                         SelectedItem="{Binding Consistency}">
@@ -31,7 +31,7 @@
                     
                     <Label 
                         Text="Плотность, г/мл" 
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
                         Placeholder="Введите плотность" 
                         Text="{Binding Density}" 
@@ -39,7 +39,7 @@
                     
                     <Label 
                         Text="Фасовка" 
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите тип фасовки" 
                         Text="{Binding Packing}" />

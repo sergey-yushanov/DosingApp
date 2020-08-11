@@ -1,8 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DosingApp.Views.FacilityTankPage"
-             Title="{Binding Title}">
+             x:Class="DosingApp.Views.FacilityTankPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label
+                x:Name="labelTitle"
+                Text="{Binding Title}"
+                FontSize="Medium"
+                TextColor="{StaticResource TitleColor}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
@@ -10,13 +20,13 @@
                 <StackLayout>
                     <Label 
                         Text="Название"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название емкости" 
                         Text="{Binding Name}" />
                     <Label 
                         Text="Объем, л"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите объем емкости" 
                         Text="{Binding Volume}"

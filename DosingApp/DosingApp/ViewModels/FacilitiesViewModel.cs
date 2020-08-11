@@ -83,7 +83,6 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
-                    //db.Facilities.Attach(facilityViewModel.Facility);
                     db.Facilities.Remove(facilityViewModel.Facility);
                     db.SaveChanges();
                 }

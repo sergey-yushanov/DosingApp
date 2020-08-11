@@ -15,7 +15,7 @@ namespace DosingApp.ViewModels
     public class FacilityViewModel : BaseViewModel
     {
         #region Services
-        public readonly AppDbContext db;
+        
         #endregion Services
 
         #region Attributes
@@ -34,11 +34,9 @@ namespace DosingApp.ViewModels
         #region Constructor
         public FacilityViewModel(Facility facility)
         {
-            db = App.GetContext();
             Facility = facility;
             IsBack = true;
             LoadFacilityTanks();
-            //InitSelectedFacilityTank();
 
             EditTanksCommand = new Command(EditFacilityTanksAsync);
             BackCommand = new Command(Back);
@@ -148,9 +146,7 @@ namespace DosingApp.ViewModels
         }
 
         private async void EditFacilityTanksAsync()
-        {
-            //await Application.Current.MainPage.Navigation.PushAsync(new FacilityTanksPage(new FacilityTanksViewModel(Facility)));
-            
+        {            
             if (!IsValid)
             {
                 await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя объекта", "Ok");
@@ -177,9 +173,12 @@ namespace DosingApp.ViewModels
         #region Methods
         public void LoadFacilityTanks()
         {
-            var facilityTanksDB = db.FacilityTanks.Where(ft => ft.FacilityId == Facility.FacilityId).ToList();
-            FacilityTanks = new ObservableCollection<FacilityTank>(facilityTanksDB);
-            InitSelectedFacilityTank();
+            using (AppDbContext db = App.GetContext())
+            {
+                var facilityTanksDB = db.FacilityTanks.Where(ft => ft.FacilityId == Facility.FacilityId).ToList();
+                FacilityTanks = new ObservableCollection<FacilityTank>(facilityTanksDB);
+                InitSelectedFacilityTank();
+            }
         }
 
         public void InitSelectedFacilityTank()

@@ -17,7 +17,7 @@ namespace DosingApp.ViewModels
     public class FacilityTanksViewModel : BaseViewModel
     {
         #region Services
-        public readonly AppDbContext db;
+        //public readonly AppDbContext db;
         #endregion Services
 
         #region Attributes
@@ -36,7 +36,7 @@ namespace DosingApp.ViewModels
         #region Constructor
         public FacilityTanksViewModel(Facility facility)
         {
-            db = App.GetContext();
+            //db = App.GetContext();
             Facility = facility;
             LoadFacilityTanks();
             Title = "Объект: " + Facility.Name + "\nСписок емкостей";
@@ -96,11 +96,13 @@ namespace DosingApp.ViewModels
         private void DeleteFacilityTank(object facilityTankInstance)
         {
             FacilityTankViewModel facilityTankViewModel = facilityTankInstance as FacilityTankViewModel;
-            if (facilityTankViewModel.FacilityTank.Facility != null && facilityTankViewModel.FacilityTank.FacilityId != 0)
+            if (facilityTankViewModel.FacilityTank.FacilityTankId != 0)
             {
-                db.FacilityTanks.Attach(facilityTankViewModel.FacilityTank);
-                db.FacilityTanks.Remove(facilityTankViewModel.FacilityTank);
-                db.SaveChanges();
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.FacilityTanks.Remove(facilityTankViewModel.FacilityTank);
+                    db.SaveChanges();
+                }
             }
             LoadFacilityTanks();
             Back();
@@ -111,16 +113,18 @@ namespace DosingApp.ViewModels
             FacilityTankViewModel facilityTankViewModel = facilityTankInstance as FacilityTankViewModel;
             if (facilityTankViewModel.FacilityTank != null && facilityTankViewModel.IsValid)
             {
-                if (facilityTankViewModel.FacilityTank.FacilityTankId == 0)
+                using (AppDbContext db = App.GetContext())
                 {
-                    db.Entry(facilityTankViewModel.FacilityTank).State = EntityState.Added;
+                    if (facilityTankViewModel.FacilityTank.FacilityTankId == 0)
+                    {
+                        db.Entry(facilityTankViewModel.FacilityTank).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.FacilityTanks.Update(facilityTankViewModel.FacilityTank);
+                    }
+                    db.SaveChanges();
                 }
-                else
-                {
-                    db.FacilityTanks.Attach(facilityTankViewModel.FacilityTank);
-                    db.FacilityTanks.Update(facilityTankViewModel.FacilityTank);
-                }
-                db.SaveChanges();
             }
             LoadFacilityTanks();
             Back();
@@ -130,8 +134,11 @@ namespace DosingApp.ViewModels
         #region Methods
         public void LoadFacilityTanks()
         {
-            var facilityTanksDB = db.FacilityTanks.Where(ft => ft.FacilityId == Facility.FacilityId).ToList();
-            FacilityTanks = new ObservableCollection<FacilityTank>(facilityTanksDB);
+            using (AppDbContext db = App.GetContext())
+            {
+                var facilityTanksDB = db.FacilityTanks.Where(ft => ft.FacilityId == Facility.FacilityId).ToList();
+                FacilityTanks = new ObservableCollection<FacilityTank>(facilityTanksDB);
+            }
         }
         #endregion Methods
 

@@ -9,7 +9,7 @@ namespace DosingApp.ViewModels
     public class FacilityTankViewModel : BaseViewModel
     {
         #region Services
-        //private readonly DataService<FacilityTank> dataServiceFacilityTanks;
+        
         #endregion Services
 
         #region Attributes

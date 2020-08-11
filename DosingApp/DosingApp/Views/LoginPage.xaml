@@ -16,12 +16,14 @@
                     HeightRequest="50"/>
             </Frame>
             <Label 
-                Text="Пользователь" />
+                Text="Пользователь"
+                TextColor="{StaticResource LabelEntryColor}"/>
             <Entry 
                 x:Name="userEntry" 
                 Placeholder="Введите имя пользователя" />
             <Label 
-                Text="Пароль" />
+                Text="Пароль" 
+                TextColor="{StaticResource LabelEntryColor}"/>
             <Entry 
                 x:Name="passwordEntry" 
                 Placeholder="Введите пароль"

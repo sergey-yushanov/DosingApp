@@ -17,7 +17,6 @@ namespace DosingApp.ViewModels
     public class FacilitiesViewModel : BaseViewModel
     {
         #region Services
-        //private readonly DataService<Facility> dataServiceFacilities;
         public readonly AppDbContext db;
         #endregion Services
 
@@ -106,9 +105,14 @@ namespace DosingApp.ViewModels
                     db.Facilities.Update(facilityViewModel.Facility);
                 }
                 db.SaveChanges();
+
+                SetSelectedFacilityTank(facilityViewModel);
             }
             LoadFacilities();
-            Back();
+            if (facilityViewModel.IsBack)
+            {
+                Back();
+            }
         }
         #endregion Commands
 
@@ -118,19 +122,29 @@ namespace DosingApp.ViewModels
             Facilities = new ObservableCollection<Facility>(db.Facilities.ToList());
         }
 
-        private void CreateFacilities()
+        private void SetSelectedFacilityTank(FacilityViewModel facilityViewModel)
         {
-            var facilities = new List<Facility>()
+            if (facilityViewModel.SelectedFacilityTank != null)
             {
-                new Facility { Name = "Facility 1", Code = "f1" },
-                new Facility { Name = "Facility 2", Code = "f2" },
-                new Facility { Name = "Facility 3", Code = "f3" }
-            };
+                facilityViewModel.FacilityTanks.ForEach(ft => ft.IsUsedTank = false);
+                facilityViewModel.FacilityTanks.FirstOrDefault(ft => ft.FacilityTankId == facilityViewModel.SelectedFacilityTank.FacilityTankId).IsUsedTank = true;
+                facilityViewModel.FacilityTanks.ForEach(ft => AttachOrUpdate(ft));
+                db.SaveChanges();
+            }
+        }
 
-            db.Facilities.AddRange(facilities);
-            db.SaveChanges();
+        private void AttachOrUpdate(FacilityTank facilityTank)
+        {
+            var instanceFacilityTank = db.FacilityTanks.Find(facilityTank.FacilityTankId);
+            if (instanceFacilityTank == null)
+            {
+                db.FacilityTanks.Attach(facilityTank);
+            }
+            else
+            {
+                instanceFacilityTank.IsUsedTank = facilityTank.IsUsedTank;
+            }
         }
         #endregion Methods
-
     }
 }

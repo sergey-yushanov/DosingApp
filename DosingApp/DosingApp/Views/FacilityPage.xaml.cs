@@ -1,11 +1,5 @@
-﻿using DosingApp.DataContext;
-using DosingApp.Models;
-using DosingApp.Services;
-using DosingApp.ViewModels;
-using System;
-
+﻿using DosingApp.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
@@ -17,6 +11,12 @@ namespace DosingApp.Views
             InitializeComponent();
             ViewModel = viewModel;
             BindingContext = ViewModel;
+        }
+
+        protected override void OnAppearing()
+        {
+            ViewModel.LoadFacilityTanks();
+            base.OnAppearing();
         }
     }
 }

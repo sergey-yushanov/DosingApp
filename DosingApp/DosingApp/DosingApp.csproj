@@ -46,6 +46,12 @@
     <Compile Update="Views\CropsPage.xaml.cs">
       <DependentUpon>CropsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\FacilityTankPage.xaml.cs">
+      <DependentUpon>FacilityTankPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FacilityTanksPage.xaml.cs">
+      <DependentUpon>FacilityTanksPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\TransportTankPage.xaml.cs">
       <DependentUpon>TransportTankPage.xaml</DependentUpon>
     </Compile>

@@ -9,12 +9,14 @@ namespace DosingApp.DataContext
 
         public DbSet<AgrYear> AgrYears { get; set; }
         public DbSet<Applicator> Applicators { get; set; }
+        public DbSet<ApplicatorTank> ApplicatorTanks { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Component> Components { get; set; }
         public DbSet<Crop> Crops { get; set; }
         public DbSet<Field> Fields { get; set; }
         //public DbSet<Mixture> Mixtures { get; set; }
         public DbSet<Facility> Facilities { get; set; }
+        public DbSet<FacilityTank> FacilityTanks { get; set; }
         public DbSet<ProcessingType> ProcessingTypes { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeComponent> RecipeComponents { get; set; }

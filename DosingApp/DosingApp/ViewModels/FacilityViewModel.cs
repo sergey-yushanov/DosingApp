@@ -177,8 +177,8 @@ namespace DosingApp.ViewModels
             {
                 var facilityTanksDB = db.FacilityTanks.Where(ft => ft.FacilityId == Facility.FacilityId).ToList();
                 FacilityTanks = new ObservableCollection<FacilityTank>(facilityTanksDB);
-                InitSelectedFacilityTank();
             }
+            InitSelectedFacilityTank();
         }
 
         public void InitSelectedFacilityTank()

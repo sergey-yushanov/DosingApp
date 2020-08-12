@@ -16,10 +16,6 @@ namespace DosingApp.ViewModels
 {
     public class ComponentsViewModel : BaseViewModel
     {
-        #region Services
-        
-        #endregion Services
-
         #region Attributes
         private ObservableCollection<Component> components;
         private Component selectedComponent;
@@ -37,7 +33,7 @@ namespace DosingApp.ViewModels
         public ComponentsViewModel(Manufacturer manufacturer)
         {
             Manufacturer = manufacturer;
-            LoadComponents();
+            //LoadComponents();
             Title = "Производитель: " + Manufacturer.Name + "\nКомпоненты";
 
             CreateCommand = new Command(CreateComponent);
@@ -102,7 +98,7 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            LoadComponents();
+            //LoadComponents();
             Back();
         }
 
@@ -124,7 +120,7 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            LoadComponents();
+            //LoadComponents();
             Back();
         }
         #endregion Commands

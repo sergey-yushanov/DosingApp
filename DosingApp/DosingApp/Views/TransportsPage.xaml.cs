@@ -20,5 +20,12 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new TransportsViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            var transportsViewModel = (TransportsViewModel)BindingContext;
+            transportsViewModel.LoadTransports();
+            base.OnAppearing();
+        }
     }
 }

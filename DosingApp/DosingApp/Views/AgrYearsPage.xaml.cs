@@ -20,5 +20,12 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new AgrYearsViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            var agrYearsViewModel = (AgrYearsViewModel)BindingContext;
+            agrYearsViewModel.LoadAgrYears();
+            base.OnAppearing();
+        }
     }
 }

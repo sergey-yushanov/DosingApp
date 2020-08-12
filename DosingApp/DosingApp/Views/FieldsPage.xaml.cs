@@ -20,5 +20,12 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new FieldsViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            var fieldsViewModel = (FieldsViewModel)BindingContext;
+            fieldsViewModel.LoadFields();
+            base.OnAppearing();
+        }
     }
 }

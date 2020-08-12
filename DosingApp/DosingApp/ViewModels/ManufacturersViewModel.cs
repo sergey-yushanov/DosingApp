@@ -16,10 +16,6 @@ namespace DosingApp.ViewModels
 {
     public class ManufacturersViewModel : BaseViewModel
     {
-        #region Services
-
-        #endregion Services
-
         #region Attributes
         private ObservableCollection<Manufacturer> manufacturers;
         private Manufacturer selectedManufacturer;
@@ -33,7 +29,7 @@ namespace DosingApp.ViewModels
         #region Constructor
         public ManufacturersViewModel()
         {
-            LoadManufacturers();
+            //LoadManufacturers();
 
             CreateCommand = new Command(CreateManufacturer);
             DeleteCommand = new Command(DeleteManufacturer);
@@ -88,7 +84,7 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            LoadManufacturers();
+            //LoadManufacturers();
             Back();
         }
 
@@ -110,7 +106,7 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            LoadManufacturers();
+            //LoadManufacturers();
             Back();
         }
         #endregion Commands

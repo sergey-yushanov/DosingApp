@@ -20,5 +20,12 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new FacilitiesViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            var facilitiesViewModel = (FacilitiesViewModel)BindingContext;
+            facilitiesViewModel.LoadFacilities();
+            base.OnAppearing();
+        }
     }
 }

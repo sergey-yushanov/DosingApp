@@ -22,5 +22,12 @@ namespace DosingApp.Views
             ViewModel = viewModel;
             BindingContext = ViewModel;
         }
+
+        protected override void OnAppearing()
+        {
+            var facilityTanksViewModel = (FacilityTanksViewModel)BindingContext;
+            facilityTanksViewModel.LoadFacilityTanks();
+            base.OnAppearing();
+        }
     }
 }

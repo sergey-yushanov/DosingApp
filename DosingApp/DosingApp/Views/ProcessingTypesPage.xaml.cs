@@ -20,5 +20,12 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new ProcessingTypesViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            var processingTypesViewModel = (ProcessingTypesViewModel)BindingContext;
+            processingTypesViewModel.LoadProcessingTypes();
+            base.OnAppearing();
+        }
     }
 }

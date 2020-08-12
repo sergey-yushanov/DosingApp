@@ -16,11 +16,6 @@ namespace DosingApp.ViewModels
 {
     public class ProcessingTypesViewModel : BaseViewModel
     {
-        #region Services
-        //private readonly DataService<ProcessingType> dataServiceProcessingTypes;
-        public readonly AppDbContext db;
-        #endregion Services
-
         #region Attributes
         private ObservableCollection<ProcessingType> processingTypes;
         private ProcessingType selectedProcessingType;
@@ -34,10 +29,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public ProcessingTypesViewModel()
         {
-            db = App.GetContext();
-            LoadProcessingTypes();
-            //CreateProcessingTypes();
-
             CreateCommand = new Command(CreateProcessingType);
             DeleteCommand = new Command(DeleteProcessingType);
             SaveCommand = new Command(SaveProcessingType);
@@ -84,11 +75,13 @@ namespace DosingApp.ViewModels
             ProcessingTypeViewModel processingTypeViewModel = processingTypeInstance as ProcessingTypeViewModel;
             if (processingTypeViewModel.ProcessingType != null && processingTypeViewModel.ProcessingType.ProcessingTypeId != 0)
             {
-                db.ProcessingTypes.Attach(processingTypeViewModel.ProcessingType);
-                db.ProcessingTypes.Remove(processingTypeViewModel.ProcessingType);
-                db.SaveChanges();
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.ProcessingTypes.Remove(processingTypeViewModel.ProcessingType);
+                    db.SaveChanges();
+                }
             }
-            LoadProcessingTypes();
+            //LoadProcessingTypes();
             Back();
         }
 
@@ -97,19 +90,20 @@ namespace DosingApp.ViewModels
             ProcessingTypeViewModel processingTypeViewModel = processingTypeInstance as ProcessingTypeViewModel;
             if (processingTypeViewModel.ProcessingType != null && processingTypeViewModel.IsValid)
             {
-                if (processingTypeViewModel.ProcessingType.ProcessingTypeId == 0)
+                using (AppDbContext db = App.GetContext())
                 {
-                    //db.ProcessingTypes.Add(processingTypeViewModel.ProcessingType);
-                    db.Entry(processingTypeViewModel.ProcessingType).State = EntityState.Added;
+                    if (processingTypeViewModel.ProcessingType.ProcessingTypeId == 0)
+                    {
+                        db.Entry(processingTypeViewModel.ProcessingType).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.ProcessingTypes.Update(processingTypeViewModel.ProcessingType);
+                    }
+                    db.SaveChanges();
                 }
-                else
-                {
-                    db.ProcessingTypes.Attach(processingTypeViewModel.ProcessingType);
-                    db.ProcessingTypes.Update(processingTypeViewModel.ProcessingType);
-                }
-                db.SaveChanges();
             }
-            LoadProcessingTypes();
+            //LoadProcessingTypes();
             Back();
         }
         #endregion Commands
@@ -117,20 +111,10 @@ namespace DosingApp.ViewModels
         #region Methods
         public void LoadProcessingTypes()
         {
-            ProcessingTypes = new ObservableCollection<ProcessingType>(db.ProcessingTypes.ToList());
-        }
-
-        private void CreateProcessingTypes()
-        {
-            var processingTypes = new List<ProcessingType>()
+            using (AppDbContext db = App.GetContext())
             {
-                new ProcessingType { Name = "ProcessingType 1", Code = "pt1" },
-                new ProcessingType { Name = "ProcessingType 2", Code = "pt2" },
-                new ProcessingType { Name = "ProcessingType 3", Code = "pt3" }
-            };
-
-            db.ProcessingTypes.AddRange(processingTypes);
-            db.SaveChanges();
+                ProcessingTypes = new ObservableCollection<ProcessingType>(db.ProcessingTypes.ToList());
+            }
         }
         #endregion Methods
 

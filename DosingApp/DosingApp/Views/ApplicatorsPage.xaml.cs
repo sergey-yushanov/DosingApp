@@ -20,5 +20,12 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new ApplicatorsViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            var applicatorsViewModel = (ApplicatorsViewModel)BindingContext;
+            applicatorsViewModel.LoadApplicators();
+            base.OnAppearing();
+        }
     }
 }

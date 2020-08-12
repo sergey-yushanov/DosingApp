@@ -16,10 +16,6 @@ namespace DosingApp.ViewModels
 {
     public class ApplicatorsViewModel : BaseViewModel
     {
-        #region Services
-
-        #endregion Services
-
         #region Attributes
         private ObservableCollection<Applicator> applicators;
         private Applicator selectedApplicator;
@@ -33,7 +29,7 @@ namespace DosingApp.ViewModels
         #region Constructor
         public ApplicatorsViewModel()
         {
-            LoadApplicators();
+            //LoadApplicators();
 
             CreateCommand = new Command(CreateApplicator);
             DeleteCommand = new Command(DeleteApplicator);
@@ -88,7 +84,7 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            LoadApplicators();
+            //LoadApplicators();
             Back();
         }
 
@@ -112,7 +108,7 @@ namespace DosingApp.ViewModels
 
                 SetSelectedApplicatorTank(applicatorViewModel);
             }
-            LoadApplicators();
+            //LoadApplicators();
             if (applicatorViewModel.IsBack)
             {
                 Back();

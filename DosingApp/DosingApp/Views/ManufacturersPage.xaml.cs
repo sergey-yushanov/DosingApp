@@ -20,5 +20,12 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new ManufacturersViewModel();
         }
+
+        protected override void OnAppearing()
+        {
+            var manufacturersViewModel = (ManufacturersViewModel)BindingContext;
+            manufacturersViewModel.LoadManufacturers();
+            base.OnAppearing();
+        }
     }
 }

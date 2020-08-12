@@ -22,5 +22,12 @@ namespace DosingApp.Views
             ViewModel = viewModel;
             BindingContext = ViewModel;
         }
+
+        protected override void OnAppearing()
+        {
+            var componentsViewModel = (ComponentsViewModel)BindingContext;
+            componentsViewModel.LoadComponents();
+            base.OnAppearing();
+        }
     }
 }

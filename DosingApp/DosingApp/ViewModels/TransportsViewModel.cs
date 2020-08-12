@@ -16,10 +16,6 @@ namespace DosingApp.ViewModels
 {
     public class TransportsViewModel : BaseViewModel
     {
-        #region Services
-
-        #endregion Services
-
         #region Attributes
         private ObservableCollection<Transport> transports;
         private Transport selectedTransport;
@@ -33,7 +29,7 @@ namespace DosingApp.ViewModels
         #region Constructor
         public TransportsViewModel()
         {
-            LoadTransports();
+            //LoadTransports();
 
             CreateCommand = new Command(CreateTransport);
             DeleteCommand = new Command(DeleteTransport);
@@ -88,7 +84,7 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            LoadTransports();
+            //LoadTransports();
             Back();
         }
 
@@ -112,7 +108,7 @@ namespace DosingApp.ViewModels
 
                 SetSelectedTransportTank(transportViewModel);
             }
-            LoadTransports();
+            //LoadTransports();
             if (transportViewModel.IsBack)
             {
                 Back();

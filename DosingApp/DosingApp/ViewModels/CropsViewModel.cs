@@ -119,6 +119,5 @@ namespace DosingApp.ViewModels
             }
         }
         #endregion Methods
-
     }
 }

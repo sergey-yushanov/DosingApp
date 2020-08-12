@@ -16,11 +16,6 @@ namespace DosingApp.ViewModels
 {
     public class FieldsViewModel : BaseViewModel
     {
-        #region Services
-        //private readonly DataService<Field> dataServiceFields;
-        public readonly AppDbContext db;
-        #endregion Services
-
         #region Attributes
         private ObservableCollection<Field> fields;
         private Field selectedField;
@@ -34,10 +29,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public FieldsViewModel()
         {
-            db = App.GetContext();
-            LoadFields();
-            //CreateFields();
-
             CreateCommand = new Command(CreateField);
             DeleteCommand = new Command(DeleteField);
             SaveCommand = new Command(SaveField);
@@ -84,11 +75,13 @@ namespace DosingApp.ViewModels
             FieldViewModel fieldViewModel = fieldInstance as FieldViewModel;
             if (fieldViewModel.Field != null && fieldViewModel.Field.FieldId != 0)
             {
-                db.Fields.Attach(fieldViewModel.Field);
-                db.Fields.Remove(fieldViewModel.Field);
-                db.SaveChanges();
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.Fields.Remove(fieldViewModel.Field);
+                    db.SaveChanges();
+                }
             }
-            LoadFields();
+            //LoadFields();
             Back();
         }
 
@@ -97,18 +90,20 @@ namespace DosingApp.ViewModels
             FieldViewModel fieldViewModel = fieldInstance as FieldViewModel;
             if (fieldViewModel.Field != null && fieldViewModel.IsValid)
             {
-                if (fieldViewModel.Field.FieldId == 0)
+                using (AppDbContext db = App.GetContext())
                 {
-                    db.Entry(fieldViewModel.Field).State = EntityState.Added;
+                    if (fieldViewModel.Field.FieldId == 0)
+                    {
+                        db.Entry(fieldViewModel.Field).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.Fields.Update(fieldViewModel.Field);
+                    }
+                    db.SaveChanges();
                 }
-                else
-                {
-                    db.Fields.Attach(fieldViewModel.Field);
-                    db.Fields.Update(fieldViewModel.Field);
-                }
-                db.SaveChanges();
             }
-            LoadFields();
+            //LoadFields();
             Back();
         }
         #endregion Commands
@@ -116,20 +111,10 @@ namespace DosingApp.ViewModels
         #region Methods
         public void LoadFields()
         {
-            Fields = new ObservableCollection<Field>(db.Fields.ToList());
-        }
-
-        private void CreateFields()
-        {
-            var fields = new List<Field>()
+            using (AppDbContext db = App.GetContext())
             {
-                new Field { Name = "Field 1", Code = "f1" },
-                new Field { Name = "Field 2", Code = "f2" },
-                new Field { Name = "Field 3", Code = "f3" }
-            };
-
-            db.Fields.AddRange(fields);
-            db.SaveChanges();
+                Fields = new ObservableCollection<Field>(db.Fields.ToList());
+            }
         }
         #endregion Methods
 

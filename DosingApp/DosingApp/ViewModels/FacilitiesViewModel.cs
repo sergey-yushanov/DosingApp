@@ -16,10 +16,6 @@ namespace DosingApp.ViewModels
 {
     public class FacilitiesViewModel : BaseViewModel
     {
-        #region Services
-
-        #endregion Services
-
         #region Attributes
         private ObservableCollection<Facility> facilities;
         private Facility selectedFacility;
@@ -33,7 +29,7 @@ namespace DosingApp.ViewModels
         #region Constructor
         public FacilitiesViewModel()
         {
-            LoadFacilities();
+            //LoadFacilities();
 
             CreateCommand = new Command(CreateFacility);
             DeleteCommand = new Command(DeleteFacility);
@@ -88,7 +84,7 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            LoadFacilities();
+            //LoadFacilities();
             Back();
         }
 
@@ -112,7 +108,7 @@ namespace DosingApp.ViewModels
 
                 SetSelectedFacilityTank(facilityViewModel);
             }
-            LoadFacilities();
+            //LoadFacilities();
             if (facilityViewModel.IsBack)
             {
                 Back();

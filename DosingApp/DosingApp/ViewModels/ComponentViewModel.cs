@@ -75,30 +75,16 @@ namespace DosingApp.ViewModels
             get { return new ObservableCollection<string>() { ComponentConsistency.Liquid, ComponentConsistency.Dry }; }
         }
 
-        public string Density
+        public float? Density
         {
-            get
-            {
-                if (Component.Density == null)
-                {
-                    return "";
-                }
-                else
-                {
-                    return Component.Density.ToString();
-                }
-            }
+            get { return Component.Density; }
             set
             {
-                try
+                if (Component.Density != value)
                 {
-                    Component.Density = float.Parse(value);
+                    Component.Density = value;
+                    OnPropertyChanged(nameof(Density));
                 }
-                catch
-                {
-                    Component.Density = null;
-                }
-                OnPropertyChanged(nameof(Density));
             }
         }
 

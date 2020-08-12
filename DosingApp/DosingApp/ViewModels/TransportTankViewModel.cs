@@ -49,30 +49,16 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string Volume
+        public float? Volume
         {
-            get
-            {
-                if (TransportTank.Volume == null)
-                {
-                    return "";
-                }
-                else
-                {
-                    return TransportTank.Volume.ToString();
-                }
-            }
+            get { return TransportTank.Volume; }
             set
             {
-                try
+                if (TransportTank.Volume != value)
                 {
-                    TransportTank.Volume = float.Parse(value);
+                    TransportTank.Volume = value;
+                    OnPropertyChanged(nameof(Volume));
                 }
-                catch
-                {
-                    TransportTank.Volume = null;
-                }
-                OnPropertyChanged(nameof(Volume));
             }
         }
 

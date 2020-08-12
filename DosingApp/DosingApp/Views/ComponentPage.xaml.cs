@@ -18,5 +18,14 @@ namespace DosingApp.Views
             ViewModel = viewModel;
             BindingContext = ViewModel;
         }
+
+        private void OnDensityTextChanged(object sender, TextChangedEventArgs args)
+        {
+            if (String.IsNullOrEmpty(args.NewTextValue))
+            {
+                var componentViewModel = (ComponentViewModel)BindingContext;
+                componentViewModel.Density = null;
+            }
+        }
     }
 }

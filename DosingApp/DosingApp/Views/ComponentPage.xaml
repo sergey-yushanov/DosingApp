@@ -45,7 +45,8 @@
                         Text="{Binding Density}" 
                         Keyboard="Numeric"
                         IsEnabled="{Binding IsLiquid}"
-                        IsVisible="{Binding IsLiquid}"/>
+                        IsVisible="{Binding IsLiquid}"
+                        TextChanged="OnDensityTextChanged"/>
                     
                     <Label 
                         Text="Фасовка" 

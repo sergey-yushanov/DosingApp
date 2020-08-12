@@ -30,7 +30,8 @@
                     <Entry 
                         Placeholder="Введите объем емкости" 
                         Text="{Binding Volume}"
-                        Keyboard="Numeric"/>
+                        Keyboard="Numeric"
+                        TextChanged="OnVolumeTextChanged"/>
                 </StackLayout>
                 <StackLayout>
                     <Grid>

@@ -3,6 +3,7 @@ using DosingApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
@@ -49,30 +50,16 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string Volume
+        public float? Volume
         {
-            get
-            {
-                if (ApplicatorTank.Volume == null)
-                {
-                    return "";
-                }
-                else
-                {
-                    return ApplicatorTank.Volume.ToString();
-                }
-            }
+            get { return ApplicatorTank.Volume; }
             set
             {
-                try
+                if (ApplicatorTank.Volume != value)
                 {
-                    ApplicatorTank.Volume = float.Parse(value);
+                    ApplicatorTank.Volume = value;
+                    OnPropertyChanged(nameof(Volume));
                 }
-                catch
-                {
-                    ApplicatorTank.Volume = null;
-                }
-                OnPropertyChanged(nameof(Volume));
             }
         }
 

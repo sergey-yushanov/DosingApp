@@ -32,7 +32,7 @@
                         ItemDisplayBinding="{Binding Name}"
                         SelectedItem="{Binding SelectedTransportTank, Mode=TwoWay}"/>
                     <Entry 
-                        Placeholder="Значение объема емкости, л" 
+                        Placeholder="Объем емкости, л" 
                         Text="{Binding Volume}"
                         IsReadOnly="True"/>
 

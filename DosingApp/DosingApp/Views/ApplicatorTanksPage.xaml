@@ -4,17 +4,27 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.ApplicatorsPage"
-             Title="Список аппликаторов">
+             x:Class="DosingApp.Views.ApplicatorTanksPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label
+                x:Name="labelTitle"
+                Text="{Binding Title}"
+                FontSize="Medium"
+                TextColor="{StaticResource TitleColor}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">
                 <Button Text="Добавить" Command="{Binding CreateCommand}"/>
 
-                <ListView
-                    x:Name="applicatorsList"
-                    ItemsSource="{Binding Applicators}"
-                    SelectedItem="{Binding SelectedApplicator, Mode=TwoWay}">
+                <ListView 
+                    x:Name="applicatorTanksList"
+                    ItemsSource="{Binding ApplicatorTanks}"
+                    SelectedItem="{Binding SelectedApplicatorTank, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

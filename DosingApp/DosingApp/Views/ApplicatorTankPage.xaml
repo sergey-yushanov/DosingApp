@@ -1,33 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DosingApp.Views.ApplicatorPage"
-             Title="{Binding Title}">
+             x:Class="DosingApp.Views.ApplicatorTankPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label
+                x:Name="labelTitle"
+                Text="{Binding Title}"
+                FontSize="Medium"
+                TextColor="{StaticResource TitleColor}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Margin="{StaticResource PageMargin}">
+            <StackLayout 
+            Margin="{StaticResource PageMargin}">
                 <StackLayout>
-
                     <Label 
-                        Text="Название"    
+                        Text="Название"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
-                        Placeholder="Введите название аппликатора" 
+                        Placeholder="Введите название емкости" 
                         Text="{Binding Name}" />
 
                     <Label 
-                        Text="Емкость аппликатора"
+                        Text="Объем, л"
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        x:Name="applicatorTanksList"
-                        Title="Выберите емкость"
-                        ItemsSource="{Binding ApplicatorTanks}"
-                        ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding SelectedApplicatorTank, Mode=TwoWay}" />
-                    <Button
-                        Text="Редактировать емкости"
-                        Command="{Binding EditTanksCommand}"/>
-
+                    <Entry 
+                        Placeholder="Введите объем емкости" 
+                        Text="{Binding Volume}" 
+                        Keyboard="Numeric"/>
                 </StackLayout>
                 <StackLayout>
                     <Grid>
@@ -37,15 +41,16 @@
                         </Grid.ColumnDefinitions>
                         <Button 
                             Text="Сохранить" 
-                            Command="{Binding ApplicatorsViewModel.SaveCommand}" 
+                            Command="{Binding ApplicatorTanksViewModel.SaveCommand}" 
                             CommandParameter="{Binding}" />
                         <Button 
                             Grid.Column="1" 
                             Text="Удалить" 
-                            Command="{Binding ApplicatorsViewModel.DeleteCommand}" 
+                            Command="{Binding ApplicatorTanksViewModel.DeleteCommand}" 
                             CommandParameter="{Binding}" />
                     </Grid>
                 </StackLayout>
+
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

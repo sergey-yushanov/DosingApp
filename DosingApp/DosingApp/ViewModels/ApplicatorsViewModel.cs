@@ -17,8 +17,7 @@ namespace DosingApp.ViewModels
     public class ApplicatorsViewModel : BaseViewModel
     {
         #region Services
-        //private readonly DataService<Applicator> dataServiceApplicators;
-        public readonly AppDbContext db;
+
         #endregion Services
 
         #region Attributes
@@ -34,9 +33,7 @@ namespace DosingApp.ViewModels
         #region Constructor
         public ApplicatorsViewModel()
         {
-            db = App.GetContext();
             LoadApplicators();
-            //CreateApplicators();
 
             CreateCommand = new Command(CreateApplicator);
             DeleteCommand = new Command(DeleteApplicator);
@@ -84,9 +81,12 @@ namespace DosingApp.ViewModels
             ApplicatorViewModel applicatorViewModel = applicatorInstance as ApplicatorViewModel;
             if (applicatorViewModel.Applicator != null && applicatorViewModel.Applicator.ApplicatorId != 0)
             {
-                db.Applicators.Attach(applicatorViewModel.Applicator);
-                db.Applicators.Remove(applicatorViewModel.Applicator);
-                db.SaveChanges();
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.ApplicatorTanks.RemoveRange(applicatorViewModel.ApplicatorTanks);
+                    db.Applicators.Remove(applicatorViewModel.Applicator);
+                    db.SaveChanges();
+                }
             }
             LoadApplicators();
             Back();
@@ -97,41 +97,52 @@ namespace DosingApp.ViewModels
             ApplicatorViewModel applicatorViewModel = applicatorInstance as ApplicatorViewModel;
             if (applicatorViewModel.Applicator != null && applicatorViewModel.IsValid)
             {
-                if (applicatorViewModel.Applicator.ApplicatorId == 0)
+                using (AppDbContext db = App.GetContext())
                 {
-                    db.Entry(applicatorViewModel.Applicator).State = EntityState.Added;
+                    if (applicatorViewModel.Applicator.ApplicatorId == 0)
+                    {
+                        db.Entry(applicatorViewModel.Applicator).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.Applicators.Update(applicatorViewModel.Applicator);
+                    }
+                    db.SaveChanges();
                 }
-                else
-                {
-                    db.Applicators.Attach(applicatorViewModel.Applicator);
-                    db.Applicators.Update(applicatorViewModel.Applicator);
-                }
-                db.SaveChanges();
+
+                SetSelectedApplicatorTank(applicatorViewModel);
             }
             LoadApplicators();
-            Back();
+            if (applicatorViewModel.IsBack)
+            {
+                Back();
+            }
         }
         #endregion Commands
 
         #region Methods
         public void LoadApplicators()
         {
-            Applicators = new ObservableCollection<Applicator>(db.Applicators.ToList());
+            using (AppDbContext db = App.GetContext())
+            {
+                Applicators = new ObservableCollection<Applicator>(db.Applicators.ToList());
+            }
         }
 
-/*        private void CreateApplicators()
+        private void SetSelectedApplicatorTank(ApplicatorViewModel applicatorViewModel)
         {
-            var applicators = new List<Applicator>()
+            if (applicatorViewModel.SelectedApplicatorTank != null)
             {
-                new Applicator { Name = "Applicator 1", Code = "f1" },
-                new Applicator { Name = "Applicator 2", Code = "f2" },
-                new Applicator { Name = "Applicator 3", Code = "f3" }
-            };
+                applicatorViewModel.ApplicatorTanks.ForEach(ft => ft.IsUsedTank = false);
+                applicatorViewModel.ApplicatorTanks.FirstOrDefault(ft => ft.ApplicatorTankId == applicatorViewModel.SelectedApplicatorTank.ApplicatorTankId).IsUsedTank = true;
 
-            db.Applicators.AddRange(applicators);
-            db.SaveChanges();
-        }*/
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.ApplicatorTanks.UpdateRange(applicatorViewModel.ApplicatorTanks);
+                    db.SaveChanges();
+                }
+            }
+        }
         #endregion Methods
-
     }
 }

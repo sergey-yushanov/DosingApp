@@ -13,21 +13,14 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class ApplicatorPage : ContentPage
+    public partial class ApplicatorTankPage : ContentPage
     {
-        public ApplicatorViewModel ViewModel { get; private set; }
-        public ApplicatorPage(ApplicatorViewModel viewModel)
+        public ApplicatorTankViewModel ViewModel { get; private set; }
+        public ApplicatorTankPage(ApplicatorTankViewModel viewModel)
         {
             InitializeComponent();
             ViewModel = viewModel;
             BindingContext = ViewModel;
-        }
-
-        protected override void OnAppearing()
-        {
-            var applicatorViewModel = (ApplicatorViewModel)BindingContext;
-            applicatorViewModel.LoadApplicatorTanks();
-            base.OnAppearing();
         }
     }
 }

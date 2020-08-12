@@ -15,10 +15,12 @@ namespace DosingApp.Views
 {
     public partial class TransportTanksPage : ContentPage
     {
-        public TransportTanksPage(TransportViewModel transportViewModel)
+        public TransportTanksViewModel ViewModel { get; private set; }
+        public TransportTanksPage(TransportTanksViewModel viewModel)
         {
             InitializeComponent();
-            BindingContext = new TransportTanksViewModel(transportViewModel);
+            ViewModel = viewModel;
+            BindingContext = ViewModel;
         }
     }
 }

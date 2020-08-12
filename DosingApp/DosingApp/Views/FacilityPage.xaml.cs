@@ -15,7 +15,8 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            ViewModel.LoadFacilityTanks();
+            var facilityViewModel = (FacilityViewModel)BindingContext;
+            facilityViewModel.LoadFacilityTanks();
             base.OnAppearing();
         }
     }

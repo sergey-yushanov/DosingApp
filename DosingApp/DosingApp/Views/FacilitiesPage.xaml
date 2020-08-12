@@ -12,7 +12,7 @@
                 <Button Text="Добавить" Command="{Binding CreateCommand}"/>
 
                 <ListView 
-                    x:Name="fieldsList"
+                    x:Name="facilitiesList"
                     ItemsSource="{Binding Facilities}"
                     SelectedItem="{Binding SelectedFacility, Mode=TwoWay}">
                     <ListView.ItemTemplate>

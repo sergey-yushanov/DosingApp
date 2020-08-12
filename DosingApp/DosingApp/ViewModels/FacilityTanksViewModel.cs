@@ -17,7 +17,7 @@ namespace DosingApp.ViewModels
     public class FacilityTanksViewModel : BaseViewModel
     {
         #region Services
-        //public readonly AppDbContext db;
+        
         #endregion Services
 
         #region Attributes

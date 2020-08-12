@@ -16,13 +16,17 @@ namespace DosingApp.ViewModels
     public class TransportViewModel : BaseViewModel
     {
         #region Services
-        public readonly AppDbContext db;
+
         #endregion Services
 
         #region Attributes
         TransportsViewModel transportsViewModel;
         public Transport Transport { get; private set; }
+        private bool isBack;
         private string title;
+
+        private ObservableCollection<TransportTank> transportTanks;
+        private TransportTank selectedTransportTank;
 
         public ICommand EditTanksCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
@@ -31,25 +35,16 @@ namespace DosingApp.ViewModels
         #region Constructor
         public TransportViewModel(Transport transport)
         {
-            db = App.GetContext();
             Transport = transport;
+            IsBack = true;
+            LoadTransportTanks();
 
-            EditTanksCommand = new Command(EditTanks);
+            EditTanksCommand = new Command(EditTransportTanksAsync);
             BackCommand = new Command(Back);
         }
         #endregion Constructor
 
         #region Properties
-        public ObservableCollection<TransportTank> TransportTanks
-        {
-            get { return new ObservableCollection<TransportTank>(Transport.TransportTanks.ToList()); }
-            set
-            {
-                Transport.TransportTanks = value.ToList();
-                OnPropertyChanged(nameof(TransportTanks));
-            }
-        }
-
         public TransportsViewModel TransportsViewModel
         {
             get { return transportsViewModel; }
@@ -86,9 +81,30 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public ObservableCollection<TransportTank> TransportTanks
+        {
+            get { return transportTanks; }
+            set { SetProperty(ref transportTanks, value); }
+        }
+
+        public TransportTank SelectedTransportTank
+        {
+            get { return selectedTransportTank; }
+            set { SetProperty(ref selectedTransportTank, value); }
+        }
+
         public bool IsValid
         {
-            get { return (!string.IsNullOrEmpty(Name)); }
+            get
+            {
+                return (!string.IsNullOrEmpty(Name));
+            }
+        }
+
+        public bool IsBack
+        {
+            get { return isBack; }
+            set { SetProperty(ref isBack, value); }
         }
 
         public string Title
@@ -104,26 +120,27 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private async void EditTanks()
+        private async void EditTransportTanksAsync()
         {
             if (!IsValid)
             {
-                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя транспорта.", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя транспорта", "Ok");
                 return;
             }
-            
+
             if (Transport.TransportId == 0)
             {
-                bool result = await Application.Current.MainPage.DisplayAlert("Предупреждение", "Для перехода к списку емкостей необходимо сохранить транспорт. Выполнить сохранение", "Да", "Нет");
-                if (result)
+                if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Для перехода к списку емкостей необходимо сохранить транспорт. Выполнить сохранение?", "Да", "Нет"))
                 {
+                    IsBack = false;
                     TransportsViewModel.SaveCommand.Execute(this);
+                    IsBack = true;
                 }
             }
 
             if (Transport.TransportId != 0)
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new TransportTanksPage(this));
+                await Application.Current.MainPage.Navigation.PushAsync(new TransportTanksPage(new TransportTanksViewModel(Transport)));
             }
         }
         #endregion Commands
@@ -131,8 +148,17 @@ namespace DosingApp.ViewModels
         #region Methods
         public void LoadTransportTanks()
         {
-            var transportTanksDB = db.TransportTanks.Where(tt => tt.TransportId == Transport.TransportId).ToList();
-            TransportTanks =  new ObservableCollection<TransportTank>(transportTanksDB);
+            using (AppDbContext db = App.GetContext())
+            {
+                var transportTanksDB = db.TransportTanks.Where(ft => ft.TransportId == Transport.TransportId).ToList();
+                TransportTanks = new ObservableCollection<TransportTank>(transportTanksDB);
+            }
+            InitSelectedTransportTank();
+        }
+
+        public void InitSelectedTransportTank()
+        {
+            SelectedTransportTank = TransportTanks.FirstOrDefault(ft => ft.IsUsedTank);
         }
         #endregion Methods
     }

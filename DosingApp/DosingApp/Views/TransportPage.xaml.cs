@@ -27,6 +27,7 @@ namespace DosingApp.Views
         {
             var transportViewModel = (TransportViewModel)BindingContext;
             transportViewModel.LoadTransportTanks();
+            base.OnAppearing();
         }
     }
 }

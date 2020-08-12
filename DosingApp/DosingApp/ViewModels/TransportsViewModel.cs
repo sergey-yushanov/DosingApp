@@ -17,7 +17,7 @@ namespace DosingApp.ViewModels
     public class TransportsViewModel : BaseViewModel
     {
         #region Services
-        public readonly AppDbContext db;
+
         #endregion Services
 
         #region Attributes
@@ -33,7 +33,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public TransportsViewModel()
         {
-            db = App.GetContext();
             LoadTransports();
 
             CreateCommand = new Command(CreateTransport);
@@ -82,9 +81,11 @@ namespace DosingApp.ViewModels
             TransportViewModel transportViewModel = transportInstance as TransportViewModel;
             if (transportViewModel.Transport != null && transportViewModel.Transport.TransportId != 0)
             {
-                db.Transports.Attach(transportViewModel.Transport);
-                db.Transports.Remove(transportViewModel.Transport);
-                db.SaveChanges();
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.Transports.Remove(transportViewModel.Transport);
+                    db.SaveChanges();
+                }
             }
             LoadTransports();
             Back();
@@ -95,66 +96,52 @@ namespace DosingApp.ViewModels
             TransportViewModel transportViewModel = transportInstance as TransportViewModel;
             if (transportViewModel.Transport != null && transportViewModel.IsValid)
             {
-                if (transportViewModel.Transport.TransportId == 0)
+                using (AppDbContext db = App.GetContext())
                 {
-                    db.Entry(transportViewModel.Transport).State = EntityState.Added;
+                    if (transportViewModel.Transport.TransportId == 0)
+                    {
+                        db.Entry(transportViewModel.Transport).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.Transports.Update(transportViewModel.Transport);
+                    }
+                    db.SaveChanges();
                 }
-                else
-                {
-                    db.Transports.Attach(transportViewModel.Transport);
-                    db.Transports.Update(transportViewModel.Transport);
-                    //if (transportViewModel.TransportTanks != null)
-                    //{
-                        //db.TransportTanks.AttachRange(transportViewModel.TransportTanks);
-                        //db.TransportTanks.UpdateRange(transportViewModel.TransportTanks);
-                    //}
-                }
-                db.SaveChanges();
+
+                SetSelectedTransportTank(transportViewModel);
             }
             LoadTransports();
-            Back();
-        }
-
-        private void DeleteTransportTank(object transportTankInstance)
-        {
-            TransportTankViewModel transportTankViewModel = transportTankInstance as TransportTankViewModel;
-            if (transportTankViewModel.TransportTank != null && transportTankViewModel.TransportTank.TransportTankId != 0)
+            if (transportViewModel.IsBack)
             {
-                db.TransportTanks.Attach(transportTankViewModel.TransportTank);
-                db.TransportTanks.Remove(transportTankViewModel.TransportTank);
-                db.SaveChanges();
+                Back();
             }
-            //LoadTransportTanks();
-            Back();
-        }
-
-        private void SaveTransportTank(object transportTankInstance)
-        {
-            TransportTankViewModel transportTankViewModel = transportTankInstance as TransportTankViewModel;
-            if (transportTankViewModel.TransportTank != null && transportTankViewModel.IsValid)
-            {
-                if (transportTankViewModel.TransportTank.TransportTankId == 0)
-                {
-                    db.Entry(transportTankViewModel.TransportTank).State = EntityState.Added;
-                }
-                else
-                {
-                    db.TransportTanks.Attach(transportTankViewModel.TransportTank);
-                    db.TransportTanks.Update(transportTankViewModel.TransportTank);
-                }
-                db.SaveChanges();
-            }
-            //LoadTransportTanks();
-            Back();
         }
         #endregion Commands
 
         #region Methods
         public void LoadTransports()
         {
-            Transports = new ObservableCollection<Transport>(db.Transports.ToList());
+            using (AppDbContext db = App.GetContext())
+            {
+                Transports = new ObservableCollection<Transport>(db.Transports.ToList());
+            }
+        }
+
+        private void SetSelectedTransportTank(TransportViewModel transportViewModel)
+        {
+            if (transportViewModel.SelectedTransportTank != null)
+            {
+                transportViewModel.TransportTanks.ForEach(ft => ft.IsUsedTank = false);
+                transportViewModel.TransportTanks.FirstOrDefault(ft => ft.TransportTankId == transportViewModel.SelectedTransportTank.TransportTankId).IsUsedTank = true;
+
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.TransportTanks.UpdateRange(transportViewModel.TransportTanks);
+                    db.SaveChanges();
+                }
+            }
         }
         #endregion Methods
-
     }
 }

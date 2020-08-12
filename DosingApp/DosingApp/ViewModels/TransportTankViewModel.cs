@@ -9,7 +9,7 @@ namespace DosingApp.ViewModels
     public class TransportTankViewModel : BaseViewModel
     {
         #region Services
-        //private readonly DataService<TransportTank> dataServiceTransportTanks;
+
         #endregion Services
 
         #region Attributes
@@ -36,7 +36,7 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                Title = (TransportTank.TransportTankId == 0) ? "Новая емкость" : "Емкость: " + TransportTank.Name;
+                Title = "Транспорт: " + TransportTanksViewModel.Transport.Name + ((TransportTank.TransportTankId == 0) ? "\nНовая емкость" : "\nЕмкость: " + TransportTank.Name);
                 return TransportTank.Name;
             }
             set

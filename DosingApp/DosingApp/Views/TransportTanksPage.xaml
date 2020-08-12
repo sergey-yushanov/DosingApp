@@ -4,8 +4,18 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.TransportTanksPage"
-             Title="Емкости транспорта">
+             x:Class="DosingApp.Views.TransportTanksPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label
+                x:Name="labelTitle"
+                Text="{Binding Title}"
+                FontSize="Medium"
+                TextColor="{StaticResource TitleColor}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">

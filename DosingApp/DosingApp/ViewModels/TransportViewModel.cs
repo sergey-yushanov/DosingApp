@@ -24,6 +24,7 @@ namespace DosingApp.ViewModels
         public Transport Transport { get; private set; }
         private bool isBack;
         private string title;
+        private float? volume;
 
         private ObservableCollection<TransportTank> transportTanks;
         private TransportTank selectedTransportTank;
@@ -81,6 +82,12 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public float? Volume
+        {
+            get { return volume; }
+            set { SetProperty(ref volume, value); }
+        }
+
         public ObservableCollection<TransportTank> TransportTanks
         {
             get { return transportTanks; }
@@ -90,7 +97,11 @@ namespace DosingApp.ViewModels
         public TransportTank SelectedTransportTank
         {
             get { return selectedTransportTank; }
-            set { SetProperty(ref selectedTransportTank, value); }
+            set 
+            {
+                Volume = value != null ? value.Volume : null;
+                SetProperty(ref selectedTransportTank, value); 
+            }
         }
 
         public bool IsValid
@@ -159,6 +170,7 @@ namespace DosingApp.ViewModels
         public void InitSelectedTransportTank()
         {
             SelectedTransportTank = TransportTanks.FirstOrDefault(ft => ft.IsUsedTank);
+            Volume = SelectedTransportTank != null ? SelectedTransportTank.Volume : null;
         }
         #endregion Methods
     }

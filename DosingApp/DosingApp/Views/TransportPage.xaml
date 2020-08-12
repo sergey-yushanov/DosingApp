@@ -30,13 +30,17 @@
                         Title="Выберите емкость"
                         ItemsSource="{Binding TransportTanks}"
                         ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding SelectedTransportTank, Mode=TwoWay}" />
-                    <Button
-                        Text="Редактировать емкости"
-                        Command="{Binding EditTanksCommand}"/>
+                        SelectedItem="{Binding SelectedTransportTank, Mode=TwoWay}"/>
+                    <Entry 
+                        Placeholder="Значение объема емкости, л" 
+                        Text="{Binding Volume}"
+                        IsReadOnly="True"/>
 
                 </StackLayout>
                 <StackLayout>
+                    <Button
+                        Text="Редактировать емкости"
+                        Command="{Binding EditTanksCommand}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />

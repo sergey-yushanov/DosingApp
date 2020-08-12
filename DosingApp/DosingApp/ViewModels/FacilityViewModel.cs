@@ -23,6 +23,7 @@ namespace DosingApp.ViewModels
         public Facility Facility { get; private set; }
         private bool isBack;
         private string title;
+        private float? volume;
 
         private ObservableCollection<FacilityTank> facilityTanks;
         private FacilityTank selectedFacilityTank;
@@ -93,6 +94,12 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public float? Volume
+        {
+            get { return volume; }
+            set { SetProperty(ref volume, value); }
+        }
+
         public ObservableCollection<FacilityTank> FacilityTanks
         {
             get { return facilityTanks; }
@@ -102,7 +109,11 @@ namespace DosingApp.ViewModels
         public FacilityTank SelectedFacilityTank
         {
             get { return selectedFacilityTank; }
-            set { SetProperty(ref selectedFacilityTank, value); }
+            set 
+            {
+                Volume = value != null ? value.Volume : null;
+                SetProperty(ref selectedFacilityTank, value);
+            }
         }
 
         public string Code
@@ -184,6 +195,7 @@ namespace DosingApp.ViewModels
         public void InitSelectedFacilityTank()
         {
             SelectedFacilityTank = FacilityTanks.FirstOrDefault(ft => ft.IsUsedTank);
+            Volume = SelectedFacilityTank != null ? SelectedFacilityTank.Volume : null;
         }
         #endregion Methods
     }

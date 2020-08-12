@@ -24,12 +24,16 @@
                         ItemsSource="{Binding ApplicatorTanks}"
                         ItemDisplayBinding="{Binding Name}"
                         SelectedItem="{Binding SelectedApplicatorTank, Mode=TwoWay}" />
-                    <Button
-                        Text="Редактировать емкости"
-                        Command="{Binding EditTanksCommand}"/>
+                    <Entry 
+                        Placeholder="Значение объема емкости, л" 
+                        Text="{Binding Volume}"
+                        IsReadOnly="True"/>
 
                 </StackLayout>
                 <StackLayout>
+                    <Button
+                        Text="Редактировать емкости"
+                        Command="{Binding EditTanksCommand}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />

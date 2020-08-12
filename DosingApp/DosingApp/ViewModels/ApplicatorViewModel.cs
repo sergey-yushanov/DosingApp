@@ -24,6 +24,7 @@ namespace DosingApp.ViewModels
         public Applicator Applicator { get; private set; }
         private bool isBack;
         private string title;
+        private float? volume;
 
         private ObservableCollection<ApplicatorTank> applicatorTanks;
         private ApplicatorTank selectedApplicatorTank;
@@ -68,6 +69,12 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public float? Volume
+        {
+            get { return volume; }
+            set { SetProperty(ref volume, value); }
+        }
+
         public ObservableCollection<ApplicatorTank> ApplicatorTanks
         {
             get { return applicatorTanks; }
@@ -77,7 +84,11 @@ namespace DosingApp.ViewModels
         public ApplicatorTank SelectedApplicatorTank
         {
             get { return selectedApplicatorTank; }
-            set { SetProperty(ref selectedApplicatorTank, value); }
+            set 
+            {
+                Volume = value != null ? value.Volume : null;
+                SetProperty(ref selectedApplicatorTank, value); 
+            }
         }
 
         public bool IsValid
@@ -146,6 +157,7 @@ namespace DosingApp.ViewModels
         public void InitSelectedApplicatorTank()
         {
             SelectedApplicatorTank = ApplicatorTanks.FirstOrDefault(ft => ft.IsUsedTank);
+            Volume = SelectedApplicatorTank != null ? SelectedApplicatorTank.Volume : null;
         }
         #endregion Methods
     }

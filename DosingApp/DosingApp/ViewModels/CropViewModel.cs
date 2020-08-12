@@ -8,10 +8,6 @@ namespace DosingApp.ViewModels
 {
     public class CropViewModel : BaseViewModel
     {
-        #region Services
-        //private readonly DataService<Crop> dataServiceCrops;
-        #endregion Services
-
         #region Attributes
         CropsViewModel cropsViewModel;
         public Crop Crop { get; private set; }

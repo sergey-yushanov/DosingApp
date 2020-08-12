@@ -18,7 +18,14 @@ namespace DosingApp.Views
         public RecipesPage()
         {
             InitializeComponent();
-            //BindingContext = new RecipesViewModel();
+            BindingContext = new RecipesViewModel();
+        }
+
+        protected override void OnAppearing()
+        {
+            var recipesViewModel = (RecipesViewModel)BindingContext;
+            recipesViewModel.LoadRecipes();
+            base.OnAppearing();
         }
     }
 }

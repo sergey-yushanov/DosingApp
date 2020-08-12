@@ -2,7 +2,7 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="DosingApp.Views.RecipePage"
-            Title="Рецепт">
+            Title="{Binding Title}">
     <TabbedPage.Children>
         <ContentPage Title="Параметры">
 
@@ -13,53 +13,55 @@
                     <StackLayout>
 
                         <Label 
-                            Text="Название" />
+                            Text="Название"
+                            TextColor="{StaticResource LabelEntryColor}"/>
                         <Entry 
                             Placeholder="Введите название рецепта" 
                             Text="{Binding Name}" />
 
                         <Label 
-                            Text="Культура" />
+                            Text="Культура"
+                            TextColor="{StaticResource LabelEntryColor}"/>
                         <Picker 
                             x:Name="cropsList"
                             Title="Выберите культуру"
+                            ItemsSource="{Binding Crops}"
                             ItemDisplayBinding="{Binding Name}"
                             SelectedItem="{Binding Crop, Mode=TwoWay}" />
 
                         <Label 
-                            Text="Вид обработки" />
+                            Text="Вид обработки" 
+                            TextColor="{StaticResource LabelEntryColor}"/>
                         <Picker 
                             x:Name="processingTypesList"
                             Title="Выберите вид обработки"
+                            ItemsSource="{Binding ProcessingTypes}"
                             ItemDisplayBinding="{Binding Name}"
                             SelectedItem="{Binding ProcessingType, Mode=TwoWay}" />
 
                         <Label 
-                            Text="Носитель смеси" />
+                            Text="Носитель смеси"
+                            TextColor="{StaticResource LabelEntryColor}"/>
                         <Picker 
                             x:Name="carriersList"
                             Title="Выберите носитель смеси"
+                            ItemsSource="{Binding Carriers}"
                             ItemDisplayBinding="{Binding Name}"
                             SelectedItem="{Binding Carrier, Mode=TwoWay}" />
 
                         <Label 
-                            Text="Заметка" />
+                            Text="Заметка"
+                            TextColor="{StaticResource LabelEntryColor}"/>
                         <Editor 
                             Placeholder="Введите текст заметки здесь"
                             Text="{Binding Note}" />
 
                         <Label 
-                            Text="Предварительное заполнение носителем, кг" />
-                        <Entry 
-                            Placeholder="Введите, сколько требуется носителя" 
-                            Text="{Binding ValueInit}" 
-                            Keyboard="Numeric" />
-
-                        <Label 
-                            Text="Минимум носителя в запасе, %" />
+                            Text="Минимум носителя в запасе, %" 
+                            TextColor="{StaticResource LabelEntryColor}"/>
                         <Entry 
                             Placeholder="Введите запас носителя" 
-                            Text="{Binding ValueMin}" 
+                            Text="{Binding CarrierReserve}" 
                             Keyboard="Numeric" />
 
                     </StackLayout>
@@ -72,11 +74,13 @@
                             </Grid.ColumnDefinitions>
                             <Button 
                                 Text="Сохранить" 
-                                Clicked="SaveButton" />
+                                Command="{Binding RecipesViewModel.SaveCommand}" 
+                                CommandParameter="{Binding}" />
                             <Button 
                                 Grid.Column="1" 
                                 Text="Удалить" 
-                                Clicked="DeleteButton" />
+                                Command="{Binding RecipesViewModel.DeleteCommand}" 
+                                CommandParameter="{Binding}" />
                         </Grid>
                     </StackLayout>
 

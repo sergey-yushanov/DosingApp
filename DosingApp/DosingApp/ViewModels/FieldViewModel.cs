@@ -62,15 +62,28 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public float? Size
+        public string Size
         {
-            get { return Field.Size; }
+            get
+            {
+                if (Field.Size == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    return Field.Size.ToString();
+                }
+            }
             set
             {
-                if (Field.Size != value)
+                try
                 {
-                    Field.Size = value;
-                    OnPropertyChanged(nameof(Size));
+                    Field.Size = float.Parse(value);
+                }
+                catch
+                {
+                    Field.Size = null;
                 }
             }
         }

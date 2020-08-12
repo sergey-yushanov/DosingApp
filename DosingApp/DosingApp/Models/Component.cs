@@ -13,7 +13,7 @@ namespace DosingApp.Models
 
         public string Name { get; set; }
         public string Consistency { get; set; }
-        public float Density { get; set; }
+        public float? Density { get; set; }
         public string Packing { get; set; }
     }
 }

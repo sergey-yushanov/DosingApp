@@ -62,16 +62,30 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public float Density
+        public string Density
         {
-            get { return Component.Density; }
+            get
+            {
+                if (Component.Density == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    return Component.Density.ToString();
+                }
+            }
             set
             {
-                if (Component.Density != value)
+                try
                 {
-                    Component.Density = value;
-                    OnPropertyChanged(nameof(Density));
+                    Component.Density = float.Parse(value);
                 }
+                catch
+                {
+                    Component.Density = null;
+                }
+                OnPropertyChanged(nameof(Density));
             }
         }
 

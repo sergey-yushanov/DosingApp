@@ -72,6 +72,7 @@ namespace DosingApp.ViewModels
                 {
                     FacilityTank.Volume = null;
                 }
+                OnPropertyChanged(nameof(Volume));
             }
         }
 

@@ -13,19 +13,12 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class CropsPage : ContentPage
+    public partial class ManufacturersPage : ContentPage
     {
-        public CropsPage()
+        public ManufacturersPage()
         {
             InitializeComponent();
-            BindingContext = new CropsViewModel();
-        }
-
-        protected override void OnAppearing()
-        {
-            var cropsViewModel = (CropsViewModel)BindingContext;
-            cropsViewModel.LoadCrops();
-            base.OnAppearing();
+            BindingContext = new ManufacturersViewModel();
         }
     }
 }

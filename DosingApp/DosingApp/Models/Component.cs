@@ -4,12 +4,18 @@ using System.Text;
 
 namespace DosingApp.Models
 {
+    public static class ComponentConsistency
+    {
+        public const string Dry = "Сухой";
+        public const string Liquid = "Жидкий";
+    }
+
     public class Component
     {
         public int ComponentId { get; set; }
 
         public int? ManufacturerId { get; set; }
-        public virtual ComponentManufacturer Manufacturer { get; set; }
+        public virtual Manufacturer Manufacturer { get; set; }
 
         public string Name { get; set; }
         public string Consistency { get; set; }

@@ -4,27 +4,17 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.ComponentsPage">
-
-    <NavigationPage.TitleView>
-        <StackLayout>
-            <Label
-                x:Name="labelTitle"
-                Text="{Binding Title}"
-                FontSize="Medium"
-                TextColor="{StaticResource TitleColor}"/>
-        </StackLayout>
-    </NavigationPage.TitleView>
-    
+             x:Class="DosingApp.Views.GroupedComponentsPage"
+             Title="Компоненты по производителям">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">
-                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
+                <Button Text="Редактировать производителей" Command="{Binding EditManufacturersCommand}"/>
 
                 <ListView 
-                    x:Name="componentsList"
-                    ItemsSource="{Binding Components}"
-                    SelectedItem="{Binding SelectedComponent, Mode=TwoWay}">
+                    x:Name="groupedComponentsList"
+                    ItemsSource="{Binding Manufacturers}"
+                    SelectedItem="{Binding SelectedManufacturer, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

@@ -4,8 +4,18 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.ComponentPage"
-             Title="{Binding Title}">
+             x:Class="DosingApp.Views.ComponentPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label
+                x:Name="labelTitle"
+                Text="{Binding Title}"
+                FontSize="Medium"
+                TextColor="{StaticResource TitleColor}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">
@@ -21,21 +31,21 @@
                         Text="Форма компонента" 
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Picker 
-                        Title="Выберите тип компонента"
+                        Title="Выберите форму компонента"
+                        ItemsSource="{Binding ConsistencyList}"
                         SelectedItem="{Binding Consistency}">
-                        <Picker.Items>
-                            <x:String>Жидкий</x:String>
-                            <x:String>Сухой</x:String>
-                        </Picker.Items>
                     </Picker>
                     
                     <Label 
                         Text="Плотность, г/мл" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
+                        TextColor="{StaticResource LabelEntryColor}"
+                        IsVisible="{Binding IsLiquid}"/>
                     <Entry
                         Placeholder="Введите плотность" 
                         Text="{Binding Density}" 
-                        Keyboard="Numeric" />
+                        Keyboard="Numeric"
+                        IsEnabled="{Binding IsLiquid}"
+                        IsVisible="{Binding IsLiquid}"/>
                     
                     <Label 
                         Text="Фасовка" 

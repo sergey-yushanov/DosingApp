@@ -61,6 +61,15 @@
     <Compile Update="Views\ApplicatorTankPage.xaml.cs">
       <DependentUpon>ApplicatorTankPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\GroupedComponentsPage.xaml.cs">
+      <DependentUpon>GroupedComponentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ManufacturerPage.xaml.cs">
+      <DependentUpon>ManufacturerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ManufacturersPage.xaml.cs">
+      <DependentUpon>ManufacturersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\TransportTankPage.xaml.cs">
       <DependentUpon>TransportTankPage.xaml</DependentUpon>
     </Compile>

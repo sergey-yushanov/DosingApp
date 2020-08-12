@@ -17,13 +17,15 @@ namespace DosingApp.ViewModels
     public class ComponentsViewModel : BaseViewModel
     {
         #region Services
-        //private readonly DataService<Component> dataServiceComponents;
-        public readonly AppDbContext db;
+        
         #endregion Services
 
         #region Attributes
         private ObservableCollection<Component> components;
         private Component selectedComponent;
+        private string title;
+
+        public Manufacturer Manufacturer { get; private set; }
 
         public ICommand CreateCommand { get; protected set; }
         public ICommand DeleteCommand { get; protected set; }
@@ -32,11 +34,11 @@ namespace DosingApp.ViewModels
         #endregion Attributes
 
         #region Constructor
-        public ComponentsViewModel()
+        public ComponentsViewModel(Manufacturer manufacturer)
         {
-            db = App.GetContext();
+            Manufacturer = manufacturer;
             LoadComponents();
-            //CreateComponents();
+            Title = "Производитель: " + Manufacturer.Name + "\nКомпоненты";
 
             CreateCommand = new Command(CreateComponent);
             DeleteCommand = new Command(DeleteComponent);
@@ -66,6 +68,12 @@ namespace DosingApp.ViewModels
                 }
             }
         }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
+        }
         #endregion Properties
 
         #region Commands
@@ -76,7 +84,11 @@ namespace DosingApp.ViewModels
 
         private void CreateComponent()
         {
-            Application.Current.MainPage.Navigation.PushAsync(new ComponentPage(new ComponentViewModel(new Component()) { ComponentsViewModel = this }));
+            Component newComponent = new Component
+            {
+                Manufacturer = this.Manufacturer
+            };
+            Application.Current.MainPage.Navigation.PushAsync(new ComponentPage(new ComponentViewModel(newComponent) { ComponentsViewModel = this }));
         }
 
         private void DeleteComponent(object componentInstance)
@@ -84,9 +96,11 @@ namespace DosingApp.ViewModels
             ComponentViewModel componentViewModel = componentInstance as ComponentViewModel;
             if (componentViewModel.Component != null && componentViewModel.Component.ComponentId != 0)
             {
-                db.Components.Attach(componentViewModel.Component);
-                db.Components.Remove(componentViewModel.Component);
-                db.SaveChanges();
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.Components.Remove(componentViewModel.Component);
+                    db.SaveChanges();
+                }
             }
             LoadComponents();
             Back();
@@ -97,16 +111,18 @@ namespace DosingApp.ViewModels
             ComponentViewModel componentViewModel = componentInstance as ComponentViewModel;
             if (componentViewModel.Component != null && componentViewModel.IsValid)
             {
-                if (componentViewModel.Component.ComponentId == 0)
+                using (AppDbContext db = App.GetContext())
                 {
-                    db.Entry(componentViewModel.Component).State = EntityState.Added;
+                    if (componentViewModel.Component.ComponentId == 0)
+                    {
+                        db.Entry(componentViewModel.Component).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.Components.Update(componentViewModel.Component);
+                    }
+                    db.SaveChanges();
                 }
-                else
-                {
-                    db.Components.Attach(componentViewModel.Component);
-                    db.Components.Update(componentViewModel.Component);
-                }
-                db.SaveChanges();
             }
             LoadComponents();
             Back();
@@ -116,21 +132,12 @@ namespace DosingApp.ViewModels
         #region Methods
         public void LoadComponents()
         {
-            Components = new ObservableCollection<Component>(db.Components.ToList());
-        }
-
-/*        private void CreateComponents()
-        {
-            var components = new List<Component>()
+            using (AppDbContext db = App.GetContext())
             {
-                new Component { Name = "Component 1", Code = "f1" },
-                new Component { Name = "Component 2", Code = "f2" },
-                new Component { Name = "Component 3", Code = "f3" }
-            };
-
-            db.Components.AddRange(components);
-            db.SaveChanges();
-        }*/
+                var componentsDB = db.Components.Where(c => c.ManufacturerId == Manufacturer.ManufacturerId).ToList();
+                Components = new ObservableCollection<Component>(componentsDB);
+            }
+        }
         #endregion Methods
 
     }

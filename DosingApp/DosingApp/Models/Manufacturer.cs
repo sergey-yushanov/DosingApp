@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DosingApp.Models
 {
-    public class ComponentManufacturer
+    public class Manufacturer
     {
-        public int ComponentManufacturerId { get; set; }
+        public int ManufacturerId { get; set; }
         public string Name { get; set; }
         public string DisplayName { get; set; }
 

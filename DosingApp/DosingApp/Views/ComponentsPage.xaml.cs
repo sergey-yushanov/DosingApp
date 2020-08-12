@@ -14,11 +14,13 @@ using Xamarin.Forms.Xaml;
 namespace DosingApp.Views
 {
     public partial class ComponentsPage : ContentPage
-    {
-        public ComponentsPage()
+    { 
+        public ComponentsViewModel ViewModel { get; private set; }
+        public ComponentsPage(ComponentsViewModel viewModel)
         {
             InitializeComponent();
-            BindingContext = new ComponentsViewModel();
+            ViewModel = viewModel;
+            BindingContext = ViewModel;
         }
     }
 }

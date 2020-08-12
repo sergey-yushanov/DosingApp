@@ -1,7 +1,10 @@
-﻿using DosingApp.Models;
+﻿using DosingApp.DataContext;
+using DosingApp.Models;
 using DosingApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace DosingApp.ViewModels
@@ -9,13 +12,14 @@ namespace DosingApp.ViewModels
     public class ComponentViewModel : BaseViewModel
     {
         #region Services
-        //private readonly DataService<Component> dataServiceComponents;
+        
         #endregion Services
 
         #region Attributes
         ComponentsViewModel componentsViewModel;
         public Component Component { get; private set; }
         private string title;
+        private bool isLiquid;
         #endregion Attributes
 
         #region Constructor
@@ -36,7 +40,7 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                Title = (Component.ComponentId == 0) ? "Новый компонент" : "Компонент: " + Component.Name;
+                Title = "Производитель: " + ComponentsViewModel.Manufacturer.Name + ((Component.ComponentId == 0) ? "\nНовый компонент" : "\nКомпонент: " + Component.Name);
                 return Component.Name; 
             }
             set
@@ -51,7 +55,11 @@ namespace DosingApp.ViewModels
 
         public string Consistency
         {
-            get { return Component.Consistency; }
+            get 
+            {
+                IsLiquid = Component.Consistency != null && String.Equals(Component.Consistency, ComponentConsistency.Liquid);
+                return Component.Consistency; 
+            }
             set
             {
                 if (Component.Consistency != value)
@@ -60,6 +68,11 @@ namespace DosingApp.ViewModels
                     OnPropertyChanged(nameof(Consistency));
                 }
             }
+        }
+
+        public ObservableCollection<string> ConsistencyList
+        {
+            get { return new ObservableCollection<string>() { ComponentConsistency.Liquid, ComponentConsistency.Dry }; }
         }
 
         public string Density
@@ -98,6 +111,7 @@ namespace DosingApp.ViewModels
                 {
                     Component.Packing = value;
                     OnPropertyChanged(nameof(Packing));
+
                 }
             }
         }
@@ -108,6 +122,12 @@ namespace DosingApp.ViewModels
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public bool IsLiquid
+        {
+            get { return isLiquid; }
+            set { SetProperty(ref isLiquid, value); }
         }
 
         public string Title

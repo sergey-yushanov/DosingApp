@@ -83,6 +83,7 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
+                    db.TransportTanks.RemoveRange(transportViewModel.TransportTanks);
                     db.Transports.Remove(transportViewModel.Transport);
                     db.SaveChanges();
                 }

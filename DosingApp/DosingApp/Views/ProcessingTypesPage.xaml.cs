@@ -23,12 +23,8 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            var ProcessingTypesViewModel = (ProcessingTypesViewModel)BindingContext;
-            using (AppDbContext db = App.GetContext())
-            {
-                ProcessingTypesViewModel.LoadProcessingTypes();
-                processingTypesList.ItemsSource = ProcessingTypesViewModel.ProcessingTypes;
-            }
+            var processingTypesViewModel = (ProcessingTypesViewModel)BindingContext;
+            processingTypesViewModel.LoadProcessingTypes();
             base.OnAppearing();
         }
     }

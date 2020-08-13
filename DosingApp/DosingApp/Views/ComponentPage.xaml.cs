@@ -11,48 +11,21 @@ namespace DosingApp.Views
 {
     public partial class ComponentPage : ContentPage
     {
-        string dbPath;
-
-        public ComponentPage()
+        public ComponentViewModel ViewModel { get; private set; }
+        public ComponentPage(ComponentViewModel viewModel)
         {
             InitializeComponent();
-            dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
+            ViewModel = viewModel;
+            BindingContext = ViewModel;
         }
 
-        private void Back()
+        private void OnDensityTextChanged(object sender, TextChangedEventArgs args)
         {
-            Navigation.PopAsync();
-        }
-
-        private void SaveButton(object sender, EventArgs e)
-        {
-            var component = (Component)BindingContext;
-            if (!String.IsNullOrEmpty(component.Name))
+            if (String.IsNullOrEmpty(args.NewTextValue))
             {
-                using (AppDbContext db = new AppDbContext(dbPath))
-                {
-                    if (component.ComponentId == 0)
-                        db.Components.Add(component);
-                    else
-                    {
-                        db.Components.Update(component);
-                    }
-                    db.SaveChanges();
-                }
+                var componentViewModel = (ComponentViewModel)BindingContext;
+                componentViewModel.Density = null;
             }
-            Back();
         }
-
-        private void DeleteButton(object sender, EventArgs e)
-        {
-            var component = (Component)BindingContext;
-            using (AppDbContext db = new AppDbContext(dbPath))
-            {
-                db.Components.Remove(component);
-                db.SaveChanges();
-            }
-            Back();
-        }
-
     }
 }

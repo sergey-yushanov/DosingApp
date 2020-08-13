@@ -16,13 +16,8 @@ namespace DosingApp.ViewModels
 {
     public class CropsViewModel : BaseViewModel
     {
-        #region Services
-        //private readonly DataService<Crop> dataServiceCrops;
-        public readonly AppDbContext db;
-        #endregion Services
-
         #region Attributes
-        public ObservableCollection<Crop> Crops { get; set; }
+        private ObservableCollection<Crop> crops;
         private Crop selectedCrop;
 
         public ICommand CreateCommand { get; protected set; }
@@ -34,8 +29,7 @@ namespace DosingApp.ViewModels
         #region Constructor
         public CropsViewModel()
         {
-            db = App.GetContext();
-            //CreateCrops();
+            //LoadCrops();
 
             CreateCommand = new Command(CreateCrop);
             DeleteCommand = new Command(DeleteCrop);
@@ -45,6 +39,12 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public ObservableCollection<Crop> Crops 
+        {
+            get { return crops; }
+            set { SetProperty(ref crops, value); }
+        }
+
         public Crop SelectedCrop
         {
             get { return selectedCrop; }
@@ -77,11 +77,14 @@ namespace DosingApp.ViewModels
             CropViewModel cropViewModel = cropInstance as CropViewModel;
             if (cropViewModel.Crop != null && cropViewModel.Crop.CropId != 0)
             {
-                db.Crops.Attach(cropViewModel.Crop);
-                db.Crops.Remove(cropViewModel.Crop);
-                db.SaveChanges();
-                Back();
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.Crops.Remove(cropViewModel.Crop);
+                    db.SaveChanges();
+                }
             }
+            //LoadCrops();
+            Back();
         }
 
         private void SaveCrop(object cropInstance)
@@ -89,18 +92,20 @@ namespace DosingApp.ViewModels
             CropViewModel cropViewModel = cropInstance as CropViewModel;
             if (cropViewModel.Crop != null && cropViewModel.IsValid)
             {
-                if (cropViewModel.Crop.CropId == 0)
+                using (AppDbContext db = App.GetContext())
                 {
-                    //db.Crops.Add(cropViewModel.Crop);
-                    db.Entry(cropViewModel.Crop).State = EntityState.Added;
+                    if (cropViewModel.Crop.CropId == 0)
+                    {
+                        db.Entry(cropViewModel.Crop).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.Crops.Update(cropViewModel.Crop);
+                    }
+                    db.SaveChanges();
                 }
-                else
-                {
-                    db.Crops.Attach(cropViewModel.Crop);
-                    db.Crops.Update(cropViewModel.Crop);
-                }
-                db.SaveChanges();
             }
+            //LoadCrops();
             Back();
         }
         #endregion Commands
@@ -108,22 +113,11 @@ namespace DosingApp.ViewModels
         #region Methods
         public void LoadCrops()
         {
-            Crops = new ObservableCollection<Crop>(db.Crops.ToList());
-        }
-
-        private void CreateCrops()
-        {
-            var crops = new List<Crop>()
+            using (AppDbContext db = App.GetContext())
             {
-                new Crop { Name = "Crop 1", Code = "c1" },
-                new Crop { Name = "Crop 2", Code = "c2" },
-                new Crop { Name = "Crop 3", Code = "c3" }
-            };
-
-            db.Crops.AddRange(crops);
-            db.SaveChanges();
+                Crops = new ObservableCollection<Crop>(db.Crops.ToList());
+            }
         }
         #endregion Methods
-
     }
 }

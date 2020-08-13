@@ -23,12 +23,8 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            var CropsViewModel = (CropsViewModel)BindingContext;
-            using (AppDbContext db = App.GetContext())
-            {
-                CropsViewModel.LoadCrops();
-                cropsList.ItemsSource = CropsViewModel.Crops;
-            }
+            var cropsViewModel = (CropsViewModel)BindingContext;
+            cropsViewModel.LoadCrops();
             base.OnAppearing();
         }
     }

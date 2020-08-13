@@ -1,28 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
              x:Class="DosingApp.Views.ApplicatorPage"
-             Title="Аппликатор">
+             Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout Margin="{StaticResource PageMargin}">
-            <StackLayout>
-                <Label Text="Название" />
-                <Entry Placeholder="Введите название аппликатора" Text="{Binding Name}" />
-            </StackLayout>
-            <StackLayout>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Button Text="Сохранить" Clicked="SaveButton" />
-                    <Button Grid.Column="1" Text="Удалить" Clicked="DeleteButton" />
-                </Grid>
-            </StackLayout>
+        <ScrollView>
+            <StackLayout Margin="{StaticResource PageMargin}">
+                <StackLayout>
 
-        </StackLayout>
+                    <Label 
+                        Text="Название"    
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry 
+                        Placeholder="Введите название аппликатора" 
+                        Text="{Binding Name}" />
+
+                    <Label 
+                        Text="Емкость аппликатора"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Picker 
+                        x:Name="applicatorTanksList"
+                        Title="Выберите емкость"
+                        ItemsSource="{Binding ApplicatorTanks}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedApplicatorTank, Mode=TwoWay}" />
+                    <Entry 
+                        Placeholder="Объем емкости, л" 
+                        Text="{Binding Volume}"
+                        IsReadOnly="True"/>
+
+                </StackLayout>
+                <StackLayout>
+                    <Button
+                        Text="Редактировать емкости"
+                        Command="{Binding EditTanksCommand}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button 
+                            Text="Сохранить" 
+                            Command="{Binding ApplicatorsViewModel.SaveCommand}" 
+                            CommandParameter="{Binding}" />
+                        <Button 
+                            Grid.Column="1" 
+                            Text="Удалить" 
+                            Command="{Binding ApplicatorsViewModel.DeleteCommand}" 
+                            CommandParameter="{Binding}" />
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

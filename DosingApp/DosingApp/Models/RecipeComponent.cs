@@ -4,6 +4,12 @@ using System.Text;
 
 namespace DosingApp.Models
 {
+    public static class RecipeComponentUnit
+    {
+        public const string Dry = "кг/га";
+        public const string Liquid = "л/га";
+    }
+
     public class RecipeComponent
     {
         public int RecipeComponentId { get; set; }
@@ -14,10 +20,12 @@ namespace DosingApp.Models
         public int? ComponentId { get; set; }
         public virtual Component Component { get; set; }
 
-        public int Order { get; set; }
-        public float VolumeRate { get; set; }
+        public int? Order { get; set; }
+        public float? VolumeRate { get; set; }
         public string Unit { get; set; }
-        public int Valve { get; set; }
+        public string Valve { get; set; }
         public string DispenserName { get; set; }
+
+        public string Name { get { return Component?.Name; } }
     }
 }

@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.LoginPage">
+             x:Class="DosingApp.Views.LoginPage"
+             Title="Mix-app">
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
             <Frame 
@@ -15,12 +16,14 @@
                     HeightRequest="50"/>
             </Frame>
             <Label 
-                Text="Пользователь" />
+                Text="Пользователь"
+                TextColor="{StaticResource LabelEntryColor}"/>
             <Entry 
                 x:Name="userEntry" 
                 Placeholder="Введите имя пользователя" />
             <Label 
-                Text="Пароль" />
+                Text="Пароль" 
+                TextColor="{StaticResource LabelEntryColor}"/>
             <Entry 
                 x:Name="passwordEntry" 
                 Placeholder="Введите пароль"

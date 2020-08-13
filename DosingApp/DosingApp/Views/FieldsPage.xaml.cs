@@ -23,12 +23,8 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            var FieldsViewModel = (FieldsViewModel)BindingContext;
-            using (AppDbContext db = App.GetContext())
-            {
-                FieldsViewModel.LoadFields();
-                fieldsList.ItemsSource = FieldsViewModel.Fields;
-            }
+            var fieldsViewModel = (FieldsViewModel)BindingContext;
+            fieldsViewModel.LoadFields();
             base.OnAppearing();
         }
     }

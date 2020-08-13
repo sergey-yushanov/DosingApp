@@ -19,8 +19,7 @@ namespace DosingApp.Models
         public virtual Component Carrier { get; set; }
 
         public string Note { get; set; }
-        public float ValueInit { get; set; }
-        public float ValueMin { get; set; }
+        public float? CarrierReserve { get; set; }
 
         public ICollection<RecipeComponent> RecipeComponents { get; set; }
     }

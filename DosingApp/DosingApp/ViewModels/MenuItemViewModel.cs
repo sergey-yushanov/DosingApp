@@ -8,15 +8,10 @@ namespace DosingApp.ViewModels
     public class MenuItemViewModel
     {
         #region Attributes
-        //public HomeMenuItem HomeMenuItem { get; set; }
-
         public MenuItemType Id { get; set; }
-        public MenuItemAccess Access { get; set; }
+        public string Group { get; set; }
         public string Title { get; set; }
         public string Icon { get; set; }
-        public bool IsSeparatorVisible { get; set; }
-
-        //List<MenuItem> menuItems;
         #endregion Attributes
 
         #region Commands
@@ -41,7 +36,7 @@ namespace DosingApp.ViewModels
                     Application.Current.MainPage.Navigation.PushAsync(new RecipesPage());
                     break;
                 case MenuItemType.Components:
-                    Application.Current.MainPage.Navigation.PushAsync(new ComponentsPage());
+                    Application.Current.MainPage.Navigation.PushAsync(new GroupedComponentsPage());
                     break;
                 case MenuItemType.Applicators:
                     Application.Current.MainPage.Navigation.PushAsync(new ApplicatorsPage());

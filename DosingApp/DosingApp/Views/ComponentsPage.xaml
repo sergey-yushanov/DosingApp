@@ -4,24 +4,40 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.ComponentsPage"
-             Title="Список компонентов">
-    <ContentPage.Content>
-        <StackLayout Margin="{StaticResource PageMargin}">
-            <Button Text="Добавить" Clicked="CreateButton" />
-            <ListView x:Name="itemsList" ItemSelected="OnItemSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Name}" FontSize="Medium" />
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+             x:Class="DosingApp.Views.ComponentsPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label
+                x:Name="labelTitle"
+                Text="{Binding Title}"
+                FontSize="Medium"
+                TextColor="{StaticResource TitleColor}"/>
         </StackLayout>
+    </NavigationPage.TitleView>
+    
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="{StaticResource PageMargin}">
+                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
+
+                <ListView 
+                    x:Name="componentsList"
+                    ItemsSource="{Binding Components}"
+                    SelectedItem="{Binding SelectedComponent, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                        <Label Text="{Binding Name}" FontSize="Medium" />
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

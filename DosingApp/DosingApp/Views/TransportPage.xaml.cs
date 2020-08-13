@@ -3,6 +3,10 @@ using DosingApp.Models;
 using DosingApp.Services;
 using DosingApp.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,48 +15,19 @@ namespace DosingApp.Views
 {
     public partial class TransportPage : ContentPage
     {
-        string dbPath;
-
-        public TransportPage()
+        public TransportViewModel ViewModel { get; private set; }
+        public TransportPage(TransportViewModel viewModel)
         {
             InitializeComponent();
-            dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
+            ViewModel = viewModel;
+            BindingContext = ViewModel;
         }
 
-        private void Back()
+        protected override void OnAppearing()
         {
-            Navigation.PopAsync();
+            var transportViewModel = (TransportViewModel)BindingContext;
+            transportViewModel.LoadTransportTanks();
+            base.OnAppearing();
         }
-
-        private void SaveButton(object sender, EventArgs e)
-        {
-            var transport = (Transport)BindingContext;
-            if (!String.IsNullOrEmpty(transport.Name))
-            {
-                using (AppDbContext db = new AppDbContext(dbPath))
-                {
-                    if (transport.TransportId == 0)
-                        db.Transports.Add(transport);
-                    else
-                    {
-                        db.Transports.Update(transport);
-                    }
-                    db.SaveChanges();
-                }
-            }
-            Back();
-        }
-
-        private void DeleteButton(object sender, EventArgs e)
-        {
-            var transport = (Transport)BindingContext;
-            using (AppDbContext db = new AppDbContext(dbPath))
-            {
-                db.Transports.Remove(transport);
-                db.SaveChanges();
-            }
-            Back();
-        }
-
     }
 }

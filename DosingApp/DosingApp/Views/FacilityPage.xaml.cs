@@ -1,58 +1,23 @@
-﻿using DosingApp.DataContext;
-using DosingApp.Models;
-using DosingApp.Services;
-using DosingApp.ViewModels;
-using System;
-
+﻿using DosingApp.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
     public partial class FacilityPage : ContentPage
     {
-        string dbPath;
-
-        public FacilityPage()
+        public FacilityViewModel ViewModel { get; private set; }
+        public FacilityPage(FacilityViewModel viewModel)
         {
             InitializeComponent();
-            dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
+            ViewModel = viewModel;
+            BindingContext = ViewModel;
         }
 
-        private void Back()
+        protected override void OnAppearing()
         {
-            Navigation.PopAsync();
+            var facilityViewModel = (FacilityViewModel)BindingContext;
+            facilityViewModel.LoadFacilityTanks();
+            base.OnAppearing();
         }
-
-        private void SaveButton(object sender, EventArgs e)
-        {
-            var facility = (Facility)BindingContext;
-            if (!String.IsNullOrEmpty(facility.Name))
-            {
-                using (AppDbContext db = new AppDbContext(dbPath))
-                {
-                    if (facility.FacilityId == 0)
-                        db.Facilities.Add(facility);
-                    else
-                    {
-                        db.Facilities.Update(facility);
-                    }
-                    db.SaveChanges();
-                }
-            }
-            Back();
-        }
-
-        private void DeleteButton(object sender, EventArgs e)
-        {
-            var facility = (Facility)BindingContext;
-            using (AppDbContext db = new AppDbContext(dbPath))
-            {
-                db.Facilities.Remove(facility);
-                db.SaveChanges();
-            }
-            Back();
-        }
-
     }
 }

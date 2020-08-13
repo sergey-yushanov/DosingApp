@@ -11,21 +11,24 @@
             <StackLayout>
                 
                 <Label 
-                    Text="Имя пользователя" />
+                    Text="Имя пользователя"
+                    TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     x:Name="userEntry"
                     Placeholder="Введите имя пользователя" 
                     Text="{Binding Username}" />
                 
                 <Label 
-                    Text="Пароль" />
+                    Text="Пароль"
+                    TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     x:Name="passwordEntry"
                     Placeholder="Введите пароль"
                     IsPassword="True" />
                 
                 <Label 
-                    Text="Имя для отбражения" />
+                    Text="Имя для отображения"
+                    TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     Placeholder="Введите имя для отображения" 
                     Text="{Binding DisplayName}" />
@@ -34,22 +37,10 @@
                 <StackLayout
                     Orientation="Vertical"
                     Spacing="10">
-                    <BoxView HeightRequest="1" Color="#00000" IsVisible="True" />
-                    <Label
-                        Text="Уровни доступа"/>
-                    <BoxView HeightRequest="1" Color="#00000" IsVisible="True" />
-                
 
-                    <StackLayout Orientation="Horizontal">
-                        <Label 
-                            Text="Главное меню"
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand" />
-                        <Switch 
-                            x:Name="accessMainMenuSwitch"
-                            IsToggled="{Binding AccessMainMenu}"
-                            HorizontalOptions="End" />
-                    </StackLayout>
+                    <Label
+                        Text="Уровни доступа"
+                        TextColor="{StaticResource LabelEntryColor}"/>
 
                     <StackLayout Orientation="Horizontal">
                         <Label 
@@ -82,8 +73,8 @@
                             FontSize="Medium"
                             HorizontalOptions="StartAndExpand"/>
                         <Switch 
-                            x:Name="accessAdminSwitch"
-                            IsToggled="{Binding AccessAdmin}"
+                            x:Name="accessAdminParamsSwitch"
+                            IsToggled="{Binding AccessAdminParams}"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="End" />
                     </StackLayout>

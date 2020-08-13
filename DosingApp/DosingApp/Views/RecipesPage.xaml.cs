@@ -18,33 +18,14 @@ namespace DosingApp.Views
         public RecipesPage()
         {
             InitializeComponent();
+            BindingContext = new RecipesViewModel();
         }
 
         protected override void OnAppearing()
         {
-            using (AppDbContext db = App.GetContext())
-            {
-                recipesList.ItemsSource = db.Recipes.ToList();
-            }
+            var recipesViewModel = (RecipesViewModel)BindingContext;
+            recipesViewModel.LoadRecipes();
             base.OnAppearing();
-        }
-
-        // обработка нажатия элемента в списке
-        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Recipe selectedRecipe = (Recipe)e.SelectedItem;
-            RecipePage recipePage = new RecipePage();
-            recipePage.BindingContext = selectedRecipe;
-            await Navigation.PushAsync(recipePage);
-        }
-
-        // обработка нажатия кнопки добавления
-        private async void CreateButton(object sender, EventArgs e)
-        {
-            Recipe recipe = new Recipe();
-            RecipePage recipePage = new RecipePage();
-            recipePage.BindingContext = recipe;
-            await Navigation.PushAsync(recipePage);
         }
     }
 }

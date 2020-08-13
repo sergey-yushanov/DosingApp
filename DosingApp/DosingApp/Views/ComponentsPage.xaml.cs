@@ -14,38 +14,20 @@ using Xamarin.Forms.Xaml;
 namespace DosingApp.Views
 {
     public partial class ComponentsPage : ContentPage
-    {
-        public ComponentsPage()
+    { 
+        public ComponentsViewModel ViewModel { get; private set; }
+        public ComponentsPage(ComponentsViewModel viewModel)
         {
             InitializeComponent();
+            ViewModel = viewModel;
+            BindingContext = ViewModel;
         }
 
         protected override void OnAppearing()
         {
-            string dbPath = DependencyService.Get<IPath>().GetDatabasePath(App.DBFILENAME);
-            using (AppDbContext db = new AppDbContext(dbPath))
-            {
-                itemsList.ItemsSource = db.Components.ToList();
-            }
+            var componentsViewModel = (ComponentsViewModel)BindingContext;
+            componentsViewModel.LoadComponents();
             base.OnAppearing();
-        }
-
-        // обработка нажатия элемента в списке
-        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Component selectedComponent = (Component)e.SelectedItem;
-            ComponentPage componentPage = new ComponentPage();
-            componentPage.BindingContext = selectedComponent;
-            await Navigation.PushAsync(componentPage);
-        }
-
-        // обработка нажатия кнопки добавления
-        private async void CreateButton(object sender, EventArgs e)
-        {
-            Component component = new Component();
-            ComponentPage componentPage = new ComponentPage();
-            componentPage.BindingContext = component;
-            await Navigation.PushAsync(componentPage);
         }
     }
 }

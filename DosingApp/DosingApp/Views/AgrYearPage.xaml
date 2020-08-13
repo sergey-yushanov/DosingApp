@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="DosingApp.Views.AgrYearPage"
-             Title="Сельхоз. год">
+             Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
@@ -13,13 +13,13 @@
                 <StackLayout>
                     <Label 
                         Text="Название"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название года" 
                         Text="{Binding Name}" />
                     <Label 
                         Text="Дата окончания"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите дату окончания" 
                         Text="{Binding FinishDate}" />

@@ -24,33 +24,51 @@
             </Frame>
             <Label
                 x:Name="userLabel"
+                Text="{Binding User.DisplayName}"
                 VerticalOptions="CenterAndExpand"
                 FontSize="Medium"
                 Margin="20"
                 HorizontalOptions="StartAndExpand"/>
         </StackLayout>
 
-        <ListView
-            ItemsSource="{Binding Menu}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="10">
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectMenuItemCommand}"/>
-                            </Grid.GestureRecognizers>
-                            <StackLayout Orientation="Vertical">
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="Medium"/>
-                                    <Image Source="{Binding Icon}"/>
-                                </StackLayout>
-                                <BoxView HeightRequest="1" Color="#00000" IsVisible="{Binding IsSeparatorVisible}"/>
-                            </StackLayout>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackLayout>
 
+            <ListView x:Name="menuList"
+                HasUnevenRows="True"
+                ItemsSource="{Binding MenuGroups}"
+                IsGroupingEnabled="True">
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <StackLayout Orientation="Vertical">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Name}" FontSize="Large"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectMenuItemCommand}"/>
+                                </Grid.GestureRecognizers>
+                                <StackLayout Orientation="Vertical">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="Medium"/>
+                                        <Image Source="{Binding Icon}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+        </StackLayout>
     </StackLayout>
 </ContentPage>

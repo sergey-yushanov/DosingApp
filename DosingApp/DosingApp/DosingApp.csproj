@@ -40,11 +40,53 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\RecipeComponentPage.xaml.cs">
+      <DependentUpon>RecipeComponentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CropPage.xaml.cs">
       <DependentUpon>CropPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\CropsPage.xaml.cs">
       <DependentUpon>CropsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FacilityTankPage.xaml.cs">
+      <DependentUpon>FacilityTankPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\FacilityTanksPage.xaml.cs">
+      <DependentUpon>FacilityTanksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ApplicatorPage.xaml.cs">
+      <DependentUpon>ApplicatorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ApplicatorsPage.xaml.cs">
+      <DependentUpon>ApplicatorsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ApplicatorTankPage.xaml.cs">
+      <DependentUpon>ApplicatorTankPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GroupedComponentsPage.xaml.cs">
+      <DependentUpon>GroupedComponentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ManufacturerPage.xaml.cs">
+      <DependentUpon>ManufacturerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ManufacturersPage.xaml.cs">
+      <DependentUpon>ManufacturersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransportTankPage.xaml.cs">
+      <DependentUpon>TransportTankPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ApplicatorTanksPage.xaml.cs">
+      <DependentUpon>ApplicatorTanksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransportTanksPage.xaml.cs">
+      <DependentUpon>TransportTanksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransportPage.xaml.cs">
+      <DependentUpon>TransportPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransportsPage.xaml.cs">
+      <DependentUpon>TransportsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ProcessingTypePage.xaml.cs">
       <DependentUpon>ProcessingTypePage.xaml</DependentUpon>
@@ -63,12 +105,6 @@
     </Compile>
     <Compile Update="Views\FacilitiesPage.xaml.cs">
       <DependentUpon>FacilitiesPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ApplicatorPage.xaml.cs">
-      <DependentUpon>ApplicatorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ApplicatorsPage.xaml.cs">
-      <DependentUpon>ApplicatorsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ComponentPage.xaml.cs">
       <DependentUpon>ComponentPage.xaml</DependentUpon>
@@ -90,12 +126,6 @@
     </Compile>
     <Compile Update="Views\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\TransportPage.xaml.cs">
-      <DependentUpon>TransportPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\TransportsPage.xaml.cs">
-      <DependentUpon>TransportsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

@@ -23,12 +23,8 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            var AgrYearsViewModel = (AgrYearsViewModel)BindingContext;
-            using (AppDbContext db = App.GetContext())
-            {
-                AgrYearsViewModel.LoadAgrYears();
-                agrYearsList.ItemsSource = AgrYearsViewModel.AgrYears;
-            }
+            var agrYearsViewModel = (AgrYearsViewModel)BindingContext;
+            agrYearsViewModel.LoadAgrYears();
             base.OnAppearing();
         }
     }

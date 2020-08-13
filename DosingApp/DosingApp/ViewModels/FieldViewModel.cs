@@ -8,13 +8,10 @@ namespace DosingApp.ViewModels
 {
     public class FieldViewModel : BaseViewModel
     {
-        #region Services
-        //private readonly DataService<Field> dataServiceFields;
-        #endregion Services
-
         #region Attributes
         FieldsViewModel fieldsViewModel;
         public Field Field { get; private set; }
+        private string title;
         #endregion Attributes
 
         #region Constructor
@@ -33,7 +30,11 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get { return Field.Name; }
+            get
+            {
+                Title = (Field.FieldId == 0) ? "Новое поле" : "Поле: " + Field.Name;
+                return Field.Name;
+            }
             set
             {
                 if (Field.Name != value)
@@ -57,12 +58,44 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public string Size
+        {
+            get
+            {
+                if (Field.Size == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    return Field.Size.ToString();
+                }
+            }
+            set
+            {
+                try
+                {
+                    Field.Size = float.Parse(value);
+                }
+                catch
+                {
+                    Field.Size = null;
+                }
+            }
+        }
+
         public bool IsValid
         {
             get
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
     }

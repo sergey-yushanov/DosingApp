@@ -18,33 +18,14 @@ namespace DosingApp.Views
         public AssignmentsPage()
         {
             InitializeComponent();
+            BindingContext = new AssignmentsViewModel();
         }
 
         protected override void OnAppearing()
         {
-            using (AppDbContext db = App.GetContext())
-            {
-                assignmentsList.ItemsSource = db.Assignments.ToList();
-            }
+            var assignmentsViewModel = (AssignmentsViewModel)BindingContext;
+            assignmentsViewModel.LoadAssignments();
             base.OnAppearing();
-        }
-
-        // обработка нажатия элемента в списке
-        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Assignment selectedAssignment = (Assignment)e.SelectedItem;
-            AssignmentPage assignmentPage = new AssignmentPage();
-            assignmentPage.BindingContext = selectedAssignment;
-            await Navigation.PushAsync(assignmentPage);
-        }
-
-        // обработка нажатия кнопки добавления
-        private async void CreateButton(object sender, EventArgs e)
-        {
-            Assignment assignment = new Assignment();
-            AssignmentPage assignmentPage = new AssignmentPage();
-            assignmentPage.BindingContext = assignment;
-            await Navigation.PushAsync(assignmentPage);
         }
     }
 }

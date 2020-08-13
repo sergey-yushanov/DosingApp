@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.CropPage"
-             Title="Культура">
+             Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
@@ -10,13 +10,13 @@
                 <StackLayout>
                     <Label 
                         Text="Название"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название культуры" 
                         Text="{Binding Name}" />
                     <Label 
                         Text="Код"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите код культуры" 
                         Text="{Binding Code}" />

@@ -2,24 +2,31 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.FieldPage"
-             Title="Поле">
+             Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
-            Margin="{StaticResource PageMargin}">
+                Margin="{StaticResource PageMargin}">
                 <StackLayout>
                     <Label 
                         Text="Название"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название поля" 
                         Text="{Binding Name}" />
                     <Label 
                         Text="Код"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите код поля" 
                         Text="{Binding Code}" />
+                    <Label 
+                        Text="Размер, га"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry 
+                        Placeholder="Введите размер поля" 
+                        Text="{Binding Size}" 
+                        Keyboard="Numeric"/>
                 </StackLayout>
                 <StackLayout>
                     <Grid>

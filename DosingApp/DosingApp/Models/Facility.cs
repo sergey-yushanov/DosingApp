@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace DosingApp.Models
@@ -11,5 +12,7 @@ namespace DosingApp.Models
         public string Type { get; set; }
         public string Address { get; set; }
         public string Code { get; set; }
+
+        public virtual List<FacilityTank> FacilityTanks { get; set; }
     }
 }

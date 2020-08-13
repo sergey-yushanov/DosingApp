@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.ProcessingTypePage"
-             Title="Вид обработки">
+             Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
@@ -10,13 +10,13 @@
                 <StackLayout>
                     <Label 
                         Text="Название"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название вида обработки" 
                         Text="{Binding Name}" />
                     <Label 
                         Text="Код"
-                        TextColor="{StaticResource LabelEntry}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите код вида обработки" 
                         Text="{Binding Code}" />

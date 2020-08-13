@@ -15,6 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         AgrYearsViewModel agrYearsViewModel;
         public AgrYear AgrYear { get; private set; }
+        private string title;
         #endregion Attributes
 
         #region Constructor
@@ -33,7 +34,11 @@ namespace DosingApp.ViewModels
 
         public string Name
         {
-            get { return AgrYear.Name; }
+            get 
+            {
+                Title = (AgrYear.AgrYearId == 0) ? "Новый сельхоз. год" : "Сельхоз. год: " + AgrYear.Name;
+                return AgrYear.Name; 
+            }
             set
             {
                 if (AgrYear.Name != value)
@@ -63,6 +68,12 @@ namespace DosingApp.ViewModels
             {
                 return (!string.IsNullOrEmpty(Name));
             }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
         }
         #endregion Properties
     }

@@ -16,13 +16,8 @@ namespace DosingApp.ViewModels
 {
     public class AgrYearsViewModel : BaseViewModel
     {
-        #region Services
-        //private readonly DataService<AgrYear> dataServiceAgrYears;
-        public readonly AppDbContext db;
-        #endregion Services
-
         #region Attributes
-        public ObservableCollection<AgrYear> AgrYears { get; set; }
+        private ObservableCollection<AgrYear> agrYears;
         private AgrYear selectedAgrYear;
 
         public ICommand CreateCommand { get; protected set; }
@@ -34,9 +29,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public AgrYearsViewModel()
         {
-            db = App.GetContext();
-            //CreateAgrYears();
-
             CreateCommand = new Command(CreateAgrYear);
             DeleteCommand = new Command(DeleteAgrYear);
             SaveCommand = new Command(SaveAgrYear);
@@ -45,6 +37,12 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public ObservableCollection<AgrYear> AgrYears 
+        {
+            get { return agrYears; }
+            set { SetProperty(ref agrYears, value); }
+        }
+
         public AgrYear SelectedAgrYear
         {
             get { return selectedAgrYear; }
@@ -77,11 +75,14 @@ namespace DosingApp.ViewModels
             AgrYearViewModel agrYearViewModel = agrYearInstance as AgrYearViewModel;
             if (agrYearViewModel.AgrYear != null && agrYearViewModel.AgrYear.AgrYearId != 0)
             {
-                db.AgrYears.Attach(agrYearViewModel.AgrYear);
-                db.AgrYears.Remove(agrYearViewModel.AgrYear);
-                db.SaveChanges();
-                Back();
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.AgrYears.Remove(agrYearViewModel.AgrYear);
+                    db.SaveChanges();
+                }
             }
+            //LoadAgrYears();
+            Back();
         }
 
         private void SaveAgrYear(object agrYearInstance)
@@ -89,18 +90,20 @@ namespace DosingApp.ViewModels
             AgrYearViewModel agrYearViewModel = agrYearInstance as AgrYearViewModel;
             if (agrYearViewModel.AgrYear != null && agrYearViewModel.IsValid)
             {
-                if (agrYearViewModel.AgrYear.AgrYearId == 0)
+                using (AppDbContext db = App.GetContext())
                 {
-                    //db.AgrYears.Add(agrYearViewModel.AgrYear);
-                    db.Entry(agrYearViewModel.AgrYear).State = EntityState.Added;
+                    if (agrYearViewModel.AgrYear.AgrYearId == 0)
+                    {
+                        db.Entry(agrYearViewModel.AgrYear).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.AgrYears.Update(agrYearViewModel.AgrYear);
+                    }
+                    db.SaveChanges();
                 }
-                else
-                {
-                    db.AgrYears.Attach(agrYearViewModel.AgrYear);
-                    db.AgrYears.Update(agrYearViewModel.AgrYear);
-                }
-                db.SaveChanges();
             }
+            //LoadAgrYears();
             Back();
         }
         #endregion Commands
@@ -108,20 +111,10 @@ namespace DosingApp.ViewModels
         #region Methods
         public void LoadAgrYears()
         {
-            AgrYears = new ObservableCollection<AgrYear>(db.AgrYears.ToList());
-        }
-
-        private void CreateAgrYears()
-        {
-            var agrYears = new List<AgrYear>()
+            using (AppDbContext db = App.GetContext())
             {
-                new AgrYear { Name = "AgrYear 1", FinishDate = "today" },
-                new AgrYear { Name = "AgrYear 2", FinishDate = "tomorrow" },
-                new AgrYear { Name = "AgrYear 3", FinishDate = "day after tomorrow" }
-            };
-
-            db.AgrYears.AddRange(agrYears);
-            db.SaveChanges();
+                AgrYears = new ObservableCollection<AgrYear>(db.AgrYears.ToList());
+            }
         }
         #endregion Methods
 

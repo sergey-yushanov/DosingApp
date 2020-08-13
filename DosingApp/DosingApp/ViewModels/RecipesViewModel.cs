@@ -83,6 +83,7 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
+                    db.RecipeComponents.RemoveRange(recipeViewModel.RecipeComponents);
                     db.Recipes.Remove(recipeViewModel.Recipe);
                     db.SaveChanges();
                 }

@@ -8,10 +8,6 @@ namespace DosingApp.ViewModels
 {
     public class FieldViewModel : BaseViewModel
     {
-        #region Services
-        //private readonly DataService<Field> dataServiceFields;
-        #endregion Services
-
         #region Attributes
         FieldsViewModel fieldsViewModel;
         public Field Field { get; private set; }

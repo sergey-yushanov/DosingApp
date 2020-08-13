@@ -40,6 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\RecipeComponentPage.xaml.cs">
+      <DependentUpon>RecipeComponentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CropPage.xaml.cs">
       <DependentUpon>CropPage.xaml</DependentUpon>
     </Compile>

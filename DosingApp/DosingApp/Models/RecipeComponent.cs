@@ -25,5 +25,7 @@ namespace DosingApp.Models
         public string Unit { get; set; }
         public string Valve { get; set; }
         public string DispenserName { get; set; }
+
+        public string Name { get { return Component?.Name; } }
     }
 }

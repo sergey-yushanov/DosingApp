@@ -33,9 +33,8 @@
                     <Picker 
                         Title="Выберите форму компонента"
                         ItemsSource="{Binding ConsistencyList}"
-                        SelectedItem="{Binding Consistency}">
-                    </Picker>
-                    
+                        SelectedItem="{Binding Consistency}"/>
+
                     <Label 
                         Text="Плотность, г/мл" 
                         TextColor="{StaticResource LabelEntryColor}"

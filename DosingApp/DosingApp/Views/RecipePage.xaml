@@ -91,27 +91,47 @@
         </ContentPage>
         
         <ContentPage Title="Компоненты">
-
-            <StackLayout Margin="{StaticResource PageMargin}">
-
-                <ListView x:Name="recipeComponentsList" >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <StackLayout Orientation="Horizontal">
-                                        
-                                        
-                                        
-                                    </StackLayout>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                
-            </StackLayout>
             
+            <ScrollView>
+                <StackLayout Margin="{StaticResource PageMargin}">
+                    <Button Text="Добавить" Command="{Binding CreateRecipeComponentCommand}"/>
+
+                    <ListView 
+                        x:Name="recipeComponentsList"
+                        ItemsSource="{Binding RecipeComponents}"
+                        SelectedItem="{Binding SelectedRecipeComponent, Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.View>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*" />
+                                                <ColumnDefinition Width="5*" />
+                                                <ColumnDefinition Width="2*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label
+                                                Text="{Binding Order}" 
+                                                FontSize="Medium" />
+                                            <Label
+                                                Grid.Column="1"
+                                                Text="{Binding Name}" 
+                                                FontSize="Medium" />
+                                            <Label
+                                                Grid.Column="2"
+                                                Text="{Binding VolumeRate}" 
+                                                FontSize="Medium" />
+
+                                        </Grid>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ScrollView>
+
         </ContentPage>
     </TabbedPage.Children>
 </TabbedPage>

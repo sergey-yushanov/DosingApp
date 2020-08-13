@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DosingApp.Views.RecipeComponentPage"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout 
+            Margin="{StaticResource PageMargin}">
+                <StackLayout>
+                    <Label 
+                        Text="Очередность дозации"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry 
+                        Placeholder="Введите очередность" 
+                        Text="{Binding Order}" 
+                        Keyboard="Numeric"/>
+
+                    <Label 
+                        Text="Название компонента"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Picker 
+                        x:Name="componentsList"
+                        Title="Выберите компонент"
+                        ItemsSource="{Binding Components}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding Component, Mode=TwoWay}" />
+
+                    <Label 
+                        Text="Норма внесения" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="Введите норму внесения" 
+                        Text="{Binding VolumeRate}" 
+                        Keyboard="Numeric"
+                        TextChanged="OnVolumeRateTextChanged"/>
+
+                    <Label
+                        Text="Ед. измерения" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Picker 
+                        Title="Выберите ед. измерения"
+                        ItemsSource="{Binding UnitList}"
+                        SelectedItem="{Binding Unit}"/>
+
+                    <Label 
+                        Text="Номер клапана" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="Введите номер клапана" 
+                        Text="{Binding Valve}" 
+                        Keyboard="Numeric"/>
+
+                    <Label 
+                        Text="Дозатор" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="Введите название дозатора" 
+                        Text="{Binding DispenserName}"/>
+                    
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button 
+                            Text="Сохранить" 
+                            Command="{Binding RecipeViewModel.SaveRecipeComponentCommand}" 
+                            CommandParameter="{Binding}" />
+                        <Button 
+                            Grid.Column="1" 
+                            Text="Удалить" 
+                            Command="{Binding RecipeViewModel.DeleteRecipeComponentCommand}" 
+                            CommandParameter="{Binding}" />
+                    </Grid>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

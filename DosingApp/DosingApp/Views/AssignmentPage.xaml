@@ -155,7 +155,8 @@
                     <Entry 
                         Placeholder="Введите норму внесения" 
                         Text="{Binding VolumeRate}" 
-                        Keyboard="Numeric" />
+                        Keyboard="Numeric" 
+                        TextChanged="OnVolumeRateTextChanged"/>
                     
                     <Label
                         Text="Ед. измерения" 

@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using DosingApp.Services;
 using DosingApp.Views;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -28,10 +29,12 @@ namespace DosingApp
         {
             InitializeComponent();
 
+            //GetContext().Database.Migrate();
             //GetContext().Database.EnsureDeleted();
             GetContext().Database.EnsureCreated();
 
-            GetUserContext().Database.EnsureDeleted();
+            //GetUserContext().Database.Migrate();
+            //GetUserContext().Database.EnsureDeleted();
             GetUserContext().Database.EnsureCreated();
 
             CreateAdminUser();

@@ -13,6 +13,5 @@ namespace DosingApp.Models
 
         public int? ApplicatorId { get; set; }
         public virtual Applicator Applicator { get; set; }
-        public bool IsUsedTank { get; set; }
     }
 }

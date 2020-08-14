@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace DosingApp.Views
 {
-    public partial class FacilityPage : ContentPage
+    public partial class FacilityPage : TabbedPage
     {
         public FacilityViewModel ViewModel { get; private set; }
         public FacilityPage(FacilityViewModel viewModel)

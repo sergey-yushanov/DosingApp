@@ -1,19 +1,11 @@
 ﻿using DosingApp.Models;
-using DosingApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DosingApp.ViewModels
 {
     public class FacilityTankViewModel : BaseViewModel
     {
-        #region Services
-        
-        #endregion Services
-
         #region Attributes
-        FacilityTanksViewModel facilityTanksViewModel;
+        FacilityViewModel facilityViewModel;
         public FacilityTank FacilityTank { get; private set; }
         private string title;
         #endregion Attributes
@@ -26,17 +18,17 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
-        public FacilityTanksViewModel FacilityTanksViewModel
+        public FacilityViewModel FacilityViewModel
         {
-            get { return facilityTanksViewModel; }
-            set { SetProperty(ref facilityTanksViewModel, value); }
+            get { return facilityViewModel; }
+            set { SetProperty(ref facilityViewModel, value); }
         }
 
         public string Name
         {
             get
             {
-                Title = "Объект: " + FacilityTanksViewModel.Facility.Name + ((FacilityTank.FacilityTankId == 0) ? "\nНовая емкость" : "\nЕмкость: " + FacilityTank.Name);
+                Title = "Объект: " + FacilityViewModel.Facility.Name + ((FacilityTank.FacilityTankId == 0) ? "\nНовая емкость" : "\nЕмкость: " + FacilityTank.Name);
                 return FacilityTank.Name;
             }
             set

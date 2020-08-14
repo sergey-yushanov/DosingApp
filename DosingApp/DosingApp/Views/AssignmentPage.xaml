@@ -149,22 +149,33 @@
                         ItemsSource="{Binding Fields}"
                         SelectedItem="{Binding Field, Mode=TwoWay}" />
 
-                    <Label     
-                        Text="Норма внесения"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry 
-                        Placeholder="Введите норму внесения" 
-                        Text="{Binding VolumeRate}" 
-                        Keyboard="Numeric" 
-                        TextChanged="OnVolumeRateTextChanged"/>
-                    
-                    <Label
-                        Text="Ед. измерения" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        Title="Выберите ед. измерения"
-                        ItemsSource="{Binding UnitList}"
-                        SelectedItem="{Binding Unit}"/>
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout
+                            Orientation="Vertical"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand">
+                            <Label 
+                                Text="Норма внесения" 
+                                TextColor="{StaticResource LabelEntryColor}"/>
+                            <Entry
+                                Placeholder="Введите норму"
+                                Text="{Binding VolumeRate}" 
+                                Keyboard="Numeric"
+                                TextChanged="OnVolumeRateTextChanged"/>
+                        </StackLayout>
+                        <StackLayout
+                            Orientation="Vertical"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="EndAndExpand">
+                            <Picker 
+                                Title="Eд. изм."
+                                ItemsSource="{Binding UnitList}"
+                                SelectedItem="{Binding Unit}"/>
+                        </StackLayout>
+                    </StackLayout>
+
+
+
 
                 </StackLayout>
 

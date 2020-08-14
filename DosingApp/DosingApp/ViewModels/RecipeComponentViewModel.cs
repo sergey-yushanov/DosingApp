@@ -123,7 +123,7 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                return (Order != null);
+                return (Component != null);
             }
         }
 

@@ -28,7 +28,7 @@ namespace DosingApp.ViewModels
         public ComponentsViewModel(Manufacturer manufacturer)
         {
             Manufacturer = manufacturer;
-            Title = "Производитель: " + Manufacturer.Name + "\nКомпоненты";
+            Title = "Производитель: " + Manufacturer.Name + "\nСписок компонентов";
 
             CreateCommand = new Command(CreateComponent);
             DeleteCommand = new Command(DeleteComponent);

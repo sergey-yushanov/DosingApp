@@ -13,6 +13,5 @@ namespace DosingApp.Models
 
         public int? TransportId { get; set; }
         public virtual Transport Transport { get; set; }
-        public bool IsUsedTank { get; set; }
     }
 }

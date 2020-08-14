@@ -81,7 +81,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadProcessingTypes();
             Back();
         }
 
@@ -103,7 +102,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadProcessingTypes();
             Back();
         }
         #endregion Commands

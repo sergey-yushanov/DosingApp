@@ -1,20 +1,11 @@
-﻿using DosingApp.DataContext;
-using DosingApp.Models;
-using DosingApp.Services;
+﻿using DosingApp.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace DosingApp.ViewModels
 {
     public class ComponentViewModel : BaseViewModel
     {
-        #region Services
-        
-        #endregion Services
-
         #region Attributes
         ComponentsViewModel componentsViewModel;
         public Component Component { get; private set; }

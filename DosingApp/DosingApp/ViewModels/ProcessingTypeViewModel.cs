@@ -8,10 +8,6 @@ namespace DosingApp.ViewModels
 {
     public class ProcessingTypeViewModel : BaseViewModel
     {
-        #region Services
-        //private readonly DataService<ProcessingType> dataServiceProcessingTypes;
-        #endregion Services
-
         #region Attributes
         ProcessingTypesViewModel processingTypesViewModel;
         public ProcessingType ProcessingType { get; private set; }

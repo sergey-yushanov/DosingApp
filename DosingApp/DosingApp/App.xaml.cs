@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using DosingApp.Services;
 using DosingApp.Views;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -28,13 +29,16 @@ namespace DosingApp
         {
             InitializeComponent();
 
+            //GetContext().Database.Migrate();
             //GetContext().Database.EnsureDeleted();
             GetContext().Database.EnsureCreated();
 
-            GetUserContext().Database.EnsureDeleted();
+            //GetUserContext().Database.Migrate();
+            //GetUserContext().Database.EnsureDeleted();
             GetUserContext().Database.EnsureCreated();
 
             CreateAdminUser();
+            CreateWaterComponent();
 
             MainPage = new NavigationPage(new LoginPage());
         }
@@ -74,7 +78,24 @@ namespace DosingApp
                 }
             }
         }
-        
+
+        // Создаем компонент по умолчанию - вода
+        protected static void CreateWaterComponent()
+        {
+            using (AppDbContext db = GetContext())
+            {
+                if (!db.Components.Any(c => c.Name == Water.Name))
+                {
+                    Component component = new Component();
+                    component.Name = Water.Name;
+                    component.Consistency = Water.Consistency;
+                    component.Density = Water.Density;
+                    db.Components.Add(component);
+                    db.SaveChanges();
+                }
+            }
+        }
+
         protected override void OnStart()
         {
         }

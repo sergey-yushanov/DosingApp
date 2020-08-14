@@ -29,8 +29,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public RecipesViewModel()
         {
-            //LoadRecipes();
-
             CreateCommand = new Command(CreateRecipe);
             DeleteCommand = new Command(DeleteRecipe);
             SaveCommand = new Command(SaveRecipe);
@@ -71,7 +69,8 @@ namespace DosingApp.ViewModels
         {
             Recipe newRecipe = new Recipe()
             {
-                CarrierReserve = (float?)20.0
+                CarrierReserve = (float?)20.0,
+                CarrierId = GetWaterCarrier().ComponentId
             };
             Application.Current.MainPage.Navigation.PushAsync(new RecipePage(new RecipeViewModel(newRecipe) { RecipesViewModel = this }));
         }
@@ -88,7 +87,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadRecipes();
             Back();
         }
 
@@ -110,8 +108,10 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadRecipes();
-            Back();
+            if (recipeViewModel.IsBack)
+            {
+                Back();
+            }
         }
         #endregion Commands
 
@@ -121,6 +121,14 @@ namespace DosingApp.ViewModels
             using (AppDbContext db = App.GetContext())
             {
                 Recipes = new ObservableCollection<Recipe>(db.Recipes.ToList());
+            }
+        }
+
+        private Component GetWaterCarrier()
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                return db.Components.FirstOrDefault(c => c.Name == Water.Name);
             }
         }
         #endregion Methods

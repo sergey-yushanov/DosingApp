@@ -1,20 +1,11 @@
 ﻿using DosingApp.Models;
-using DosingApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
     public class ApplicatorTankViewModel : BaseViewModel
     {
-        #region Services
-
-        #endregion Services
-
         #region Attributes
-        ApplicatorTanksViewModel applicatorTanksViewModel;
+        ApplicatorViewModel applicatorViewModel;
         public ApplicatorTank ApplicatorTank { get; private set; }
         private string title;
         #endregion Attributes
@@ -27,17 +18,17 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
-        public ApplicatorTanksViewModel ApplicatorTanksViewModel
+        public ApplicatorViewModel ApplicatorViewModel
         {
-            get { return applicatorTanksViewModel; }
-            set { SetProperty(ref applicatorTanksViewModel, value); }
+            get { return applicatorViewModel; }
+            set { SetProperty(ref applicatorViewModel, value); }
         }
 
         public string Name
         {
             get
             {
-                Title = "Аппликатор: " + ApplicatorTanksViewModel.Applicator.Name + ((ApplicatorTank.ApplicatorTankId == 0) ? "\nНовая емкость" : "\nЕмкость: " + ApplicatorTank.Name);
+                Title = "Аппликатор: " + ApplicatorViewModel.Applicator.Name + ((ApplicatorTank.ApplicatorTankId == 0) ? "\nНовая емкость" : "\nЕмкость: " + ApplicatorTank.Name);
                 return ApplicatorTank.Name;
             }
             set

@@ -1,13 +1,9 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
-using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,21 +11,18 @@ namespace DosingApp.ViewModels
 {
     public class TransportViewModel : BaseViewModel
     {
-        #region Services
-
-        #endregion Services
-
         #region Attributes
         TransportsViewModel transportsViewModel;
         public Transport Transport { get; private set; }
-        private bool isBack;
+        private bool isBack;    // need to page navigation while saving foreign key values
         private string title;
-        private float? volume;
 
         private ObservableCollection<TransportTank> transportTanks;
         private TransportTank selectedTransportTank;
 
-        public ICommand EditTanksCommand { get; protected set; }
+        public ICommand CreateTankCommand { get; protected set; }
+        public ICommand DeleteTankCommand { get; protected set; }
+        public ICommand SaveTankCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
         #endregion Attributes
 
@@ -38,9 +31,10 @@ namespace DosingApp.ViewModels
         {
             Transport = transport;
             IsBack = true;
-            LoadTransportTanks();
 
-            EditTanksCommand = new Command(EditTransportTanksAsync);
+            CreateTankCommand = new Command(CreateTransportTank);
+            DeleteTankCommand = new Command(DeleteTransportTank);
+            SaveTankCommand = new Command(SaveTransportTank);
             BackCommand = new Command(Back);
         }
         #endregion Constructor
@@ -82,12 +76,6 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public float? Volume
-        {
-            get { return volume; }
-            set { SetProperty(ref volume, value); }
-        }
-
         public ObservableCollection<TransportTank> TransportTanks
         {
             get { return transportTanks; }
@@ -97,10 +85,15 @@ namespace DosingApp.ViewModels
         public TransportTank SelectedTransportTank
         {
             get { return selectedTransportTank; }
-            set 
+            set
             {
-                Volume = value != null ? value.Volume : null;
-                SetProperty(ref selectedTransportTank, value); 
+                if (selectedTransportTank != value)
+                {
+                    TransportTankViewModel tempTransportTank = new TransportTankViewModel(value) { TransportViewModel = this };
+                    selectedTransportTank = null;
+                    OnPropertyChanged(nameof(SelectedTransportTank));
+                    Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(tempTransportTank));
+                }
             }
         }
 
@@ -131,7 +124,7 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private async void EditTransportTanksAsync()
+        private async void CreateTransportTank()
         {
             if (!IsValid)
             {
@@ -141,7 +134,7 @@ namespace DosingApp.ViewModels
 
             if (Transport.TransportId == 0)
             {
-                if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Для перехода к списку емкостей необходимо сохранить транспорт. Выполнить сохранение?", "Да", "Нет"))
+                if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Для создания емкости необходимо сохранить транспорт. Выполнить сохранение?", "Да", "Нет"))
                 {
                     IsBack = false;
                     TransportsViewModel.SaveCommand.Execute(this);
@@ -151,8 +144,44 @@ namespace DosingApp.ViewModels
 
             if (Transport.TransportId != 0)
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new TransportTanksPage(new TransportTanksViewModel(Transport)));
+                TransportTank newTransportTank = new TransportTank() { Transport = this.Transport };
+                await Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(new TransportTankViewModel(newTransportTank) { TransportViewModel = this }));
             }
+        }
+
+        private void DeleteTransportTank(object transportTankInstance)
+        {
+            TransportTankViewModel transportTankViewModel = transportTankInstance as TransportTankViewModel;
+            if (transportTankViewModel.TransportTank.TransportTankId != 0)
+            {
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.TransportTanks.Remove(transportTankViewModel.TransportTank);
+                    db.SaveChanges();
+                }
+            }
+            Back();
+        }
+
+        private void SaveTransportTank(object transportTankInstance)
+        {
+            TransportTankViewModel transportTankViewModel = transportTankInstance as TransportTankViewModel;
+            if (transportTankViewModel.TransportTank != null && transportTankViewModel.IsValid)
+            {
+                using (AppDbContext db = App.GetContext())
+                {
+                    if (transportTankViewModel.TransportTank.TransportTankId == 0)
+                    {
+                        db.Entry(transportTankViewModel.TransportTank).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.TransportTanks.Update(transportTankViewModel.TransportTank);
+                    }
+                    db.SaveChanges();
+                }
+            }
+            Back();
         }
         #endregion Commands
 
@@ -164,13 +193,6 @@ namespace DosingApp.ViewModels
                 var transportTanksDB = db.TransportTanks.Where(ft => ft.TransportId == Transport.TransportId).ToList();
                 TransportTanks = new ObservableCollection<TransportTank>(transportTanksDB);
             }
-            InitSelectedTransportTank();
-        }
-
-        public void InitSelectedTransportTank()
-        {
-            SelectedTransportTank = TransportTanks.FirstOrDefault(ft => ft.IsUsedTank);
-            Volume = SelectedTransportTank != null ? SelectedTransportTank.Volume : null;
         }
         #endregion Methods
     }

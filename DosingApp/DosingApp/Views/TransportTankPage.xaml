@@ -12,47 +12,44 @@
                 TextColor="{StaticResource TitleColor}"/>
         </StackLayout>
     </NavigationPage.TitleView>
-    
+
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout 
+        <StackLayout 
             Margin="{StaticResource PageMargin}">
-                <StackLayout>
-                    <Label 
-                        Text="Название"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry 
-                        Placeholder="Введите название емкости" 
-                        Text="{Binding Name}" />
+            <StackLayout>
+                <Label 
+                    Text="Название"
+                    TextColor="{StaticResource LabelEntryColor}"/>
+                <Entry 
+                    Placeholder="Введите название емкости" 
+                    Text="{Binding Name}" />
 
-                    <Label 
-                        Text="Объем, л"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry 
-                        Placeholder="Введите объем емкости" 
-                        Text="{Binding Volume}" 
-                        Keyboard="Numeric"
-                        TextChanged="OnVolumeTextChanged"/>
-                </StackLayout>
-                <StackLayout>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Button 
-                            Text="Сохранить" 
-                            Command="{Binding TransportTanksViewModel.SaveCommand}" 
-                            CommandParameter="{Binding}" />
-                        <Button 
-                            Grid.Column="1" 
-                            Text="Удалить" 
-                            Command="{Binding TransportTanksViewModel.DeleteCommand}" 
-                            CommandParameter="{Binding}" />
-                    </Grid>
-                </StackLayout>
-
+                <Label 
+                    Text="Объем, л"
+                    TextColor="{StaticResource LabelEntryColor}"/>
+                <Entry 
+                    Placeholder="Введите объем емкости" 
+                    Text="{Binding Volume}" 
+                    Keyboard="Numeric"
+                    TextChanged="OnVolumeTextChanged"/>
             </StackLayout>
-        </ScrollView>
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button 
+                        Text="Сохранить" 
+                        Command="{Binding TransportViewModel.SaveTankCommand}" 
+                        CommandParameter="{Binding}" />
+                    <Button 
+                        Grid.Column="1" 
+                        Text="Удалить" 
+                        Command="{Binding TransportViewModel.DeleteTankCommand}" 
+                        CommandParameter="{Binding}" />
+                </Grid>
+            </StackLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

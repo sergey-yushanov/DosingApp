@@ -1,16 +1,11 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
-using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace DosingApp.ViewModels
 {
@@ -29,8 +24,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public ApplicatorsViewModel()
         {
-            //LoadApplicators();
-
             CreateCommand = new Command(CreateApplicator);
             DeleteCommand = new Command(DeleteApplicator);
             SaveCommand = new Command(SaveApplicator);
@@ -84,7 +77,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadApplicators();
             Back();
         }
 
@@ -105,10 +97,7 @@ namespace DosingApp.ViewModels
                     }
                     db.SaveChanges();
                 }
-
-                SetSelectedApplicatorTank(applicatorViewModel);
             }
-            //LoadApplicators();
             if (applicatorViewModel.IsBack)
             {
                 Back();
@@ -122,21 +111,6 @@ namespace DosingApp.ViewModels
             using (AppDbContext db = App.GetContext())
             {
                 Applicators = new ObservableCollection<Applicator>(db.Applicators.ToList());
-            }
-        }
-
-        private void SetSelectedApplicatorTank(ApplicatorViewModel applicatorViewModel)
-        {
-            if (applicatorViewModel.SelectedApplicatorTank != null)
-            {
-                applicatorViewModel.ApplicatorTanks.ForEach(ft => ft.IsUsedTank = false);
-                applicatorViewModel.ApplicatorTanks.FirstOrDefault(ft => ft.ApplicatorTankId == applicatorViewModel.SelectedApplicatorTank.ApplicatorTankId).IsUsedTank = true;
-
-                using (AppDbContext db = App.GetContext())
-                {
-                    db.ApplicatorTanks.UpdateRange(applicatorViewModel.ApplicatorTanks);
-                    db.SaveChanges();
-                }
             }
         }
         #endregion Methods

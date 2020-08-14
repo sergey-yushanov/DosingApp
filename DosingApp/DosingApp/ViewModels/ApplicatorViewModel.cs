@@ -1,13 +1,9 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
-using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,21 +11,18 @@ namespace DosingApp.ViewModels
 {
     public class ApplicatorViewModel : BaseViewModel
     {
-        #region Services
-
-        #endregion Services
-
         #region Attributes
         ApplicatorsViewModel applicatorsViewModel;
         public Applicator Applicator { get; private set; }
-        private bool isBack;
+        private bool isBack;    // need to page navigation while saving foreign key values
         private string title;
-        private float? volume;
 
         private ObservableCollection<ApplicatorTank> applicatorTanks;
         private ApplicatorTank selectedApplicatorTank;
 
-        public ICommand EditTanksCommand { get; protected set; }
+        public ICommand CreateTankCommand { get; protected set; }
+        public ICommand DeleteTankCommand { get; protected set; }
+        public ICommand SaveTankCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
         #endregion Attributes
 
@@ -38,9 +31,10 @@ namespace DosingApp.ViewModels
         {
             Applicator = applicator;
             IsBack = true;
-            LoadApplicatorTanks();
 
-            EditTanksCommand = new Command(EditApplicatorTanksAsync);
+            CreateTankCommand = new Command(CreateApplicatorTank);
+            DeleteTankCommand = new Command(DeleteApplicatorTank);
+            SaveTankCommand = new Command(SaveApplicatorTank);
             BackCommand = new Command(Back);
         }
         #endregion Constructor
@@ -69,12 +63,6 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public float? Volume
-        {
-            get { return volume; }
-            set { SetProperty(ref volume, value); }
-        }
-
         public ObservableCollection<ApplicatorTank> ApplicatorTanks
         {
             get { return applicatorTanks; }
@@ -84,10 +72,15 @@ namespace DosingApp.ViewModels
         public ApplicatorTank SelectedApplicatorTank
         {
             get { return selectedApplicatorTank; }
-            set 
+            set
             {
-                Volume = value != null ? value.Volume : null;
-                SetProperty(ref selectedApplicatorTank, value); 
+                if (selectedApplicatorTank != value)
+                {
+                    ApplicatorTankViewModel tempApplicatorTank = new ApplicatorTankViewModel(value) { ApplicatorViewModel = this };
+                    selectedApplicatorTank = null;
+                    OnPropertyChanged(nameof(SelectedApplicatorTank));
+                    Application.Current.MainPage.Navigation.PushAsync(new ApplicatorTankPage(tempApplicatorTank));
+                }
             }
         }
 
@@ -118,7 +111,7 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private async void EditApplicatorTanksAsync()
+        private async void CreateApplicatorTank()
         {
             if (!IsValid)
             {
@@ -128,7 +121,7 @@ namespace DosingApp.ViewModels
 
             if (Applicator.ApplicatorId == 0)
             {
-                if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Для перехода к списку емкостей необходимо сохранить аппликатор. Выполнить сохранение?", "Да", "Нет"))
+                if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Для создания емкости необходимо сохранить аппликатор. Выполнить сохранение?", "Да", "Нет"))
                 {
                     IsBack = false;
                     ApplicatorsViewModel.SaveCommand.Execute(this);
@@ -138,8 +131,44 @@ namespace DosingApp.ViewModels
 
             if (Applicator.ApplicatorId != 0)
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new ApplicatorTanksPage(new ApplicatorTanksViewModel(Applicator)));
+                ApplicatorTank newApplicatorTank = new ApplicatorTank() { Applicator = this.Applicator };
+                await Application.Current.MainPage.Navigation.PushAsync(new ApplicatorTankPage(new ApplicatorTankViewModel(newApplicatorTank) { ApplicatorViewModel = this }));
             }
+        }
+
+        private void DeleteApplicatorTank(object applicatorTankInstance)
+        {
+            ApplicatorTankViewModel applicatorTankViewModel = applicatorTankInstance as ApplicatorTankViewModel;
+            if (applicatorTankViewModel.ApplicatorTank.ApplicatorTankId != 0)
+            {
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.ApplicatorTanks.Remove(applicatorTankViewModel.ApplicatorTank);
+                    db.SaveChanges();
+                }
+            }
+            Back();
+        }
+
+        private void SaveApplicatorTank(object applicatorTankInstance)
+        {
+            ApplicatorTankViewModel applicatorTankViewModel = applicatorTankInstance as ApplicatorTankViewModel;
+            if (applicatorTankViewModel.ApplicatorTank != null && applicatorTankViewModel.IsValid)
+            {
+                using (AppDbContext db = App.GetContext())
+                {
+                    if (applicatorTankViewModel.ApplicatorTank.ApplicatorTankId == 0)
+                    {
+                        db.Entry(applicatorTankViewModel.ApplicatorTank).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.ApplicatorTanks.Update(applicatorTankViewModel.ApplicatorTank);
+                    }
+                    db.SaveChanges();
+                }
+            }
+            Back();
         }
         #endregion Commands
 
@@ -151,13 +180,6 @@ namespace DosingApp.ViewModels
                 var applicatorTanksDB = db.ApplicatorTanks.Where(ft => ft.ApplicatorId == Applicator.ApplicatorId).ToList();
                 ApplicatorTanks = new ObservableCollection<ApplicatorTank>(applicatorTanksDB);
             }
-            InitSelectedApplicatorTank();
-        }
-
-        public void InitSelectedApplicatorTank()
-        {
-            SelectedApplicatorTank = ApplicatorTanks.FirstOrDefault(ft => ft.IsUsedTank);
-            Volume = SelectedApplicatorTank != null ? SelectedApplicatorTank.Volume : null;
         }
         #endregion Methods
     }

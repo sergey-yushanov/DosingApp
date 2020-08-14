@@ -9,14 +9,6 @@
             Margin="{StaticResource PageMargin}">
                 <StackLayout>
                     <Label 
-                        Text="Очередность дозации"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry 
-                        Placeholder="Введите очередность" 
-                        Text="{Binding Order}" 
-                        Keyboard="Numeric"/>
-
-                    <Label 
                         Text="Название компонента"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Picker 
@@ -26,23 +18,31 @@
                         ItemDisplayBinding="{Binding Name}"
                         SelectedItem="{Binding Component, Mode=TwoWay}" />
 
-                    <Label 
-                        Text="Норма внесения" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Введите норму внесения" 
-                        Text="{Binding VolumeRate}" 
-                        Keyboard="Numeric"
-                        TextChanged="OnVolumeRateTextChanged"/>
-
-                    <Label
-                        Text="Ед. измерения" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        Title="Выберите ед. измерения"
-                        ItemsSource="{Binding UnitList}"
-                        SelectedItem="{Binding Unit}"/>
-
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout
+                            Orientation="Vertical"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand">
+                            <Label 
+                                Text="Норма внесения" 
+                                TextColor="{StaticResource LabelEntryColor}"/>
+                            <Entry
+                                Placeholder="Введите норму"
+                                Text="{Binding VolumeRate}" 
+                                Keyboard="Numeric"
+                                TextChanged="OnVolumeRateTextChanged"/>
+                        </StackLayout>
+                        <StackLayout
+                            Orientation="Vertical"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="EndAndExpand">
+                            <Picker 
+                                Title="Eд. изм."
+                                ItemsSource="{Binding UnitList}"
+                                SelectedItem="{Binding Unit}"/>
+                        </StackLayout>
+                    </StackLayout>
+                    
                     <Label 
                         Text="Номер клапана" 
                         TextColor="{StaticResource LabelEntryColor}"/>

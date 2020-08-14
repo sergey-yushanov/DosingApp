@@ -1,16 +1,11 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
-using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace DosingApp.ViewModels
 {
@@ -29,8 +24,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public FacilitiesViewModel()
         {
-            //LoadFacilities();
-
             CreateCommand = new Command(CreateFacility);
             DeleteCommand = new Command(DeleteFacility);
             SaveCommand = new Command(SaveFacility);
@@ -84,7 +77,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadFacilities();
             Back();
         }
 
@@ -105,10 +97,7 @@ namespace DosingApp.ViewModels
                     }
                     db.SaveChanges();
                 }
-
-                SetSelectedFacilityTank(facilityViewModel);
             }
-            //LoadFacilities();
             if (facilityViewModel.IsBack)
             {
                 Back();
@@ -122,21 +111,6 @@ namespace DosingApp.ViewModels
             using (AppDbContext db = App.GetContext())
             {
                 Facilities = new ObservableCollection<Facility>(db.Facilities.ToList());
-            }
-        }
-
-        private void SetSelectedFacilityTank(FacilityViewModel facilityViewModel)
-        {
-            if (facilityViewModel.SelectedFacilityTank != null)
-            {
-                facilityViewModel.FacilityTanks.ForEach(ft => ft.IsUsedTank = false);
-                facilityViewModel.FacilityTanks.FirstOrDefault(ft => ft.FacilityTankId == facilityViewModel.SelectedFacilityTank.FacilityTankId).IsUsedTank = true;
-
-                using (AppDbContext db = App.GetContext())
-                {
-                    db.FacilityTanks.UpdateRange(facilityViewModel.FacilityTanks);
-                    db.SaveChanges();
-                }
             }
         }
         #endregion Methods

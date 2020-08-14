@@ -1,11 +1,7 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
-using DosingApp.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace DosingApp.ViewModels
 {
@@ -14,7 +10,6 @@ namespace DosingApp.ViewModels
         #region Attributes
         RecipeViewModel recipeViewModel;
         public RecipeComponent RecipeComponent { get; private set; }
-        //private string title;
 
         private ObservableCollection<Component> components;
         #endregion Attributes
@@ -52,19 +47,6 @@ namespace DosingApp.ViewModels
         {
             get { return components; }
             set { SetProperty(ref components, value); }
-        }
-
-        public int? Order
-        {
-            get { return RecipeComponent.Order; }
-            set
-            {
-                if (RecipeComponent.Order != value)
-                {
-                    RecipeComponent.Order = value;
-                    OnPropertyChanged(nameof(Order));
-                }
-            }
         }
 
         public float? VolumeRate
@@ -128,14 +110,13 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                return (Order != null);
+                return (Component != null);
             }
         }
 
         public string Title
         {
             get { return "Рецепт: " + RecipeViewModel.Name; ; }
-            //set { SetProperty(ref title, value); }
         }
         #endregion Properties
 

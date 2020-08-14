@@ -1,13 +1,9 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
-using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -19,6 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         RecipesViewModel recipesViewModel;
         public Recipe Recipe { get; private set; }
+        private bool isBack;    // need to page navigation while saving foreign key values
         private string title;
 
         private ObservableCollection<Crop> crops;
@@ -38,6 +35,7 @@ namespace DosingApp.ViewModels
         public RecipeViewModel(Recipe recipe)
         {
             Recipe = recipe;
+            IsBack = true;
             LoadItems();
             InitSelectedItems();
 
@@ -199,6 +197,12 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public bool IsBack
+        {
+            get { return isBack; }
+            set { SetProperty(ref isBack, value); }
+        }
+
         public string Title
         {
             get { return title; }
@@ -212,13 +216,29 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void CreateRecipeComponent()
+        private async void CreateRecipeComponent()
         {
-            RecipeComponent newRecipeComponent = new RecipeComponent()
+            if (!IsValid)
             {
-                Recipe = this.Recipe
-            };
-            Application.Current.MainPage.Navigation.PushAsync(new RecipeComponentPage(new RecipeComponentViewModel(newRecipeComponent) { RecipeViewModel = this }));
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя рецепта", "Ok");
+                return;
+            }
+
+            if (Recipe.RecipeId == 0)
+            {
+                if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Для добавления компонента необходимо сохранить рецепт. Выполнить сохранение?", "Да", "Нет"))
+                {
+                    IsBack = false;
+                    RecipesViewModel.SaveCommand.Execute(this);
+                    IsBack = true;
+                }
+            }
+
+            if (Recipe.RecipeId != 0)
+            {
+                RecipeComponent newRecipeComponent = new RecipeComponent() { Recipe = this.Recipe };
+                await Application.Current.MainPage.Navigation.PushAsync(new RecipeComponentPage(new RecipeComponentViewModel(newRecipeComponent) { RecipeViewModel = this }));
+            }
         }
 
         private void DeleteRecipeComponent(object recipeComponentInstance)
@@ -231,8 +251,8 @@ namespace DosingApp.ViewModels
                     db.RecipeComponents.Remove(recipeComponentViewModel.RecipeComponent);
                     db.SaveChanges();
                 }
+                ReorderComponents(recipeComponentViewModel.RecipeComponent.Order);
             }
-            //LoadRecipes();
             Back();
         }
 
@@ -245,6 +265,7 @@ namespace DosingApp.ViewModels
                 {
                     if (recipeComponentViewModel.RecipeComponent.RecipeComponentId == 0)
                     {
+                        recipeComponentViewModel.RecipeComponent.Order = RecipeComponents.Count + 1;
                         db.Entry(recipeComponentViewModel.RecipeComponent).State = EntityState.Added;
                     }
                     else
@@ -254,7 +275,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadRecipes();
             Back();
         }
         #endregion Commands
@@ -267,7 +287,17 @@ namespace DosingApp.ViewModels
                 Crops = new ObservableCollection<Crop>(db.Crops.ToList());
                 ProcessingTypes = new ObservableCollection<ProcessingType>(db.ProcessingTypes.ToList());
                 Carriers = new ObservableCollection<Component>(db.Components.ToList());
+                // water must be on top in the list
+                WaterOnTop();
             }
+        }
+
+        private void WaterOnTop()
+        {
+            var water = Carriers.FirstOrDefault(c => c.Name == Water.Name);
+            var index = Carriers.IndexOf(water);
+            if (index > 0)
+                Carriers.Move(index, 0);
         }
 
         public void InitSelectedItems()
@@ -289,6 +319,16 @@ namespace DosingApp.ViewModels
                 var recipeComponentsDB = db.RecipeComponents.Where(rc => rc.RecipeId == Recipe.RecipeId).ToList();
                 RecipeComponents = new ObservableCollection<RecipeComponent>(recipeComponentsDB);
                 RecipeComponents.ForEach(rc => rc.Component = db.Components.FirstOrDefault(c => c.ComponentId == rc.ComponentId));
+            }
+        }
+
+        public void ReorderComponents(int? startOrder)
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                var recipeComponentsDB = db.RecipeComponents.Where(rc => rc.Order > startOrder).ToList();
+                recipeComponentsDB.ForEach(rc => rc.Order--);
+                db.SaveChanges();
             }
         }
         #endregion Methods

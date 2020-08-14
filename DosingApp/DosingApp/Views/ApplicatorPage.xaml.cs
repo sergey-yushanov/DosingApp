@@ -13,7 +13,7 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class ApplicatorPage : ContentPage
+    public partial class ApplicatorPage : TabbedPage
     {
         public ApplicatorViewModel ViewModel { get; private set; }
         public ApplicatorPage(ApplicatorViewModel viewModel)

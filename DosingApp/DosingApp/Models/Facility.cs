@@ -5,6 +5,12 @@ using System.Text;
 
 namespace DosingApp.Models
 {
+    public static class FacilityType
+    {
+        public const string Storage = "Склад";
+        public const string Shipment = "Отгрузка";
+    }
+
     public class Facility
     {
         public int FacilityId { get; set; }

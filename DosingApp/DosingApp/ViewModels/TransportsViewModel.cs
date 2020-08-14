@@ -1,16 +1,11 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
-using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace DosingApp.ViewModels
 {
@@ -29,8 +24,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public TransportsViewModel()
         {
-            //LoadTransports();
-
             CreateCommand = new Command(CreateTransport);
             DeleteCommand = new Command(DeleteTransport);
             SaveCommand = new Command(SaveTransport);
@@ -84,7 +77,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadTransports();
             Back();
         }
 
@@ -105,10 +97,7 @@ namespace DosingApp.ViewModels
                     }
                     db.SaveChanges();
                 }
-
-                SetSelectedTransportTank(transportViewModel);
             }
-            //LoadTransports();
             if (transportViewModel.IsBack)
             {
                 Back();
@@ -122,21 +111,6 @@ namespace DosingApp.ViewModels
             using (AppDbContext db = App.GetContext())
             {
                 Transports = new ObservableCollection<Transport>(db.Transports.ToList());
-            }
-        }
-
-        private void SetSelectedTransportTank(TransportViewModel transportViewModel)
-        {
-            if (transportViewModel.SelectedTransportTank != null)
-            {
-                transportViewModel.TransportTanks.ForEach(ft => ft.IsUsedTank = false);
-                transportViewModel.TransportTanks.FirstOrDefault(ft => ft.TransportTankId == transportViewModel.SelectedTransportTank.TransportTankId).IsUsedTank = true;
-
-                using (AppDbContext db = App.GetContext())
-                {
-                    db.TransportTanks.UpdateRange(transportViewModel.TransportTanks);
-                    db.SaveChanges();
-                }
             }
         }
         #endregion Methods

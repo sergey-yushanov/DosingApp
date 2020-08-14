@@ -15,7 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         RecipesViewModel recipesViewModel;
         public Recipe Recipe { get; private set; }
-        private bool isBack;
+        private bool isBack;    // need to page navigation while saving foreign key values
         private string title;
 
         private ObservableCollection<Crop> crops;
@@ -35,6 +35,7 @@ namespace DosingApp.ViewModels
         public RecipeViewModel(Recipe recipe)
         {
             Recipe = recipe;
+            IsBack = true;
             LoadItems();
             InitSelectedItems();
 

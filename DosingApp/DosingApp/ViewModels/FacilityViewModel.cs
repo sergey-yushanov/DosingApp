@@ -14,7 +14,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         FacilitiesViewModel facilitiesViewModel;
         public Facility Facility { get; private set; }
-        private bool isBack;
+        private bool isBack;    // need to page navigation while saving foreign key values
         private string title;
 
         private ObservableCollection<FacilityTank> facilityTanks;

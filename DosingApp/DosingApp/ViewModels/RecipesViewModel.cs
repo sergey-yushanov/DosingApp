@@ -107,7 +107,10 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            Back();
+            if (recipeViewModel.IsBack)
+            {
+                Back();
+            }
         }
         #endregion Commands
 

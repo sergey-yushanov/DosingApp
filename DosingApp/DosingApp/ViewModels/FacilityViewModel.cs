@@ -175,7 +175,7 @@ namespace DosingApp.ViewModels
 
             if (Facility.FacilityId != 0)
             {
-                FacilityTank newFacilityTank = new FacilityTank { Facility = this.Facility };
+                FacilityTank newFacilityTank = new FacilityTank() { Facility = this.Facility };
                 await Application.Current.MainPage.Navigation.PushAsync(new FacilityTankPage(new FacilityTankViewModel(newFacilityTank) { FacilityViewModel = this }));
             }
         }

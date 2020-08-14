@@ -131,7 +131,7 @@ namespace DosingApp.ViewModels
 
             if (Applicator.ApplicatorId != 0)
             {
-                ApplicatorTank newApplicatorTank = new ApplicatorTank { Applicator = this.Applicator };
+                ApplicatorTank newApplicatorTank = new ApplicatorTank() { Applicator = this.Applicator };
                 await Application.Current.MainPage.Navigation.PushAsync(new ApplicatorTankPage(new ApplicatorTankViewModel(newApplicatorTank) { ApplicatorViewModel = this }));
             }
         }

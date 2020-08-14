@@ -15,6 +15,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         RecipesViewModel recipesViewModel;
         public Recipe Recipe { get; private set; }
+        private bool isBack;
         private string title;
 
         private ObservableCollection<Crop> crops;
@@ -195,6 +196,12 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public bool IsBack
+        {
+            get { return isBack; }
+            set { SetProperty(ref isBack, value); }
+        }
+
         public string Title
         {
             get { return title; }
@@ -208,13 +215,29 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void CreateRecipeComponent()
+        private async void CreateRecipeComponent()
         {
-            RecipeComponent newRecipeComponent = new RecipeComponent()
+            if (!IsValid)
             {
-                Recipe = this.Recipe
-            };
-            Application.Current.MainPage.Navigation.PushAsync(new RecipeComponentPage(new RecipeComponentViewModel(newRecipeComponent) { RecipeViewModel = this }));
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя рецепта", "Ok");
+                return;
+            }
+
+            if (Recipe.RecipeId == 0)
+            {
+                if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Для добавления компонента необходимо сохранить рецепт. Выполнить сохранение?", "Да", "Нет"))
+                {
+                    IsBack = false;
+                    RecipesViewModel.SaveCommand.Execute(this);
+                    IsBack = true;
+                }
+            }
+
+            if (Recipe.RecipeId != 0)
+            {
+                RecipeComponent newRecipeComponent = new RecipeComponent() { Recipe = this.Recipe };
+                await Application.Current.MainPage.Navigation.PushAsync(new RecipeComponentPage(new RecipeComponentViewModel(newRecipeComponent) { RecipeViewModel = this }));
+            }
         }
 
         private void DeleteRecipeComponent(object recipeComponentInstance)

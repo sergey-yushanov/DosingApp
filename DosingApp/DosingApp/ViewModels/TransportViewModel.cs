@@ -144,7 +144,7 @@ namespace DosingApp.ViewModels
 
             if (Transport.TransportId != 0)
             {
-                TransportTank newTransportTank = new TransportTank { Transport = this.Transport };
+                TransportTank newTransportTank = new TransportTank() { Transport = this.Transport };
                 await Application.Current.MainPage.Navigation.PushAsync(new TransportTankPage(new TransportTankViewModel(newTransportTank) { TransportViewModel = this }));
             }
         }

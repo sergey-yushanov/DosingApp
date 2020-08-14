@@ -100,6 +100,38 @@
                         x:Name="recipeComponentsList"
                         ItemsSource="{Binding RecipeComponents}"
                         SelectedItem="{Binding SelectedRecipeComponent, Mode=TwoWay}">
+
+                        <ListView.Header>
+                            <StackLayout Padding="0,10">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="5*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="1*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Text="#" 
+                                        TextColor="{StaticResource LabelEntryColor}"/>
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="Название" 
+                                        TextColor="{StaticResource LabelEntryColor}"/>
+                                    <Label
+                                        Grid.Column="2"
+                                        Text="Норма внесения" 
+                                        TextColor="{StaticResource LabelEntryColor}"/>
+                                    <Label
+                                        Grid.Column="3"
+                                        Text="Ед. изм." 
+                                        TextColor="{StaticResource LabelEntryColor}"/>
+
+                                </Grid>
+                            </StackLayout>
+                        </ListView.Header>
+                        
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -109,6 +141,7 @@
                                                 <ColumnDefinition Width="1*" />
                                                 <ColumnDefinition Width="5*" />
                                                 <ColumnDefinition Width="2*" />
+                                                <ColumnDefinition Width="1*" />
                                             </Grid.ColumnDefinitions>
 
                                             <Label
@@ -121,6 +154,10 @@
                                             <Label
                                                 Grid.Column="2"
                                                 Text="{Binding VolumeRate}" 
+                                                FontSize="Medium" />
+                                            <Label
+                                                Grid.Column="3"
+                                                Text="{Binding Unit}" 
                                                 FontSize="Medium" />
 
                                         </Grid>

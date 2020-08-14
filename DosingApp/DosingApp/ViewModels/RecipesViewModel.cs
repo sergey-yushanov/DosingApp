@@ -69,7 +69,8 @@ namespace DosingApp.ViewModels
         {
             Recipe newRecipe = new Recipe()
             {
-                CarrierReserve = (float?)20.0
+                CarrierReserve = (float?)20.0,
+                CarrierId = GetWaterCarrier().ComponentId
             };
             Application.Current.MainPage.Navigation.PushAsync(new RecipePage(new RecipeViewModel(newRecipe) { RecipesViewModel = this }));
         }
@@ -120,6 +121,14 @@ namespace DosingApp.ViewModels
             using (AppDbContext db = App.GetContext())
             {
                 Recipes = new ObservableCollection<Recipe>(db.Recipes.ToList());
+            }
+        }
+
+        private Component GetWaterCarrier()
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                return db.Components.FirstOrDefault(c => c.Name == Water.Name);
             }
         }
         #endregion Methods

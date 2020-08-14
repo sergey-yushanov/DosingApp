@@ -286,7 +286,17 @@ namespace DosingApp.ViewModels
                 Crops = new ObservableCollection<Crop>(db.Crops.ToList());
                 ProcessingTypes = new ObservableCollection<ProcessingType>(db.ProcessingTypes.ToList());
                 Carriers = new ObservableCollection<Component>(db.Components.ToList());
+                // water must be on top in the list
+                WaterOnTop();
             }
+        }
+
+        private void WaterOnTop()
+        {
+            var water = Carriers.FirstOrDefault(c => c.Name == Water.Name);
+            var index = Carriers.IndexOf(water);
+            if (index > 0)
+                Carriers.Move(index, 0);
         }
 
         public void InitSelectedItems()

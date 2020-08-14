@@ -1,17 +1,9 @@
 ﻿using DosingApp.Models;
-using DosingApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DosingApp.ViewModels
 {
     public class AgrYearViewModel : BaseViewModel
     {
-        #region Services
-        //private readonly DataService<AgrYear> dataServiceAgrYears;
-        #endregion Services
-
         #region Attributes
         AgrYearsViewModel agrYearsViewModel;
         public AgrYear AgrYear { get; private set; }

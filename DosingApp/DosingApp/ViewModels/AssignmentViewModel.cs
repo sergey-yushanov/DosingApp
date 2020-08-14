@@ -35,8 +35,6 @@ namespace DosingApp.ViewModels
         public AssignmentViewModel(Assignment assignment)
         {
             Assignment = assignment;
-            //LoadItems();
-            //InitSelectedItems();
         }
         #endregion Constructor
 

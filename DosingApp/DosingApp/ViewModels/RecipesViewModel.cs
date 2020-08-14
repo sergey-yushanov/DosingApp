@@ -29,8 +29,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public RecipesViewModel()
         {
-            //LoadRecipes();
-
             CreateCommand = new Command(CreateRecipe);
             DeleteCommand = new Command(DeleteRecipe);
             SaveCommand = new Command(SaveRecipe);
@@ -88,7 +86,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadRecipes();
             Back();
         }
 
@@ -110,7 +107,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadRecipes();
             Back();
         }
         #endregion Commands

@@ -1,16 +1,11 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
-using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace DosingApp.ViewModels
 {
@@ -33,7 +28,6 @@ namespace DosingApp.ViewModels
         public ComponentsViewModel(Manufacturer manufacturer)
         {
             Manufacturer = manufacturer;
-            //LoadComponents();
             Title = "Производитель: " + Manufacturer.Name + "\nКомпоненты";
 
             CreateCommand = new Command(CreateComponent);
@@ -98,7 +92,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadComponents();
             Back();
         }
 
@@ -120,7 +113,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadComponents();
             Back();
         }
         #endregion Commands

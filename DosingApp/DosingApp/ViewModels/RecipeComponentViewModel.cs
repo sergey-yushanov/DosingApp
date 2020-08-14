@@ -1,11 +1,7 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
-using DosingApp.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace DosingApp.ViewModels
 {
@@ -14,7 +10,6 @@ namespace DosingApp.ViewModels
         #region Attributes
         RecipeViewModel recipeViewModel;
         public RecipeComponent RecipeComponent { get; private set; }
-        //private string title;
 
         private ObservableCollection<Component> components;
         #endregion Attributes
@@ -135,7 +130,6 @@ namespace DosingApp.ViewModels
         public string Title
         {
             get { return "Рецепт: " + RecipeViewModel.Name; ; }
-            //set { SetProperty(ref title, value); }
         }
         #endregion Properties
 

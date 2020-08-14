@@ -14,7 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace DosingApp.ViewModels
 {
@@ -112,6 +111,7 @@ namespace DosingApp.ViewModels
                         db.Components.AddRange(newComponents);
                         db.SaveChanges();
                     }
+                    LoadComponents();
                 }
             }
             catch (Exception ex)
@@ -176,7 +176,7 @@ namespace DosingApp.ViewModels
             using (AppDbContext db = App.GetContext())
             {
                 var componentsDB = db.Components.Where(c => c.ManufacturerId == Manufacturer.ManufacturerId).ToList();
-                Components = new ObservableCollection<Component>(componentsDB);
+                Components = new ObservableCollection<Component>(componentsDB.OrderBy(c => c.Name));
             }
         }
         #endregion Methods

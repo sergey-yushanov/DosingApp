@@ -1,11 +1,20 @@
-﻿using DosingApp.DataContext;
+﻿using CsvHelper;
+using DosingApp.DataContext;
 using DosingApp.Models;
+using DosingApp.Models.Files;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using Plugin.FilePicker;
+using Plugin.FilePicker.Abstractions;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace DosingApp.ViewModels
 {
@@ -22,6 +31,8 @@ namespace DosingApp.ViewModels
         public ICommand DeleteCommand { get; protected set; }
         public ICommand SaveCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
+
+        public ICommand LoadFileCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -34,6 +45,8 @@ namespace DosingApp.ViewModels
             DeleteCommand = new Command(DeleteComponent);
             SaveCommand = new Command(SaveComponent);
             BackCommand = new Command(Back);
+
+            LoadFileCommand = new Command(LoadFileAsync);
         }
         #endregion Constructor
 
@@ -67,6 +80,46 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
+        private async void LoadFileAsync()
+        {
+            try
+            {
+                FileData fileData = await CrossFilePicker.Current.PickFile();
+                if (fileData == null)
+                    return; // user canceled file picking
+
+                using (var reader = new StreamReader(fileData.FilePath))
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                {
+                    csv.Configuration.HasHeaderRecord = false;
+                    csv.Configuration.Delimiter = ";";
+                    var records = csv.GetRecords<FileComponent>().ToList();
+
+                    using (var db = App.GetContext())
+                    {
+                        var newComponents = new List<Component>();
+                        records.ForEach(r => r.Density = r.Density.Replace(",", "."));
+                        records.ForEach(r => newComponents.Add(
+                            new Component() 
+                            { 
+                                ManufacturerId = this.Manufacturer.ManufacturerId, 
+                                Name = r.Name,
+                                Density = float.Parse(r.Density), 
+                                Consistency = ComponentConsistency.Liquid 
+                            }
+                        ));
+
+                        db.Components.AddRange(newComponents);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine("Exception choosing file: " + ex.ToString());
+            }
+        }
+
         private void Back()
         {
             Application.Current.MainPage.Navigation.PopAsync();

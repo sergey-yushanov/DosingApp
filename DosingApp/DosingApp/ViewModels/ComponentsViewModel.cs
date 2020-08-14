@@ -91,14 +91,14 @@ namespace DosingApp.ViewModels
                 using (var reader = new StreamReader(fileData.FilePath))
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
-                    csv.Configuration.HasHeaderRecord = false;
+                    csv.Configuration.HasHeaderRecord = false;  // no header in *.csv file
                     csv.Configuration.Delimiter = ";";
                     var records = csv.GetRecords<FileComponent>().ToList();
 
                     using (var db = App.GetContext())
                     {
                         var newComponents = new List<Component>();
-                        records.ForEach(r => r.Density = r.Density.Replace(",", "."));
+                        records.ForEach(r => r.Density = r.Density.Replace(",", "."));  // change comma to point for string to float transform
                         records.ForEach(r => newComponents.Add(
                             new Component() 
                             { 

@@ -4,6 +4,13 @@ using System.Text;
 
 namespace DosingApp.Models
 {
+    public static class Water
+    {
+        public const string Name = "Вода";
+        public const string Consistency = ComponentConsistency.Liquid;
+        public const float Density = 1.0F;
+    }
+
     public static class ComponentConsistency
     {
         public const string Dry = "Сухой";

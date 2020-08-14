@@ -38,6 +38,7 @@ namespace DosingApp
             GetUserContext().Database.EnsureCreated();
 
             CreateAdminUser();
+            CreateWaterComponent();
 
             MainPage = new NavigationPage(new LoginPage());
         }
@@ -77,7 +78,24 @@ namespace DosingApp
                 }
             }
         }
-        
+
+        // Создаем компонент по умолчанию - вода
+        protected static void CreateWaterComponent()
+        {
+            using (AppDbContext db = GetContext())
+            {
+                if (!db.Components.Any(c => c.Name == Water.Name))
+                {
+                    Component component = new Component();
+                    component.Name = Water.Name;
+                    component.Consistency = Water.Consistency;
+                    component.Density = Water.Density;
+                    db.Components.Add(component);
+                    db.SaveChanges();
+                }
+            }
+        }
+
         protected override void OnStart()
         {
         }

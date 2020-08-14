@@ -49,19 +49,6 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref components, value); }
         }
 
-        public int? Order
-        {
-            get { return RecipeComponent.Order; }
-            set
-            {
-                if (RecipeComponent.Order != value)
-                {
-                    RecipeComponent.Order = value;
-                    OnPropertyChanged(nameof(Order));
-                }
-            }
-        }
-
         public float? VolumeRate
         {
             get { return RecipeComponent.VolumeRate; }

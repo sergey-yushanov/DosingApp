@@ -250,6 +250,7 @@ namespace DosingApp.ViewModels
                     db.RecipeComponents.Remove(recipeComponentViewModel.RecipeComponent);
                     db.SaveChanges();
                 }
+                ReorderComponents(recipeComponentViewModel.RecipeComponent.Order);
             }
             Back();
         }
@@ -263,6 +264,7 @@ namespace DosingApp.ViewModels
                 {
                     if (recipeComponentViewModel.RecipeComponent.RecipeComponentId == 0)
                     {
+                        recipeComponentViewModel.RecipeComponent.Order = RecipeComponents.Count + 1;
                         db.Entry(recipeComponentViewModel.RecipeComponent).State = EntityState.Added;
                     }
                     else
@@ -306,6 +308,16 @@ namespace DosingApp.ViewModels
                 var recipeComponentsDB = db.RecipeComponents.Where(rc => rc.RecipeId == Recipe.RecipeId).ToList();
                 RecipeComponents = new ObservableCollection<RecipeComponent>(recipeComponentsDB);
                 RecipeComponents.ForEach(rc => rc.Component = db.Components.FirstOrDefault(c => c.ComponentId == rc.ComponentId));
+            }
+        }
+
+        public void ReorderComponents(int? startOrder)
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                var recipeComponentsDB = db.RecipeComponents.Where(rc => rc.Order > startOrder).ToList();
+                recipeComponentsDB.ForEach(rc => rc.Order--);
+                db.SaveChanges();
             }
         }
         #endregion Methods

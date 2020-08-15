@@ -22,5 +22,14 @@ namespace DosingApp.Views
             ViewModel = viewModel;
             BindingContext = ViewModel;
         }
+
+        private void OnSizeTextChanged(object sender, TextChangedEventArgs args)
+        {
+            if (String.IsNullOrEmpty(args.NewTextValue))
+            {
+                var fieldViewModel = (FieldViewModel)BindingContext;
+                fieldViewModel.Size = null;
+            }
+        }
     }
 }

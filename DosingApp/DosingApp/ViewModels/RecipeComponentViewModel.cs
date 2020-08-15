@@ -80,28 +80,15 @@ namespace DosingApp.ViewModels
             get { return new ObservableCollection<string>() { RecipeComponentUnit.Liquid, RecipeComponentUnit.Dry }; }
         }
 
-        public string Valve
+        public string Dispenser
         {
-            get { return RecipeComponent.Valve; }
+            get { return RecipeComponent.Dispenser; }
             set
             {
-                if (RecipeComponent.Valve != value)
+                if (RecipeComponent.Dispenser != value)
                 {
-                    RecipeComponent.Valve = value;
-                    OnPropertyChanged(nameof(Valve));
-                }
-            }
-        }
-
-        public string DispenserName
-        {
-            get { return RecipeComponent.DispenserName; }
-            set
-            {
-                if (RecipeComponent.DispenserName != value)
-                {
-                    RecipeComponent.DispenserName = value;
-                    OnPropertyChanged(nameof(DispenserName));
+                    RecipeComponent.Dispenser = value;
+                    OnPropertyChanged(nameof(Dispenser));
                 }
             }
         }

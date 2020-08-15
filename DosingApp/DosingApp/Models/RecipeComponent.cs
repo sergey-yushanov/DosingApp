@@ -23,8 +23,7 @@ namespace DosingApp.Models
         public int? Order { get; set; }
         public float? VolumeRate { get; set; }
         public string Unit { get; set; }
-        public string Valve { get; set; }
-        public string DispenserName { get; set; }
+        public string Dispenser { get; set; }
 
         public string Name { get { return Component?.Name; } }
     }

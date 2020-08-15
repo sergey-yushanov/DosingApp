@@ -42,22 +42,17 @@
                                 SelectedItem="{Binding Unit}"/>
                         </StackLayout>
                     </StackLayout>
-                    
-                    <Label 
-                        Text="Номер клапана" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Введите номер клапана" 
-                        Text="{Binding Valve}" 
-                        Keyboard="Numeric"/>
 
                     <Label 
                         Text="Дозатор" 
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Введите название дозатора" 
-                        Text="{Binding DispenserName}"/>
-                    
+                    <Picker 
+                        x:Name="dispensersList"
+                        Title="Выберите дозатор"
+                        ItemsSource="{Binding Dispensers}"
+                        SelectedItem="{Binding Dispenser, Mode=TwoWay}" />
+
+
                 </StackLayout>
                 <StackLayout>
                     <Grid>

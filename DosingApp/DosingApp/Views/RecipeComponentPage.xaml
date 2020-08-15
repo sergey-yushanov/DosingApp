@@ -37,7 +37,7 @@
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="EndAndExpand">
                             <Picker 
-                                Title="Eд. изм."
+                                Title="Eд.изм."
                                 ItemsSource="{Binding UnitList}"
                                 SelectedItem="{Binding Unit}"/>
                         </StackLayout>

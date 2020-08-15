@@ -107,9 +107,9 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="5*" />
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="7*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
                                     </Grid.ColumnDefinitions>
 
                                     <Label
@@ -121,13 +121,12 @@
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                     <Label
                                         Grid.Column="2"
-                                        Text="Норма внесения" 
+                                        Text="Норма" 
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                     <Label
                                         Grid.Column="3"
-                                        Text="Ед. изм." 
+                                        Text="Ед.изм." 
                                         TextColor="{StaticResource LabelEntryColor}"/>
-
                                 </Grid>
                             </StackLayout>
                         </ListView.Header>
@@ -139,9 +138,9 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*" />
-                                                <ColumnDefinition Width="5*" />
-                                                <ColumnDefinition Width="2*" />
-                                                <ColumnDefinition Width="1*" />
+                                                <ColumnDefinition Width="7*" />
+                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="3*" />
                                             </Grid.ColumnDefinitions>
 
                                             <Label

@@ -19,7 +19,7 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">
-                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
+                <Button Text="Добавить компонент" Command="{Binding CreateCommand}"/>
                 <Button Text="Загрузить из файла" Command="{Binding LoadFileCommand}"/>
 
                 <ListView 

@@ -9,7 +9,7 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">
-                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
+                <Button Text="Добавить производителя" Command="{Binding CreateCommand}"/>
 
                 <ListView 
                     x:Name="manufacturersList"

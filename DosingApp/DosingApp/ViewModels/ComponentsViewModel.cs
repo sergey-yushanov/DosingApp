@@ -92,31 +92,73 @@ namespace DosingApp.ViewModels
                 {
                     csv.Configuration.HasHeaderRecord = false;  // no header in *.csv file
                     csv.Configuration.Delimiter = ";";
-                    var records = csv.GetRecords<FileComponent>().ToList();
+                    var fileComponents = csv.GetRecords<FileComponent>().ToList();
 
                     using (var db = App.GetContext())
                     {
-                        var newComponents = new List<Component>();
-                        records.ForEach(r => r.Density = r.Density.Replace(",", "."));  // change comma to point for string to float transform
-                        records.ForEach(r => newComponents.Add(
-                            new Component() 
-                            { 
-                                ManufacturerId = this.Manufacturer.ManufacturerId, 
-                                Name = r.Name,
-                                Density = float.Parse(r.Density), 
-                                Consistency = ComponentConsistency.Liquid 
-                            }
-                        ));
+                        fileComponents.ForEach(r => r.Density = r.Density.Replace(",", "."));  // change comma to point for string to float transform
 
-                        db.Components.AddRange(newComponents);
+                        var action = DisplayActions.Uncertain;
+                        foreach (var fileComponent in fileComponents)
+                        {                            
+                            var existComponent = db.Components.FirstOrDefault(c => c.Name == fileComponent.Name && c.ManufacturerId == this.Manufacturer.ManufacturerId);
+                            if (existComponent != null && String.Equals(action, DisplayActions.Uncertain))
+                            {
+                                action = await Application.Current.MainPage.DisplayActionSheet("Компонент с именем '" + fileComponent.Name + "' уже существует", null, null, DisplayActions.New, DisplayActions.Save, DisplayActions.SaveAll, DisplayActions.Skip, DisplayActions.SkipAll);
+                            }
+
+                            // skip all entire file
+                            if (String.Equals(action, DisplayActions.SkipAll))
+                            {
+                                break;
+                            }
+
+                            // get new item values from file
+                            var consistency = ComponentConsistency.Dry;
+                            if (float.TryParse(fileComponent.Density, out float density))
+                            {
+                                consistency = ComponentConsistency.Liquid;
+                            }
+
+                            // create new item
+                            if (String.Equals(action, DisplayActions.New) ||
+                                String.Equals(action, DisplayActions.Uncertain))
+                            {
+                                var newComponent = new Component()
+                                {
+                                    ManufacturerId = this.Manufacturer.ManufacturerId,
+                                    Name = fileComponent.Name,
+                                    Density = density,
+                                    Consistency = consistency
+                                };
+                                db.Components.Add(newComponent);
+                            }
+
+                            // update item
+                            if (String.Equals(action, DisplayActions.Save) ||
+                                String.Equals(action, DisplayActions.SaveAll))
+                            {
+                                existComponent.Density = density;
+                                existComponent.Consistency = consistency;
+                                db.Components.Update(existComponent);
+                            }
+                            
+                            // if we decided with only one item - next step ask again
+                            if (String.Equals(action, DisplayActions.New) ||
+                                String.Equals(action, DisplayActions.Save) ||
+                                String.Equals(action, DisplayActions.Skip))
+                            {
+                                action = DisplayActions.Uncertain;
+                            }
+                        }
                         db.SaveChanges();
                     }
-                    LoadComponents();
+                    //LoadComponents();
                 }
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("Exception choosing file: " + ex.ToString());
+                System.Console.WriteLine("Ошибка работы с файлом: " + ex.ToString());
             }
         }
 

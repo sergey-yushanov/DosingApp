@@ -96,7 +96,7 @@ namespace DosingApp.ViewModels
 
                     using (var db = App.GetContext())
                     {
-                        fileComponents.ForEach(r => r.Density = r.Density.Replace(",", "."));  // change comma to point for string to float transform
+                        fileComponents.ForEach(r => r.Density = r.Density.Replace(",", "."));  // change comma to point for string to double transform
 
                         var action = DisplayActions.Uncertain;
                         foreach (var fileComponent in fileComponents)
@@ -115,7 +115,7 @@ namespace DosingApp.ViewModels
 
                             // get new item values from file
                             var consistency = ComponentConsistency.Dry;
-                            if (float.TryParse(fileComponent.Density, out float density))
+                            if (double.TryParse(fileComponent.Density, out double density))
                             {
                                 consistency = ComponentConsistency.Liquid;
                             }

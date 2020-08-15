@@ -488,7 +488,7 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref fields, value); }
         }
 
-        public float? VolumeRate
+        public double? VolumeRate
         {
             get { return Assignment.VolumeRate; }
             set

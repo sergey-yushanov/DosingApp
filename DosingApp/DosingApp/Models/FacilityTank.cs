@@ -9,7 +9,7 @@ namespace DosingApp.Models
         public int FacilityTankId { get; set; }
 
         public string Name { get; set; }
-        public float? Volume { get; set; }
+        public double? Volume { get; set; }
 
         public int? FacilityId { get; set; }
         public virtual Facility Facility { get; set; }

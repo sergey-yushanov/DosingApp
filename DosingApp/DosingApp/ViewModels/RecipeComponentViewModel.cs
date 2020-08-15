@@ -49,7 +49,7 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref components, value); }
         }
 
-        public float? VolumeRate
+        public double? VolumeRate
         {
             get { return RecipeComponent.VolumeRate; }
             set

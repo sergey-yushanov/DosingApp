@@ -21,7 +21,7 @@ namespace DosingApp.Models
         public virtual Component Component { get; set; }
 
         public int? Order { get; set; }
-        public float? VolumeRate { get; set; }
+        public double? VolumeRate { get; set; }
         public string Unit { get; set; }
         public string Dispenser { get; set; }
 

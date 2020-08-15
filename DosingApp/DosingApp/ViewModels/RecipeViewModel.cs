@@ -157,7 +157,7 @@ namespace DosingApp.ViewModels
             {
                 try
                 {
-                    Recipe.CarrierReserve = float.Parse(value);
+                    Recipe.CarrierReserve = double.Parse(value);
                     Recipe.CarrierReserve = PercentLimits(Recipe.CarrierReserve);
                 }
                 catch
@@ -307,9 +307,9 @@ namespace DosingApp.ViewModels
             Carrier = Carriers.FirstOrDefault(c => c.ComponentId == Recipe.CarrierId);
         }
 
-        private float? PercentLimits(float? percents)
+        private double? PercentLimits(double? percents)
         {
-            return percents > 100.0 ? (float?)100.0 : percents < 0.0 ? (float?)0.0 : percents;
+            return percents > 100.0 ? (double?)100.0 : percents < 0.0 ? (double?)0.0 : percents;
         }
 
         public void LoadRecipeComponents()

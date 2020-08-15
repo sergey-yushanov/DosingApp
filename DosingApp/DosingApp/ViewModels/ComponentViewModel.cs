@@ -66,7 +66,7 @@ namespace DosingApp.ViewModels
             get { return new ObservableCollection<string>() { ComponentConsistency.Liquid, ComponentConsistency.Dry }; }
         }
 
-        public float? Density
+        public double? Density
         {
             get { return Component.Density; }
             set

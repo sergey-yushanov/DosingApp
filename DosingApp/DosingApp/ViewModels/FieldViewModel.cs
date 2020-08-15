@@ -54,7 +54,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public float? Size
+        public double? Size
         {
             get { return Field.Size; }
             set

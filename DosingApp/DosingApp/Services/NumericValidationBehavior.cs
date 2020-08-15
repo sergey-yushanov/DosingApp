@@ -21,8 +21,8 @@ namespace DosingApp.Services
 
         void OnEntryTextChanged(object sender, TextChangedEventArgs args)
         {
-            //float result;
-            //bool isValid = float.TryParse(args.NewTextValue, out result);
+            //double result;
+            //bool isValid = double.TryParse(args.NewTextValue, out result);
             if (String.IsNullOrEmpty(args.NewTextValue))
             {
                 ((Entry)sender).Text = null;

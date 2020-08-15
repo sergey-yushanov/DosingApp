@@ -8,7 +8,7 @@ namespace DosingApp.Models
     {
         public const string Name = "Вода";
         public const string Consistency = ComponentConsistency.Liquid;
-        public const float Density = 1.0F;
+        public const double Density = 1.0F;
     }
 
     public static class ComponentConsistency
@@ -26,7 +26,7 @@ namespace DosingApp.Models
 
         public string Name { get; set; }
         public string Consistency { get; set; }
-        public float? Density { get; set; }
+        public double? Density { get; set; }
         public string Packing { get; set; }
     }
 }

@@ -4,6 +4,8 @@ using DosingApp.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
@@ -32,6 +34,8 @@ namespace DosingApp.ViewModels
         private bool accessMainParams;
         private bool accessAdditionalParams;
         private bool accessAdminParams;
+
+        public ICommand BackCommand { get; protected set; }
         #endregion Attributes
 
         #region Properties
@@ -68,8 +72,17 @@ namespace DosingApp.ViewModels
             AccessAdditionalParams = App.ActiveUser.AccessAdditionalParams || App.ActiveUser.AccessAdminParams;
             AccessAdminParams = App.ActiveUser.AccessAdminParams;
             this.LoadMenu();
+
+            BackCommand = new Command(Back);
         }
         #endregion Constructor
+
+        #region Commands
+        private void Back()
+        {
+            Application.Current.MainPage.Navigation.PopAsync();
+        }
+        #endregion Commands
 
         #region Methods
         private void LoadMenu()

@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              xmlns:ViewModel="clr-namespace:DosingApp.ViewModels"
              x:Class="DosingApp.Views.MainPage"
-             Title="Главная страница">
+             Title="Mix-App">
 
     <ContentPage.BindingContext>
         <ViewModel:MainViewModel/>

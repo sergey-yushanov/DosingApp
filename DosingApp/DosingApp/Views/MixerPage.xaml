@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DosingApp.Views.MixerPage"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout 
+                Margin="{StaticResource PageMargin}">
+                <StackLayout>
+
+                    <Label 
+                        Text="Установка смешивания"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        Padding="0,10">
+                        <Label 
+                            Text="Активная установка"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Switch 
+                            IsToggled="{Binding IsUsedMixer}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" />
+                    </StackLayout>
+                    
+                    <Label 
+                        Text="Название"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry 
+                        Placeholder="Введите название установки" 
+                        Text="{Binding Name}" />
+
+                    <Label 
+                        Text="Количество коллекторов"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry 
+                        Placeholder="Введите количество коллекторов" 
+                        Text="{Binding Collector}"
+                        Keyboard="Numeric"/>
+
+                    <Label 
+                        Text="Количество ОД"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry 
+                        Placeholder="Введите количество ОД" 
+                        Text="{Binding Single}" 
+                        Keyboard="Numeric"/>
+
+                    <Label 
+                        Text="Количество 3-х ходовых клапанов"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry 
+                        Placeholder="Введите количество 3-х ход. клапанов" 
+                        Text="{Binding ThreeWay}" 
+                        Keyboard="Numeric"/>
+
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button 
+                            Text="Сохранить" 
+                            Command="{Binding MixersViewModel.SaveCommand}" 
+                            CommandParameter="{Binding}" />
+                        <Button 
+                            Grid.Column="1" 
+                            Text="Удалить" 
+                            Command="{Binding MixersViewModel.DeleteCommand}" 
+                            CommandParameter="{Binding}" />
+                    </Grid>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

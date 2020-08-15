@@ -19,7 +19,8 @@ namespace DosingApp.Models
         ProcessingTypes,
         AgrYears,
         Fields,
-        Users
+        Users,
+        Mixers
     }
 
     public static class MenuItemGroup

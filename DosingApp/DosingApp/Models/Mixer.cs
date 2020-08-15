@@ -9,8 +9,10 @@ namespace DosingApp.Models
         public int MixerId { get; set; }
         public string Name { get; set; }
 
-        public int Collector { get; set; }
-        public int Single { get; set; }
-        public int ThreeWayValve { get; set; }
+        public int? Collector { get; set; }
+        public int? Single { get; set; }
+        public int? ThreeWay { get; set; }
+
+        public bool IsUsedMixer { get; set; }
     }
 }

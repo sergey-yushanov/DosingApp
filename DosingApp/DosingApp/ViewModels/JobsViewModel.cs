@@ -2,10 +2,12 @@
 using DosingApp.Models;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace DosingApp.ViewModels
 {
@@ -61,12 +63,14 @@ namespace DosingApp.ViewModels
                     {
                         db.Entry(jobViewModel.Job).State = EntityState.Added;
                     }
-                    else
-                    {
-                        db.Jobs.Update(jobViewModel.Job);
-                    }
+                    //else
+                    //{
+                        //db.Recipes.Update(recipeViewModel.Recipe);
+                    //}
+                    //db.JobComponents.AddRange(GetJobComponents(jobViewModel.Job));
                     db.SaveChanges();
                 }
+                Application.Current.MainPage.Navigation.PushAsync(new JobComponentsPage(new JobComponentsViewModel(jobViewModel.Job)));
             }
         }
         #endregion Commands
@@ -79,6 +83,40 @@ namespace DosingApp.ViewModels
                 Assignments = new ObservableCollection<Assignment>(db.Assignments.ToList());
             }
         }
+
+        public List<RecipeComponent> LoadRecipeComponents(Job job)
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                var recipeComponents = db.RecipeComponents.Where(rc => rc.RecipeId == job.RecipeId).ToList();
+                recipeComponents.ForEach(rc => rc.Component = db.Components.FirstOrDefault(c => c.ComponentId == rc.ComponentId));
+                return recipeComponents;
+            }
+        }
+
+        public List<JobComponent> GetJobComponents(Job job)
+        {
+            var jobComponents = new List<JobComponent>();
+            var recipeComponents = LoadRecipeComponents(job);
+            recipeComponents.ForEach(rc => jobComponents.Add(new JobComponent() 
+                { 
+                    Job = job,
+                    Component = rc.Component,
+                    Order = rc.Order,
+                    Volume = GetVolume(rc.VolumeRate, job.Square),
+                    VolumeRate = rc.VolumeRate,
+                    Unit = rc.Unit,
+                    Dispenser = rc.Dispenser
+                }
+            ));
+            return jobComponents;
+        }
+
+        private double? GetVolume(double? volumeRate, double? square)
+        {
+            return volumeRate * square;
+        }
+
         #endregion Methods
     }
 }

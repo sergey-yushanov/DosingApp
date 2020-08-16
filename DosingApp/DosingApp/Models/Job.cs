@@ -11,6 +11,9 @@ namespace DosingApp.Models
         public int? AssignmentId { get; set; }
         public virtual Assignment Assignment { get; set; }
 
+        public bool IsAccessToChange { get; set; }
+        public double? Square { get; set; }
+
         public string Note { get; set; }
 
         public int? RecipeId { get; set; }

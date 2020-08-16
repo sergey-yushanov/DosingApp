@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="DosingApp.Views.JobPage"
-             Title="{Binding Title}">
+             Title="Задание на смешивание">
 
     <ContentPage.Content>
 
@@ -13,11 +13,11 @@
                 <StackLayout>
 
                     <Label 
-                        Text="Название"
+                        Text="Название задания"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
-                        Placeholder="Введите название задания" 
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}" 
+                        IsReadOnly="True"/>
 
                     <Label 
                         Text="Заметка" 
@@ -149,6 +149,15 @@
                         ItemsSource="{Binding Fields}"
                         SelectedItem="{Binding Field, Mode=TwoWay}" />
 
+                    <Label 
+                        Text="Размер партии смеси, л"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="Введите размер партии"
+                        Text="{Binding Volume}" 
+                        Keyboard="Numeric"
+                        TextChanged="OnVolumeTextChanged"/>
+                    
                     <StackLayout Orientation="Horizontal">
                         <StackLayout
                             Orientation="Vertical"

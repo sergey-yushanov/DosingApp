@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.446" />
     <PackageReference Include="CsvHelper" Version="15.0.5" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="FileHelpers" Version="3.4.1" />
@@ -50,14 +51,17 @@
     <Compile Update="Views\JobsPage.xaml.cs">
       <DependentUpon>JobsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\JobComponentsPage.xaml.cs">
+      <DependentUpon>JobComponentsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MixerPage.xaml.cs">
       <DependentUpon>MixerPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MixersPage.xaml.cs">
       <DependentUpon>MixersPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\JobePage.xaml.cs">
-      <DependentUpon>JobePage.xaml</DependentUpon>
+    <Compile Update="Views\JobPage.xaml.cs">
+      <DependentUpon>JobPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\JobsPage.xaml.cs">
       <DependentUpon>JobsPage.xaml</DependentUpon>

@@ -38,5 +38,14 @@ namespace DosingApp.Views
                 jobViewModel.VolumeRate = null;
             }
         }
+
+        private void OnVolumeTextChanged(object sender, TextChangedEventArgs args)
+        {
+            if (String.IsNullOrEmpty(args.NewTextValue))
+            {
+                var jobViewModel = (JobViewModel)BindingContext;
+                jobViewModel.Volume = null;
+            }
+        }
     }
 }

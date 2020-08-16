@@ -14,7 +14,6 @@ namespace DosingApp.ViewModels
         #region Attributes
         JobsViewModel jobsViewModel;
         public Job Job { get; private set; }
-        private string title;
 
         private ObservableCollection<Recipe> recipes;
         private ObservableCollection<Facility> facilities;
@@ -35,7 +34,8 @@ namespace DosingApp.ViewModels
         public JobViewModel(Job job)
         {
             Job = job;
-            Title = Job.Name;
+            InitJob();
+            CalculateVolume();
         }
         #endregion Constructor
 
@@ -477,6 +477,19 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref fields, value); }
         }
 
+        public double? Volume
+        {
+            get { return Job.Volume; }
+            set
+            {
+                if (Job.Volume != value)
+                {
+                    Job.Volume = value;
+                    OnPropertyChanged(nameof(Volume));
+                }
+            }
+        }
+
         public double? VolumeRate
         {
             get { return Job.VolumeRate; }
@@ -515,16 +528,57 @@ namespace DosingApp.ViewModels
                 return (!string.IsNullOrEmpty(Name));
             }
         }
-
-        public string Title
-        {
-            get { return title; }
-            set { SetProperty(ref title, value); }
-        }
         #endregion Properties
 
         #region Methods
-        public void LoadItems()
+        public void InitJob()
+        {
+            Job.Note = Job.Assignment.Note;
+
+            Job.AssignmentId = Job.Assignment.AssignmentId;
+
+            Job.RecipeId = Job.Assignment.RecipeId;
+            
+            Job.SourceType = Job.Assignment.SourceType;
+            Job.DestType = Job.Assignment.DestType;
+
+            Job.IsSourceFacility = Job.Assignment.IsSourceFacility;
+            Job.SourceFacilityId = Job.Assignment.SourceFacilityId;
+            Job.SourceFacilityTankId = Job.Assignment.SourceFacilityTankId;
+
+            Job.IsSourceTransport = Job.Assignment.IsSourceTransport;
+            Job.SourceTransportId = Job.Assignment.SourceTransportId;
+            Job.SourceTransportTankId = Job.Assignment.SourceTransportTankId;
+
+            Job.IsSourceApplicator = Job.Assignment.IsSourceApplicator;
+            Job.SourceApplicatorId = Job.Assignment.SourceApplicatorId;
+            Job.SourceApplicatorTankId = Job.Assignment.SourceApplicatorTankId;
+
+            Job.IsDestFacility = Job.Assignment.IsDestFacility;
+            Job.DestFacilityId = Job.Assignment.DestFacilityId;
+            Job.DestFacilityTankId = Job.Assignment.DestFacilityTankId;
+
+            Job.IsDestTransport = Job.Assignment.IsDestTransport;
+            Job.DestTransportId = Job.Assignment.DestTransportId;
+            Job.DestTransportTankId = Job.Assignment.DestTransportTankId;
+
+            Job.IsDestApplicator = Job.Assignment.IsDestApplicator;
+            Job.DestApplicatorId = Job.Assignment.DestApplicatorId;
+            Job.DestApplicatorTankId = Job.Assignment.DestApplicatorTankId;
+
+            Job.AgrYearId = Job.Assignment.AgrYearId;
+            Job.FieldId = Job.Assignment.FieldId;
+
+            Job.VolumeRate = Job.Assignment.VolumeRate;
+            Job.Unit = Job.Assignment.Unit;
+    }
+
+        public void CalculateVolume()
+        {
+            return;
+        }
+
+    public void LoadItems()
         {
             using (AppDbContext db = App.GetContext())
             {

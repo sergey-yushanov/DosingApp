@@ -102,18 +102,17 @@ namespace DosingApp.ViewModels
             var jobComponents = new List<JobComponent>();
             var recipeComponents = LoadRecipeComponents(job);
             recipeComponents.ForEach(rc => jobComponents.Add(new JobComponent() 
-                { 
-                    JobId = job.JobId,
-                    Job = job,
-                    ComponentId = rc.ComponentId,
-                    Component = rc.Component,
-                    Order = rc.Order,
-                    Volume = GetVolume(rc.VolumeRate, job.Square),
-                    VolumeRate = rc.VolumeRate,
-                    Unit = rc.Unit,
-                    Dispenser = rc.Dispenser
-                }
-            ));
+            {
+                JobId = job.JobId,
+                Job = job,
+                ComponentId = rc.ComponentId,
+                Component = rc.Component,
+                Order = rc.Order,
+                Volume = GetVolume(rc.VolumeRate, job.Square),
+                VolumeRate = rc.VolumeRate,
+                Unit = rc.Unit,
+                Dispenser = rc.Dispenser
+            }));
             return jobComponents;
         }
 

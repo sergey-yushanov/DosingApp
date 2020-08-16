@@ -40,7 +40,7 @@ namespace DosingApp
             CreateAdminUser();
             CreateWaterComponent();
 
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new NavigationPage(new MainPage());// LoginPage());
         }
 
         // Получение контекста БД при запуске приложения

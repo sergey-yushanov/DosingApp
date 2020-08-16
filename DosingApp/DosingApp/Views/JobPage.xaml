@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="DosingApp.Views.JobPage"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
+             x:Class="DosingApp.Views.JobPage"
              Title="Задание на смешивание">
 
     <ContentPage.Content>
@@ -19,6 +20,24 @@
                         Text="{Binding Name}" 
                         IsReadOnly="True"/>
 
+                    <Label 
+                        Text="Изменения в задание"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        Padding="0,10">
+                        <Label 
+                            Text="Внести изменения в задание"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Switch 
+                            IsToggled="{Binding IsAccessToChange}"
+                            IsEnabled="{Binding IsAccessToChange, Converter={Helpers:InverseBoolConverter}}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" />
+                    </StackLayout>
+                    
+                    
                     <Label 
                         Text="Заметка" 
                         TextColor="{StaticResource LabelEntryColor}"/>

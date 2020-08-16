@@ -1,6 +1,9 @@
 ﻿using DosingApp.DataContext;
+using DosingApp.Helpers;
 using DosingApp.Models;
 using DosingApp.Services;
+using DosingApp.Views;
+using Rg.Plugins.Popup.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,40 +12,47 @@ using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
-    public class MenuGrouping<K, MenuItemViewModel> : ObservableCollection<MenuItemViewModel>
-    {
-        public K Name { get; private set; }
-        public MenuGrouping(K name, IEnumerable<MenuItemViewModel> items)
-        {
-            Name = name;
-            foreach (MenuItemViewModel item in items)
-                Items.Add(item);
-        }
-    }
-
     public class MainViewModel : BaseViewModel
     {
-        #region Services
-
-        #endregion Services
-
         #region Attributes
-        public User User { get; private set; }
-        public ObservableCollection<MenuGrouping<string, MenuItemViewModel>> MenuGroups { get; private set; }
-
+        public User user;
+        private ObservableCollection<MenuGrouping<string, MenuItemViewModel>> menuGroups;
         private ObservableCollection<MenuItemViewModel> mainMenu;
         private bool accessMainParams;
         private bool accessAdditionalParams;
         private bool accessAdminParams;
 
-        public ICommand BackCommand { get; protected set; }
+        //public ICommand BackCommand { get; protected set; }
+        //public ICommand LoginCommand { get; protected set; }
         #endregion Attributes
 
+        #region Constructor
+        public MainViewModel()
+        {
+            LoadMenu();
+
+            //BackCommand = new Command(Back);
+            //LoginCommand = new Command(Login);
+        }
+        #endregion Constructor
+
         #region Properties
+        public ObservableCollection<MenuGrouping<string, MenuItemViewModel>> MenuGroups
+        {
+            get { return this.menuGroups; }
+            set { SetProperty(ref menuGroups, value); }
+        }
+
         public ObservableCollection<MenuItemViewModel> MainMenu
         {
             get { return this.mainMenu; }
             set { SetProperty(ref this.mainMenu, value); }
+        }
+
+        public User User
+        {
+            get { return user; }
+            set { SetProperty(ref user, value); }
         }
 
         public bool AccessMainParams
@@ -64,24 +74,16 @@ namespace DosingApp.ViewModels
         }
         #endregion Properties
 
-        #region Constructor
-        public MainViewModel()
-        {
-            User = App.ActiveUser;
-            AccessMainParams = App.ActiveUser.AccessMainParams || App.ActiveUser.AccessAdminParams;
-            AccessAdditionalParams = App.ActiveUser.AccessAdditionalParams || App.ActiveUser.AccessAdminParams;
-            AccessAdminParams = App.ActiveUser.AccessAdminParams;
-            this.LoadMenu();
-
-            BackCommand = new Command(Back);
-        }
-        #endregion Constructor
-
         #region Commands
-        private void Back()
-        {
-            Application.Current.MainPage.Navigation.PopAsync();
-        }
+        //private void Back()
+        //{
+            //Application.Current.MainPage.Navigation.PopAsync();
+        //}
+
+        //private void Login()
+        //{ 
+            //Application.Current.MainPage.Navigation.PushPopupAsync(new LoginPage());
+        //}
         #endregion Commands
 
         #region Methods
@@ -110,6 +112,8 @@ namespace DosingApp.ViewModels
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Fields, Group = MenuItemGroup.AdditionalParams, Title = "Поля для обработки" });
             }
 
+            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Login, Group = MenuItemGroup.LoginMenu, Title = "Логин", MainViewModel = this });
+
             if (AccessAdminParams)
             {
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Users, Group = MenuItemGroup.AdminParams, Title = "Пользователи" });
@@ -118,6 +122,18 @@ namespace DosingApp.ViewModels
 
             var groups = MainMenu.GroupBy(m => m.Group).Select(g => new MenuGrouping<string, MenuItemViewModel>(g.Key, g));
             MenuGroups = new ObservableCollection<MenuGrouping<string, MenuItemViewModel>>(groups);
+        }
+
+        public void SetUserAccess()
+        {
+            if (App.ActiveUser != null)
+            {
+                User = App.ActiveUser;
+                AccessMainParams = App.ActiveUser.AccessMainParams || App.ActiveUser.AccessAdminParams;
+                AccessAdditionalParams = App.ActiveUser.AccessAdditionalParams || App.ActiveUser.AccessAdminParams;
+                AccessAdminParams = App.ActiveUser.AccessAdminParams;
+            }
+            LoadMenu();
         }
         #endregion Methods
     }

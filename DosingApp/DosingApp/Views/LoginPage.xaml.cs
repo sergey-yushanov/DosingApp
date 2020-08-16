@@ -1,6 +1,9 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Services;
+using DosingApp.ViewModels;
+using Rg.Plugins.Popup.Extensions;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +15,13 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class LoginPage : ContentPage
+    public partial class LoginPage : PopupPage
     {
-        public LoginPage()
+        public MainViewModel MainViewModel { get; private set; }
+        public LoginPage(MainViewModel mainViewModel)
         {
             InitializeComponent();
+            MainViewModel = mainViewModel;
         }
 
         private void SignInButton(object sender, EventArgs e)
@@ -31,9 +36,12 @@ namespace DosingApp.Views
                     if (CryptoService.VerifyPassword(password, user.PasswordSalt, user.PasswordHash))
                     {
                         App.ActiveUser = user;
-                        Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        //Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        Application.Current.MainPage.Navigation.PopPopupAsync();
+                        MainViewModel.SetUserAccess();
                         userEntry.Text = null;
                         passwordEntry.Text = null;
+
                     }
                     else
                     {
@@ -47,7 +55,7 @@ namespace DosingApp.Views
                     userEntry.Text = null;
                     passwordEntry.Text = null;
                 }
-            }            
+            }
         }
     }
 }

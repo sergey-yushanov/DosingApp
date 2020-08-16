@@ -1,4 +1,5 @@
-﻿using DosingApp.DataContext;
+﻿using Acr.UserDialogs;
+using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Services;
 using System;
@@ -6,6 +7,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
@@ -28,6 +31,7 @@ namespace DosingApp.ViewModels
         private ObservableCollection<TransportTank> destTransportTanks;
         private ObservableCollection<ApplicatorTank> sourceApplicatorTanks;
         private ObservableCollection<ApplicatorTank> destApplicatorTanks;
+        private Task<Task<LoginResult>> result;
         #endregion Attributes
 
         #region Constructor
@@ -49,6 +53,25 @@ namespace DosingApp.ViewModels
         public string Name
         {
             get { return Job.Name; }
+        }
+
+        public bool IsAccessToChange
+        {
+            get { return Job.IsAccessToChange; }
+            set
+            {
+                if (value)
+                {
+
+                    ConfirmAccessToChange();
+
+                    if (Job.IsAccessToChange != value)
+                    {
+                        Job.IsAccessToChange = value;
+                        OnPropertyChanged(nameof(IsAccessToChange));
+                    }
+                }
+            }
         }
 
         public string Note
@@ -529,6 +552,33 @@ namespace DosingApp.ViewModels
             }
         }
         #endregion Properties
+
+        #region Commands
+        private async void ConfirmAccessToChange()
+        {
+            //new Command(async token =>
+            //{
+            var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
+            {
+                //LoginValue = "LastUserName",
+                Message = "Предупреждение",
+                OkText = "Изменить",
+                CancelText = "Отмена",
+                LoginPlaceholder = "Username Placeholder",
+                PasswordPlaceholder = "Password Placeholder"
+            });
+            
+                //, token);
+            var status = r.Ok ? "Success" : "Cancelled";
+                //this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
+            //});
+
+            
+            Console.WriteLine(result);
+            //var status = result.Dispose. . .Ok ? "Success" : "Cancelled";
+            //this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
+        }
+        #endregion Commands
 
         #region Methods
         public void InitJob()

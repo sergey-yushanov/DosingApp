@@ -15,6 +15,9 @@
 
     <StackLayout  Margin="{StaticResource PageMargin}">
         <StackLayout Orientation="Horizontal">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding LoginCommand}"/>
+            </StackLayout.GestureRecognizers>
             <Frame
                 HorizontalOptions="Start">
                 <Image
@@ -43,7 +46,10 @@
                             <Grid Padding="10">
                                 <StackLayout Orientation="Vertical">
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Name}" FontSize="Large"/>
+                                        <Label 
+                                            Text="{Binding Name}" 
+                                            FontSize="Large"
+                                            TextColor="{StaticResource LabelEntryColor}"/>
                                     </StackLayout>
                                 </StackLayout>
                             </Grid>

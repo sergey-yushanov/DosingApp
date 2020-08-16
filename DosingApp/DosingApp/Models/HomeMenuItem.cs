@@ -20,7 +20,8 @@ namespace DosingApp.Models
         AgrYears,
         Fields,
         Users,
-        Mixers
+        Mixers,
+        Login
     }
 
     public static class MenuItemGroup
@@ -29,6 +30,7 @@ namespace DosingApp.Models
         public static string MainParams = "Основные параметры";
         public static string AdditionalParams = "Дополнительные параметры";
         public static string AdminParams = "Инженерное меню";
+        public static string LoginMenu = "Авторизация";
     }
 
     public class HomeMenuItem

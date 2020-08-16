@@ -8,6 +8,14 @@
         <ScrollView>
             <StackLayout 
                 Margin="{StaticResource PageMargin}">
+
+                <Label 
+                    Text="На количество гектар"
+                    TextColor="{StaticResource LabelEntryColor}"/>
+                <Entry
+                    Placeholder="На сколько гектар хватит смеси"
+                    Text="{Binding Square}"
+                    IsReadOnly="True"/>
                 
                 <StackLayout>
                     <Grid>
@@ -24,7 +32,7 @@
                             Command="{Binding StopJobCommand}"/>
                     </Grid>
                 </StackLayout>
-                
+
                 <StackLayout>
                     <ActivityIndicator 
                         IsRunning="{Binding IsRunning}"
@@ -100,7 +108,7 @@
                                                 Text="{Binding Volume}" 
                                                 FontSize="Medium" />
                                             <Label
-                                                Grid.Column="2"
+                                                Grid.Column="3"
                                                 Text="{Binding VolumeRate}" 
                                                 FontSize="Medium" />
                                             <Label

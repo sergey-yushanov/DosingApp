@@ -59,18 +59,16 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
-                    if (jobViewModel.Job.JobId == 0)
-                    {
-                        db.Entry(jobViewModel.Job).State = EntityState.Added;
-                    }
-                    //else
-                    //{
-                        //db.Recipes.Update(recipeViewModel.Recipe);
-                    //}
-                    //db.JobComponents.AddRange(GetJobComponents(jobViewModel.Job));
+                    jobViewModel.Job.Square = SetSquare(jobViewModel.Job);  // посчитаем площадь, на которую хватает
+                    db.Entry(jobViewModel.Job).State = EntityState.Added;
                     db.SaveChanges();
+
+                    var jobComponents = GetJobComponents(jobViewModel.Job);
+                    jobComponents.ForEach(jc => db.Entry(jc).State = EntityState.Added);
+                    db.SaveChanges();
+
+                    Application.Current.MainPage.Navigation.PushAsync(new JobComponentsPage(new JobComponentsViewModel(jobViewModel.Job, jobComponents)));
                 }
-                Application.Current.MainPage.Navigation.PushAsync(new JobComponentsPage(new JobComponentsViewModel(jobViewModel.Job)));
             }
         }
         #endregion Commands
@@ -94,13 +92,20 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public double? SetSquare(Job job)
+        {
+            return (job.VolumeRate != 0 && job.Volume != null && job.VolumeRate != null) ? (job.Volume / job.VolumeRate) : 0.0;
+        }
+
         public List<JobComponent> GetJobComponents(Job job)
         {
             var jobComponents = new List<JobComponent>();
             var recipeComponents = LoadRecipeComponents(job);
             recipeComponents.ForEach(rc => jobComponents.Add(new JobComponent() 
                 { 
+                    JobId = job.JobId,
                     Job = job,
+                    ComponentId = rc.ComponentId,
                     Component = rc.Component,
                     Order = rc.Order,
                     Volume = GetVolume(rc.VolumeRate, job.Square),

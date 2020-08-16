@@ -31,10 +31,10 @@ namespace DosingApp.ViewModels
         #endregion Attributes
 
         #region Constructor
-        public JobComponentsViewModel(Job job)
+        public JobComponentsViewModel(Job job, List<JobComponent> jobComponents)
         {
             Job = job;
-            LoadJobComponents();
+            JobComponents = new ObservableCollection<JobComponent>(jobComponents);
             Title = "Задание: " + Job.Name;
             StartJobCommand = new Command(StartJob);
             StopJobCommand = new Command(StopJob);
@@ -46,6 +46,14 @@ namespace DosingApp.ViewModels
         {
             get { return jobComponents; }
             set { SetProperty(ref jobComponents, value); }
+        }
+
+        public double? Square
+        {
+            get 
+            {
+                return Job.Square != null ? (double?)Math.Round((decimal)Job.Square, 3) : null; 
+            }
         }
 
         public bool IsRunning
@@ -82,13 +90,13 @@ namespace DosingApp.ViewModels
         #endregion Commands
 
         #region Methods
-        public void LoadJobComponents()
+/*        public void LoadJobComponents()
         {
             using (AppDbContext db = App.GetContext())
             {
                 var recipeComponentsDb = db.RecipeComponents.Where(rc => rc.RecipeId == Job.RecipeId);
             }
-        }
+        }*/
         #endregion Methods
 
     }

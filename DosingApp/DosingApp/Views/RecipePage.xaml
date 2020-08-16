@@ -107,7 +107,8 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="7*" />
+                                        <ColumnDefinition Width="10*" />
+                                        <ColumnDefinition Width="3*" />
                                         <ColumnDefinition Width="3*" />
                                         <ColumnDefinition Width="3*" />
                                     </Grid.ColumnDefinitions>
@@ -127,6 +128,10 @@
                                         Grid.Column="3"
                                         Text="Ед.изм." 
                                         TextColor="{StaticResource LabelEntryColor}"/>
+                                    <Label
+                                        Grid.Column="4"
+                                        Text="Доз."
+                                        TextColor="{StaticResource LabelEntryColor}"/>
                                 </Grid>
                             </StackLayout>
                         </ListView.Header>
@@ -138,7 +143,8 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*" />
-                                                <ColumnDefinition Width="7*" />
+                                                <ColumnDefinition Width="10*" />
+                                                <ColumnDefinition Width="3*" />
                                                 <ColumnDefinition Width="3*" />
                                                 <ColumnDefinition Width="3*" />
                                             </Grid.ColumnDefinitions>
@@ -157,6 +163,10 @@
                                             <Label
                                                 Grid.Column="3"
                                                 Text="{Binding Unit}" 
+                                                FontSize="Medium" />
+                                            <Label
+                                                Grid.Column="4"
+                                                Text="{Binding Dispenser}" 
                                                 FontSize="Medium" />
 
                                         </Grid>

@@ -9,11 +9,11 @@ using System.Text;
 
 namespace DosingApp.ViewModels
 {
-    public class MixtureViewModel : BaseViewModel
+    public class JobViewModel : BaseViewModel
     {
         #region Attributes
-        MixturesViewModel mixturesViewModel;
-        public Mixture Mixture { get; private set; }
+        JobsViewModel jobsViewModel;
+        public Job Job { get; private set; }
         private string title;
 
         private ObservableCollection<Recipe> recipes;
@@ -32,44 +32,33 @@ namespace DosingApp.ViewModels
         #endregion Attributes
 
         #region Constructor
-        public MixtureViewModel(Mixture mixture)
+        public JobViewModel(Job job)
         {
-            Mixture = mixture;
+            Job = job;
+            Title = Job.Name;
         }
         #endregion Constructor
 
         #region Properties
-        public MixturesViewModel MixturesViewModel
+        public JobsViewModel JobsViewModel
         {
-            get { return mixturesViewModel; }
-            set { SetProperty(ref mixturesViewModel, value); }
+            get { return jobsViewModel; }
+            set { SetProperty(ref jobsViewModel, value); }
         }
 
         public string Name
         {
-            get 
-            {
-                Title = (Mixture.MixtureId == 0) ? "Новое задание" : "Задание: " + Mixture.Name;
-                return Mixture.Name; 
-            }
-            set
-            {
-                if (Mixture.Name != value)
-                {
-                    Mixture.Name = value;
-                    OnPropertyChanged(nameof(Name));
-                }
-            }
+            get { return Job.Name; }
         }
 
         public string Note
         {
-            get { return Mixture.Note; }
+            get { return Job.Note; }
             set
             {
-                if (Mixture.Note != value)
+                if (Job.Note != value)
                 {
-                    Mixture.Note = value;
+                    Job.Note = value;
                     OnPropertyChanged(nameof(Note));
                 }
             }
@@ -77,12 +66,12 @@ namespace DosingApp.ViewModels
 
         public Recipe Recipe
         {
-            get { return Mixture.Recipe; }
+            get { return Job.Recipe; }
             set
             {
-                if (Mixture.Recipe != value)
+                if (Job.Recipe != value)
                 {
-                    Mixture.Recipe = value;
+                    Job.Recipe = value;
                     OnPropertyChanged(nameof(Recipe));
                 }
             }
@@ -99,16 +88,16 @@ namespace DosingApp.ViewModels
         {
             get 
             {
-                IsSourceFacility = String.Equals(Mixture.SourceType, SourceDestType.Facility);
-                IsSourceTransport = String.Equals(Mixture.SourceType, SourceDestType.Transport);
-                IsSourceApplicator = String.Equals(Mixture.SourceType, SourceDestType.Applicator);
-                return Mixture.SourceType; 
+                IsSourceFacility = String.Equals(Job.SourceType, SourceDestType.Facility);
+                IsSourceTransport = String.Equals(Job.SourceType, SourceDestType.Transport);
+                IsSourceApplicator = String.Equals(Job.SourceType, SourceDestType.Applicator);
+                return Job.SourceType; 
             }
             set 
             {
-                if (Mixture.SourceType != value)
+                if (Job.SourceType != value)
                 {
-                    Mixture.SourceType = value;
+                    Job.SourceType = value;
                     OnPropertyChanged(nameof(SourceType));
                 }
             }
@@ -118,16 +107,16 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                IsDestFacility = String.Equals(Mixture.DestType, SourceDestType.Facility);
-                IsDestTransport = String.Equals(Mixture.DestType, SourceDestType.Transport);
-                IsDestApplicator = String.Equals(Mixture.DestType, SourceDestType.Applicator);
-                return Mixture.DestType;
+                IsDestFacility = String.Equals(Job.DestType, SourceDestType.Facility);
+                IsDestTransport = String.Equals(Job.DestType, SourceDestType.Transport);
+                IsDestApplicator = String.Equals(Job.DestType, SourceDestType.Applicator);
+                return Job.DestType;
             }
             set
             {
-                if (Mixture.DestType != value)
+                if (Job.DestType != value)
                 {
-                    Mixture.DestType = value;
+                    Job.DestType = value;
                     OnPropertyChanged(nameof(DestType));
                 }
             }
@@ -140,12 +129,12 @@ namespace DosingApp.ViewModels
 
         public bool IsSourceFacility
         {
-            get { return Mixture.IsSourceFacility; }
+            get { return Job.IsSourceFacility; }
             set
             {
-                if (Mixture.IsSourceFacility != value)
+                if (Job.IsSourceFacility != value)
                 {
-                    Mixture.IsSourceFacility = value;
+                    Job.IsSourceFacility = value;
                     OnPropertyChanged(nameof(IsSourceFacility));
                 }
             }
@@ -155,14 +144,14 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                SourceFacilityTanks = GetFacilityTanks(Mixture.SourceFacility);
-                return Mixture.SourceFacility;
+                SourceFacilityTanks = GetFacilityTanks(Job.SourceFacility);
+                return Job.SourceFacility;
             }
             set
             {
-                if (Mixture.SourceFacility != value)
+                if (Job.SourceFacility != value)
                 {
-                    Mixture.SourceFacility = value;
+                    Job.SourceFacility = value;
                     OnPropertyChanged(nameof(SourceFacility));
                 }
             }
@@ -170,12 +159,12 @@ namespace DosingApp.ViewModels
 
         public FacilityTank SourceFacilityTank
         {
-            get { return Mixture.SourceFacilityTank; }
+            get { return Job.SourceFacilityTank; }
             set
             {
-                if (Mixture.SourceFacilityTank != value)
+                if (Job.SourceFacilityTank != value)
                 {
-                    Mixture.SourceFacilityTank = value;
+                    Job.SourceFacilityTank = value;
                     OnPropertyChanged(nameof(SourceFacilityTank));
                 }
             }
@@ -189,12 +178,12 @@ namespace DosingApp.ViewModels
 
         public bool IsDestFacility
         {
-            get { return Mixture.IsDestFacility; }
+            get { return Job.IsDestFacility; }
             set
             {
-                if (Mixture.IsDestFacility != value)
+                if (Job.IsDestFacility != value)
                 {
-                    Mixture.IsDestFacility = value;
+                    Job.IsDestFacility = value;
                     OnPropertyChanged(nameof(IsDestFacility));
                 }
             }
@@ -204,14 +193,14 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                DestFacilityTanks = GetFacilityTanks(Mixture.DestFacility);
-                return Mixture.DestFacility;
+                DestFacilityTanks = GetFacilityTanks(Job.DestFacility);
+                return Job.DestFacility;
             }
             set
             {
-                if (Mixture.DestFacility != value)
+                if (Job.DestFacility != value)
                 {
-                    Mixture.DestFacility = value;
+                    Job.DestFacility = value;
                     OnPropertyChanged(nameof(DestFacility));
                 }
             }
@@ -219,12 +208,12 @@ namespace DosingApp.ViewModels
 
         public FacilityTank DestFacilityTank
         {
-            get { return Mixture.DestFacilityTank; }
+            get { return Job.DestFacilityTank; }
             set
             {
-                if (Mixture.DestFacilityTank != value)
+                if (Job.DestFacilityTank != value)
                 {
-                    Mixture.DestFacilityTank = value;
+                    Job.DestFacilityTank = value;
                     OnPropertyChanged(nameof(DestFacilityTank));
                 }
             }
@@ -244,12 +233,12 @@ namespace DosingApp.ViewModels
 
         public bool IsSourceTransport
         {
-            get { return Mixture.IsSourceTransport; }
+            get { return Job.IsSourceTransport; }
             set
             {
-                if (Mixture.IsSourceTransport != value)
+                if (Job.IsSourceTransport != value)
                 {
-                    Mixture.IsSourceTransport = value;
+                    Job.IsSourceTransport = value;
                     OnPropertyChanged(nameof(IsSourceTransport));
                 }
             }
@@ -259,14 +248,14 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                SourceTransportTanks = GetTransportTanks(Mixture.SourceTransport);
-                return Mixture.SourceTransport; 
+                SourceTransportTanks = GetTransportTanks(Job.SourceTransport);
+                return Job.SourceTransport; 
             }
             set
             {
-                if (Mixture.SourceTransport != value)
+                if (Job.SourceTransport != value)
                 {
-                    Mixture.SourceTransport = value;
+                    Job.SourceTransport = value;
                     OnPropertyChanged(nameof(SourceTransport));
                 }
             }
@@ -274,12 +263,12 @@ namespace DosingApp.ViewModels
 
         public TransportTank SourceTransportTank
         {
-            get { return Mixture.SourceTransportTank; }
+            get { return Job.SourceTransportTank; }
             set
             {
-                if (Mixture.SourceTransportTank != value)
+                if (Job.SourceTransportTank != value)
                 {
-                    Mixture.SourceTransportTank = value;
+                    Job.SourceTransportTank = value;
                     OnPropertyChanged(nameof(SourceTransportTank));
                 }
             }
@@ -293,12 +282,12 @@ namespace DosingApp.ViewModels
 
         public bool IsDestTransport
         {
-            get { return Mixture.IsDestTransport; }
+            get { return Job.IsDestTransport; }
             set
             {
-                if (Mixture.IsDestTransport != value)
+                if (Job.IsDestTransport != value)
                 {
-                    Mixture.IsDestTransport = value;
+                    Job.IsDestTransport = value;
                     OnPropertyChanged(nameof(IsDestTransport));
                 }
             }
@@ -308,14 +297,14 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                DestTransportTanks = GetTransportTanks(Mixture.DestTransport);
-                return Mixture.DestTransport; 
+                DestTransportTanks = GetTransportTanks(Job.DestTransport);
+                return Job.DestTransport; 
             }
             set
             {
-                if (Mixture.DestTransport != value)
+                if (Job.DestTransport != value)
                 {
-                    Mixture.DestTransport = value;
+                    Job.DestTransport = value;
                     OnPropertyChanged(nameof(DestTransport));
                 }
             }
@@ -323,12 +312,12 @@ namespace DosingApp.ViewModels
 
         public TransportTank DestTransportTank
         {
-            get { return Mixture.DestTransportTank; }
+            get { return Job.DestTransportTank; }
             set
             {
-                if (Mixture.DestTransportTank != value)
+                if (Job.DestTransportTank != value)
                 {
-                    Mixture.DestTransportTank = value;
+                    Job.DestTransportTank = value;
                     OnPropertyChanged(nameof(DestTransportTank));
                 }
             }
@@ -348,12 +337,12 @@ namespace DosingApp.ViewModels
 
         public bool IsSourceApplicator
         {
-            get { return Mixture.IsSourceApplicator; }
+            get { return Job.IsSourceApplicator; }
             set
             {
-                if (Mixture.IsSourceApplicator != value)
+                if (Job.IsSourceApplicator != value)
                 {
-                    Mixture.IsSourceApplicator = value;
+                    Job.IsSourceApplicator = value;
                     OnPropertyChanged(nameof(IsSourceApplicator));
                 }
             }
@@ -363,14 +352,14 @@ namespace DosingApp.ViewModels
         {
             get 
             {
-                SourceApplicatorTanks = GetApplicatorTanks(Mixture.SourceApplicator);
-                return Mixture.SourceApplicator; 
+                SourceApplicatorTanks = GetApplicatorTanks(Job.SourceApplicator);
+                return Job.SourceApplicator; 
             }
             set
             {
-                if (Mixture.SourceApplicator != value)
+                if (Job.SourceApplicator != value)
                 {
-                    Mixture.SourceApplicator = value;
+                    Job.SourceApplicator = value;
                     OnPropertyChanged(nameof(SourceApplicator));
                 }
             }
@@ -378,12 +367,12 @@ namespace DosingApp.ViewModels
 
         public ApplicatorTank SourceApplicatorTank
         {
-            get { return Mixture.SourceApplicatorTank; }
+            get { return Job.SourceApplicatorTank; }
             set
             {
-                if (Mixture.SourceApplicatorTank != value)
+                if (Job.SourceApplicatorTank != value)
                 {
-                    Mixture.SourceApplicatorTank = value;
+                    Job.SourceApplicatorTank = value;
                     OnPropertyChanged(nameof(SourceApplicatorTank));
                 }
             }
@@ -397,12 +386,12 @@ namespace DosingApp.ViewModels
 
         public bool IsDestApplicator
         {
-            get { return Mixture.IsDestApplicator; }
+            get { return Job.IsDestApplicator; }
             set
             {
-                if (Mixture.IsDestApplicator != value)
+                if (Job.IsDestApplicator != value)
                 {
-                    Mixture.IsDestApplicator = value;
+                    Job.IsDestApplicator = value;
                     OnPropertyChanged(nameof(IsDestApplicator));
                 }
             }
@@ -412,14 +401,14 @@ namespace DosingApp.ViewModels
         {
             get 
             {
-                DestApplicatorTanks = GetApplicatorTanks(Mixture.DestApplicator);
-                return Mixture.DestApplicator; 
+                DestApplicatorTanks = GetApplicatorTanks(Job.DestApplicator);
+                return Job.DestApplicator; 
             }
             set
             {
-                if (Mixture.DestApplicator != value)
+                if (Job.DestApplicator != value)
                 {
-                    Mixture.DestApplicator = value;
+                    Job.DestApplicator = value;
                     OnPropertyChanged(nameof(DestApplicator));
                 }
             }
@@ -427,12 +416,12 @@ namespace DosingApp.ViewModels
 
         public ApplicatorTank DestApplicatorTank
         {
-            get { return Mixture.DestApplicatorTank; }
+            get { return Job.DestApplicatorTank; }
             set
             {
-                if (Mixture.DestApplicatorTank != value)
+                if (Job.DestApplicatorTank != value)
                 {
-                    Mixture.DestApplicatorTank = value;
+                    Job.DestApplicatorTank = value;
                     OnPropertyChanged(nameof(DestApplicatorTank));
                 }
             }
@@ -452,12 +441,12 @@ namespace DosingApp.ViewModels
 
         public AgrYear AgrYear
         {
-            get { return Mixture.AgrYear; }
+            get { return Job.AgrYear; }
             set
             {
-                if (Mixture.AgrYear != value)
+                if (Job.AgrYear != value)
                 {
-                    Mixture.AgrYear = value;
+                    Job.AgrYear = value;
                     OnPropertyChanged(nameof(AgrYear));
                 }
             }
@@ -471,12 +460,12 @@ namespace DosingApp.ViewModels
 
         public Field Field
         {
-            get { return Mixture.Field; }
+            get { return Job.Field; }
             set
             {
-                if (Mixture.Field != value)
+                if (Job.Field != value)
                 {
-                    Mixture.Field = value;
+                    Job.Field = value;
                     OnPropertyChanged(nameof(Field));
                 }
             }
@@ -490,12 +479,12 @@ namespace DosingApp.ViewModels
 
         public double? VolumeRate
         {
-            get { return Mixture.VolumeRate; }
+            get { return Job.VolumeRate; }
             set
             {
-                if (Mixture.VolumeRate != value)
+                if (Job.VolumeRate != value)
                 {
-                    Mixture.VolumeRate = value;
+                    Job.VolumeRate = value;
                     OnPropertyChanged(nameof(VolumeRate));
                 }
             }
@@ -503,12 +492,12 @@ namespace DosingApp.ViewModels
 
         public string Unit
         {
-            get { return Mixture.Unit; }
+            get { return Job.Unit; }
             set
             {
-                if (Mixture.Unit != value)
+                if (Job.Unit != value)
                 {
-                    Mixture.Unit = value;
+                    Job.Unit = value;
                     OnPropertyChanged(nameof(Unit));
                 }
             }
@@ -550,16 +539,16 @@ namespace DosingApp.ViewModels
 
         public void InitSelectedItems()
         {
-            Recipe = Recipes.FirstOrDefault(r => r.RecipeId == Mixture.RecipeId);
-            AgrYear = AgrYears.FirstOrDefault(ay => ay.AgrYearId == Mixture.AgrYearId);
-            Field = Fields.FirstOrDefault(f => f.FieldId == Mixture.FieldId);
+            Recipe = Recipes.FirstOrDefault(r => r.RecipeId == Job.RecipeId);
+            AgrYear = AgrYears.FirstOrDefault(ay => ay.AgrYearId == Job.AgrYearId);
+            Field = Fields.FirstOrDefault(f => f.FieldId == Job.FieldId);
 
-            SourceFacility = Facilities.FirstOrDefault(f => f.FacilityId == Mixture.SourceFacilityId);
-            DestFacility = Facilities.FirstOrDefault(f => f.FacilityId == Mixture.DestFacilityId);
-            SourceTransport = Transports.FirstOrDefault(t => t.TransportId == Mixture.SourceTransportId);
-            DestTransport = Transports.FirstOrDefault(t => t.TransportId == Mixture.DestTransportId);
-            SourceApplicator = Applicators.FirstOrDefault(a => a.ApplicatorId == Mixture.SourceApplicatorId);
-            DestApplicator = Applicators.FirstOrDefault(a => a.ApplicatorId == Mixture.DestApplicatorId);
+            SourceFacility = Facilities.FirstOrDefault(f => f.FacilityId == Job.SourceFacilityId);
+            DestFacility = Facilities.FirstOrDefault(f => f.FacilityId == Job.DestFacilityId);
+            SourceTransport = Transports.FirstOrDefault(t => t.TransportId == Job.SourceTransportId);
+            DestTransport = Transports.FirstOrDefault(t => t.TransportId == Job.DestTransportId);
+            SourceApplicator = Applicators.FirstOrDefault(a => a.ApplicatorId == Job.SourceApplicatorId);
+            DestApplicator = Applicators.FirstOrDefault(a => a.ApplicatorId == Job.DestApplicatorId);
 
             SourceFacilityTanks = GetFacilityTanks(SourceFacility);
             DestFacilityTanks = GetFacilityTanks(DestFacility);
@@ -568,12 +557,12 @@ namespace DosingApp.ViewModels
             SourceApplicatorTanks = GetApplicatorTanks(SourceApplicator);
             DestApplicatorTanks = GetApplicatorTanks(DestApplicator);
 
-            SourceFacilityTank = SourceFacilityTanks?.FirstOrDefault(ft => ft.FacilityTankId == Mixture.SourceFacilityTankId);
-            DestFacilityTank = DestFacilityTanks?.FirstOrDefault(ft => ft.FacilityTankId == Mixture.DestFacilityTankId);
-            SourceTransportTank = SourceTransportTanks?.FirstOrDefault(tt => tt.TransportTankId == Mixture.SourceTransportTankId);
-            DestTransportTank = DestTransportTanks?.FirstOrDefault(tt => tt.TransportTankId == Mixture.DestTransportTankId);
-            SourceApplicatorTank = SourceApplicatorTanks?.FirstOrDefault(at => at.ApplicatorTankId == Mixture.SourceApplicatorTankId);
-            DestApplicatorTank = DestApplicatorTanks?.FirstOrDefault(at => at.ApplicatorTankId == Mixture.DestApplicatorTankId);
+            SourceFacilityTank = SourceFacilityTanks?.FirstOrDefault(ft => ft.FacilityTankId == Job.SourceFacilityTankId);
+            DestFacilityTank = DestFacilityTanks?.FirstOrDefault(ft => ft.FacilityTankId == Job.DestFacilityTankId);
+            SourceTransportTank = SourceTransportTanks?.FirstOrDefault(tt => tt.TransportTankId == Job.SourceTransportTankId);
+            DestTransportTank = DestTransportTanks?.FirstOrDefault(tt => tt.TransportTankId == Job.DestTransportTankId);
+            SourceApplicatorTank = SourceApplicatorTanks?.FirstOrDefault(at => at.ApplicatorTankId == Job.SourceApplicatorTankId);
+            DestApplicatorTank = DestApplicatorTanks?.FirstOrDefault(at => at.ApplicatorTankId == Job.DestApplicatorTankId);
         }
 
         public ObservableCollection<FacilityTank> GetFacilityTanks(Facility facility)

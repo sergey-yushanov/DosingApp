@@ -13,7 +13,7 @@ namespace DosingApp.Models
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
 
-        //public bool AccessMixture { get; set; }
+        //public bool AccessJob { get; set; }
         public bool AccessMainMenu { get; set; }
         public bool AccessMainParams { get; set; }
         public bool AccessAdditionalParams { get; set; }

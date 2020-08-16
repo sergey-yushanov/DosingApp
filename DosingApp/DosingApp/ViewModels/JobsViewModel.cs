@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
-    public class MixturesViewModel : BaseViewModel
+    public class JobsViewModel : BaseViewModel
     {
         #region Attributes
         private ObservableCollection<Assignment> assignments;
@@ -19,9 +19,9 @@ namespace DosingApp.ViewModels
         #endregion Attributes
 
         #region Constructor
-        public MixturesViewModel()
+        public JobsViewModel()
         {
-            SaveCommand = new Command(SaveMixture);
+            SaveCommand = new Command(SaveJob);
         }
         #endregion Constructor
 
@@ -39,31 +39,31 @@ namespace DosingApp.ViewModels
             {
                 if (selectedAssignment != value)
                 {
-                    Mixture newMixture = new Mixture() { Assignment = value };
-                    MixtureViewModel tempMixture = new MixtureViewModel(newMixture) { MixturesViewModel = this };
+                    Job newJob = new Job() { Assignment = value };
+                    JobViewModel tempJob = new JobViewModel(newJob) { JobsViewModel = this };
                     selectedAssignment = null;
                     OnPropertyChanged(nameof(SelectedAssignment));
-                    Application.Current.MainPage.Navigation.PushAsync(new MixturePage(tempMixture));
+                    Application.Current.MainPage.Navigation.PushAsync(new JobPage(tempJob));
                 }
             }
         }
         #endregion Properties
 
         #region Commands
-        private void SaveMixture(object mixtureInstance)
+        private void SaveJob(object jobInstance)
         {
-            MixtureViewModel mixtureViewModel = mixtureInstance as MixtureViewModel;
-            if (mixtureViewModel.Mixture != null && mixtureViewModel.IsValid)
+            JobViewModel jobViewModel = jobInstance as JobViewModel;
+            if (jobViewModel.Job != null && jobViewModel.IsValid)
             {
                 using (AppDbContext db = App.GetContext())
                 {
-                    if (mixtureViewModel.Mixture.MixtureId == 0)
+                    if (jobViewModel.Job.JobId == 0)
                     {
-                        db.Entry(mixtureViewModel.Mixture).State = EntityState.Added;
+                        db.Entry(jobViewModel.Job).State = EntityState.Added;
                     }
                     else
                     {
-                        db.Mixtures.Update(mixtureViewModel.Mixture);
+                        db.Jobs.Update(jobViewModel.Job);
                     }
                     db.SaveChanges();
                 }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="DosingApp.Views.MixturePage"
+            x:Class="DosingApp.Views.JobPage"
              Title="{Binding Title}">
 
     <ContentPage.Content>
@@ -183,13 +183,9 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Button 
-                            Text="Сохранить" 
-                            Command="{Binding MixturesViewModel.SaveCommand}" 
-                            CommandParameter="{Binding}" />
-                        <Button 
                             Grid.Column="1" 
-                            Text="Удалить" 
-                            Command="{Binding MixturesViewModel.DeleteCommand}" 
+                            Text="Далее" 
+                            Command="{Binding JobsViewModel.SaveCommand}" 
                             CommandParameter="{Binding}" />
                     </Grid>
                 </StackLayout>

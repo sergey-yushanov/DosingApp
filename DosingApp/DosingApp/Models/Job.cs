@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DosingApp.Models
 {
-    public class Mixture
+    public class Job
     {
-        public int MixtureId { get; set; }
+        public int JobId { get; set; }
         
         public int? AssignmentId { get; set; }
         public virtual Assignment Assignment { get; set; }

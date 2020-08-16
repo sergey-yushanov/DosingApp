@@ -12,10 +12,10 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class MixturePage : ContentPage
+    public partial class JobPage : ContentPage
     {
-        public MixtureViewModel ViewModel { get; private set; }
-        public MixturePage(MixtureViewModel viewModel)
+        public JobViewModel ViewModel { get; private set; }
+        public JobPage(JobViewModel viewModel)
         {
             InitializeComponent();
             ViewModel = viewModel;
@@ -24,9 +24,9 @@ namespace DosingApp.Views
 
         protected override void OnAppearing()
         {
-            var mixtureViewModel = (MixtureViewModel)BindingContext;
-            mixtureViewModel.LoadItems();
-            mixtureViewModel.InitSelectedItems();
+            var jobViewModel = (JobViewModel)BindingContext;
+            jobViewModel.LoadItems();
+            jobViewModel.InitSelectedItems();
             base.OnAppearing();
         }
 
@@ -34,8 +34,8 @@ namespace DosingApp.Views
         {
             if (String.IsNullOrEmpty(args.NewTextValue))
             {
-                var mixtureViewModel = (MixtureViewModel)BindingContext;
-                mixtureViewModel.VolumeRate = null;
+                var jobViewModel = (JobViewModel)BindingContext;
+                jobViewModel.VolumeRate = null;
             }
         }
     }

@@ -89,7 +89,7 @@ namespace DosingApp.ViewModels
         {
             this.MainMenu = new ObservableCollection<MenuItemViewModel>();
             this.MainMenu.Clear();
-            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Mixtures, Group = MenuItemGroup.MainMenu, Title = "Сделать смесь" } );
+            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Jobs, Group = MenuItemGroup.MainMenu, Title = "Сделать смесь" } );
             this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Reports, Group = MenuItemGroup.MainMenu, Title = "Отчетность" });
 
             if (AccessMainParams)

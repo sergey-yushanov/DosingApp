@@ -16,7 +16,7 @@ namespace DosingApp.DataContext
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Crop> Crops { get; set; }
         public DbSet<Field> Fields { get; set; }
-        public DbSet<Mixture> Mixtures { get; set; }
+        public DbSet<Job> Jobs { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<FacilityTank> FacilityTanks { get; set; }
         public DbSet<ProcessingType> ProcessingTypes { get; set; }

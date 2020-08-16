@@ -13,18 +13,18 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class MixturesPage : ContentPage
+    public partial class JobsPage : ContentPage
     {
-        public MixturesPage()
+        public JobsPage()
         {
             InitializeComponent();
-            BindingContext = new MixturesViewModel();
+            BindingContext = new JobsViewModel();
         }
 
         protected override void OnAppearing()
         {
-            var mixturesViewModel = (MixturesViewModel)BindingContext;
-            mixturesViewModel.LoadMixtures();
+            var jobsViewModel = (JobsViewModel)BindingContext;
+            jobsViewModel.LoadAssignments();
             base.OnAppearing();
         }
     }

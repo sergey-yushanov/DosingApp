@@ -4,18 +4,16 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DosingApp.Views.MixturesPage"
-             Title="Список заданий">
+             x:Class="DosingApp.Views.JobsPage"
+             Title="Список доступных заданий">
     <ContentPage.Content>
 
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">
-                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
 
                 <ListView
-                    x:Name="agrYearsList" 
-                    ItemsSource="{Binding Mixtures}"
-                    SelectedItem="{Binding SelectedMixture, Mode=TwoWay}">
+                    ItemsSource="{Binding Assignments}"
+                    SelectedItem="{Binding SelectedAssignment, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

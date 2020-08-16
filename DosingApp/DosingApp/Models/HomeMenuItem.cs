@@ -7,7 +7,7 @@ namespace DosingApp.Models
 {
     public enum MenuItemType
     {
-        Mixtures,
+        Jobs,
         Reports,
         Assignments,
         Recipes,

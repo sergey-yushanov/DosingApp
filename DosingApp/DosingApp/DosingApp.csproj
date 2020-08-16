@@ -44,6 +44,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\MixturePage.xaml.cs">
+      <DependentUpon>MixturePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MixturesPage.xaml.cs">
+      <DependentUpon>MixturesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MixerPage.xaml.cs">
       <DependentUpon>MixerPage.xaml</DependentUpon>
     </Compile>

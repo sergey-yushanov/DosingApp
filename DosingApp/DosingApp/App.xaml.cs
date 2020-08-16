@@ -86,11 +86,7 @@ namespace DosingApp
             {
                 if (!db.Components.Any(c => c.Name == Water.Name))
                 {
-                    Component component = new Component();
-                    component.Name = Water.Name;
-                    component.Consistency = Water.Consistency;
-                    component.Density = Water.Density;
-                    db.Components.Add(component);
+                    db.Components.Add(Water.GetComponent());
                     db.SaveChanges();
                 }
             }

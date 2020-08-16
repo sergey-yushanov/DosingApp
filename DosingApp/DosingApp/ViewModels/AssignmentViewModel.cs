@@ -135,7 +135,7 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> SourceDestTypes
         {
-            get { return new ObservableCollection<string>() { SourceDestType.Facility, SourceDestType.Transport, SourceDestType.Applicator }; }
+            get { return new ObservableCollection<string>(SourceDestType.GetList()); }
         }
 
         public bool IsSourceFacility
@@ -516,7 +516,7 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> UnitList
         {
-            get { return new ObservableCollection<string>() { RecipeComponentUnit.Liquid, RecipeComponentUnit.Dry }; }
+            get { return new ObservableCollection<string>(RecipeComponentUnit.GetList()); }
         }
 
         public bool IsValid

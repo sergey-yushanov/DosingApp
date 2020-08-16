@@ -9,6 +9,11 @@ namespace DosingApp.Models
         public const string Facility = "Объект";
         public const string Transport = "Транспорт";
         public const string Applicator = "Аппликатор";
+
+        public static List<string> GetList()
+        {
+            return new List<string>() { Facility, Transport, Applicator };
+        }
     }
 
     public class Assignment

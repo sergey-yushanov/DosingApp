@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace DosingApp.Models
@@ -8,6 +9,11 @@ namespace DosingApp.Models
     {
         public const string Dry = "кг/га";
         public const string Liquid = "л/га";
+
+        public static List<string> GetList()
+        {
+            return new List<string>() { Liquid, Dry };
+        }
     }
 
     public class RecipeComponent

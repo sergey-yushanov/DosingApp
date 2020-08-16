@@ -77,7 +77,7 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> UnitList
         {
-            get { return new ObservableCollection<string>() { RecipeComponentUnit.Liquid, RecipeComponentUnit.Dry }; }
+            get { return new ObservableCollection<string>(RecipeComponentUnit.GetList()); }
         }
 
         public string Dispenser
@@ -92,6 +92,11 @@ namespace DosingApp.ViewModels
                 }
             }
         }
+
+        //public ObservableCollection<string> DispenserList
+        //{
+            //get { return RecipeComponentUnit.Liquid, RecipeComponentUnit.Dry }; }
+        //}
 
         public bool IsValid
         {

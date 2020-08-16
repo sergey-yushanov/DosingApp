@@ -63,7 +63,7 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> ConsistencyList
         {
-            get { return new ObservableCollection<string>() { ComponentConsistency.Liquid, ComponentConsistency.Dry }; }
+            get { return new ObservableCollection<string>(ComponentConsistency.GetList()); }
         }
 
         public double? Density

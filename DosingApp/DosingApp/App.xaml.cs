@@ -92,6 +92,16 @@ namespace DosingApp
             }
         }
 
+        // Получение текущей активной установки
+        public static Mixer GetUsedMixer()
+        {
+            using (AppDbContext db = GetContext())
+            {
+                return db.Mixers.FirstOrDefault(m => m.IsUsedMixer);
+            }
+        }
+
+
         protected override void OnStart()
         {
         }

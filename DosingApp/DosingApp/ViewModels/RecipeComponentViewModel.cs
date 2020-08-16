@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
@@ -12,6 +13,7 @@ namespace DosingApp.ViewModels
         public RecipeComponent RecipeComponent { get; private set; }
 
         private ObservableCollection<Component> components;
+        private bool isComponentEnabled;
         #endregion Attributes
 
         #region Constructor
@@ -82,7 +84,15 @@ namespace DosingApp.ViewModels
 
         public string Dispenser
         {
-            get { return RecipeComponent.Dispenser; }
+            get 
+            {
+                IsComponentEnabled = !RecipeComponent.IsFourthValve();
+                if (RecipeComponent.IsFourthValve())
+                {
+                    SetFourthValveComponent();
+                }
+                return RecipeComponent.Dispenser;
+            }
             set
             {
                 if (RecipeComponent.Dispenser != value)
@@ -93,10 +103,18 @@ namespace DosingApp.ViewModels
             }
         }
 
-        //public ObservableCollection<string> DispenserList
-        //{
-            //get { return RecipeComponentUnit.Liquid, RecipeComponentUnit.Dry }; }
-        //}
+        public ObservableCollection<string> Dispensers
+        {
+            get
+            {
+                if (App.GetUsedMixer() != null)
+                {
+                    return new ObservableCollection<string>(App.GetUsedMixer().GetDispensers());
+                }
+                else
+                    return null;
+            }
+        }
 
         public bool IsValid
         {
@@ -104,6 +122,12 @@ namespace DosingApp.ViewModels
             {
                 return (Component != null);
             }
+        }
+
+        public bool IsComponentEnabled
+        {
+            get { return isComponentEnabled; }
+            set { SetProperty(ref isComponentEnabled, value); }
         }
 
         public string Title
@@ -124,6 +148,11 @@ namespace DosingApp.ViewModels
         public void InitSelectedComponent()
         {
             Component = Components.FirstOrDefault(c => c.ComponentId == RecipeComponent.ComponentId);
+        }
+
+        public void SetFourthValveComponent()
+        {
+            Component = Components.FirstOrDefault(c => c.Name == Water.GetComponent().Name);
         }
         #endregion Methods
     }

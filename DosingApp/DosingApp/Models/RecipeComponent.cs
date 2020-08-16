@@ -32,5 +32,13 @@ namespace DosingApp.Models
         public string Dispenser { get; set; }
 
         public string Name { get { return Component?.Name; } }
+
+        // проверяем, является ли клапан четвертым в коллекторе - он всегда вода
+        public bool IsFourthValve()
+        {
+            string fourthValve = DispenserSuffix.Collector + "4";
+            int index = Dispenser != null ? Dispenser.IndexOf(fourthValve) : -1;
+            return index != -1;
+        }
     }
 }

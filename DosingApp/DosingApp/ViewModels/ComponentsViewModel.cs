@@ -90,6 +90,7 @@ namespace DosingApp.ViewModels
                     return; // user canceled file picking
 
                 string fileActualPath = DependencyService.Get<IActualPath>().GetActualPathFromUri(fileData.FilePath);
+                fileActualPath = fileActualPath ?? fileData.FilePath;
 
                 using (var reader = new StreamReader(fileActualPath))
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))

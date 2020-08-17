@@ -2,6 +2,7 @@
 using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Models.Files;
+using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
 using Plugin.FilePicker;
@@ -13,6 +14,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
@@ -87,7 +89,9 @@ namespace DosingApp.ViewModels
                 if (fileData == null)
                     return; // user canceled file picking
 
-                using (var reader = new StreamReader(fileData.FilePath))
+                string fileActualPath = DependencyService.Get<IActualPath>().GetActualPathFromUri(fileData.FilePath);
+
+                using (var reader = new StreamReader(fileActualPath))
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
                     csv.Configuration.HasHeaderRecord = false;  // no header in *.csv file

@@ -8,9 +8,9 @@
              x:Class="DosingApp.Views.MainPage"
              Title="Mix-App">
 
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <ViewModel:MainViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
 
 
     <StackLayout  Margin="{StaticResource PageMargin}">
@@ -62,8 +62,12 @@
                                 </Grid.GestureRecognizers>
                                 <StackLayout Orientation="Vertical">
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="Medium"/>
-                                        <Image Source="{Binding Icon}"/>
+                                        <Label 
+                                            Text="{Binding Title}" 
+                                            d:Text="{Binding .}" 
+                                            FontSize="Medium"/>
+                                        <Image
+                                            Source="{Binding Icon}"/>
                                     </StackLayout>
                                 </StackLayout>
                             </Grid>

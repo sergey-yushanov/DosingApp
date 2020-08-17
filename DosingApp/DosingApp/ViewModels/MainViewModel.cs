@@ -1,7 +1,10 @@
 ﻿using DosingApp.Helpers;
 using DosingApp.Models;
+using DosingApp.Views;
+using Rg.Plugins.Popup.Extensions;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {

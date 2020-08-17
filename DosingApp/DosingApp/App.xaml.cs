@@ -1,8 +1,10 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Services;
+using DosingApp.ViewModels;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -33,7 +35,11 @@ namespace DosingApp
             CreateAdminUser();
             CreateWaterComponent();
 
-            MainPage = new NavigationPage(new MainPage());// LoginPage());
+            var mainViewModel = new MainViewModel();
+            MainPage = new NavigationPage(new MainPage(mainViewModel));
+
+            // show login page on app start
+            MainPage.Navigation.PushPopupAsync(new LoginPage(new LoginViewModel() { MainViewModel = mainViewModel }));
         }
 
         // Получение контекста БД при запуске приложения

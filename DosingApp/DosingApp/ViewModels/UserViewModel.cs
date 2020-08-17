@@ -133,6 +133,11 @@ namespace DosingApp.ViewModels
                 {
                     SetProperty(ref password, value);
                 }
+
+                if (!IsAdminUsername && App.ActiveUser.AccessAdminParams)
+                {
+                    SetProperty(ref password, value);
+                }
             }
         }
 

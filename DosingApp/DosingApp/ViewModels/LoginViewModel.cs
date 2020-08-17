@@ -71,6 +71,7 @@ namespace DosingApp.ViewModels
                         App.ActiveUser = user;
                         Application.Current.MainPage.Navigation.PopPopupAsync();
                         MainViewModel.SetUserAccess();
+                        MainViewModel.Name = App.ActiveUser.DisplayName != null ? App.ActiveUser.DisplayName : App.ActiveUser.Username;
                         Username = null;
                         Password = null;
                     }

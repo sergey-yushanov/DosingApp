@@ -11,7 +11,6 @@ namespace DosingApp.ViewModels
     public class MainViewModel : BaseViewModel
     {
         #region Attributes
-        public User user;
         private ObservableCollection<MenuGrouping<string, MenuItemViewModel>> menuGroups;
         private ObservableCollection<MenuItemViewModel> mainMenu;
         private bool accessJobParams;
@@ -19,6 +18,7 @@ namespace DosingApp.ViewModels
         private bool accessMainParams;
         private bool accessAdditionalParams;
         private bool accessAdminParams;
+        private string name;
         #endregion Attributes
 
         #region Constructor
@@ -39,12 +39,6 @@ namespace DosingApp.ViewModels
         {
             get { return mainMenu; }
             set { SetProperty(ref mainMenu, value); }
-        }
-
-        public User User
-        {
-            get { return user; }
-            set { SetProperty(ref user, value); }
         }
 
         public bool AccessJobParams
@@ -75,6 +69,12 @@ namespace DosingApp.ViewModels
         {
             get { return accessAdminParams; }
             set { SetProperty(ref accessAdminParams, value); }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set { SetProperty(ref name, value); }
         }
         #endregion Properties
 
@@ -122,7 +122,6 @@ namespace DosingApp.ViewModels
 
         public void SetUserAccess()
         {
-            User = App.ActiveUser;
             AccessJobParams = (App.ActiveUser != null) && (App.ActiveUser.AccessJobParams || App.ActiveUser.AccessAdminParams);
             AccessMainMenu = (App.ActiveUser != null) && (App.ActiveUser.AccessMainMenu || App.ActiveUser.AccessAdminParams);
             AccessMainParams = (App.ActiveUser != null) && (App.ActiveUser.AccessMainParams || App.ActiveUser.AccessAdminParams);

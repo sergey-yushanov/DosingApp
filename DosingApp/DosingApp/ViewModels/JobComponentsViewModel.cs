@@ -52,7 +52,7 @@ namespace DosingApp.ViewModels
         {
             get 
             {
-                return Job.Square != null ? (double?)Math.Round((decimal)Job.Square, 3) : null; 
+                return Job.Square;// != null ? (double?)Math.Round((decimal)Job.Square, 3) : null; 
             }
         }
 

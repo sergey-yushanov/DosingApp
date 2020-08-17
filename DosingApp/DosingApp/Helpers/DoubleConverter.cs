@@ -13,7 +13,8 @@ namespace DosingApp.Helpers
             if (value == null)
                 return null;
 
-            return (double)value;
+            var decimalValue = (decimal)(double)value;
+            return (double)Math.Round(decimalValue, 3);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -25,7 +25,7 @@
         <StackLayout
             Margin="{StaticResource PageMargin}"
             BackgroundColor="White"
-            VerticalOptions="Start">
+            VerticalOptions="Center">
             
             <StackLayout
                 Margin="{StaticResource PageMargin}">

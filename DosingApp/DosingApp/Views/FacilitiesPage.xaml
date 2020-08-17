@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
              x:Class="DosingApp.Views.FacilitiesPage"
              Title="Список объектов">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Margin="{StaticResource PageMargin}">
-                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
+        <StackLayout Margin="{StaticResource PageMargin}">
+            
+            <StackLayout>
+                <Button 
+                    Text="Добавить" 
+                    Command="{Binding CreateCommand}"/>
+            </StackLayout>
 
+            <StackLayout>
                 <ListView 
                     x:Name="facilitiesList"
                     ItemsSource="{Binding Facilities}"
@@ -19,8 +21,12 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
-                                    <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-                                        <Label Text="{Binding Name}" FontSize="Medium" />
+                                    <StackLayout
+                                        Orientation="Horizontal" 
+                                        VerticalOptions="CenterAndExpand">
+                                        <Label 
+                                            Text="{Binding Name}" 
+                                            FontSize="Medium" />
                                     </StackLayout>
                                 </ViewCell.View>
                             </ViewCell>
@@ -28,6 +34,6 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-        </ScrollView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -6,8 +6,8 @@
              Title="{Binding Title}">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout 
-            Margin="{StaticResource PageMargin}">
+            <StackLayout Margin="{StaticResource PageMargin}">
+                
                 <StackLayout>
                     <Label 
                         Text="Название компонента"

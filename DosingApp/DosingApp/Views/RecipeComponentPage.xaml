@@ -30,9 +30,8 @@
                                 TextColor="{StaticResource LabelEntryColor}"/>
                             <Entry
                                 Placeholder="Введите норму"
-                                Text="{Binding VolumeRate}" 
-                                Keyboard="Numeric"
-                                TextChanged="OnVolumeRateTextChanged"/>
+                                Text="{Binding VolumeRate, Converter={Helpers:DoubleConverter}}" 
+                                Keyboard="Numeric"/>
                         </StackLayout>
                         <StackLayout
                             Orientation="Vertical"

@@ -22,14 +22,5 @@ namespace DosingApp.Views
             ViewModel = viewModel;
             BindingContext = ViewModel;
         }
-
-        private void OnVolumeRateTextChanged(object sender, TextChangedEventArgs args)
-        {
-            if (String.IsNullOrEmpty(args.NewTextValue))
-            {
-                var recipeComponentViewModel = (RecipeComponentViewModel)BindingContext;
-                recipeComponentViewModel.VolumeRate = null;
-            }
-        }
     }
 }

@@ -194,9 +194,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
                         Placeholder="Введите размер партии"
-                        Text="{Binding Volume}" 
-                        Keyboard="Numeric"
-                        TextChanged="OnVolumeTextChanged"/>
+                        Text="{Binding Volume, Converter={Helpers:DoubleConverter}}" 
+                        Keyboard="Numeric"/>
                     
                     <StackLayout Orientation="Horizontal">
                         <StackLayout
@@ -208,9 +207,8 @@
                                 TextColor="{StaticResource LabelEntryColor}"/>
                             <Entry
                                 Placeholder="Введите норму"
-                                Text="{Binding VolumeRate}" 
+                                Text="{Binding VolumeRate, Converter={Helpers:DoubleConverter}}"
                                 Keyboard="Numeric"
-                                TextChanged="OnVolumeRateTextChanged"
                                 IsReadOnly="{Binding IsAccessToChange, Converter={Helpers:InverseBoolConverter}}"
                                 IsEnabled="{Binding IsAccessToChange}"/>
                         </StackLayout>

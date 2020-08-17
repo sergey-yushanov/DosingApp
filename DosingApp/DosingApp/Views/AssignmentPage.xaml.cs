@@ -29,14 +29,5 @@ namespace DosingApp.Views
             assignmentViewModel.InitSelectedItems();
             base.OnAppearing();
         }
-
-        private void OnVolumeRateTextChanged(object sender, TextChangedEventArgs args)
-        {
-            if (String.IsNullOrEmpty(args.NewTextValue))
-            {
-                var assignmentViewModel = (AssignmentViewModel)BindingContext;
-                assignmentViewModel.VolumeRate = null;
-            }
-        }
     }
 }

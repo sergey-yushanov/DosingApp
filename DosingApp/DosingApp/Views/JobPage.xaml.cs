@@ -29,23 +29,5 @@ namespace DosingApp.Views
             jobViewModel.InitSelectedItems();
             base.OnAppearing();
         }
-
-        private void OnVolumeRateTextChanged(object sender, TextChangedEventArgs args)
-        {
-            if (String.IsNullOrEmpty(args.NewTextValue))
-            {
-                var jobViewModel = (JobViewModel)BindingContext;
-                jobViewModel.VolumeRate = null;
-            }
-        }
-
-        private void OnVolumeTextChanged(object sender, TextChangedEventArgs args)
-        {
-            if (String.IsNullOrEmpty(args.NewTextValue))
-            {
-                var jobViewModel = (JobViewModel)BindingContext;
-                jobViewModel.Volume = null;
-            }
-        }
     }
 }

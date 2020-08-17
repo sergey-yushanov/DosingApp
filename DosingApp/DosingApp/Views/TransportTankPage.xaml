@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.TransportTankPage">
 
     <NavigationPage.TitleView>
@@ -29,9 +30,8 @@
                     TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     Placeholder="Введите объем емкости" 
-                    Text="{Binding Volume}" 
-                    Keyboard="Numeric"
-                    TextChanged="OnVolumeTextChanged"/>
+                    Text="{Binding Volume, Converter={Helpers:DoubleConverter}}" 
+                    Keyboard="Numeric"/>
             </StackLayout>
             <StackLayout>
                 <Grid>

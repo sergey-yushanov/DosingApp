@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.ComponentPage">
 
     <NavigationPage.TitleView>
@@ -41,11 +39,10 @@
                         IsVisible="{Binding IsLiquid}"/>
                     <Entry
                         Placeholder="Введите плотность" 
-                        Text="{Binding Density}" 
+                        Text="{Binding Density, Converter={Helpers:DoubleConverter}}"
                         Keyboard="Numeric"
                         IsEnabled="{Binding IsLiquid}"
-                        IsVisible="{Binding IsLiquid}"
-                        TextChanged="OnDensityTextChanged"/>
+                        IsVisible="{Binding IsLiquid}"/>
                     
                     <Label 
                         Text="Фасовка" 

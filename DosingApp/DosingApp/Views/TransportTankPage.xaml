@@ -4,6 +4,10 @@
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.TransportTankPage">
 
+    <ContentPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+    </ContentPage.Resources>
+    
     <NavigationPage.TitleView>
         <StackLayout>
             <Label
@@ -30,7 +34,7 @@
                     TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     Placeholder="Введите объем емкости" 
-                    Text="{Binding Volume, Converter={Helpers:DoubleConverter}}" 
+                    Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
                     Keyboard="Numeric"/>
             </StackLayout>
             <StackLayout>

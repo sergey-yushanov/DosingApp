@@ -5,6 +5,10 @@
              x:Class="DosingApp.Views.AssignmentPage"
              Title="{Binding Title}">
 
+    <ContentPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
 
         <ScrollView>
@@ -160,7 +164,7 @@
                                 TextColor="{StaticResource LabelEntryColor}"/>
                             <Entry
                                 Placeholder="Введите норму"
-                                Text="{Binding VolumeRate, Converter={Helpers:DoubleConverter}}" 
+                                Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
                                 Keyboard="Numeric"/>
                         </StackLayout>
                         <StackLayout

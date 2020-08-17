@@ -4,6 +4,12 @@
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.RecipeComponentPage"
              Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="{StaticResource PageMargin}">
@@ -30,7 +36,7 @@
                                 TextColor="{StaticResource LabelEntryColor}"/>
                             <Entry
                                 Placeholder="Введите норму"
-                                Text="{Binding VolumeRate, Converter={Helpers:DoubleConverter}}" 
+                                Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
                                 Keyboard="Numeric"/>
                         </StackLayout>
                         <StackLayout
@@ -56,7 +62,7 @@
                     <Label
                         Text="Компонент для 4-го клапана в коллекторе - Вода"
                         TextColor="{StaticResource LabelAlertColor}"
-                        IsVisible="{Binding IsComponentEnabled, Converter={Helpers:InverseBoolConverter}}"/>
+                        IsVisible="{Binding IsComponentEnabled, Converter={StaticResource InverseBoolConverter}}"/>
 
 
                 </StackLayout>

@@ -4,6 +4,10 @@
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.ComponentPage">
 
+    <ContentPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+    </ContentPage.Resources>
+    
     <NavigationPage.TitleView>
         <StackLayout>
             <Label
@@ -39,7 +43,7 @@
                         IsVisible="{Binding IsLiquid}"/>
                     <Entry
                         Placeholder="Введите плотность" 
-                        Text="{Binding Density, Converter={Helpers:DoubleConverter}}"
+                        Text="{Binding Density, Converter={StaticResource DoubleConverter}}"
                         Keyboard="Numeric"
                         IsEnabled="{Binding IsLiquid}"
                         IsVisible="{Binding IsLiquid}"/>

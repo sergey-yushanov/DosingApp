@@ -4,6 +4,11 @@
             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
             x:Class="DosingApp.Views.RecipePage"
             Title="{Binding Title}">
+
+    <TabbedPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+    </TabbedPage.Resources>
+    
     <TabbedPage.Children>
         <ContentPage Title="Параметры">
 
@@ -159,7 +164,7 @@
                                                 FontSize="Medium" />
                                             <Label
                                                 Grid.Column="2"
-                                                Text="{Binding VolumeRate, Converter={Helpers:DoubleConverter}}" 
+                                                Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
                                                 FontSize="Medium" />
                                             <Label
                                                 Grid.Column="3"

@@ -5,6 +5,11 @@
              x:Class="DosingApp.Views.JobPage"
              Title="Задание на смешивание">
 
+    <ContentPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
 
         <ScrollView>
@@ -46,7 +51,7 @@
                     <Editor 
                         Placeholder="Введите текст заметки здесь"
                         Text="{Binding Note}"
-                        IsReadOnly="{Binding IsAccessToChange, Converter={Helpers:InverseBoolConverter}}"
+                        IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
                         IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Label 
@@ -194,7 +199,7 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
                         Placeholder="Введите размер партии"
-                        Text="{Binding Volume, Converter={Helpers:DoubleConverter}}" 
+                        Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
                     
                     <StackLayout Orientation="Horizontal">
@@ -207,9 +212,9 @@
                                 TextColor="{StaticResource LabelEntryColor}"/>
                             <Entry
                                 Placeholder="Введите норму"
-                                Text="{Binding VolumeRate, Converter={Helpers:DoubleConverter}}"
+                                Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}"
                                 Keyboard="Numeric"
-                                IsReadOnly="{Binding IsAccessToChange, Converter={Helpers:InverseBoolConverter}}"
+                                IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
                                 IsEnabled="{Binding IsAccessToChange}"/>
                         </StackLayout>
                         <StackLayout

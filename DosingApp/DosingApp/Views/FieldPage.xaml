@@ -4,6 +4,11 @@
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.FieldPage"
              Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
@@ -29,7 +34,7 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите размер поля" 
-                        Text="{Binding Size, Converter={Helpers:DoubleConverter}}" 
+                        Text="{Binding Size, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
                     
                 </StackLayout>

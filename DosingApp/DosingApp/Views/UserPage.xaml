@@ -4,6 +4,10 @@
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.UserPage"
              Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </ContentPage.Resources>
     
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
@@ -54,7 +58,7 @@
                             IsToggled="{Binding AccessJobParams}"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="End"
-                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsAdminUsername, Converter={StaticResource InverseBoolConverter}}"/>
                     </StackLayout>
 
                     <StackLayout 
@@ -68,7 +72,7 @@
                             IsToggled="{Binding AccessMainMenu}"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="End" 
-                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsAdminUsername, Converter={StaticResource InverseBoolConverter}}"/>
                     </StackLayout>
 
                     <StackLayout 
@@ -82,7 +86,7 @@
                             IsToggled="{Binding AccessMainParams}"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="End" 
-                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsAdminUsername, Converter={StaticResource InverseBoolConverter}}"/>
                     </StackLayout>
 
                     <StackLayout
@@ -96,7 +100,7 @@
                             IsToggled="{Binding AccessAdditionalParams}"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="End" 
-                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsAdminUsername, Converter={StaticResource InverseBoolConverter}}"/>
 
                     </StackLayout>
 
@@ -111,7 +115,7 @@
                             IsToggled="{Binding AccessAdminParams}"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="End" 
-                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
+                            IsEnabled="{Binding IsAdminUsername, Converter={StaticResource InverseBoolConverter}}"/>
                     </StackLayout>
 
                 </StackLayout>

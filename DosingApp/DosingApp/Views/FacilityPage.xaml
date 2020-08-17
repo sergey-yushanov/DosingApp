@@ -5,6 +5,10 @@
             x:Class="DosingApp.Views.FacilityPage"
             Title="{Binding Title}">
 
+    <TabbedPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+    </TabbedPage.Resources>
+    
     <TabbedPage.Children>
         <ContentPage Title="Параметры">
             <StackLayout 
@@ -111,7 +115,7 @@
                                             FontSize="Medium" />
                                         <Label
                                             Grid.Column="1"
-                                            Text="{Binding Volume, Converter={Helpers:DoubleConverter}}" 
+                                            Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
                                             FontSize="Medium" />
 
                                     </Grid>

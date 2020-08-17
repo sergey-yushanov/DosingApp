@@ -22,19 +22,21 @@
 
                     <Label 
                         Text="Изменения в задание"
-                        TextColor="{StaticResource LabelEntryColor}"/>
+                        TextColor="{StaticResource LabelEntryColor}"
+                        IsVisible="{Binding IsEnableToChange}"/>
                     <StackLayout 
                         Orientation="Horizontal"
-                        Padding="0,10">
+                        Padding="0,10"
+                        IsVisible="{Binding IsEnableToChange}">
                         <Label 
                             Text="Внести изменения в задание"
                             FontSize="Medium"
                             HorizontalOptions="StartAndExpand"/>
                         <Switch 
-                            IsToggled="{Binding IsAccessToChange}"
-                            IsEnabled="{Binding IsAccessToChange, Converter={Helpers:InverseBoolConverter}}"
+                            IsToggled="{Binding IsAccessToChange, Mode=TwoWay}"
                             VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="End" />
+                            HorizontalOptions="End" >
+                        </Switch>
                     </StackLayout>
                     
                     
@@ -43,7 +45,9 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Editor 
                         Placeholder="Введите текст заметки здесь"
-                        Text="{Binding Note}" />
+                        Text="{Binding Note}"
+                        IsReadOnly="{Binding IsAccessToChange, Converter={Helpers:InverseBoolConverter}}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Label 
                         Text="Рецепт смеси"
@@ -53,7 +57,8 @@
                         Title="Выберите рецепт"
                         ItemsSource="{Binding Recipes}"
                         ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding Recipe, Mode=TwoWay}" />
+                        SelectedItem="{Binding Recipe, Mode=TwoWay}" 
+                        IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Label
                         Text="Откуда носитель смеси" 
@@ -62,44 +67,51 @@
                         Title="Выберите тип источника"
                         x:Name="sourceTypesList"
                         ItemsSource="{Binding SourceDestTypes}"
-                        SelectedItem="{Binding SourceType}"/>
+                        SelectedItem="{Binding SourceType, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите объект"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Facilities}"
                         IsVisible="{Binding IsSourceFacility}"
-                        SelectedItem="{Binding SourceFacility, Mode=TwoWay}"/>
+                        SelectedItem="{Binding SourceFacility, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите транспорт"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Transports}"
                         IsVisible="{Binding IsSourceTransport}"
-                        SelectedItem="{Binding SourceTransport, Mode=TwoWay}"/>
+                        SelectedItem="{Binding SourceTransport, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите аппликатор"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Applicators}"
                         IsVisible="{Binding IsSourceApplicator}"
-                        SelectedItem="{Binding SourceApplicator, Mode=TwoWay}"/>
+                        SelectedItem="{Binding SourceApplicator, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Picker 
                         Title="Выберите емкость объекта"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding SourceFacilityTanks}"
                         IsVisible="{Binding IsSourceFacility}"
-                        SelectedItem="{Binding SourceFacilityTank, Mode=TwoWay}"/>
+                        SelectedItem="{Binding SourceFacilityTank, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите емкость транспорта"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding SourceTransportTanks}"
                         IsVisible="{Binding IsSourceTransport}"
-                        SelectedItem="{Binding SourceTransportTank, Mode=TwoWay}"/>
+                        SelectedItem="{Binding SourceTransportTank, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите емкость аппликатора"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding SourceApplicatorTanks}"
                         IsVisible="{Binding IsSourceApplicator}"
-                        SelectedItem="{Binding SourceApplicatorTank, Mode=TwoWay}"/>
+                        SelectedItem="{Binding SourceApplicatorTank, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     
                     
                     <Label 
@@ -109,44 +121,51 @@
                         Title="Выберите тип приемника"
                         x:Name="destTypesList"
                         ItemsSource="{Binding SourceDestTypes}"
-                        SelectedItem="{Binding DestType}"/>
+                        SelectedItem="{Binding DestType, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите объект"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Facilities}"
                         IsVisible="{Binding IsDestFacility}"
-                        SelectedItem="{Binding DestFacility, Mode=TwoWay}"/>
+                        SelectedItem="{Binding DestFacility, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите транспорт"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Transports}"
                         IsVisible="{Binding IsDestTransport}"
-                        SelectedItem="{Binding DestTransport, Mode=TwoWay}"/>
+                        SelectedItem="{Binding DestTransport, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите аппликатор"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Applicators}"
                         IsVisible="{Binding IsDestApplicator}"
-                        SelectedItem="{Binding DestApplicator, Mode=TwoWay}"/>
+                        SelectedItem="{Binding DestApplicator, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Picker 
                         Title="Выберите емкость объекта"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding DestFacilityTanks}"
                         IsVisible="{Binding IsDestFacility}"
-                        SelectedItem="{Binding DestFacilityTank, Mode=TwoWay}"/>
+                        SelectedItem="{Binding DestFacilityTank, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите емкость транспорта"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding DestTransportTanks}"
                         IsVisible="{Binding IsDestTransport}"
-                        SelectedItem="{Binding DestTransportTank, Mode=TwoWay}"/>
+                        SelectedItem="{Binding DestTransportTank, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
                     <Picker 
                         Title="Выберите емкость аппликатора"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding DestApplicatorTanks}"
                         IsVisible="{Binding IsDestApplicator}"
-                        SelectedItem="{Binding DestApplicatorTank, Mode=TwoWay}"/>
+                        SelectedItem="{Binding DestApplicatorTank, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Label 
                         Text="Сельхоз. год" 
@@ -156,7 +175,8 @@
                         Title="Выберите сельхоз. год"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding AgrYears}"
-                        SelectedItem="{Binding AgrYear, Mode=TwoWay}" />
+                        SelectedItem="{Binding AgrYear, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Label 
                         Text="Место обработки СЗР"
@@ -166,7 +186,8 @@
                         Title="Выберите поле"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Fields}"
-                        SelectedItem="{Binding Field, Mode=TwoWay}" />
+                        SelectedItem="{Binding Field, Mode=TwoWay}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Label 
                         Text="Размер партии смеси, л"
@@ -189,7 +210,9 @@
                                 Placeholder="Введите норму"
                                 Text="{Binding VolumeRate}" 
                                 Keyboard="Numeric"
-                                TextChanged="OnVolumeRateTextChanged"/>
+                                TextChanged="OnVolumeRateTextChanged"
+                                IsReadOnly="{Binding IsAccessToChange, Converter={Helpers:InverseBoolConverter}}"
+                                IsEnabled="{Binding IsAccessToChange}"/>
                         </StackLayout>
                         <StackLayout
                             Orientation="Vertical"
@@ -198,7 +221,8 @@
                             <Picker 
                                 Title="Eд.изм."
                                 ItemsSource="{Binding UnitList}"
-                                SelectedItem="{Binding Unit}"/>
+                                SelectedItem="{Binding Unit, Mode=TwoWay}"
+                                IsEnabled="{Binding IsAccessToChange}"/>
                         </StackLayout>
                     </StackLayout>
 

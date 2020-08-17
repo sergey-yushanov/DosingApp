@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
@@ -31,7 +32,8 @@ namespace DosingApp.ViewModels
         private ObservableCollection<TransportTank> destTransportTanks;
         private ObservableCollection<ApplicatorTank> sourceApplicatorTanks;
         private ObservableCollection<ApplicatorTank> destApplicatorTanks;
-        private Task<Task<LoginResult>> result;
+
+        private bool isAccessToChangeMemory;
         #endregion Attributes
 
         #region Constructor
@@ -40,6 +42,7 @@ namespace DosingApp.ViewModels
             Job = job;
             InitJob();
             CalculateVolume();
+            IsAccessToChangeMemory = false;
         }
         #endregion Constructor
 
@@ -55,21 +58,46 @@ namespace DosingApp.ViewModels
             get { return Job.Name; }
         }
 
+        public bool IsEnableToChange
+        {
+            get { return App.ActiveUser.AccessJobParams; }
+        }
+
+        public bool IsDisableToChange
+        {
+            get { return !App.ActiveUser.AccessJobParams; }
+        }
+
         public bool IsAccessToChange
         {
             get { return Job.IsAccessToChange; }
             set
             {
-                if (value)
+                if (value && !IsAccessToChangeMemory)
                 {
-
-                    ConfirmAccessToChange();
-
+                    AccessToChange();
+                }
+                 
+                if (value && IsAccessToChangeMemory)
+                {
                     if (Job.IsAccessToChange != value)
                     {
                         Job.IsAccessToChange = value;
-                        OnPropertyChanged(nameof(IsAccessToChange));
                     }
+                }
+                OnPropertyChanged(nameof(IsAccessToChange));
+            }
+        }
+
+        public bool IsAccessToChangeMemory
+        {
+            get { return isAccessToChangeMemory; }
+            set
+            {
+                SetProperty(ref isAccessToChangeMemory, value);
+                if (value)
+                {
+                    IsAccessToChange = true;
                 }
             }
         }
@@ -554,30 +582,13 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
-        private async void ConfirmAccessToChange()
-        {
-            //new Command(async token =>
+        //private async void AccessToChange(object sender, ToggledEventArgs e)
+        //{
+            //if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Вы действительно хотите внести изменения в задание?", "Да", "Нет"))
             //{
-            var r = await UserDialogs.Instance.LoginAsync(new LoginConfig
-            {
-                //LoginValue = "LastUserName",
-                Message = "Предупреждение",
-                OkText = "Изменить",
-                CancelText = "Отмена",
-                LoginPlaceholder = "Username Placeholder",
-                PasswordPlaceholder = "Password Placeholder"
-            });
-            
-                //, token);
-            var status = r.Ok ? "Success" : "Cancelled";
-                //this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
-            //});
-
-            
-            Console.WriteLine(result);
-            //var status = result.Dispose. . .Ok ? "Success" : "Cancelled";
-            //this.Result($"Login {status} - User Name: {r.LoginText} - Password: {r.Password}");
-        }
+                //IsAccessToChange = true;
+            //}
+        //}
         #endregion Commands
 
         #region Methods
@@ -714,6 +725,14 @@ namespace DosingApp.ViewModels
                     var applicatorTanksDB = db.ApplicatorTanks.Where(at => at.ApplicatorId == applicator.ApplicatorId);
                     return new ObservableCollection<ApplicatorTank>(applicatorTanksDB.ToList());
                 }
+            }
+        }
+
+        private async void AccessToChange()
+        {
+            if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Вы действительно хотите внести изменения в задание?", "Да", "Нет"))
+            {
+                IsAccessToChangeMemory = true;
             }
         }
         #endregion Methods

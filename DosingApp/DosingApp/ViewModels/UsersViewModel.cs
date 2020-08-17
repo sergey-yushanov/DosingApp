@@ -91,6 +91,12 @@ namespace DosingApp.ViewModels
                 return;
             }
 
+            if (IsExistUser(userViewModel.User))
+            {
+                Application.Current.MainPage.DisplayAlert("Ошибка", "Пользователь с таким именем существует", "Ok");
+                return;
+            }
+
             if (!userViewModel.IsValidPassword)
             {
                 Application.Current.MainPage.DisplayAlert("Ошибка", "Пароль пользователя не задан", "Ok");
@@ -125,6 +131,19 @@ namespace DosingApp.ViewModels
             using (UserDbContext db = App.GetUserContext())
             {
                 Users = new ObservableCollection<User>(db.Users.ToList());
+            }
+        }
+
+        private bool IsExistUser(User user)
+        {
+            if (user != null)
+            {
+                User existUser = Users.FirstOrDefault(u => u.Username == user.Username);
+                return existUser != null && existUser.UserId != user.UserId;
+            }
+            else
+            {
+                return false;
             }
         }
         #endregion Methods

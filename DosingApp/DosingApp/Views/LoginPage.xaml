@@ -36,22 +36,27 @@
                         WidthRequest="50"
                         HeightRequest="50"/>
                 </Frame>
+                
                 <Label 
                     Text="Пользователь"
                     TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     x:Name="userEntry" 
-                    Placeholder="Введите имя пользователя" />
+                    Placeholder="Введите имя пользователя"
+                    Text="{Binding Username}"/>
+                
                 <Label 
                     Text="Пароль" 
                     TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     x:Name="passwordEntry" 
                     Placeholder="Введите пароль"
-                    IsPassword="True"/>
+                    IsPassword="True"
+                    Text="{Binding Password}"/>
+                
                 <Button 
-                    Text="Войти"
-                    Clicked="SignInButton" />
+                    Text="Войти" 
+                    Command="{Binding SignInCommand}"/>
 
             </StackLayout>
         </StackLayout>

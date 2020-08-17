@@ -7,27 +7,25 @@
              x:Class="DosingApp.Views.TransportsPage"
              Title="Список транспортов">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Margin="{StaticResource PageMargin}">
-                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
+        <StackLayout Margin="{StaticResource PageMargin}">
+            <Button Text="Добавить" Command="{Binding CreateCommand}"/>
 
-                <ListView
-                    x:Name="transportsList"
-                    ItemsSource="{Binding Transports}"
-                    SelectedItem="{Binding SelectedTransport, Mode=TwoWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-                                        <Label Text="{Binding Name}" FontSize="Medium" />
-                                    </StackLayout>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
-        </ScrollView>
+            <ListView
+                x:Name="transportsList"
+                ItemsSource="{Binding Transports}"
+                SelectedItem="{Binding SelectedTransport, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                    <Label Text="{Binding Name}" FontSize="Medium" />
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

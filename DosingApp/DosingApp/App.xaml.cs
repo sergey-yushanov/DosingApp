@@ -16,14 +16,7 @@ namespace DosingApp
         public const string DBFILENAME = "dosingapp.db";
         public const string USERDBFILENAME = "dosinguser.db";
 
-        public const string AdminName = "admin";
-
-        private static User activeUser;
-        public static User ActiveUser
-        {
-            get { return activeUser; }
-            set { activeUser = value; }
-        }
+        public static User ActiveUser { get; set; }
 
         public App()
         {
@@ -62,21 +55,17 @@ namespace DosingApp
         {
             using (UserDbContext db = GetUserContext())
             {
-                if (!db.Users.Any(u => u.Username == AdminName))
+                if (!db.Users.Any(u => u.Username == Admin.Username))
                 {
-                    User user = new User();
-                    user.Username = AdminName;
-                    user.DisplayName = AdminName;
-                    user.PasswordSalt = CryptoService.GenerateSalt();
-                    user.PasswordHash = CryptoService.ComputeHash(AdminName, user.PasswordSalt);
-                    user.AccessMainMenu = true;
-                    user.AccessMainParams = true;
-                    user.AccessAdditionalParams = true;
-                    user.AccessAdminParams = true;
-                    db.Users.Add(user);
+                    db.Users.Add(Admin.GetUser());
                     db.SaveChanges();
                 }
             }
+        }
+
+        public static bool IsActiveUserAdmin()
+        {
+            return Admin.IsAdminUsername(ActiveUser.Username);
         }
 
         // Создаем компонент по умолчанию - вода

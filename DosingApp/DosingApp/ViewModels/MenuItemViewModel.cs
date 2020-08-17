@@ -66,7 +66,7 @@ namespace DosingApp.ViewModels
                     Application.Current.MainPage.Navigation.PushAsync(new FieldsPage());
                     break;
                 case MenuItemType.Login:
-                    Application.Current.MainPage.Navigation.PushPopupAsync(new LoginPage(MainViewModel));
+                    Application.Current.MainPage.Navigation.PushPopupAsync(new LoginPage(new LoginViewModel() { MainViewModel = MainViewModel }));
                     break;
                 case MenuItemType.Users:
                     Application.Current.MainPage.Navigation.PushAsync(new UsersPage());

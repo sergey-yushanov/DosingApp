@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.UserPage"
-             Title="Пользователь">
+             Title="{Binding Title}">
+    
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
             <StackLayout>
@@ -16,7 +15,8 @@
                 <Entry 
                     x:Name="userEntry"
                     Placeholder="Введите имя пользователя" 
-                    Text="{Binding Username}" />
+                    Text="{Binding Username}"
+                    IsReadOnly="{Binding IsAdminUsername}"/>
                 
                 <Label 
                     Text="Пароль"
@@ -24,6 +24,7 @@
                 <Entry 
                     x:Name="passwordEntry"
                     Placeholder="Введите пароль"
+                    Text="{Binding Password}"
                     IsPassword="True" />
                 
                 <Label 
@@ -42,7 +43,36 @@
                         Text="Уровни доступа"
                         TextColor="{StaticResource LabelEntryColor}"/>
 
-                    <StackLayout Orientation="Horizontal">
+                    <StackLayout 
+                        Orientation="Horizontal">
+                        <Label 
+                            Text="Внесение изменений в задание"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Switch 
+                            x:Name="accessJobParamsSwitch"
+                            IsToggled="{Binding AccessJobParams}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End"
+                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
+                    </StackLayout>
+
+                    <StackLayout 
+                        Orientation="Horizontal">
+                        <Label 
+                            Text="Главное меню"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Switch 
+                            x:Name="accessMainMenuSwitch"
+                            IsToggled="{Binding AccessMainMenu}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" 
+                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
+                    </StackLayout>
+
+                    <StackLayout 
+                        Orientation="Horizontal">
                         <Label 
                             Text="Основные параметры"
                             FontSize="Medium"
@@ -51,10 +81,12 @@
                             x:Name="accessMainParamsSwitch"
                             IsToggled="{Binding AccessMainParams}"
                             VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="End" />
+                            HorizontalOptions="End" 
+                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal">
+                    <StackLayout
+                        Orientation="Horizontal">
                         <Label 
                             Text="Дополнительные параметры"
                             FontSize="Medium"
@@ -63,11 +95,13 @@
                             x:Name="accessAdditionalParamsSwitch"
                             IsToggled="{Binding AccessAdditionalParams}"
                             VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="End" />
+                            HorizontalOptions="End" 
+                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
 
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal">
+                    <StackLayout 
+                        Orientation="Horizontal">
                         <Label 
                             Text="Инженерное меню"
                             FontSize="Medium"
@@ -76,22 +110,31 @@
                             x:Name="accessAdminParamsSwitch"
                             IsToggled="{Binding AccessAdminParams}"
                             VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="End" />
+                            HorizontalOptions="End" 
+                            IsEnabled="{Binding IsAdminUsername, Converter={Helpers:InverseBoolConverter}}"/>
                     </StackLayout>
 
                 </StackLayout>
                 
 
             </StackLayout>
-            
-            <StackLayout>
+
+            <StackLayout
+                Padding="0,10">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Button Text="Сохранить" Clicked="SaveButton" />
-                    <Button Grid.Column="1" Text="Удалить" Clicked="DeleteButton" />
+                    <Button 
+                        Text="Сохранить" 
+                        Command="{Binding UsersViewModel.SaveCommand}" 
+                        CommandParameter="{Binding}" />
+                    <Button 
+                        Grid.Column="1" 
+                        Text="Удалить" 
+                        Command="{Binding UsersViewModel.DeleteCommand}" 
+                        CommandParameter="{Binding}" />
                 </Grid>
             </StackLayout>
 

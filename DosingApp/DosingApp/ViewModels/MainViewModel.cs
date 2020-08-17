@@ -1,14 +1,7 @@
-﻿using DosingApp.DataContext;
-using DosingApp.Helpers;
+﻿using DosingApp.Helpers;
 using DosingApp.Models;
-using DosingApp.Services;
-using DosingApp.Views;
-using Rg.Plugins.Popup.Extensions;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
@@ -18,41 +11,49 @@ namespace DosingApp.ViewModels
         public User user;
         private ObservableCollection<MenuGrouping<string, MenuItemViewModel>> menuGroups;
         private ObservableCollection<MenuItemViewModel> mainMenu;
+        private bool accessJobParams;
+        private bool accessMainMenu;
         private bool accessMainParams;
         private bool accessAdditionalParams;
         private bool accessAdminParams;
-
-        //public ICommand BackCommand { get; protected set; }
-        //public ICommand LoginCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
         public MainViewModel()
         {
             LoadMenu();
-
-            //BackCommand = new Command(Back);
-            //LoginCommand = new Command(Login);
         }
         #endregion Constructor
 
         #region Properties
         public ObservableCollection<MenuGrouping<string, MenuItemViewModel>> MenuGroups
         {
-            get { return this.menuGroups; }
+            get { return menuGroups; }
             set { SetProperty(ref menuGroups, value); }
         }
 
         public ObservableCollection<MenuItemViewModel> MainMenu
         {
-            get { return this.mainMenu; }
-            set { SetProperty(ref this.mainMenu, value); }
+            get { return mainMenu; }
+            set { SetProperty(ref mainMenu, value); }
         }
 
         public User User
         {
             get { return user; }
             set { SetProperty(ref user, value); }
+        }
+
+        public bool AccessJobParams
+        {
+            get { return accessJobParams; }
+            set { SetProperty(ref accessJobParams, value); }
+        }
+
+        public bool AccessMainMenu
+        {
+            get { return accessMainMenu; }
+            set { SetProperty(ref accessMainMenu, value); }
         }
 
         public bool AccessMainParams
@@ -74,25 +75,17 @@ namespace DosingApp.ViewModels
         }
         #endregion Properties
 
-        #region Commands
-        //private void Back()
-        //{
-            //Application.Current.MainPage.Navigation.PopAsync();
-        //}
-
-        //private void Login()
-        //{ 
-            //Application.Current.MainPage.Navigation.PushPopupAsync(new LoginPage());
-        //}
-        #endregion Commands
-
         #region Methods
         private void LoadMenu()
         {
             this.MainMenu = new ObservableCollection<MenuItemViewModel>();
             this.MainMenu.Clear();
-            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Jobs, Group = MenuItemGroup.MainMenu, Title = "Сделать смесь" } );
-            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Reports, Group = MenuItemGroup.MainMenu, Title = "Отчетность" });
+
+            if (AccessMainMenu)
+            {
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Jobs, Group = MenuItemGroup.MainMenu, Title = "Сделать смесь" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Reports, Group = MenuItemGroup.MainMenu, Title = "Отчетность" });
+            }
 
             if (AccessMainParams)
             { 
@@ -126,13 +119,12 @@ namespace DosingApp.ViewModels
 
         public void SetUserAccess()
         {
-            if (App.ActiveUser != null)
-            {
-                User = App.ActiveUser;
-                AccessMainParams = App.ActiveUser.AccessMainParams || App.ActiveUser.AccessAdminParams;
-                AccessAdditionalParams = App.ActiveUser.AccessAdditionalParams || App.ActiveUser.AccessAdminParams;
-                AccessAdminParams = App.ActiveUser.AccessAdminParams;
-            }
+            User = App.ActiveUser;
+            AccessJobParams = (App.ActiveUser != null) && (App.ActiveUser.AccessJobParams || App.ActiveUser.AccessAdminParams);
+            AccessMainMenu = (App.ActiveUser != null) && (App.ActiveUser.AccessMainMenu || App.ActiveUser.AccessAdminParams);
+            AccessMainParams = (App.ActiveUser != null) && (App.ActiveUser.AccessMainParams || App.ActiveUser.AccessAdminParams);
+            AccessAdditionalParams = (App.ActiveUser != null) && (App.ActiveUser.AccessAdditionalParams || App.ActiveUser.AccessAdminParams);
+            AccessAdminParams = (App.ActiveUser != null) && (App.ActiveUser.AccessAdminParams);
             LoadMenu();
         }
         #endregion Methods

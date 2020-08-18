@@ -1,8 +1,10 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Services;
+using DosingApp.ViewModels;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,14 +18,7 @@ namespace DosingApp
         public const string DBFILENAME = "dosingapp.db";
         public const string USERDBFILENAME = "dosinguser.db";
 
-        public const string AdminName = "admin";
-
-        private static User activeUser;
-        public static User ActiveUser
-        {
-            get { return activeUser; }
-            set { activeUser = value; }
-        }
+        public static User ActiveUser { get; set; }
 
         public App()
         {
@@ -40,7 +35,11 @@ namespace DosingApp
             CreateAdminUser();
             CreateWaterComponent();
 
-            MainPage = new NavigationPage(new LoginPage());
+            var mainViewModel = new MainViewModel();
+            MainPage = new NavigationPage(new MainPage(mainViewModel));
+
+            // show login page on app start
+            MainPage.Navigation.PushPopupAsync(new LoginPage(new LoginViewModel() { MainViewModel = mainViewModel }));
         }
 
         // Получение контекста БД при запуске приложения
@@ -62,21 +61,17 @@ namespace DosingApp
         {
             using (UserDbContext db = GetUserContext())
             {
-                if (!db.Users.Any(u => u.Username == AdminName))
+                if (!db.Users.Any(u => u.Username == Admin.Username))
                 {
-                    User user = new User();
-                    user.Username = AdminName;
-                    user.DisplayName = AdminName;
-                    user.PasswordSalt = CryptoService.GenerateSalt();
-                    user.PasswordHash = CryptoService.ComputeHash(AdminName, user.PasswordSalt);
-                    user.AccessMainMenu = true;
-                    user.AccessMainParams = true;
-                    user.AccessAdditionalParams = true;
-                    user.AccessAdminParams = true;
-                    db.Users.Add(user);
+                    db.Users.Add(Admin.GetUser());
                     db.SaveChanges();
                 }
             }
+        }
+
+        public static bool IsActiveUserAdmin()
+        {
+            return Admin.IsAdminUsername(ActiveUser.Username);
         }
 
         // Создаем компонент по умолчанию - вода
@@ -86,15 +81,21 @@ namespace DosingApp
             {
                 if (!db.Components.Any(c => c.Name == Water.Name))
                 {
-                    Component component = new Component();
-                    component.Name = Water.Name;
-                    component.Consistency = Water.Consistency;
-                    component.Density = Water.Density;
-                    db.Components.Add(component);
+                    db.Components.Add(Water.GetComponent());
                     db.SaveChanges();
                 }
             }
         }
+
+        // Получение текущей активной установки
+        public static Mixer GetUsedMixer()
+        {
+            using (AppDbContext db = GetContext())
+            {
+                return db.Mixers.FirstOrDefault(m => m.IsUsedMixer);
+            }
+        }
+
 
         protected override void OnStart()
         {

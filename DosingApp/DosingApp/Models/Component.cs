@@ -8,13 +8,27 @@ namespace DosingApp.Models
     {
         public const string Name = "Вода";
         public const string Consistency = ComponentConsistency.Liquid;
-        public const float Density = 1.0F;
+        public const double Density = 1.0;
+
+        public static Component GetComponent()
+        {
+            Component component = new Component();
+            component.Name = Name;
+            component.Consistency = Consistency;
+            component.Density = Density;
+            return component;
+        }
     }
 
     public static class ComponentConsistency
     {
         public const string Dry = "Сухой";
         public const string Liquid = "Жидкий";
+
+        public static List<string> GetList()
+        {
+            return new List<string>() { Liquid, Dry };
+        }
     }
 
     public class Component
@@ -26,7 +40,7 @@ namespace DosingApp.Models
 
         public string Name { get; set; }
         public string Consistency { get; set; }
-        public float? Density { get; set; }
+        public double? Density { get; set; }
         public string Packing { get; set; }
     }
 }

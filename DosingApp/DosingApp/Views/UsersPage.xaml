@@ -1,27 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
              x:Class="DosingApp.Views.UsersPage"
              Title="Список пользователей">
+    
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
-            <Button Text="Добавить" Clicked="CreateButton" />
-            <ListView x:Name="itemsList" ItemSelected="OnItemSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Username}" FontSize="Medium" />
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <StackLayout>
+                <Button Text="Добавить" Command="{Binding CreateCommand}"/>
+            </StackLayout>
+
+            <StackLayout>
+                <ListView
+                    x:Name="usersList"
+                    ItemsSource="{Binding Users}"
+                    SelectedItem="{Binding SelectedUser, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout
+                                        Orientation="Horizontal" 
+                                        VerticalOptions="CenterAndExpand">
+                                        <Label 
+                                            Text="{Binding Username}" 
+                                            FontSize="Medium" />
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
+
     </ContentPage.Content>
 </ContentPage>

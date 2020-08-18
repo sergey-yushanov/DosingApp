@@ -1,5 +1,6 @@
 ﻿using DosingApp.Models;
 using DosingApp.Views;
+using Rg.Plugins.Popup.Extensions;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -12,6 +13,8 @@ namespace DosingApp.ViewModels
         public string Group { get; set; }
         public string Title { get; set; }
         public string Icon { get; set; }
+
+        public MainViewModel MainViewModel { get; set; }
         #endregion Attributes
 
         #region Commands
@@ -29,6 +32,9 @@ namespace DosingApp.ViewModels
         {
             switch (this.Id)
             {
+                case MenuItemType.Jobs:
+                    Application.Current.MainPage.Navigation.PushAsync(new JobsPage());
+                    break;
                 case MenuItemType.Assignments:
                     Application.Current.MainPage.Navigation.PushAsync(new AssignmentsPage());
                     break;
@@ -59,8 +65,14 @@ namespace DosingApp.ViewModels
                 case MenuItemType.Fields:
                     Application.Current.MainPage.Navigation.PushAsync(new FieldsPage());
                     break;
+                case MenuItemType.Login:
+                    Application.Current.MainPage.Navigation.PushPopupAsync(new LoginPage(new LoginViewModel() { MainViewModel = MainViewModel }));
+                    break;
                 case MenuItemType.Users:
                     Application.Current.MainPage.Navigation.PushAsync(new UsersPage());
+                    break;
+                case MenuItemType.Mixers:
+                    Application.Current.MainPage.Navigation.PushAsync(new MixersPage());
                     break;
             }
         }

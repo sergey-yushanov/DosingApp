@@ -12,6 +12,7 @@
             <Thickness x:Key="PageMargin">20</Thickness>
             <Color x:Key="LabelEntryColor">#0000FF</Color>
             <Color x:Key="TitleColor">#FFFFFF</Color>
+            <Color x:Key="LabelAlertColor">#FF0000</Color>
 
             <Style ApplyToDerivedTypes="true" TargetType="NavigationPage">
                 <Setter Property="BarTextColor" Value="{StaticResource Key=TitleColor}"/>

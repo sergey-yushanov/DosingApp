@@ -7,6 +7,7 @@ namespace DosingApp.DataContext
     {
         private string _dbPath;
 
+        public DbSet<Mixer> Mixers { get; set; }
         public DbSet<AgrYear> AgrYears { get; set; }
         public DbSet<Applicator> Applicators { get; set; }
         public DbSet<ApplicatorTank> ApplicatorTanks { get; set; }
@@ -15,7 +16,8 @@ namespace DosingApp.DataContext
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Crop> Crops { get; set; }
         public DbSet<Field> Fields { get; set; }
-        //public DbSet<Mixture> Mixtures { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<JobComponent> JobComponents { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<FacilityTank> FacilityTanks { get; set; }
         public DbSet<ProcessingType> ProcessingTypes { get; set; }

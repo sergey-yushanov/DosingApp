@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace DosingApp.Models
@@ -8,6 +9,11 @@ namespace DosingApp.Models
     {
         public const string Dry = "кг/га";
         public const string Liquid = "л/га";
+
+        public static List<string> GetList()
+        {
+            return new List<string>() { Liquid, Dry };
+        }
     }
 
     public class RecipeComponent
@@ -21,11 +27,18 @@ namespace DosingApp.Models
         public virtual Component Component { get; set; }
 
         public int? Order { get; set; }
-        public float? VolumeRate { get; set; }
+        public double? VolumeRate { get; set; }
         public string Unit { get; set; }
-        public string Valve { get; set; }
-        public string DispenserName { get; set; }
+        public string Dispenser { get; set; }
 
         public string Name { get { return Component?.Name; } }
+
+        // проверяем, является ли клапан четвертым в коллекторе - он всегда вода
+        public bool IsFourthValve()
+        {
+            string fourthValve = DispenserSuffix.Collector + "4";
+            int index = Dispenser != null ? Dispenser.IndexOf(fourthValve) : -1;
+            return index != -1;
+        }
     }
 }

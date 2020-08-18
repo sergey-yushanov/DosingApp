@@ -1,10 +1,20 @@
-﻿using DosingApp.DataContext;
+﻿using CsvHelper;
+using DosingApp.DataContext;
 using DosingApp.Models;
+using DosingApp.Models.Files;
+using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using Plugin.FilePicker;
+using Plugin.FilePicker.Abstractions;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
@@ -22,6 +32,8 @@ namespace DosingApp.ViewModels
         public ICommand DeleteCommand { get; protected set; }
         public ICommand SaveCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
+
+        public ICommand LoadFileCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -34,6 +46,8 @@ namespace DosingApp.ViewModels
             DeleteCommand = new Command(DeleteComponent);
             SaveCommand = new Command(SaveComponent);
             BackCommand = new Command(Back);
+
+            LoadFileCommand = new Command(LoadFileAsync);
         }
         #endregion Constructor
 
@@ -67,6 +81,92 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
+        private async void LoadFileAsync()
+        {
+            try
+            {
+                FileData fileData = await CrossFilePicker.Current.PickFile();
+                if (fileData == null)
+                    return; // user canceled file picking
+
+                string fileActualPath = DependencyService.Get<IActualPath>().GetActualPathFromUri(fileData.FilePath);
+                fileActualPath = fileActualPath ?? fileData.FilePath;
+
+                using (var reader = new StreamReader(fileActualPath))
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                {
+                    csv.Configuration.HasHeaderRecord = false;  // no header in *.csv file
+                    csv.Configuration.Delimiter = ";";
+                    var fileComponents = csv.GetRecords<FileComponent>().ToList();
+
+                    using (var db = App.GetContext())
+                    {
+                        fileComponents.ForEach(r => r.Density = r.Density.Replace(",", "."));  // change comma to point for string to double transform
+
+                        var action = DisplayActions.Uncertain;
+                        foreach (var fileComponent in fileComponents)
+                        {                            
+                            var existComponent = db.Components.FirstOrDefault(c => c.Name == fileComponent.Name && c.ManufacturerId == this.Manufacturer.ManufacturerId);
+                            if (existComponent != null && String.Equals(action, DisplayActions.Uncertain))
+                            {
+                                action = await Application.Current.MainPage.DisplayActionSheet("Компонент с именем '" + fileComponent.Name + "' уже существует", null, null, DisplayActions.New, DisplayActions.Save, DisplayActions.SaveAll, DisplayActions.Skip, DisplayActions.SkipAll);
+                            }
+
+                            // skip all entire file
+                            if (String.Equals(action, DisplayActions.SkipAll))
+                            {
+                                break;
+                            }
+
+                            // get new item values from file
+                            var consistency = ComponentConsistency.Dry;
+                            if (double.TryParse(fileComponent.Density, NumberStyles.Any, CultureInfo.InvariantCulture, out double density))
+                            {
+                                consistency = ComponentConsistency.Liquid;
+                            }
+
+                            // create new item
+                            if (String.Equals(action, DisplayActions.New) ||
+                                String.Equals(action, DisplayActions.Uncertain))
+                            {
+                                var newComponent = new Component()
+                                {
+                                    ManufacturerId = this.Manufacturer.ManufacturerId,
+                                    Name = fileComponent.Name,
+                                    Density = density,
+                                    Consistency = consistency
+                                };
+                                db.Components.Add(newComponent);
+                            }
+
+                            // update item
+                            if (String.Equals(action, DisplayActions.Save) ||
+                                String.Equals(action, DisplayActions.SaveAll))
+                            {
+                                existComponent.Density = density;
+                                existComponent.Consistency = consistency;
+                                db.Components.Update(existComponent);
+                            }
+                            
+                            // if we decided with only one item - next step ask again
+                            if (String.Equals(action, DisplayActions.New) ||
+                                String.Equals(action, DisplayActions.Save) ||
+                                String.Equals(action, DisplayActions.Skip))
+                            {
+                                action = DisplayActions.Uncertain;
+                            }
+                        }
+                        db.SaveChanges();
+                    }
+                    //LoadComponents();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine("Ошибка работы с файлом: " + ex.ToString());
+            }
+        }
+
         private void Back()
         {
             Application.Current.MainPage.Navigation.PopAsync();
@@ -123,7 +223,7 @@ namespace DosingApp.ViewModels
             using (AppDbContext db = App.GetContext())
             {
                 var componentsDB = db.Components.Where(c => c.ManufacturerId == Manufacturer.ManufacturerId).ToList();
-                Components = new ObservableCollection<Component>(componentsDB);
+                Components = new ObservableCollection<Component>(componentsDB.OrderBy(c => c.Name));
             }
         }
         #endregion Methods

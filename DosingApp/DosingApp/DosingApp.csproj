@@ -11,10 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.446" />
+    <PackageReference Include="CsvHelper" Version="15.0.5" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="FileHelpers" Version="3.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.7" />
+    <PackageReference Include="PdfSharpCore" Version="1.2.5" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.3" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="Xamarin.Plugin.FilePicker" Version="2.1.41" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +46,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\JobPage.xaml.cs">
+      <DependentUpon>JobPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\JobsPage.xaml.cs">
+      <DependentUpon>JobsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\JobComponentsPage.xaml.cs">
+      <DependentUpon>JobComponentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MixerPage.xaml.cs">
+      <DependentUpon>MixerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MixersPage.xaml.cs">
+      <DependentUpon>MixersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\JobPage.xaml.cs">
+      <DependentUpon>JobPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\JobsPage.xaml.cs">
+      <DependentUpon>JobsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\RecipeComponentPage.xaml.cs">
       <DependentUpon>RecipeComponentPage.xaml</DependentUpon>
     </Compile>

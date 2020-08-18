@@ -69,7 +69,7 @@ namespace DosingApp.ViewModels
         {
             Recipe newRecipe = new Recipe()
             {
-                CarrierReserve = (float?)20.0,
+                CarrierReserve = (double?)20.0,
                 CarrierId = GetWaterCarrier().ComponentId
             };
             Application.Current.MainPage.Navigation.PushAsync(new RecipePage(new RecipeViewModel(newRecipe) { RecipesViewModel = this }));

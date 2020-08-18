@@ -9,6 +9,11 @@ namespace DosingApp.Models
         public const string Facility = "Объект";
         public const string Transport = "Транспорт";
         public const string Applicator = "Аппликатор";
+
+        public static List<string> GetList()
+        {
+            return new List<string>() { Facility, Transport, Applicator };
+        }
     }
 
     public class Assignment
@@ -64,12 +69,8 @@ namespace DosingApp.Models
 
         public int? FieldId { get; set; }
         public virtual Field Field { get; set; }
-        public float FieldArea { get; set; }
 
-        public int? FacilityId { get; set; }
-        public virtual Facility Facility { get; set; }
-
-        public float? VolumeRate { get; set; }
+        public double? VolumeRate { get; set; }
         public string Unit { get; set; }
     }
 }

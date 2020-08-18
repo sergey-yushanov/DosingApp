@@ -21,7 +21,7 @@ namespace DosingApp.Views
 
             menuItems = new List<Models.HomeMenuItem>
             {
-                new Models.HomeMenuItem { Id = MenuItemType.Mixtures, Title="Сделать смесь" },
+                new Models.HomeMenuItem { Id = MenuItemType.Jobs, Title="Сделать смесь" },
                 new Models.HomeMenuItem { Id = MenuItemType.Reports, Title="Отчеты" },
                 new Models.HomeMenuItem { Id = MenuItemType.Assignments, Title="Задания" },
                 new Models.HomeMenuItem { Id = MenuItemType.Recipes, Title="Рецепты" },
@@ -38,7 +38,7 @@ namespace DosingApp.Views
             ListViewMenu.ItemsSource = menuItems;
 
             ListViewMenu.SelectedItem = menuItems[0];
-            ListViewMenu.ItemSelected += async (sender, e) =>
+            ListViewMenu.ItemSelected += (sender, e) =>
             {
                 if (e.SelectedItem == null)
                     return;

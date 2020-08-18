@@ -22,14 +22,5 @@ namespace DosingApp.Views
             ViewModel = viewModel;
             BindingContext = ViewModel;
         }
-
-        private void OnVolumeTextChanged(object sender, TextChangedEventArgs args)
-        {
-            if (String.IsNullOrEmpty(args.NewTextValue))
-            {
-                var facilityTankViewModel = (FacilityTankViewModel)BindingContext;
-                facilityTankViewModel.Volume = null;
-            }
-        }
     }
 }

@@ -4,14 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             xmlns:ViewModel="clr-namespace:DosingApp.ViewModels"
              x:Class="DosingApp.Views.MainPage"
-             Title="Главная страница">
-
-    <ContentPage.BindingContext>
-        <ViewModel:MainViewModel/>
-    </ContentPage.BindingContext>
-
+             Title="Mix-App">
 
     <StackLayout  Margin="{StaticResource PageMargin}">
         <StackLayout Orientation="Horizontal">
@@ -24,7 +18,7 @@
             </Frame>
             <Label
                 x:Name="userLabel"
-                Text="{Binding User.DisplayName}"
+                Text="{Binding Name}"
                 VerticalOptions="CenterAndExpand"
                 FontSize="Medium"
                 Margin="20"
@@ -43,7 +37,10 @@
                             <Grid Padding="10">
                                 <StackLayout Orientation="Vertical">
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Name}" FontSize="Large"/>
+                                        <Label 
+                                            Text="{Binding Name}" 
+                                            FontSize="Large"
+                                            TextColor="{StaticResource LabelEntryColor}"/>
                                     </StackLayout>
                                 </StackLayout>
                             </Grid>
@@ -59,8 +56,12 @@
                                 </Grid.GestureRecognizers>
                                 <StackLayout Orientation="Vertical">
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Title}" d:Text="{Binding .}" FontSize="Medium"/>
-                                        <Image Source="{Binding Icon}"/>
+                                        <Label 
+                                            Text="{Binding Title}" 
+                                            d:Text="{Binding .}" 
+                                            FontSize="Medium"/>
+                                        <Image
+                                            Source="{Binding Icon}"/>
                                     </StackLayout>
                                 </StackLayout>
                             </Grid>

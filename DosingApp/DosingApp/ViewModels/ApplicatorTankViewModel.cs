@@ -41,7 +41,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public float? Volume
+        public double? Volume
         {
             get { return ApplicatorTank.Volume; }
             set

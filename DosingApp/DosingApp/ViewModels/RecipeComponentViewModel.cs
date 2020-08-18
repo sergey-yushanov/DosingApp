@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
@@ -12,6 +13,7 @@ namespace DosingApp.ViewModels
         public RecipeComponent RecipeComponent { get; private set; }
 
         private ObservableCollection<Component> components;
+        private bool isComponentEnabled;
         #endregion Attributes
 
         #region Constructor
@@ -49,7 +51,7 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref components, value); }
         }
 
-        public float? VolumeRate
+        public double? VolumeRate
         {
             get { return RecipeComponent.VolumeRate; }
             set
@@ -77,32 +79,40 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> UnitList
         {
-            get { return new ObservableCollection<string>() { RecipeComponentUnit.Liquid, RecipeComponentUnit.Dry }; }
+            get { return new ObservableCollection<string>(RecipeComponentUnit.GetList()); }
         }
 
-        public string Valve
+        public string Dispenser
         {
-            get { return RecipeComponent.Valve; }
+            get 
+            {
+                IsComponentEnabled = !RecipeComponent.IsFourthValve();
+                if (RecipeComponent.IsFourthValve())
+                {
+                    SetFourthValveComponent();
+                }
+                return RecipeComponent.Dispenser;
+            }
             set
             {
-                if (RecipeComponent.Valve != value)
+                if (RecipeComponent.Dispenser != value)
                 {
-                    RecipeComponent.Valve = value;
-                    OnPropertyChanged(nameof(Valve));
+                    RecipeComponent.Dispenser = value;
+                    OnPropertyChanged(nameof(Dispenser));
                 }
             }
         }
 
-        public string DispenserName
+        public ObservableCollection<string> Dispensers
         {
-            get { return RecipeComponent.DispenserName; }
-            set
+            get
             {
-                if (RecipeComponent.DispenserName != value)
+                if (App.GetUsedMixer() != null)
                 {
-                    RecipeComponent.DispenserName = value;
-                    OnPropertyChanged(nameof(DispenserName));
+                    return new ObservableCollection<string>(App.GetUsedMixer().GetDispensers());
                 }
+                else
+                    return null;
             }
         }
 
@@ -112,6 +122,12 @@ namespace DosingApp.ViewModels
             {
                 return (Component != null);
             }
+        }
+
+        public bool IsComponentEnabled
+        {
+            get { return isComponentEnabled; }
+            set { SetProperty(ref isComponentEnabled, value); }
         }
 
         public string Title
@@ -132,6 +148,11 @@ namespace DosingApp.ViewModels
         public void InitSelectedComponent()
         {
             Component = Components.FirstOrDefault(c => c.ComponentId == RecipeComponent.ComponentId);
+        }
+
+        public void SetFourthValveComponent()
+        {
+            Component = Components.FirstOrDefault(c => c.Name == Water.GetComponent().Name);
         }
         #endregion Methods
     }

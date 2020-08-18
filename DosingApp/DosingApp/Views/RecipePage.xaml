@@ -1,8 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:Helpers="clr-namespace:DosingApp.Helpers"
             x:Class="DosingApp.Views.RecipePage"
             Title="{Binding Title}">
+
+    <TabbedPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+    </TabbedPage.Resources>
+    
     <TabbedPage.Children>
         <ContentPage Title="Параметры">
 
@@ -107,9 +113,10 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="5*" />
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="10*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
                                     </Grid.ColumnDefinitions>
 
                                     <Label
@@ -121,13 +128,16 @@
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                     <Label
                                         Grid.Column="2"
-                                        Text="Норма внесения" 
+                                        Text="Норма" 
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                     <Label
                                         Grid.Column="3"
-                                        Text="Ед. изм." 
+                                        Text="Ед.изм." 
                                         TextColor="{StaticResource LabelEntryColor}"/>
-
+                                    <Label
+                                        Grid.Column="4"
+                                        Text="Доз."
+                                        TextColor="{StaticResource LabelEntryColor}"/>
                                 </Grid>
                             </StackLayout>
                         </ListView.Header>
@@ -139,9 +149,10 @@
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*" />
-                                                <ColumnDefinition Width="5*" />
-                                                <ColumnDefinition Width="2*" />
-                                                <ColumnDefinition Width="1*" />
+                                                <ColumnDefinition Width="10*" />
+                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="3*" />
                                             </Grid.ColumnDefinitions>
 
                                             <Label
@@ -153,11 +164,15 @@
                                                 FontSize="Medium" />
                                             <Label
                                                 Grid.Column="2"
-                                                Text="{Binding VolumeRate}" 
+                                                Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
                                                 FontSize="Medium" />
                                             <Label
                                                 Grid.Column="3"
                                                 Text="{Binding Unit}" 
+                                                FontSize="Medium" />
+                                            <Label
+                                                Grid.Column="4"
+                                                Text="{Binding Dispenser}" 
                                                 FontSize="Medium" />
 
                                         </Grid>

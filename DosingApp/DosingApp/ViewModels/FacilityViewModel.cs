@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -16,6 +17,8 @@ namespace DosingApp.ViewModels
         public Facility Facility { get; private set; }
         private bool isBack;    // need to page navigation while saving foreign key values
         private string title;
+        private string pickerType;
+        private bool isOwnType;
 
         private ObservableCollection<FacilityTank> facilityTanks;
         private FacilityTank selectedFacilityTank;
@@ -31,6 +34,11 @@ namespace DosingApp.ViewModels
         {
             Facility = facility;
             IsBack = true;
+
+            if (Facility.FacilityId != 0)
+            {
+                PickerType = Facility.Type;
+            }
 
             CreateTankCommand = new Command(CreateFacilityTank);
             DeleteTankCommand = new Command(DeleteFacilityTank);
@@ -63,9 +71,46 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public string PickerType
+        {
+            get 
+            {
+                IsOwnType = String.Equals(pickerType, FacilityType.Own);
+                return pickerType;
+            }
+            set 
+            {
+                if (Types.Contains(value))
+                {
+                    if (SetProperty(ref pickerType, value))
+                    {
+                        // set type property, which is different Types list
+                        Type = FacilityType.GetNotOwnList().Contains(value) ? value : null;
+                    }
+                }
+                else
+                {
+                    SetProperty(ref pickerType, FacilityType.Own);
+                }
+            }
+        }
+
+        public bool IsOwnType
+        {
+            get { return isOwnType; }
+            set { SetProperty(ref isOwnType, value); }
+        }
+
         public string Type
         {
-            get { return Facility.Type; }
+            get
+            {
+                //if (Facility.Type != null)
+                //{
+                    //PickerType = Facility.Type;
+                //}
+                return Facility.Type;
+            }
             set
             {
                 if (Facility.Type != value)
@@ -78,7 +123,7 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> Types
         {
-            get { return new ObservableCollection<string>() { FacilityType.Storage, FacilityType.Shipment }; }
+            get { return new ObservableCollection<string>(FacilityType.GetList()); }
         }
 
         public string Address

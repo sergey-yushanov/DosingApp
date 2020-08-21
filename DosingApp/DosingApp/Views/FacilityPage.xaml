@@ -29,8 +29,13 @@
                     <Picker 
                         Title="Выберите тип объекта"
                         ItemsSource="{Binding Types}"
-                        SelectedItem="{Binding Type}">
+                        SelectedItem="{Binding PickerType}">
                     </Picker>
+                    <Entry
+                        Placeholder="Введите свой вариант типа объекта" 
+                        Text="{Binding Type}" 
+                        Keyboard="Chat"
+                        IsVisible="{Binding IsOwnType}"/>
 
                     <Label 
                         Text="Адрес" 

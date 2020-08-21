@@ -19,7 +19,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название аппликатора" 
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}"
+                        Keyboard="Chat"/>
 
                 </StackLayout>
                 <StackLayout>

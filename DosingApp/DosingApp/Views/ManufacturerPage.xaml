@@ -13,7 +13,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название производителя" 
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}"
+                        Keyboard="Chat"/>
                 </StackLayout>
                 <StackLayout>
                     <Grid>

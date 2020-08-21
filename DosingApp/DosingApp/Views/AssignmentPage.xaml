@@ -22,14 +22,16 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название задания" 
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}" 
+                        Keyboard="Chat"/>
 
                     <Label 
                         Text="Заметка" 
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Editor 
                         Placeholder="Введите текст заметки здесь"
-                        Text="{Binding Note}" />
+                        Text="{Binding Note}" 
+                        Keyboard="Chat"/>
 
                     <Label 
                         Text="Рецепт смеси"

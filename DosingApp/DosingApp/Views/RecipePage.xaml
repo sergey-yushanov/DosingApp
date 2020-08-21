@@ -23,7 +23,8 @@
                             TextColor="{StaticResource LabelEntryColor}"/>
                         <Entry 
                             Placeholder="Введите название рецепта" 
-                            Text="{Binding Name}" />
+                            Text="{Binding Name}"
+                            Keyboard="Chat"/>
 
                         <Label 
                             Text="Культура"
@@ -60,7 +61,8 @@
                             TextColor="{StaticResource LabelEntryColor}"/>
                         <Editor 
                             Placeholder="Введите текст заметки здесь"
-                            Text="{Binding Note}" />
+                            Text="{Binding Note}" 
+                            Keyboard="Chat"/>
 
                         <Label 
                             Text="Минимум носителя в запасе, %" 

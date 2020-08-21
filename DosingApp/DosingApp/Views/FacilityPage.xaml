@@ -20,7 +20,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название объекта" 
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}" 
+                        Keyboard="Chat"/>
 
                     <Label 
                         Text="Тип объекта" 
@@ -36,14 +37,16 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите адрес объекта" 
-                        Text="{Binding Address}" />
+                        Text="{Binding Address}"
+                        Keyboard="Chat"/>
 
                     <Label 
                         Text="Код" 
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите код объекта" 
-                        Text="{Binding Code}" />
+                        Text="{Binding Code}" 
+                        Keyboard="Chat"/>
 
                 </StackLayout>
                 <StackLayout>

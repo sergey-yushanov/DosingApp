@@ -9,7 +9,7 @@
 
             <StackLayout>
                 <Button 
-                    Text="Каталог производителей" 
+                    Text="Каталог" 
                     Command="{Binding EditManufacturersCommand}"/>
             </StackLayout>
 

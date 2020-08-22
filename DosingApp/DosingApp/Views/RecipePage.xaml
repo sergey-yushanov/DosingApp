@@ -99,11 +99,17 @@
         </ContentPage>
         
         <ContentPage Title="Компоненты">
-            
-            <ScrollView>
-                <StackLayout Margin="{StaticResource PageMargin}">
-                    <Button Text="Добавить" Command="{Binding CreateRecipeComponentCommand}"/>
 
+            <StackLayout 
+                    Margin="{StaticResource PageMargin}">
+
+                <StackLayout>
+                    <Button 
+                        Text="Добавить" 
+                        Command="{Binding CreateRecipeComponentCommand}"/>
+                </StackLayout>
+
+                <StackLayout>
                     <ListView 
                         x:Name="recipeComponentsList"
                         ItemsSource="{Binding RecipeComponents}"
@@ -143,7 +149,7 @@
                                 </Grid>
                             </StackLayout>
                         </ListView.Header>
-                        
+
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -184,8 +190,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </StackLayout>
-            </ScrollView>
-
+            </StackLayout>
         </ContentPage>
     </TabbedPage.Children>
 </TabbedPage>

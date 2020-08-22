@@ -15,13 +15,17 @@
             <StackLayout 
                 Margin="{StaticResource PageMargin}">
 
-                <Label 
-                    Text="На количество гектар"
-                    TextColor="{StaticResource LabelEntryColor}"/>
-                <Entry
-                    Placeholder="На сколько гектар хватит смеси"
-                    Text="{Binding Square, Converter={StaticResource DoubleConverter}}"
-                    IsReadOnly="True"/>
+                <StackLayout>
+
+                    <Label 
+                        Text="На количество гектар"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="На сколько гектар хватит смеси"
+                        Text="{Binding Square, Converter={StaticResource DoubleConverter}}"
+                        IsReadOnly="True"/>
+
+                </StackLayout>
                 
                 <StackLayout>
                     <Grid>

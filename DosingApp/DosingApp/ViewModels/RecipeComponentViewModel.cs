@@ -1,5 +1,6 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
@@ -39,6 +40,7 @@ namespace DosingApp.ViewModels
             {
                 if (RecipeComponent.Component != value)
                 {
+                    DensityError(value, Unit);
                     RecipeComponent.Component = value;
                     OnPropertyChanged(nameof(Component));
                 }
@@ -71,6 +73,7 @@ namespace DosingApp.ViewModels
             {
                 if (RecipeComponent.Unit != value)
                 {
+                    DensityError(Component, value);
                     RecipeComponent.Unit = value;
                     OnPropertyChanged(nameof(Unit));
                 }
@@ -153,6 +156,14 @@ namespace DosingApp.ViewModels
         public void SetFourthValveComponent()
         {
             Component = Components.FirstOrDefault(c => c.Name == Water.GetComponent().Name);
+        }
+
+        public void DensityError(Component component, string unit)
+        {
+            if (component != null && component.IsLiquid() && component.Density == null && String.Equals(unit, RecipeComponentUnit.Dry))
+            {
+                Application.Current.MainPage.DisplayAlert("Ошибка", " У выбранного компонента не указана плотность!", "Ok");
+            }
         }
         #endregion Methods
     }

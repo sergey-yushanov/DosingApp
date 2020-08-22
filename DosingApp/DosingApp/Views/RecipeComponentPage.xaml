@@ -32,7 +32,7 @@
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand">
                             <Label 
-                                Text="Норма внесения" 
+                                Text="Норма расхода" 
                                 TextColor="{StaticResource LabelEntryColor}"/>
                             <Entry
                                 Placeholder="Введите норму"

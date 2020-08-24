@@ -29,6 +29,8 @@ namespace DosingApp.ViewModels
         public ICommand DeleteRecipeComponentCommand { get; protected set; }
         public ICommand SaveRecipeComponentCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
+
+        public ICommand SelectCarrierCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -43,6 +45,8 @@ namespace DosingApp.ViewModels
             DeleteRecipeComponentCommand = new Command(DeleteRecipeComponent);
             SaveRecipeComponentCommand = new Command(SaveRecipeComponent);
             BackCommand = new Command(Back);
+
+            SelectCarrierCommand = new Command(SelectCarrier);
         }
         #endregion Constructor
 
@@ -211,6 +215,11 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
+        private void SelectCarrier()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new GroupedComponentsPage(false, this, null));
+        }
+
         private void Back()
         {
             Application.Current.MainPage.Navigation.PopAsync();

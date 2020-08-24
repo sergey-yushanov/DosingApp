@@ -42,7 +42,7 @@ namespace DosingApp.ViewModels
                     Application.Current.MainPage.Navigation.PushAsync(new RecipesPage());
                     break;
                 case MenuItemType.Components:
-                    Application.Current.MainPage.Navigation.PushAsync(new GroupedComponentsPage());
+                    Application.Current.MainPage.Navigation.PushAsync(new GroupedComponentsPage(true, null, null));
                     break;
                 case MenuItemType.Applicators:
                     Application.Current.MainPage.Navigation.PushAsync(new ApplicatorsPage());

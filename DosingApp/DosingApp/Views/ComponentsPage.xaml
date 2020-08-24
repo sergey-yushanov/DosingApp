@@ -15,7 +15,8 @@
 
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
-            <StackLayout>
+            <StackLayout
+                IsVisible="{Binding IsEditMode}">
                 <Button 
                     Text="Добавить компонент" 
                     Command="{Binding CreateCommand}"/>

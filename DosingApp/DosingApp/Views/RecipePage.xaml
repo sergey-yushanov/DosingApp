@@ -49,12 +49,21 @@
                         <Label 
                             Text="Носитель смеси"
                             TextColor="{StaticResource LabelEntryColor}"/>
-                        <Picker 
-                            x:Name="carriersList"
-                            Title="Выберите носитель смеси"
-                            ItemsSource="{Binding Carriers}"
-                            ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding Carrier, Mode=TwoWay}" />
+
+                        <Grid>
+                            <Entry
+                                Placeholder="Выберите носитель смеси"
+                                IsReadOnly="True"
+                                Text="{Binding Carrier}"/>
+
+                            <BoxView HorizontalOptions="FillAndExpand">
+                                <BoxView.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding SelectCarrierCommand}">
+                                    </TapGestureRecognizer>
+                                </BoxView.GestureRecognizers>
+                            </BoxView>
+                        </Grid>
 
                         <Label 
                             Text="Заметка"

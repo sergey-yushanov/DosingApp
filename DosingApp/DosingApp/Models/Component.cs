@@ -47,5 +47,10 @@ namespace DosingApp.Models
         {
             return String.Equals(Consistency, ComponentConsistency.Liquid);
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

@@ -18,13 +18,21 @@
                     <Label 
                         Text="Название компонента"
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        x:Name="componentsList"
-                        Title="Выберите компонент"
-                        ItemsSource="{Binding Components}"
-                        ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding Component, Mode=TwoWay}" 
-                        IsEnabled="{Binding IsComponentEnabled}"/>
+
+                    <Grid>
+                        <Entry
+                            Placeholder="Выберите компонент"
+                            IsReadOnly="True"
+                            Text="{Binding Component}"/>
+
+                        <BoxView HorizontalOptions="FillAndExpand">
+                            <BoxView.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding SelectComponentCommand}">
+                                </TapGestureRecognizer>
+                            </BoxView.GestureRecognizers>
+                        </BoxView>
+                    </Grid>
 
                     <StackLayout Orientation="Horizontal">
                         <StackLayout

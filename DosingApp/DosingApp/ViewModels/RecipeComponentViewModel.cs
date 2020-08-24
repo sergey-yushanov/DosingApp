@@ -1,8 +1,10 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
+using DosingApp.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
@@ -15,6 +17,8 @@ namespace DosingApp.ViewModels
 
         private ObservableCollection<Component> components;
         private bool isComponentEnabled;
+
+        public ICommand SelectComponentCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -23,6 +27,8 @@ namespace DosingApp.ViewModels
             RecipeComponent = recipeComponent;
             LoadComponents();
             InitSelectedComponent();
+
+            SelectComponentCommand = new Command(SelectComponent);
         }
         #endregion Constructor
 
@@ -140,6 +146,14 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Methods
+        private void SelectComponent()
+        {
+            if (IsComponentEnabled)
+            {
+                Application.Current.MainPage.Navigation.PushAsync(new GroupedComponentsPage(false, null, this));
+            }
+        }
+
         public void LoadComponents()
         {
             using (AppDbContext db = App.GetContext())

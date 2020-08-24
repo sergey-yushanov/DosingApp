@@ -159,12 +159,12 @@
                                                 VerticalOptions="Center"/>
                                             <Button
                                                 Grid.Column="1"
-                                                ImageSource="arrow_up.png"
+                                                ImageSource="chevron_up.png"
                                                 Command="{Binding Source={x:Reference Recipe}, Path=BindingContext.UpRecipeComponentCommand}"
                                                 CommandParameter="{Binding .}"/>
                                             <Button
                                                 Grid.Column="2"
-                                                ImageSource="arrow_down.png"
+                                                ImageSource="chevron_down.png"
                                                 Command="{Binding Source={x:Reference Recipe}, Path=BindingContext.DownRecipeComponentCommand}"
                                                 CommandParameter="{Binding .}"/>
 

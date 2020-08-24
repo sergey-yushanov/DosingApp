@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
@@ -29,13 +31,49 @@ namespace DosingApp.ViewModels
         private ObservableCollection<TransportTank> destTransportTanks;
         private ObservableCollection<ApplicatorTank> sourceApplicatorTanks;
         private ObservableCollection<ApplicatorTank> destApplicatorTanks;
+
+        public ICommand ClearRecipeCommand { get; protected set; }
+        public ICommand ClearSourceTypeCommand { get; protected set; }
+        public ICommand ClearSourceFacilityCommand { get; protected set; }
+        public ICommand ClearSourceTransportCommand { get; protected set; }
+        public ICommand ClearSourceApplicatorCommand { get; protected set; }
+        public ICommand ClearSourceFacilityTankCommand { get; protected set; }
+        public ICommand ClearSourceTransportTankCommand { get; protected set; }
+        public ICommand ClearSourceApplicatorTankCommand { get; protected set; }
+        public ICommand ClearDestTypeCommand { get; protected set; }
+        public ICommand ClearDestFacilityCommand { get; protected set; }
+        public ICommand ClearDestTransportCommand { get; protected set; }
+        public ICommand ClearDestApplicatorCommand { get; protected set; }
+        public ICommand ClearDestFacilityTankCommand { get; protected set; }
+        public ICommand ClearDestTransportTankCommand { get; protected set; }
+        public ICommand ClearDestApplicatorTankCommand { get; protected set; }
+        public ICommand ClearAgrYearCommand { get; protected set; }
+        public ICommand ClearFieldCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
         public AssignmentViewModel(Assignment assignment)
         {
             Assignment = assignment;
-        }
+
+            ClearRecipeCommand = new Command(ClearRecipe);
+            ClearSourceTypeCommand = new Command(ClearSourceType);
+            ClearSourceFacilityCommand = new Command(ClearSourceFacility);
+            ClearSourceTransportCommand = new Command(ClearSourceTransport);
+            ClearSourceApplicatorCommand = new Command(ClearSourceApplicator);
+            ClearSourceFacilityTankCommand = new Command(ClearSourceFacilityTank);
+            ClearSourceTransportTankCommand = new Command(ClearSourceTransportTank);
+            ClearSourceApplicatorTankCommand = new Command(ClearSourceApplicatorTank);
+            ClearDestTypeCommand = new Command(ClearDestType);
+            ClearDestFacilityCommand = new Command(ClearDestFacility);
+            ClearDestTransportCommand = new Command(ClearDestTransport);
+            ClearDestApplicatorCommand = new Command(ClearDestApplicator);
+            ClearDestFacilityTankCommand = new Command(ClearDestFacilityTank);
+            ClearDestTransportTankCommand = new Command(ClearDestTransportTank);
+            ClearDestApplicatorTankCommand = new Command(ClearDestApplicatorTank);
+            ClearAgrYearCommand = new Command(ClearAgrYear);
+            ClearFieldCommand = new Command(ClearField);
+    }
         #endregion Constructor
 
         #region Properties
@@ -533,6 +571,105 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref title, value); }
         }
         #endregion Properties
+
+        #region Commands
+        private void ClearRecipe()
+        {
+            Recipe = null;
+        }
+
+        private void ClearSourceType()
+        {
+            ClearSourceFacility();
+            ClearSourceTransport();
+            ClearSourceApplicator();
+            SourceType = null;
+        }
+
+        private void ClearSourceFacility()
+        {
+            ClearSourceFacilityTank();
+            SourceFacility = null;
+        }
+
+        private void ClearSourceTransport()
+        {
+            ClearSourceTransportTank();
+            SourceTransport = null;
+        }
+
+        private void ClearSourceApplicator()
+        {
+            ClearSourceApplicatorTank();
+            SourceApplicator = null;
+        }
+
+        private void ClearSourceFacilityTank()
+        {
+            SourceFacilityTank = null;
+        }
+
+        private void ClearSourceTransportTank()
+        {
+            SourceTransportTank = null;
+        }
+
+        private void ClearSourceApplicatorTank()
+        {
+            SourceApplicatorTank = null;
+        }
+
+        private void ClearDestType()
+        {
+            ClearDestFacility();
+            ClearDestTransport();
+            ClearDestApplicator();
+            DestType = null;
+        }
+
+        private void ClearDestFacility()
+        {
+            ClearDestFacilityTank();
+            DestFacility = null;
+        }
+
+        private void ClearDestTransport()
+        {
+            ClearDestTransportTank();
+            DestTransport = null;
+        }
+
+        private void ClearDestApplicator()
+        {
+            ClearDestApplicatorTank();
+            DestApplicator = null;
+        }
+
+        private void ClearDestFacilityTank()
+        {
+            DestFacilityTank = null;
+        }
+
+        private void ClearDestTransportTank()
+        {
+            DestTransportTank = null;
+        }
+
+        private void ClearDestApplicatorTank()
+        {
+            DestApplicatorTank = null;
+        }
+
+        private void ClearAgrYear()
+        {
+            AgrYear = null;
+        }
+
+        private void ClearField()
+        {
+            Field = null;
+        }
+        #endregion Commands
 
         #region Methods
         public void LoadItems()

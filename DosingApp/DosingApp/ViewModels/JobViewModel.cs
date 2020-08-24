@@ -631,7 +631,7 @@ namespace DosingApp.ViewModels
             Job.FieldId = Job.Assignment.FieldId;
 
             Job.VolumeRate = Job.Assignment.VolumeRate;
-            Job.Unit = Job.Assignment.Unit;
+            //Job.Unit = Job.Assignment.Unit;
     }
 
         public void CalculateVolume()

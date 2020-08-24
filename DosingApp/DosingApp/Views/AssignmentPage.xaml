@@ -339,7 +339,23 @@
                         Placeholder="Введите норму"
                         Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
-                    
+
+                    <Label 
+                        Text="Размер задания, га" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="Введите размер"
+                        Text="{Binding Square, Converter={StaticResource DoubleConverter}}" 
+                        Keyboard="Numeric"/>
+
+                    <Label
+                        Text="Вид задания" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Picker 
+                        Title="Выберите вид задани"
+                        x:Name="assignmentTypeList"
+                        ItemsSource="{Binding AssignmentTypeList}"
+                        SelectedItem="{Binding AssignmentType}"/>
                 </StackLayout>
 
                 <StackLayout>

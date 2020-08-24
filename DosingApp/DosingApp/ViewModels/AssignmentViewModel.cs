@@ -539,22 +539,35 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string Unit
+        public string AssignmentType
         {
-            get { return Assignment.Unit; }
+            get { return Assignment.AssignmentType; }
             set
             {
-                if (Assignment.Unit != value)
+                if (Assignment.AssignmentType != value)
                 {
-                    Assignment.Unit = value;
-                    OnPropertyChanged(nameof(Unit));
+                    Assignment.AssignmentType = value;
+                    OnPropertyChanged(nameof(AssignmentType));
                 }
             }
         }
 
-        public ObservableCollection<string> UnitList
+        public ObservableCollection<string> AssignmentTypeList
         {
-            get { return new ObservableCollection<string>(RecipeComponentUnit.GetList()); }
+            get { return new ObservableCollection<string>(CAssignmentType.GetList()); }
+        }
+
+        public double? Square
+        {
+            get { return Assignment.Square; }
+            set
+            {
+                if (Assignment.Square != value)
+                {
+                    Assignment.Square = value;
+                    OnPropertyChanged(nameof(Square));
+                }
+            }
         }
 
         public bool IsValid

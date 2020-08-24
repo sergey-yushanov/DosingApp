@@ -331,32 +331,15 @@
                             ImageSource="close.png"
                             Command="{Binding ClearFieldCommand}"/>
                     </Grid>
+
+                    <Label 
+                        Text="Норма вылива, л/га" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="Введите норму"
+                        Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
+                        Keyboard="Numeric"/>
                     
-
-                    <StackLayout Orientation="Horizontal">
-                        <StackLayout
-                            Orientation="Vertical"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="FillAndExpand">
-                            <Label 
-                                Text="Норма внесения" 
-                                TextColor="{StaticResource LabelEntryColor}"/>
-                            <Entry
-                                Placeholder="Введите норму"
-                                Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
-                                Keyboard="Numeric"/>
-                        </StackLayout>
-                        <StackLayout
-                            Orientation="Vertical"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="EndAndExpand">
-                            <Picker 
-                                Title="Eд.изм."
-                                ItemsSource="{Binding UnitList}"
-                                SelectedItem="{Binding Unit}"/>
-                        </StackLayout>
-                    </StackLayout>
-
                 </StackLayout>
 
                 <StackLayout>

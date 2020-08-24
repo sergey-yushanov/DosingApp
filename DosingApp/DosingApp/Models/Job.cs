@@ -68,6 +68,8 @@ namespace DosingApp.Models
         public double? VolumeRate { get; set; }
         public string Unit { get; set; }
 
+        public string AssignmentType { get; set; }
+
         public string Name { get { return Assignment?.Name; } }
     }
 }

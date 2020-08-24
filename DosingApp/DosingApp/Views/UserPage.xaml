@@ -53,20 +53,6 @@
                     <StackLayout 
                         Orientation="Horizontal">
                         <Label 
-                            Text="Внесение изменений в задание"
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand"/>
-                        <Switch 
-                            x:Name="accessJobParamsSwitch"
-                            IsToggled="{Binding AccessJobParams}"
-                            VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="End"
-                            IsEnabled="{Binding IsAdminUsername, Converter={StaticResource InverseBoolConverter}}"/>
-                    </StackLayout>
-
-                    <StackLayout 
-                        Orientation="Horizontal">
-                        <Label 
                             Text="Главное меню"
                             FontSize="Medium"
                             HorizontalOptions="StartAndExpand"/>

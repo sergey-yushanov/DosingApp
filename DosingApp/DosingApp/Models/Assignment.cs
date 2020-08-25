@@ -16,7 +16,7 @@ namespace DosingApp.Models
         }
     }
 
-    public static class AssignmentType
+    public static class CAssignmentType
     {
         public const string Single = "Одиночное";
         public const string Continuous = "Продолжительное";

@@ -353,9 +353,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Picker 
                         Title="Выберите вид задания"
-                        x:Name="assignmentTypeList"
-                        ItemsSource="{Binding AssignmentTypeList}"
-                        SelectedItem="{Binding AssignmentType}"/>
+                        ItemsSource="{Binding TypeList}"
+                        SelectedItem="{Binding Type}"/>
 
                 </StackLayout>
 

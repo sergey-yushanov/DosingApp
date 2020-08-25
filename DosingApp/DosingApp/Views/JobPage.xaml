@@ -200,9 +200,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Picker 
                         Title="Выберите вид задания"
-                        x:Name="assignmentTypeList"
                         ItemsSource="{Binding AssignmentTypeList}"
-                        SelectedItem="{Binding AssignType}"
+                        SelectedItem="{Binding AssignmentType}"
                         IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Label 

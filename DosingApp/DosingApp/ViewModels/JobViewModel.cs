@@ -566,7 +566,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string AssignType
+        public string AssignmentType
         {
             get { return Job.AssignmentType; }
             set
@@ -574,14 +574,14 @@ namespace DosingApp.ViewModels
                 if (Job.AssignmentType != value)
                 {
                     Job.AssignmentType = value;
-                    OnPropertyChanged(nameof(AssignType));
+                    OnPropertyChanged(nameof(AssignmentType));
                 }
             }
         }
 
         public ObservableCollection<string> AssignmentTypeList
         {
-            get { return new ObservableCollection<string>(AssignmentType.GetList()); }
+            get { return new ObservableCollection<string>(CAssignmentType.GetList()); }
         }
 
         public bool IsValid

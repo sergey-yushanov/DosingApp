@@ -552,9 +552,9 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public ObservableCollection<string> AssignmentTypeList
+        public ObservableCollection<string> TypeList
         {
-            get { return new ObservableCollection<string>(AssignmentType.GetList()); }
+            get { return new ObservableCollection<string>(CAssignmentType.GetList()); }
         }
 
         public double? Size

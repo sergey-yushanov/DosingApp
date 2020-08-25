@@ -73,10 +73,10 @@ namespace DosingApp.ViewModels
             get { return Job.IsAccessToChange; }
             set
             {
-                if (value && !IsAccessToChangeMemory)
+/*                if (value && !IsAccessToChangeMemory)
                 {
                     AccessToChange();
-                }
+                }*/
                  
                 if (value && IsAccessToChangeMemory)
                 {
@@ -528,19 +528,31 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref fields, value); }
         }
 
-        public double? Volume
+        public double? PartyVolume
         {
-            get { return Job.Volume; }
+            get { return Job.PartyVolume; }
             set
             {
-                if (Job.Volume != value)
+                if (Job.PartyVolume != value)
                 {
-                    Job.Volume = value;
-                    OnPropertyChanged(nameof(Volume));
+                    Job.PartyVolume = value;
+                    OnPropertyChanged(nameof(PartyVolume));
                 }
             }
         }
 
+        public double? AssignmentSize
+        {
+            get { return Job.AssignmentSize; }
+            set
+            {
+                if (Job.AssignmentSize != value)
+                {
+                    Job.AssignmentSize = value;
+                    OnPropertyChanged(nameof(AssignmentSize));
+                }
+            }
+        }
         public double? VolumeRate
         {
             get { return Job.VolumeRate; }
@@ -554,25 +566,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string Unit
-        {
-            get { return Job.Unit; }
-            set
-            {
-                if (Job.Unit != value)
-                {
-                    Job.Unit = value;
-                    OnPropertyChanged(nameof(Unit));
-                }
-            }
-        }
-
-        public ObservableCollection<string> UnitList
-        {
-            get { return new ObservableCollection<string>(RecipeComponentUnit.GetList()); }
-        }
-
-        public string AssignmentType
+        public string AssignType
         {
             get { return Job.AssignmentType; }
             set
@@ -580,14 +574,14 @@ namespace DosingApp.ViewModels
                 if (Job.AssignmentType != value)
                 {
                     Job.AssignmentType = value;
-                    OnPropertyChanged(nameof(AssignmentType));
+                    OnPropertyChanged(nameof(AssignType));
                 }
             }
         }
 
         public ObservableCollection<string> AssignmentTypeList
         {
-            get { return new ObservableCollection<string>(CAssignmentType.GetList()); }
+            get { return new ObservableCollection<string>(AssignmentType.GetList()); }
         }
 
         public bool IsValid
@@ -650,8 +644,8 @@ namespace DosingApp.ViewModels
 
             Job.VolumeRate = Job.Assignment.VolumeRate;
 
-            Job.AssignmentType = Job.Assignment.AssignmentType;
-            Job.Square = Job.Assignment.Square;
+            Job.AssignmentType = Job.Assignment.Type;
+            Job.AssignmentSize = Job.Assignment.Size;
             //Job.Unit = Job.Assignment.Unit;
 
 
@@ -661,13 +655,13 @@ namespace DosingApp.ViewModels
             switch (DestType)
             {
                 case SourceDestType.Facility:
-                    Job.Volume = DestFacilityTank?.Volume;
+                    Job.PartyVolume = DestFacilityTank?.Volume;
                     break;
                 case SourceDestType.Transport:
-                    Job.Volume = DestTransportTank?.Volume;
+                    Job.PartyVolume = DestTransportTank?.Volume;
                     break;
                 case SourceDestType.Applicator:
-                    Job.Volume = DestApplicatorTank?.Volume;
+                    Job.PartyVolume = DestApplicatorTank?.Volume;
                     break;
             }
         }
@@ -766,13 +760,13 @@ namespace DosingApp.ViewModels
             }
         }
 
-        private async void AccessToChange()
+/*        private async void AccessToChange()
         {
             if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Вы действительно хотите внести изменения в задание?", "Да", "Нет"))
             {
                 IsAccessToChangeMemory = true;
             }
-        }
+        }*/
         #endregion Methods
     }
 }

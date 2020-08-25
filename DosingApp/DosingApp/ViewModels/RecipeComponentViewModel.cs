@@ -74,13 +74,13 @@ namespace DosingApp.ViewModels
 
         public string Unit
         {
-            get { return RecipeComponent.Unit; }
+            get { return RecipeComponent.VolumeRateUnit; }
             set
             {
-                if (RecipeComponent.Unit != value)
+                if (RecipeComponent.VolumeRateUnit != value)
                 {
                     DensityError(Component, value);
-                    RecipeComponent.Unit = value;
+                    RecipeComponent.VolumeRateUnit = value;
                     OnPropertyChanged(nameof(Unit));
                 }
             }
@@ -88,7 +88,7 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> UnitList
         {
-            get { return new ObservableCollection<string>(RecipeComponentUnit.GetList()); }
+            get { return new ObservableCollection<string>(VolumeRateUnit.GetList()); }
         }
 
         public string Dispenser
@@ -174,7 +174,7 @@ namespace DosingApp.ViewModels
 
         public void DensityError(Component component, string unit)
         {
-            if (component != null && component.IsLiquid() && component.Density == null && String.Equals(unit, RecipeComponentUnit.Dry))
+            if (component != null && component.IsLiquid() && component.Density == null && String.Equals(unit, VolumeRateUnit.Dry))
             {
                 Application.Current.MainPage.DisplayAlert("Ошибка", " У выбранного компонента не указана плотность!", "Ok");
             }

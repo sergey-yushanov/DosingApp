@@ -539,33 +539,33 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string AssignmentType
+        public string Type
         {
-            get { return Assignment.AssignmentType; }
+            get { return Assignment.Type; }
             set
             {
-                if (Assignment.AssignmentType != value)
+                if (Assignment.Type != value)
                 {
-                    Assignment.AssignmentType = value;
-                    OnPropertyChanged(nameof(AssignmentType));
+                    Assignment.Type = value;
+                    OnPropertyChanged(nameof(Type));
                 }
             }
         }
 
         public ObservableCollection<string> AssignmentTypeList
         {
-            get { return new ObservableCollection<string>(CAssignmentType.GetList()); }
+            get { return new ObservableCollection<string>(AssignmentType.GetList()); }
         }
 
-        public double? Square
+        public double? Size
         {
-            get { return Assignment.Square; }
+            get { return Assignment.Size; }
             set
             {
-                if (Assignment.Square != value)
+                if (Assignment.Size != value)
                 {
-                    Assignment.Square = value;
-                    OnPropertyChanged(nameof(Square));
+                    Assignment.Size = value;
+                    OnPropertyChanged(nameof(Size));
                 }
             }
         }

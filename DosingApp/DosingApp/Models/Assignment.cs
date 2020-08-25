@@ -16,7 +16,7 @@ namespace DosingApp.Models
         }
     }
 
-    public static class CAssignmentType
+    public static class AssignmentType
     {
         public const string Single = "Одиночное";
         public const string Continuous = "Продолжительное";
@@ -84,7 +84,7 @@ namespace DosingApp.Models
 
         public double? VolumeRate { get; set; }
 
-        public string AssignmentType { get; set; }
-        public double? Square { get; set; }
+        public string Type { get; set; }
+        public double? Size { get; set; }
     }
 }

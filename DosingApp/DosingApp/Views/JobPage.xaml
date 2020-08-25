@@ -190,7 +190,7 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
                         Placeholder="Введите размер"
-                        Text="{Binding Square, Converter={StaticResource DoubleConverter}}" 
+                        Text="{Binding AssignmentSize, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"
                         IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
                         IsEnabled="{Binding IsAccessToChange}"/>
@@ -199,10 +199,10 @@
                         Text="Вид задания" 
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Picker 
-                        Title="Выберите вид задани"
+                        Title="Выберите вид задания"
                         x:Name="assignmentTypeList"
                         ItemsSource="{Binding AssignmentTypeList}"
-                        SelectedItem="{Binding AssignmentType}"
+                        SelectedItem="{Binding AssignType}"
                         IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Label 
@@ -210,7 +210,7 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
                         Placeholder="Введите размер партии"
-                        Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
+                        Text="{Binding PartyVolume, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
 
                 </StackLayout>

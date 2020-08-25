@@ -48,12 +48,9 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref jobComponents, value); }
         }
 
-        public double? Square
+        public double? PartySize
         {
-            get 
-            {
-                return Job.Square;// != null ? (double?)Math.Round((decimal)Job.Square, 3) : null; 
-            }
+            get { return Job.PartySize; }
         }
 
         public bool IsRunning

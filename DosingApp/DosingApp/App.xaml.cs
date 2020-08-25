@@ -79,10 +79,19 @@ namespace DosingApp
         {
             using (AppDbContext db = GetContext())
             {
-                if (!db.Components.Any(c => c.Name == Water.Name))
+                if (!db.Manufacturers.Any(m => m.Name == Water.Name))
                 {
-                    db.Components.Add(Water.GetComponent());
+                    Manufacturer manufacturer = Water.GetManufacturer();
+                    db.Manufacturers.Add(manufacturer);
                     db.SaveChanges();
+
+                    if (!db.Components.Any(c => c.Name == Water.Name))
+                    {
+                        Component component = Water.GetComponent();
+                        component.Manufacturer = manufacturer;
+                        db.Components.Add(component);
+                        db.SaveChanges();
+                    }
                 }
             }
         }

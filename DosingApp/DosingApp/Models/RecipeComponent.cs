@@ -5,17 +5,6 @@ using System.Text;
 
 namespace DosingApp.Models
 {
-    public static class RecipeComponentUnit
-    {
-        public const string Dry = "кг/га";
-        public const string Liquid = "л/га";
-
-        public static List<string> GetList()
-        {
-            return new List<string>() { Liquid, Dry };
-        }
-    }
-
     public class RecipeComponent
     {
         public int RecipeComponentId { get; set; }
@@ -28,7 +17,7 @@ namespace DosingApp.Models
 
         public int? Order { get; set; }
         public double? VolumeRate { get; set; }
-        public string Unit { get; set; }
+        public string VolumeRateUnit { get; set; }
         public string Dispenser { get; set; }
 
         public string Name { get { return Component?.Name; } }

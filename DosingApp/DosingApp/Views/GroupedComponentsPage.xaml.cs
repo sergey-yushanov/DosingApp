@@ -15,10 +15,10 @@ namespace DosingApp.Views
 {
     public partial class GroupedComponentsPage : ContentPage
     {
-        public GroupedComponentsPage()
+        public GroupedComponentsPage(bool isEditMode, RecipeViewModel recipeViewModel, RecipeComponentViewModel recipeComponentViewModel)
         {
             InitializeComponent();
-            BindingContext = new GroupedComponentsViewModel();
+            BindingContext = new GroupedComponentsViewModel(isEditMode, recipeViewModel, recipeComponentViewModel);
         }
 
         protected override void OnAppearing()

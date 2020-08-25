@@ -26,33 +26,14 @@
                         IsReadOnly="True"/>
 
                     <Label 
-                        Text="Изменения в задание"
-                        TextColor="{StaticResource LabelEntryColor}"
-                        IsVisible="{Binding IsEnableToChange}"/>
-                    <StackLayout 
-                        Orientation="Horizontal"
-                        Padding="0,10"
-                        IsVisible="{Binding IsEnableToChange}">
-                        <Label 
-                            Text="Внести изменения в задание"
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand"/>
-                        <Switch 
-                            IsToggled="{Binding IsAccessToChange, Mode=TwoWay}"
-                            VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="End" >
-                        </Switch>
-                    </StackLayout>
-                    
-                    
-                    <Label 
                         Text="Заметка" 
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Editor 
                         Placeholder="Введите текст заметки здесь"
                         Text="{Binding Note}"
                         IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
+                        IsEnabled="{Binding IsAccessToChange}"
+                        Keyboard="Chat"/>
 
                     <Label 
                         Text="Рецепт смеси"
@@ -195,39 +176,42 @@
                         IsEnabled="{Binding IsAccessToChange}"/>
 
                     <Label 
+                        Text="Норма вылива, л/га" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="Введите норму"
+                        Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
+
+                    <Label 
+                        Text="Размер задания, га" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="Введите размер"
+                        Text="{Binding AssignmentSize, Converter={StaticResource DoubleConverter}}" 
+                        Keyboard="Numeric"
+                        IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
+
+                    <Label
+                        Text="Вид задания" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Picker 
+                        Title="Выберите вид задания"
+                        x:Name="assignmentTypeList"
+                        ItemsSource="{Binding AssignmentTypeList}"
+                        SelectedItem="{Binding AssignType}"
+                        IsEnabled="{Binding IsAccessToChange}"/>
+
+                    <Label 
                         Text="Размер партии смеси, л"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
                         Placeholder="Введите размер партии"
-                        Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
+                        Text="{Binding PartyVolume, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
-                    
-                    <StackLayout Orientation="Horizontal">
-                        <StackLayout
-                            Orientation="Vertical"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="FillAndExpand">
-                            <Label 
-                                Text="Норма внесения" 
-                                TextColor="{StaticResource LabelEntryColor}"/>
-                            <Entry
-                                Placeholder="Введите норму"
-                                Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}"
-                                Keyboard="Numeric"
-                                IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
-                                IsEnabled="{Binding IsAccessToChange}"/>
-                        </StackLayout>
-                        <StackLayout
-                            Orientation="Vertical"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="EndAndExpand">
-                            <Picker 
-                                Title="Eд.изм."
-                                ItemsSource="{Binding UnitList}"
-                                SelectedItem="{Binding Unit, Mode=TwoWay}"
-                                IsEnabled="{Binding IsAccessToChange}"/>
-                        </StackLayout>
-                    </StackLayout>
 
                 </StackLayout>
 

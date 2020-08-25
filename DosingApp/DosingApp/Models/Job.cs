@@ -12,7 +12,8 @@ namespace DosingApp.Models
         public virtual Assignment Assignment { get; set; }
 
         public bool IsAccessToChange { get; set; }
-        public double? Square { get; set; }
+        public double? AssignmentSize { get; set; }
+        public double? PartySize { get; set; }
 
         public string Note { get; set; }
 
@@ -64,9 +65,10 @@ namespace DosingApp.Models
         public int? FieldId { get; set; }
         public virtual Field Field { get; set; }
 
-        public double? Volume { get; set; }
+        public double? PartyVolume { get; set; }
         public double? VolumeRate { get; set; }
-        public string Unit { get; set; }
+
+        public string AssignmentType { get; set; }
 
         public string Name { get { return Assignment?.Name; } }
     }

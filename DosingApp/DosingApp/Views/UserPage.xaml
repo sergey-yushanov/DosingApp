@@ -20,7 +20,8 @@
                     x:Name="userEntry"
                     Placeholder="Введите имя пользователя" 
                     Text="{Binding Username}"
-                    IsReadOnly="{Binding IsAdminUsername}"/>
+                    IsReadOnly="{Binding IsAdminUsername}"
+                    Keyboard="Chat"/>
                 
                 <Label 
                     Text="Пароль"
@@ -29,14 +30,16 @@
                     x:Name="passwordEntry"
                     Placeholder="Введите пароль"
                     Text="{Binding Password}"
-                    IsPassword="True" />
+                    IsPassword="True"
+                    Keyboard="Chat"/>
                 
                 <Label 
                     Text="Имя для отображения"
                     TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     Placeholder="Введите имя для отображения" 
-                    Text="{Binding DisplayName}" />
+                    Text="{Binding DisplayName}"
+                    Keyboard="Chat"/>
 
 
                 <StackLayout
@@ -46,20 +49,6 @@
                     <Label
                         Text="Уровни доступа"
                         TextColor="{StaticResource LabelEntryColor}"/>
-
-                    <StackLayout 
-                        Orientation="Horizontal">
-                        <Label 
-                            Text="Внесение изменений в задание"
-                            FontSize="Medium"
-                            HorizontalOptions="StartAndExpand"/>
-                        <Switch 
-                            x:Name="accessJobParamsSwitch"
-                            IsToggled="{Binding AccessJobParams}"
-                            VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="End"
-                            IsEnabled="{Binding IsAdminUsername, Converter={StaticResource InverseBoolConverter}}"/>
-                    </StackLayout>
 
                     <StackLayout 
                         Orientation="Horizontal">

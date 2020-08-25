@@ -21,11 +21,19 @@ namespace DosingApp.ViewModels
         private Manufacturer selectedManufacturer;
 
         public ICommand EditManufacturersCommand { get; protected set; }
+
+        public bool IsEditMode { get; protected set; }
+        RecipeViewModel RecipeViewModel;
+        RecipeComponentViewModel RecipeComponentViewModel;
         #endregion Attributes
 
         #region Constructor
-        public GroupedComponentsViewModel()
+        public GroupedComponentsViewModel(bool isEditMode, RecipeViewModel recipeViewModel, RecipeComponentViewModel recipeComponentViewModel)
         {
+            IsEditMode = isEditMode;
+            RecipeViewModel = recipeViewModel;
+            RecipeComponentViewModel = recipeComponentViewModel;
+
             LoadManufacturers();
             EditManufacturersCommand = new Command(EditManufacturers);
         }
@@ -45,7 +53,7 @@ namespace DosingApp.ViewModels
             {
                 if (selectedManufacturer != value)
                 {
-                    ComponentsViewModel tempComponentsViewModel = new ComponentsViewModel(value);
+                    ComponentsViewModel tempComponentsViewModel = new ComponentsViewModel(value, IsEditMode, RecipeViewModel, RecipeComponentViewModel);
                     selectedManufacturer = null;
                     OnPropertyChanged(nameof(SelectedManufacturer));
                     Application.Current.MainPage.Navigation.PushAsync(new ComponentsPage(tempComponentsViewModel));

@@ -20,7 +20,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название объекта" 
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}" 
+                        Keyboard="Chat"/>
 
                     <Label 
                         Text="Тип объекта" 
@@ -28,22 +29,29 @@
                     <Picker 
                         Title="Выберите тип объекта"
                         ItemsSource="{Binding Types}"
-                        SelectedItem="{Binding Type}">
+                        SelectedItem="{Binding PickerType}">
                     </Picker>
+                    <Entry
+                        Placeholder="Введите свой вариант типа объекта" 
+                        Text="{Binding Type}" 
+                        Keyboard="Chat"
+                        IsVisible="{Binding IsOwnType}"/>
 
                     <Label 
                         Text="Адрес" 
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите адрес объекта" 
-                        Text="{Binding Address}" />
+                        Text="{Binding Address}"
+                        Keyboard="Chat"/>
 
                     <Label 
                         Text="Код" 
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите код объекта" 
-                        Text="{Binding Code}" />
+                        Text="{Binding Code}" 
+                        Keyboard="Chat"/>
 
                 </StackLayout>
                 <StackLayout>
@@ -70,60 +78,64 @@
         <ContentPage Title="Емкости">
 
             <StackLayout Margin="{StaticResource PageMargin}">
-                <Button 
-                    Text="Добавить" 
-                    Command="{Binding CreateTankCommand}"/>
+                <StackLayout>
+                    <Button 
+                        Text="Добавить" 
+                        Command="{Binding CreateTankCommand}"/>
+                </StackLayout>
 
-                <ListView 
-                    x:Name="applicatorTanksList"
-                    ItemsSource="{Binding FacilityTanks}"
-                    SelectedItem="{Binding SelectedFacilityTank, Mode=TwoWay}">
+                <StackLayout>
+                    <ListView 
+                        x:Name="applicatorTanksList"
+                        ItemsSource="{Binding FacilityTanks}"
+                        SelectedItem="{Binding SelectedFacilityTank, Mode=TwoWay}">
 
-                    <ListView.Header>
-                        <StackLayout Padding="0,10">
+                        <ListView.Header>
+                            <StackLayout Padding="0,10">
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="5*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Label
-                                    Text="Название" 
-                                    TextColor="{StaticResource LabelEntryColor}"/>
-                                <Label
-                                    Grid.Column="1"
-                                    Text="Объем, л" 
-                                    TextColor="{StaticResource LabelEntryColor}"/>
+                                    <Label
+                                        Text="Название" 
+                                        TextColor="{StaticResource LabelEntryColor}"/>
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="Объем, л" 
+                                        TextColor="{StaticResource LabelEntryColor}"/>
 
-                            </Grid>
-                        </StackLayout>
-                    </ListView.Header>
-                    
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="5*" />
-                                            <ColumnDefinition Width="2*" />
-                                        </Grid.ColumnDefinitions>
+                                </Grid>
+                            </StackLayout>
+                        </ListView.Header>
 
-                                        <Label
-                                            Text="{Binding Name}" 
-                                            FontSize="Medium" />
-                                        <Label
-                                            Grid.Column="1"
-                                            Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
-                                            FontSize="Medium" />
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.View>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*" />
+                                                <ColumnDefinition Width="2*" />
+                                            </Grid.ColumnDefinitions>
 
-                                    </Grid>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                            <Label
+                                                Text="{Binding Name}" 
+                                                FontSize="Medium" />
+                                            <Label
+                                                Grid.Column="1"
+                                                Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
+                                                FontSize="Medium" />
+
+                                        </Grid>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
             </StackLayout>
         </ContentPage>
     </TabbedPage.Children>

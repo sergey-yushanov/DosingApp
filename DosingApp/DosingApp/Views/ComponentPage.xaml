@@ -27,7 +27,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название компонента" 
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}" 
+                        Keyboard="Chat"/>
                     
                     <Label
                         Text="Форма компонента" 
@@ -39,21 +40,20 @@
 
                     <Label 
                         Text="Плотность, г/мл" 
-                        TextColor="{StaticResource LabelEntryColor}"
-                        IsVisible="{Binding IsLiquid}"/>
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
                         Placeholder="Введите плотность" 
                         Text="{Binding Density, Converter={StaticResource DoubleConverter}}"
-                        Keyboard="Numeric"
-                        IsEnabled="{Binding IsLiquid}"
-                        IsVisible="{Binding IsLiquid}"/>
+                        Keyboard="Numeric"/>
                     
                     <Label 
                         Text="Фасовка" 
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите тип фасовки" 
-                        Text="{Binding Packing}" />
+                        Text="{Binding Packing}" 
+                        Keyboard="Chat"/>
+                    
                 </StackLayout>
                 <StackLayout>
                     <Grid>

@@ -22,12 +22,14 @@
         <StackLayout 
             Margin="{StaticResource PageMargin}">
             <StackLayout>
+                
                 <Label 
                     Text="Название"
                     TextColor="{StaticResource LabelEntryColor}"/>
                 <Entry 
                     Placeholder="Введите название емкости" 
-                    Text="{Binding Name}" />
+                    Text="{Binding Name}" 
+                    Keyboard="Chat"/>
 
                 <Label 
                     Text="Объем, л"
@@ -36,6 +38,7 @@
                     Placeholder="Введите объем емкости" 
                     Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
                     Keyboard="Numeric"/>
+                
             </StackLayout>
             <StackLayout>
                 <Grid>

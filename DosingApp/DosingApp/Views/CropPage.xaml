@@ -8,18 +8,23 @@
             <StackLayout 
             Margin="{StaticResource PageMargin}">
                 <StackLayout>
+                    
                     <Label 
                         Text="Название"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название культуры" 
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}"
+                        Keyboard="Chat"/>
+                    
                     <Label 
                         Text="Код"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите код культуры" 
-                        Text="{Binding Code}" />
+                        Text="{Binding Code}"
+                        Keyboard="Chat"/>
+                    
                 </StackLayout>
                 <StackLayout>
                     <Grid>

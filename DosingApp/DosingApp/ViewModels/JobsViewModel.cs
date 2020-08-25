@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
-                    jobViewModel.Job.Square = SetSquare(jobViewModel.Job);  // посчитаем площадь, на которую хватает
+                    jobViewModel.Job.PartySize = GetPartySize(jobViewModel.Job);  // посчитаем площадь, на которую хватает
                     db.Entry(jobViewModel.Job).State = EntityState.Added;
                     db.SaveChanges();
 
@@ -92,9 +93,9 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public double? SetSquare(Job job)
+        public double? GetPartySize(Job job)
         {
-            return (job.VolumeRate != 0 && job.Volume != null && job.VolumeRate != null) ? (job.Volume / job.VolumeRate) : 0.0;
+            return (job.VolumeRate != 0 && job.PartyVolume != null && job.VolumeRate != null) ? (job.PartyVolume / job.VolumeRate) : 0.0;
         }
 
         public List<JobComponent> GetJobComponents(Job job)
@@ -108,19 +109,31 @@ namespace DosingApp.ViewModels
                 ComponentId = rc.ComponentId,
                 Component = rc.Component,
                 Order = rc.Order,
-                Volume = GetVolume(rc.VolumeRate, job.Square),
+                Volume = GetVolume(rc, job.PartySize),
                 VolumeRate = rc.VolumeRate,
-                Unit = rc.Unit,
+                VolumeUnit = GetVolumeUnit(rc),
+                VolumeRateUnit = rc.VolumeRateUnit,
                 Dispenser = rc.Dispenser
             }));
             return jobComponents;
         }
 
-        private double? GetVolume(double? volumeRate, double? square)
+        private double? GetVolume(RecipeComponent recipeComponent, double? square)
         {
-            return volumeRate * square;
+            if (String.Equals(recipeComponent.VolumeRateUnit, VolumeRateUnit.Dry))
+            {
+                return recipeComponent.Component.Density != 0 ? recipeComponent.VolumeRate / recipeComponent.Component.Density * square : 0.0;
+            }
+            else
+            {
+                return recipeComponent.VolumeRate * square;
+            }
         }
 
+        private string GetVolumeUnit(RecipeComponent recipeComponent)
+        {
+            return String.Equals(recipeComponent.VolumeRateUnit, VolumeRateUnit.Dry) ? VolumeUnit.Dry : VolumeUnit.Liquid;
+        }
         #endregion Methods
     }
 }

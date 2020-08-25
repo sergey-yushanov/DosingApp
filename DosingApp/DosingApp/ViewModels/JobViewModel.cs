@@ -73,10 +73,10 @@ namespace DosingApp.ViewModels
             get { return Job.IsAccessToChange; }
             set
             {
-                if (value && !IsAccessToChangeMemory)
+/*                if (value && !IsAccessToChangeMemory)
                 {
                     AccessToChange();
-                }
+                }*/
                  
                 if (value && IsAccessToChangeMemory)
                 {
@@ -528,19 +528,31 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref fields, value); }
         }
 
-        public double? Volume
+        public double? PartyVolume
         {
-            get { return Job.Volume; }
+            get { return Job.PartyVolume; }
             set
             {
-                if (Job.Volume != value)
+                if (Job.PartyVolume != value)
                 {
-                    Job.Volume = value;
-                    OnPropertyChanged(nameof(Volume));
+                    Job.PartyVolume = value;
+                    OnPropertyChanged(nameof(PartyVolume));
                 }
             }
         }
 
+        public double? AssignmentSize
+        {
+            get { return Job.AssignmentSize; }
+            set
+            {
+                if (Job.AssignmentSize != value)
+                {
+                    Job.AssignmentSize = value;
+                    OnPropertyChanged(nameof(AssignmentSize));
+                }
+            }
+        }
         public double? VolumeRate
         {
             get { return Job.VolumeRate; }
@@ -554,22 +566,22 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string Unit
+        public string AssignType
         {
-            get { return Job.Unit; }
+            get { return Job.AssignmentType; }
             set
             {
-                if (Job.Unit != value)
+                if (Job.AssignmentType != value)
                 {
-                    Job.Unit = value;
-                    OnPropertyChanged(nameof(Unit));
+                    Job.AssignmentType = value;
+                    OnPropertyChanged(nameof(AssignType));
                 }
             }
         }
 
-        public ObservableCollection<string> UnitList
+        public ObservableCollection<string> AssignmentTypeList
         {
-            get { return new ObservableCollection<string>(RecipeComponentUnit.GetList()); }
+            get { return new ObservableCollection<string>(AssignmentType.GetList()); }
         }
 
         public bool IsValid
@@ -631,15 +643,35 @@ namespace DosingApp.ViewModels
             Job.FieldId = Job.Assignment.FieldId;
 
             Job.VolumeRate = Job.Assignment.VolumeRate;
-            Job.Unit = Job.Assignment.Unit;
-    }
+
+            Job.AssignmentType = Job.Assignment.Type;
+            Job.AssignmentSize = Job.Assignment.Size;
+            //Job.Unit = Job.Assignment.Unit;
+
+
+            LoadItems();
+            InitSelectedItems();
+
+            switch (DestType)
+            {
+                case SourceDestType.Facility:
+                    Job.PartyVolume = DestFacilityTank?.Volume;
+                    break;
+                case SourceDestType.Transport:
+                    Job.PartyVolume = DestTransportTank?.Volume;
+                    break;
+                case SourceDestType.Applicator:
+                    Job.PartyVolume = DestApplicatorTank?.Volume;
+                    break;
+            }
+        }
 
         public void CalculateVolume()
         {
             return;
         }
 
-    public void LoadItems()
+        public void LoadItems()
         {
             using (AppDbContext db = App.GetContext())
             {
@@ -728,13 +760,13 @@ namespace DosingApp.ViewModels
             }
         }
 
-        private async void AccessToChange()
+/*        private async void AccessToChange()
         {
             if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Вы действительно хотите внести изменения в задание?", "Да", "Нет"))
             {
                 IsAccessToChangeMemory = true;
             }
-        }
+        }*/
         #endregion Methods
     }
 }

@@ -16,6 +16,18 @@ namespace DosingApp.Models
         }
     }
 
+    public static class AssignmentType
+    {
+        public const string Single = "Одиночное";
+        public const string Continuous = "Продолжительное";
+        public const string Constant = "Постоянное";
+
+        public static List<string> GetList()
+        {
+            return new List<string>() { Single, Continuous, Constant };
+        }
+    }
+
     public class Assignment
     {
         public int AssignmentId { get; set; }
@@ -71,6 +83,8 @@ namespace DosingApp.Models
         public virtual Field Field { get; set; }
 
         public double? VolumeRate { get; set; }
-        public string Unit { get; set; }
+
+        public string Type { get; set; }
+        public double? Size { get; set; }
     }
 }

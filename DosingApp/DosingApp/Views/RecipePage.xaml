@@ -3,6 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
             x:Class="DosingApp.Views.RecipePage"
+            x:Name="Recipe"
             Title="{Binding Title}">
 
     <TabbedPage.Resources>
@@ -23,7 +24,8 @@
                             TextColor="{StaticResource LabelEntryColor}"/>
                         <Entry 
                             Placeholder="Введите название рецепта" 
-                            Text="{Binding Name}" />
+                            Text="{Binding Name}"
+                            Keyboard="Chat"/>
 
                         <Label 
                             Text="Культура"
@@ -48,19 +50,29 @@
                         <Label 
                             Text="Носитель смеси"
                             TextColor="{StaticResource LabelEntryColor}"/>
-                        <Picker 
-                            x:Name="carriersList"
-                            Title="Выберите носитель смеси"
-                            ItemsSource="{Binding Carriers}"
-                            ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding Carrier, Mode=TwoWay}" />
+
+                        <Grid>
+                            <Entry
+                                Placeholder="Выберите носитель смеси"
+                                IsReadOnly="True"
+                                Text="{Binding Carrier}"/>
+
+                            <BoxView HorizontalOptions="FillAndExpand">
+                                <BoxView.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding SelectCarrierCommand}">
+                                    </TapGestureRecognizer>
+                                </BoxView.GestureRecognizers>
+                            </BoxView>
+                        </Grid>
 
                         <Label 
                             Text="Заметка"
                             TextColor="{StaticResource LabelEntryColor}"/>
                         <Editor 
                             Placeholder="Введите текст заметки здесь"
-                            Text="{Binding Note}" />
+                            Text="{Binding Note}" 
+                            Keyboard="Chat"/>
 
                         <Label 
                             Text="Минимум носителя в запасе, %" 
@@ -97,11 +109,17 @@
         </ContentPage>
         
         <ContentPage Title="Компоненты">
-            
-            <ScrollView>
-                <StackLayout Margin="{StaticResource PageMargin}">
-                    <Button Text="Добавить" Command="{Binding CreateRecipeComponentCommand}"/>
 
+            <StackLayout 
+                    Margin="{StaticResource PageMargin}">
+
+                <StackLayout>
+                    <Button 
+                        Text="Добавить" 
+                        Command="{Binding CreateRecipeComponentCommand}"/>
+                </StackLayout>
+
+                <StackLayout>
                     <ListView 
                         x:Name="recipeComponentsList"
                         ItemsSource="{Binding RecipeComponents}"
@@ -112,68 +130,43 @@
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*" />
                                         <ColumnDefinition Width="10*" />
-                                        <ColumnDefinition Width="3*" />
-                                        <ColumnDefinition Width="3*" />
-                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
                                     </Grid.ColumnDefinitions>
-
+                                    
                                     <Label
-                                        Text="#" 
-                                        TextColor="{StaticResource LabelEntryColor}"/>
-                                    <Label
-                                        Grid.Column="1"
                                         Text="Название" 
-                                        TextColor="{StaticResource LabelEntryColor}"/>
-                                    <Label
-                                        Grid.Column="2"
-                                        Text="Норма" 
-                                        TextColor="{StaticResource LabelEntryColor}"/>
-                                    <Label
-                                        Grid.Column="3"
-                                        Text="Ед.изм." 
-                                        TextColor="{StaticResource LabelEntryColor}"/>
-                                    <Label
-                                        Grid.Column="4"
-                                        Text="Доз."
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                 </Grid>
                             </StackLayout>
                         </ListView.Header>
-                        
+
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <ViewCell.View>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="1*" />
                                                 <ColumnDefinition Width="10*" />
-                                                <ColumnDefinition Width="3*" />
-                                                <ColumnDefinition Width="3*" />
-                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="2*" />
+                                                <ColumnDefinition Width="2*" />
                                             </Grid.ColumnDefinitions>
 
                                             <Label
-                                                Text="{Binding Order}" 
-                                                FontSize="Medium" />
-                                            <Label
-                                                Grid.Column="1"
                                                 Text="{Binding Name}" 
-                                                FontSize="Medium" />
-                                            <Label
+                                                FontSize="Medium" 
+                                                VerticalOptions="Center"/>
+                                            <Button
+                                                Grid.Column="1"
+                                                ImageSource="chevron_up.png"
+                                                Command="{Binding Source={x:Reference Recipe}, Path=BindingContext.UpRecipeComponentCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                            <Button
                                                 Grid.Column="2"
-                                                Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
-                                                FontSize="Medium" />
-                                            <Label
-                                                Grid.Column="3"
-                                                Text="{Binding Unit}" 
-                                                FontSize="Medium" />
-                                            <Label
-                                                Grid.Column="4"
-                                                Text="{Binding Dispenser}" 
-                                                FontSize="Medium" />
+                                                ImageSource="chevron_down.png"
+                                                Command="{Binding Source={x:Reference Recipe}, Path=BindingContext.DownRecipeComponentCommand}"
+                                                CommandParameter="{Binding .}"/>
 
                                         </Grid>
                                     </ViewCell.View>
@@ -182,8 +175,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </StackLayout>
-            </ScrollView>
-
+            </StackLayout>
         </ContentPage>
     </TabbedPage.Children>
 </TabbedPage>

@@ -15,13 +15,17 @@
             <StackLayout 
                 Margin="{StaticResource PageMargin}">
 
-                <Label 
-                    Text="На количество гектар"
-                    TextColor="{StaticResource LabelEntryColor}"/>
-                <Entry
-                    Placeholder="На сколько гектар хватит смеси"
-                    Text="{Binding Square, Converter={StaticResource DoubleConverter}}"
-                    IsReadOnly="True"/>
+                <StackLayout>
+
+                    <Label 
+                        Text="На количество гектар"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry
+                        Placeholder="Партия смеси, га"
+                        Text="{Binding PartySize, Converter={StaticResource DoubleConverter}}"
+                        IsReadOnly="True"/>
+
+                </StackLayout>
                 
                 <StackLayout>
                     <Grid>
@@ -59,30 +63,25 @@
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*" />
                                         <ColumnDefinition Width="10*" />
-                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="4*" />
                                         <ColumnDefinition Width="3*" />
                                         <ColumnDefinition Width="3*" />
                                     </Grid.ColumnDefinitions>
 
                                     <Label
-                                        Text="#" 
-                                        TextColor="{StaticResource LabelEntryColor}"/>
-                                    <Label
-                                        Grid.Column="1"
                                         Text="Название" 
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                     <Label
-                                        Grid.Column="2"
+                                        Grid.Column="1"
                                         Text="Объем" 
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                     <Label
-                                        Grid.Column="3"
+                                        Grid.Column="2"
                                         Text="Норма" 
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                     <Label
-                                        Grid.Column="4"
+                                        Grid.Column="3"
                                         Text="Доз."
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                 </Grid>
@@ -95,30 +94,25 @@
                                     <ViewCell.View>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="1*" />
                                                 <ColumnDefinition Width="10*" />
-                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="4*" />
                                                 <ColumnDefinition Width="3*" />
                                                 <ColumnDefinition Width="3*" />
                                             </Grid.ColumnDefinitions>
 
                                             <Label
-                                                Text="{Binding Order}" 
-                                                FontSize="Medium" />
-                                            <Label
-                                                Grid.Column="1"
                                                 Text="{Binding Name}" 
                                                 FontSize="Medium" />
                                             <Label
-                                                Grid.Column="2"
+                                                Grid.Column="1"
                                                 Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
                                                 FontSize="Medium" />
                                             <Label
-                                                Grid.Column="3"
+                                                Grid.Column="2"
                                                 Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
                                                 FontSize="Medium" />
                                             <Label
-                                                Grid.Column="4"
+                                                Grid.Column="3"
                                                 Text="{Binding Dispenser}" 
                                                 FontSize="Medium" />
                                         </Grid>

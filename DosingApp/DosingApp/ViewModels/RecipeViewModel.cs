@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -29,6 +30,11 @@ namespace DosingApp.ViewModels
         public ICommand DeleteRecipeComponentCommand { get; protected set; }
         public ICommand SaveRecipeComponentCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
+
+        public ICommand SelectCarrierCommand { get; protected set; }
+
+        public ICommand UpRecipeComponentCommand { get; protected set; }
+        public ICommand DownRecipeComponentCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -43,6 +49,11 @@ namespace DosingApp.ViewModels
             DeleteRecipeComponentCommand = new Command(DeleteRecipeComponent);
             SaveRecipeComponentCommand = new Command(SaveRecipeComponent);
             BackCommand = new Command(Back);
+
+            SelectCarrierCommand = new Command(SelectCarrier);
+
+            UpRecipeComponentCommand = new Command(UpRecipeComponent);
+            DownRecipeComponentCommand = new Command(DownRecipeComponent);
         }
         #endregion Constructor
 
@@ -211,6 +222,23 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
+        private void UpRecipeComponent(object recipeComponentInstance)
+        {
+            RecipeComponent recipeComponent = recipeComponentInstance as RecipeComponent;
+            UpOrderComponent(recipeComponent);
+        }
+
+        private void DownRecipeComponent(object recipeComponentInstance)
+        {
+            RecipeComponent recipeComponent = recipeComponentInstance as RecipeComponent;
+            DownOrderComponent(recipeComponent);
+        }
+
+        private void SelectCarrier()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new GroupedComponentsPage(false, this, null));
+        }
+
         private void Back()
         {
             Application.Current.MainPage.Navigation.PopAsync();
@@ -316,7 +344,7 @@ namespace DosingApp.ViewModels
         {
             using (AppDbContext db = App.GetContext())
             {
-                var recipeComponentsDB = db.RecipeComponents.Where(rc => rc.RecipeId == Recipe.RecipeId).ToList();
+                var recipeComponentsDB = db.RecipeComponents.Where(rc => rc.RecipeId == Recipe.RecipeId).OrderBy(rc => rc.Order).ToList();
                 RecipeComponents = new ObservableCollection<RecipeComponent>(recipeComponentsDB);
                 RecipeComponents.ForEach(rc => rc.Component = db.Components.FirstOrDefault(c => c.ComponentId == rc.ComponentId));
             }
@@ -329,6 +357,54 @@ namespace DosingApp.ViewModels
                 var recipeComponentsDB = db.RecipeComponents.Where(rc => rc.Order > startOrder).ToList();
                 recipeComponentsDB.ForEach(rc => rc.Order--);
                 db.SaveChanges();
+            }
+        }
+
+        public void UpOrderComponent(RecipeComponent recipeComponent)
+        {
+            var currentOrder = recipeComponent.Order;
+            if (currentOrder > 1)
+            {
+                var newOrder = currentOrder - 1;
+                using (AppDbContext db = App.GetContext())
+                {
+                    var currentRecipeComponent = db.RecipeComponents.FirstOrDefault(rc => rc.Order == newOrder);
+                    if (currentRecipeComponent != null)
+                    {
+                        currentRecipeComponent.Order = currentOrder;
+                        recipeComponent.Order = newOrder;
+
+                        db.RecipeComponents.Update(currentRecipeComponent);
+                        db.RecipeComponents.Update(recipeComponent);
+                        
+                        db.SaveChanges();
+                        LoadRecipeComponents();
+                    }
+                }
+            }
+        }
+
+        public void DownOrderComponent(RecipeComponent recipeComponent)
+        {
+            var currentOrder = recipeComponent.Order;
+            if (currentOrder < RecipeComponents.Count())
+            {
+                var newOrder = currentOrder + 1;
+                using (AppDbContext db = App.GetContext())
+                {
+                    var currentRecipeComponent = db.RecipeComponents.FirstOrDefault(rc => rc.Order == newOrder);
+                    if (currentRecipeComponent != null)
+                    {
+                        currentRecipeComponent.Order = currentOrder;
+                        recipeComponent.Order = newOrder;
+
+                        db.RecipeComponents.Update(currentRecipeComponent);
+                        db.RecipeComponents.Update(recipeComponent);
+
+                        db.SaveChanges();
+                        LoadRecipeComponents();
+                    }
+                }
             }
         }
         #endregion Methods

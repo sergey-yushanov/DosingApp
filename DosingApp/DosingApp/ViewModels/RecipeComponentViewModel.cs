@@ -1,7 +1,10 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
+using DosingApp.Views;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
@@ -14,6 +17,8 @@ namespace DosingApp.ViewModels
 
         private ObservableCollection<Component> components;
         private bool isComponentEnabled;
+
+        public ICommand SelectComponentCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -22,6 +27,8 @@ namespace DosingApp.ViewModels
             RecipeComponent = recipeComponent;
             LoadComponents();
             InitSelectedComponent();
+
+            SelectComponentCommand = new Command(SelectComponent);
         }
         #endregion Constructor
 
@@ -39,6 +46,7 @@ namespace DosingApp.ViewModels
             {
                 if (RecipeComponent.Component != value)
                 {
+                    DensityError(value, Unit);
                     RecipeComponent.Component = value;
                     OnPropertyChanged(nameof(Component));
                 }
@@ -66,12 +74,13 @@ namespace DosingApp.ViewModels
 
         public string Unit
         {
-            get { return RecipeComponent.Unit; }
+            get { return RecipeComponent.VolumeRateUnit; }
             set
             {
-                if (RecipeComponent.Unit != value)
+                if (RecipeComponent.VolumeRateUnit != value)
                 {
-                    RecipeComponent.Unit = value;
+                    DensityError(Component, value);
+                    RecipeComponent.VolumeRateUnit = value;
                     OnPropertyChanged(nameof(Unit));
                 }
             }
@@ -79,7 +88,7 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> UnitList
         {
-            get { return new ObservableCollection<string>(RecipeComponentUnit.GetList()); }
+            get { return new ObservableCollection<string>(VolumeRateUnit.GetList()); }
         }
 
         public string Dispenser
@@ -137,6 +146,14 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Methods
+        private void SelectComponent()
+        {
+            if (IsComponentEnabled)
+            {
+                Application.Current.MainPage.Navigation.PushAsync(new GroupedComponentsPage(false, null, this));
+            }
+        }
+
         public void LoadComponents()
         {
             using (AppDbContext db = App.GetContext())
@@ -153,6 +170,14 @@ namespace DosingApp.ViewModels
         public void SetFourthValveComponent()
         {
             Component = Components.FirstOrDefault(c => c.Name == Water.GetComponent().Name);
+        }
+
+        public void DensityError(Component component, string unit)
+        {
+            if (component != null && component.IsLiquid() && component.Density == null && String.Equals(unit, VolumeRateUnit.Dry))
+            {
+                Application.Current.MainPage.DisplayAlert("Ошибка", " У выбранного компонента не указана плотность!", "Ok");
+            }
         }
         #endregion Methods
     }

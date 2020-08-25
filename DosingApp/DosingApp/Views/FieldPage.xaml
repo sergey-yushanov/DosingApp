@@ -20,14 +20,16 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите название поля" 
-                        Text="{Binding Name}" />
+                        Text="{Binding Name}" 
+                        Keyboard="Chat"/>
                     
                     <Label 
                         Text="Код"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите код поля" 
-                        Text="{Binding Code}" />
+                        Text="{Binding Code}" 
+                        Keyboard="Chat"/>
                     
                     <Label 
                         Text="Размер, га"

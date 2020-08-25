@@ -34,10 +34,14 @@ namespace DosingApp.ViewModels
         public ICommand BackCommand { get; protected set; }
 
         public ICommand LoadFileCommand { get; protected set; }
+
+        public bool IsEditMode { get; protected set; }
+        RecipeViewModel RecipeViewModel;
+        RecipeComponentViewModel RecipeComponentViewModel;
         #endregion Attributes
 
         #region Constructor
-        public ComponentsViewModel(Manufacturer manufacturer)
+        public ComponentsViewModel(Manufacturer manufacturer, bool isEditMode, RecipeViewModel recipeViewModel, RecipeComponentViewModel recipeComponentViewModel)
         {
             Manufacturer = manufacturer;
             Title = "Производитель: " + Manufacturer.Name + "\nСписок компонентов";
@@ -48,6 +52,10 @@ namespace DosingApp.ViewModels
             BackCommand = new Command(Back);
 
             LoadFileCommand = new Command(LoadFileAsync);
+
+            IsEditMode = isEditMode;
+            RecipeViewModel = recipeViewModel;
+            RecipeComponentViewModel = recipeComponentViewModel;
         }
         #endregion Constructor
 
@@ -65,10 +73,25 @@ namespace DosingApp.ViewModels
             {
                 if (selectedComponent != value)
                 {
-                    ComponentViewModel tempComponent = new ComponentViewModel(value) { ComponentsViewModel = this };
-                    selectedComponent = null;
-                    OnPropertyChanged(nameof(SelectedComponent));
-                    Application.Current.MainPage.Navigation.PushAsync(new ComponentPage(tempComponent));
+                    if (IsEditMode)
+                    {
+                        ComponentViewModel tempComponent = new ComponentViewModel(value) { ComponentsViewModel = this };
+                        selectedComponent = null;
+                        OnPropertyChanged(nameof(SelectedComponent));
+                        Application.Current.MainPage.Navigation.PushAsync(new ComponentPage(tempComponent));
+                    }
+                    else
+                    {
+                        if (RecipeViewModel != null)
+                        {
+                            RecipeViewModel.Carrier = value;
+                        }
+                        if (RecipeComponentViewModel != null)
+                        {
+                            RecipeComponentViewModel.Component = value;
+                        }
+                        Back2Pages();
+                    }
                 }
             }
         }
@@ -81,6 +104,12 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
+        private void Back2Pages()
+        {
+            Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+            Application.Current.MainPage.Navigation.PopAsync();
+        }
+
         private async void LoadFileAsync()
         {
             try

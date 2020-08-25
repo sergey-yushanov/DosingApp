@@ -10,7 +10,6 @@ namespace DosingApp.ViewModels
         ComponentsViewModel componentsViewModel;
         public Component Component { get; private set; }
         private string title;
-        private bool isLiquid;
         #endregion Attributes
 
         #region Constructor
@@ -48,13 +47,16 @@ namespace DosingApp.ViewModels
         {
             get 
             {
-                IsLiquid = Component.Consistency != null && String.Equals(Component.Consistency, ComponentConsistency.Liquid);
                 return Component.Consistency; 
             }
             set
             {
                 if (Component.Consistency != value)
                 {
+                    if (value != null && String.Equals(value, ComponentConsistency.Dry))
+                    {
+                        Density = 1.0;
+                    }
                     Component.Consistency = value;
                     OnPropertyChanged(nameof(Consistency));
                 }
@@ -99,12 +101,6 @@ namespace DosingApp.ViewModels
             {
                 return (!string.IsNullOrEmpty(Name));
             }
-        }
-
-        public bool IsLiquid
-        {
-            get { return isLiquid; }
-            set { SetProperty(ref isLiquid, value); }
         }
 
         public string Title

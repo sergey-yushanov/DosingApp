@@ -143,26 +143,17 @@ namespace DosingApp.ViewModels
 
         public bool IsValidUsername
         {
-            get
-            {
-                return (!String.IsNullOrEmpty(Username));
-            }
+            get { return (!String.IsNullOrEmpty(Username)); }
         }
 
         public bool IsValidPassword
         {
-            get
-            {
-                return (!String.IsNullOrEmpty(Password));
-            }
+            get { return (!String.IsNullOrEmpty(Password)); }
         }
 
         public bool IsAdminUsername
         {
-            get
-            {
-                return Admin.IsAdminUsername(Username);
-            }
+            get { return Admin.IsAdminUsername(Username); }
         }
 
         public string Title

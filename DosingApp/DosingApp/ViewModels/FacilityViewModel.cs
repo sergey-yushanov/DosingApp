@@ -105,10 +105,6 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                //if (Facility.Type != null)
-                //{
-                    //PickerType = Facility.Type;
-                //}
                 return Facility.Type;
             }
             set
@@ -175,10 +171,7 @@ namespace DosingApp.ViewModels
 
         public bool IsValid
         {
-            get
-            {
-                return (!string.IsNullOrEmpty(Name));
-            }
+            get { return (!String.IsNullOrEmpty(Name)); }
         }
 
         public bool IsBack
@@ -204,7 +197,7 @@ namespace DosingApp.ViewModels
         {
             if (!IsValid)
             {
-                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя объекта", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название объекта", "Ok");
                 return;
             }
 
@@ -242,8 +235,14 @@ namespace DosingApp.ViewModels
         private void SaveFacilityTank(object facilityTankInstance)
         {
             FacilityTankViewModel facilityTankViewModel = facilityTankInstance as FacilityTankViewModel;
-            if (facilityTankViewModel.FacilityTank != null && facilityTankViewModel.IsValid)
+            if (facilityTankViewModel.FacilityTank != null)
             {
+                if (!facilityTankViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название емкости", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (facilityTankViewModel.FacilityTank.FacilityTankId == 0)

@@ -81,15 +81,20 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadAgrYears();
             Back();
         }
 
         private void SaveAgrYear(object agrYearInstance)
         {
             AgrYearViewModel agrYearViewModel = agrYearInstance as AgrYearViewModel;
-            if (agrYearViewModel.AgrYear != null && agrYearViewModel.IsValid)
+            if (agrYearViewModel.AgrYear != null)
             {
+                if (!agrYearViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название сельхоз. года", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (agrYearViewModel.AgrYear.AgrYearId == 0)
@@ -103,7 +108,6 @@ namespace DosingApp.ViewModels
                     db.SaveChanges();
                 }
             }
-            //LoadAgrYears();
             Back();
         }
         #endregion Commands

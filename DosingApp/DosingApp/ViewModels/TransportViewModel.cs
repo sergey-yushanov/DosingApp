@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -99,10 +100,7 @@ namespace DosingApp.ViewModels
 
         public bool IsValid
         {
-            get
-            {
-                return (!string.IsNullOrEmpty(Name));
-            }
+            get { return (!String.IsNullOrEmpty(Name)); }
         }
 
         public bool IsBack
@@ -128,7 +126,7 @@ namespace DosingApp.ViewModels
         {
             if (!IsValid)
             {
-                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя транспорта", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название транспорта", "Ok");
                 return;
             }
 
@@ -166,8 +164,14 @@ namespace DosingApp.ViewModels
         private void SaveTransportTank(object transportTankInstance)
         {
             TransportTankViewModel transportTankViewModel = transportTankInstance as TransportTankViewModel;
-            if (transportTankViewModel.TransportTank != null && transportTankViewModel.IsValid)
+            if (transportTankViewModel.TransportTank != null)
             {
+                if (!transportTankViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название емкости", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (transportTankViewModel.TransportTank.TransportTankId == 0)

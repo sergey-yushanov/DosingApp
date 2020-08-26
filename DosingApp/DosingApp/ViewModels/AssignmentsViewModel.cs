@@ -82,8 +82,14 @@ namespace DosingApp.ViewModels
         private void SaveAssignment(object assignmentInstance)
         {
             AssignmentViewModel assignmentViewModel = assignmentInstance as AssignmentViewModel;
-            if (assignmentViewModel.Assignment != null && assignmentViewModel.IsValid)
+            if (assignmentViewModel.Assignment != null)
             {
+                if (!assignmentViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название задания, выберите рецепт и введите норму вылива", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (assignmentViewModel.Assignment.AssignmentId == 0)

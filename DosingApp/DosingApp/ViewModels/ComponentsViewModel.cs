@@ -227,8 +227,14 @@ namespace DosingApp.ViewModels
         private void SaveComponent(object componentInstance)
         {
             ComponentViewModel componentViewModel = componentInstance as ComponentViewModel;
-            if (componentViewModel.Component != null && componentViewModel.IsValid)
+            if (componentViewModel.Component != null)
             {
+                if (!componentViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название и форму компонента", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (componentViewModel.Component.ComponentId == 0)

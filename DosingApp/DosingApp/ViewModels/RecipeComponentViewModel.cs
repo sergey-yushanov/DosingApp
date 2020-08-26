@@ -127,10 +127,7 @@ namespace DosingApp.ViewModels
 
         public bool IsValid
         {
-            get
-            {
-                return (Component != null);
-            }
+            get { return (Component != null); }
         }
 
         public bool IsComponentEnabled

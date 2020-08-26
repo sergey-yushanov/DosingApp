@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -86,10 +87,7 @@ namespace DosingApp.ViewModels
 
         public bool IsValid
         {
-            get
-            {
-                return (!string.IsNullOrEmpty(Name));
-            }
+            get { return (!String.IsNullOrEmpty(Name)); }
         }
 
         public bool IsBack
@@ -115,7 +113,7 @@ namespace DosingApp.ViewModels
         {
             if (!IsValid)
             {
-                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя аппликатора", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название аппликатора", "Ok");
                 return;
             }
 
@@ -153,8 +151,14 @@ namespace DosingApp.ViewModels
         private void SaveApplicatorTank(object applicatorTankInstance)
         {
             ApplicatorTankViewModel applicatorTankViewModel = applicatorTankInstance as ApplicatorTankViewModel;
-            if (applicatorTankViewModel.ApplicatorTank != null && applicatorTankViewModel.IsValid)
+            if (applicatorTankViewModel.ApplicatorTank != null)
             {
+                if (!applicatorTankViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название емкости", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (applicatorTankViewModel.ApplicatorTank.ApplicatorTankId == 0)

@@ -83,8 +83,14 @@ namespace DosingApp.ViewModels
         private void SaveApplicator(object applicatorInstance)
         {
             ApplicatorViewModel applicatorViewModel = applicatorInstance as ApplicatorViewModel;
-            if (applicatorViewModel.Applicator != null && applicatorViewModel.IsValid)
+            if (applicatorViewModel.Applicator != null)
             {
+                if (!applicatorViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название аппликатора", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (applicatorViewModel.Applicator.ApplicatorId == 0)

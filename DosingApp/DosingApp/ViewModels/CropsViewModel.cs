@@ -82,8 +82,14 @@ namespace DosingApp.ViewModels
         private void SaveCrop(object cropInstance)
         {
             CropViewModel cropViewModel = cropInstance as CropViewModel;
-            if (cropViewModel.Crop != null && cropViewModel.IsValid)
+            if (cropViewModel.Crop != null)
             {
+                if (!cropViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название культуры", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (cropViewModel.Crop.CropId == 0)

@@ -82,8 +82,14 @@ namespace DosingApp.ViewModels
         private async void SaveMixer(object mixerInstance)
         {
             MixerViewModel mixerViewModel = mixerInstance as MixerViewModel;
-            if (mixerViewModel.Mixer != null && mixerViewModel.IsValid)
+            if (mixerViewModel.Mixer != null)
             {
+                if (!mixerViewModel.IsValid)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название установки", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (mixerViewModel.Mixer.IsUsedMixer)

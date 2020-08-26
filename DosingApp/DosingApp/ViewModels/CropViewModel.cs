@@ -60,10 +60,7 @@ namespace DosingApp.ViewModels
 
         public bool IsValid
         {
-            get
-            {
-                return (!string.IsNullOrEmpty(Name));
-            }
+            get { return (!string.IsNullOrEmpty(Name)); }
         }
 
         public string Title

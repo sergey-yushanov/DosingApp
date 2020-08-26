@@ -572,10 +572,7 @@ namespace DosingApp.ViewModels
 
         public bool IsValid
         {
-            get
-            {
-                return (!string.IsNullOrEmpty(Name));
-            }
+            get { return (!String.IsNullOrEmpty(Name) && (Recipe != null) && (VolumeRate != null)); }
         }
 
         public string Title

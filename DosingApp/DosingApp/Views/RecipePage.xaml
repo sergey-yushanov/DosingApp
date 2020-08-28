@@ -130,13 +130,23 @@
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*" />
                                         <ColumnDefinition Width="10*" />
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="4*" />
                                     </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Text="#" 
+                                        TextColor="{StaticResource LabelEntryColor}"/>
                                     
                                     <Label
+                                        Grid.Column="1"
                                         Text="Название" 
+                                        TextColor="{StaticResource LabelEntryColor}"/>
+
+                                    <Label
+                                        Grid.Column="2"
+                                        Text="Сменить очередность" 
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                 </Grid>
                             </StackLayout>
@@ -148,22 +158,28 @@
                                     <ViewCell.View>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*" />
                                                 <ColumnDefinition Width="10*" />
                                                 <ColumnDefinition Width="2*" />
                                                 <ColumnDefinition Width="2*" />
                                             </Grid.ColumnDefinitions>
 
                                             <Label
+                                                Text="{Binding Order}" 
+                                                FontSize="Medium" 
+                                                VerticalOptions="Center"/>
+                                            <Label
+                                                Grid.Column="1"
                                                 Text="{Binding Name}" 
                                                 FontSize="Medium" 
                                                 VerticalOptions="Center"/>
                                             <Button
-                                                Grid.Column="1"
+                                                Grid.Column="2"
                                                 ImageSource="chevron_up.png"
                                                 Command="{Binding Source={x:Reference Recipe}, Path=BindingContext.UpRecipeComponentCommand}"
                                                 CommandParameter="{Binding .}"/>
                                             <Button
-                                                Grid.Column="2"
+                                                Grid.Column="3"
                                                 ImageSource="chevron_down.png"
                                                 Command="{Binding Source={x:Reference Recipe}, Path=BindingContext.DownRecipeComponentCommand}"
                                                 CommandParameter="{Binding .}"/>

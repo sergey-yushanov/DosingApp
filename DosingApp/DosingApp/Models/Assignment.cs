@@ -16,15 +16,14 @@ namespace DosingApp.Models
         }
     }
 
-    public static class CAssignmentType
+    public static class SizeUnit
     {
-        public const string Single = "Одиночное";
-        public const string Continuous = "Продолжительное";
-        public const string Constant = "Постоянное";
+        public const string Square = "га";
+        public const string Volume = "л";
 
         public static List<string> GetList()
         {
-            return new List<string>() { Single, Continuous, Constant };
+            return new List<string>() { Square, Volume };
         }
     }
 
@@ -84,7 +83,7 @@ namespace DosingApp.Models
 
         public double? VolumeRate { get; set; }
 
-        public string Type { get; set; }
         public double? Size { get; set; }
+        public string Unit { get; set; }
     }
 }

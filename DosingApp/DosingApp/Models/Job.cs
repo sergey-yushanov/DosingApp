@@ -68,8 +68,6 @@ namespace DosingApp.Models
         public double? PartyVolume { get; set; }
         public double? VolumeRate { get; set; }
 
-        public string AssignmentType { get; set; }
-
         public string Name { get { return Assignment?.Name; } }
     }
 }

@@ -391,21 +391,29 @@
                         Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
 
-                    <Label 
-                        Text="Размер задания, га" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Введите размер"
-                        Text="{Binding Size, Converter={StaticResource DoubleConverter}}" 
-                        Keyboard="Numeric"/>
-
-                    <Label
-                        Text="Вид задания" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        Title="Выберите вид задания"
-                        ItemsSource="{Binding TypeList}"
-                        SelectedItem="{Binding Type}"/>
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout
+                            Orientation="Vertical"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand">
+                            <Label 
+                                Text="Размер задания" 
+                                TextColor="{StaticResource LabelEntryColor}"/>
+                            <Entry
+                                Placeholder="Введите размер"
+                                Text="{Binding Size, Converter={StaticResource DoubleConverter}}" 
+                                Keyboard="Numeric"/>
+                        </StackLayout>
+                        <StackLayout
+                            Orientation="Vertical"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="EndAndExpand">
+                            <Picker 
+                                Title="Eд.изм."
+                                ItemsSource="{Binding UnitList}"
+                                SelectedItem="{Binding Unit}"/>
+                        </StackLayout>
+                    </StackLayout>
 
                 </StackLayout>
 

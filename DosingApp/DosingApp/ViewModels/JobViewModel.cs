@@ -566,7 +566,7 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string AssignmentType
+/*        public string AssignmentType
         {
             get { return Job.AssignmentType; }
             set
@@ -577,12 +577,12 @@ namespace DosingApp.ViewModels
                     OnPropertyChanged(nameof(AssignmentType));
                 }
             }
-        }
+        }*/
 
-        public ObservableCollection<string> AssignmentTypeList
+/*        public ObservableCollection<string> AssignmentTypeList
         {
             get { return new ObservableCollection<string>(CAssignmentType.GetList()); }
-        }
+        }*/
 
         public bool IsValid
         {
@@ -641,7 +641,7 @@ namespace DosingApp.ViewModels
 
             Job.VolumeRate = Job.Assignment.VolumeRate;
 
-            Job.AssignmentType = Job.Assignment.Type;
+            //Job.AssignmentType = Job.Assignment.Type;
             Job.AssignmentSize = Job.Assignment.Size;
             //Job.Unit = Job.Assignment.Unit;
 

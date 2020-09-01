@@ -13615,6 +13615,9 @@ namespace DosingApp.Droid
 			// aapt resource value: 0x7F070082
 			public const int user = 2131165314;
 			
+			// aapt resource value: 0x7F070083
+			public const int x = 2131165315;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

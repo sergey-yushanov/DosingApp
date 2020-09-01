@@ -146,7 +146,7 @@
 
                                     <Label
                                         Grid.Column="2"
-                                        Text="Сменить очередность" 
+                                        Text="Очередность"
                                         TextColor="{StaticResource LabelEntryColor}"/>
                                 </Grid>
                             </StackLayout>

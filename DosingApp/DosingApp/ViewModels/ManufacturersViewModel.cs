@@ -45,10 +45,10 @@ namespace DosingApp.ViewModels
             {
                 if (selectedManufacturer != value)
                 {
-                    ManufacturerViewModel tempManufacturer = new ManufacturerViewModel(value) { ManufacturersViewModel = this };
-                    selectedManufacturer = null;
-                    OnPropertyChanged(nameof(SelectedManufacturer));
-                    Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(tempManufacturer));
+                    //ManufacturerViewModel tempManufacturer = new ManufacturerViewModel(value) { ManufacturersViewModel = this };
+                    //selectedManufacturer = null;
+                    //OnPropertyChanged(nameof(SelectedManufacturer));
+                    //Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(tempManufacturer));
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace DosingApp.ViewModels
 
         private void CreateManufacturer()
         {
-            Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(new ManufacturerViewModel(new Manufacturer()) { ManufacturersViewModel = this }));
+            //Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(new ManufacturerViewModel(new Manufacturer()) { ManufacturersViewModel = this }));
         }
 
         private void DeleteManufacturer(object manufacturerInstance)

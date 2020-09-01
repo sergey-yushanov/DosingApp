@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.GroupedComponentsPage"
-             Title="Компоненты по производителям">
+             Title="Компоненты">
     <ContentPage.Content>
 
         <StackLayout Margin="{StaticResource PageMargin}">
@@ -10,8 +10,8 @@
             <StackLayout
                 IsVisible="{Binding IsEditMode}">
                 <Button 
-                    Text="Каталог" 
-                    Command="{Binding EditManufacturersCommand}"/>
+                    Text="Добавить производителя"
+                    Command="{Binding CreateManufacturerCommand}"/>
             </StackLayout>
 
             <StackLayout>
@@ -26,6 +26,8 @@
                                     <StackLayout 
                                         Orientation="Horizontal"
                                         VerticalOptions="CenterAndExpand">
+                                        <Image
+                                            Source="{Binding Icon}"/>
                                         <Label 
                                             Text="{Binding Name}" 
                                             FontSize="Medium" />

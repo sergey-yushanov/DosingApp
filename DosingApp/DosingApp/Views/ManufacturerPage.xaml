@@ -24,12 +24,12 @@
                         </Grid.ColumnDefinitions>
                         <Button 
                             Text="Сохранить" 
-                            Command="{Binding ManufacturersViewModel.SaveCommand}" 
+                            Command="{Binding GroupedComponentsViewModel.SaveManufacturerCommand}" 
                             CommandParameter="{Binding}" />
                         <Button 
                             Grid.Column="1" 
                             Text="Удалить" 
-                            Command="{Binding ManufacturersViewModel.DeleteCommand}" 
+                            Command="{Binding GroupedComponentsViewModel.DeleteCommand}" 
                             CommandParameter="{Binding}" />
                     </Grid>
                 </StackLayout>

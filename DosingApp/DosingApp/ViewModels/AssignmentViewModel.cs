@@ -575,6 +575,11 @@ namespace DosingApp.ViewModels
             get { return (!String.IsNullOrEmpty(Name) && (Recipe != null) && (VolumeRate != null)); }
         }
 
+        public bool IsValidSize
+        {
+            get { return (Size != null && !String.IsNullOrEmpty(Unit)); }
+        }
+
         public string Title
         {
             get { return title; }

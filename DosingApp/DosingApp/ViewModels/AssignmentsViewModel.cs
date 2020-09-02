@@ -2,6 +2,7 @@
 using DosingApp.Models;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -88,6 +89,15 @@ namespace DosingApp.ViewModels
                 {
                     Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название задания, выберите рецепт и введите норму вылива", "Ok");
                     return;
+                }
+
+                if (assignmentViewModel.Size != null)
+                {
+                    if (String.IsNullOrEmpty(assignmentViewModel.Unit))
+                    {
+                        Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте ед. изм. размера задания", "Ok");
+                        return;
+                    }
                 }
 
                 using (AppDbContext db = App.GetContext())

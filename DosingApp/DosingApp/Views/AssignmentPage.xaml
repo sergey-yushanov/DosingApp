@@ -7,6 +7,8 @@
 
     <ContentPage.Resources>
         <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+        <x:Int32 x:Key="Dec2">2</x:Int32>
+        <x:Int32 x:Key="Dec3">3</x:Int32>
     </ContentPage.Resources>
     
     <ContentPage.Content>
@@ -388,7 +390,7 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
                         Placeholder="Введите норму"
-                        Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
+                        Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}, ConverterParameter=3}" 
                         Keyboard="Numeric"/>
 
                     <StackLayout Orientation="Horizontal">

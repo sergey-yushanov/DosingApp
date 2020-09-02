@@ -83,6 +83,6 @@ namespace DosingApp.Models
             return Name;
         }
 
-        public string Icon { get { return "chevron_right.png"; } }
+        public string Icon { get { return "nav_right.png"; } }
     }
 }

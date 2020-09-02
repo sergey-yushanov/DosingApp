@@ -27,7 +27,8 @@
                                         Orientation="Horizontal"
                                         VerticalOptions="CenterAndExpand">
                                         <Image
-                                            Source="{Binding Icon}"/>
+                                            Source="{Binding Icon}"
+                                            Scale="0.5"/>
                                         <Label 
                                             Text="{Binding Name}" 
                                             FontSize="Medium" />

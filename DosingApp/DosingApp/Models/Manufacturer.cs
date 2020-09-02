@@ -14,7 +14,7 @@ namespace DosingApp.Models
 
         public string Icon
         { 
-            get { return String.Equals(Name, Water.Name) ? "chevron_right.png" : "folder.png"; } 
+            get { return String.Equals(Name, Water.Name) ? "nav_right.png" : "folder.png"; } 
         }
     }
 }

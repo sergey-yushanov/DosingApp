@@ -13,6 +13,7 @@ namespace DosingApp.Models
 
         public bool IsAccessToChange { get; set; }
         public double? AssignmentSize { get; set; }
+        public double? RemainAssignmentSize { get; set; }
         public double? PartySize { get; set; }
 
         public string Note { get; set; }

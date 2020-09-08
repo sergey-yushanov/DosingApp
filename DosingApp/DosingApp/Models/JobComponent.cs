@@ -23,5 +23,9 @@ namespace DosingApp.Models
         public string Dispenser { get; set; }
 
         public string Name { get { return Component?.Name; } }
+        public string VolumeInfo { get { return Volume + " " + VolumeUnit; } }
+        public string VolumeRateInfo { get { return "Норма расхода: " + VolumeRate + " " + VolumeRateUnit; } }
+        public string ConsistencyInfo { get { return "Форма: " + Component?.Consistency; } }
+        public string DispenserInfo { get { return "Дозатор: " + Dispenser; } }
     }
 }

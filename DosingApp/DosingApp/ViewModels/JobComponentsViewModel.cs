@@ -35,7 +35,7 @@ namespace DosingApp.ViewModels
         {
             Job = job;
             JobComponents = new ObservableCollection<JobComponent>(jobComponents);
-            Title = "Задание: " + Job.Name;
+            Title = "Задание: " + Job.Name + "\nКомпоненты";
             StartJobCommand = new Command(StartJob);
             StopJobCommand = new Command(StopJob);
         }

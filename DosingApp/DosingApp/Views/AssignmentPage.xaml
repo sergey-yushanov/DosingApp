@@ -7,6 +7,8 @@
 
     <ContentPage.Resources>
         <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+        <x:Int32 x:Key="Dec2">2</x:Int32>
+        <x:Int32 x:Key="Dec3">3</x:Int32>
     </ContentPage.Resources>
     
     <ContentPage.Content>
@@ -39,8 +41,8 @@
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
 
                         <Picker 
@@ -51,8 +53,11 @@
                             SelectedItem="{Binding Recipe, Mode=TwoWay}" />
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearRecipeCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearRecipeCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
 
                     <Label
@@ -60,8 +65,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите тип источника"
@@ -70,15 +75,18 @@
                             SelectedItem="{Binding SourceType}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearSourceTypeCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearSourceTypeCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     
                     <Grid
                         IsVisible="{Binding IsSourceFacility}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите объект"
@@ -87,14 +95,17 @@
                             SelectedItem="{Binding SourceFacility, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearSourceFacilityCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearSourceFacilityCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     <Grid
                         IsVisible="{Binding IsSourceTransport}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите транспорт"
@@ -103,14 +114,17 @@
                             SelectedItem="{Binding SourceTransport, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearSourceTransportCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearSourceTransportCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     <Grid
                         IsVisible="{Binding IsSourceApplicator}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите аппликатор"
@@ -119,15 +133,18 @@
                             SelectedItem="{Binding SourceApplicator, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearSourceApplicatorCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearSourceApplicatorCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     
                     <Grid
                         IsVisible="{Binding IsSourceFacility}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите емкость объекта"
@@ -136,14 +153,17 @@
                             SelectedItem="{Binding SourceFacilityTank, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearSourceFacilityTankCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearSourceFacilityTankCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     <Grid
                         IsVisible="{Binding IsSourceTransport}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите емкость транспорта"
@@ -152,14 +172,17 @@
                             SelectedItem="{Binding SourceTransportTank, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearSourceTransportTankCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearSourceTransportTankCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     <Grid
                         IsVisible="{Binding IsSourceApplicator}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите емкость аппликатора"
@@ -168,8 +191,11 @@
                             SelectedItem="{Binding SourceApplicatorTank, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearSourceApplicatorTankCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearSourceApplicatorTankCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     
                     
@@ -178,8 +204,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите тип приемника"
@@ -188,15 +214,18 @@
                             SelectedItem="{Binding DestType}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearDestTypeCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearDestTypeCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
 
                     <Grid
                         IsVisible="{Binding IsDestFacility}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите объект"
@@ -205,14 +234,17 @@
                             SelectedItem="{Binding DestFacility, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearDestFacilityCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearDestFacilityCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     <Grid
                         IsVisible="{Binding IsDestTransport}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите транспорт"
@@ -221,14 +253,17 @@
                             SelectedItem="{Binding DestTransport, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearDestTransportCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearDestTransportCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     <Grid
                         IsVisible="{Binding IsDestApplicator}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите аппликатор"
@@ -237,16 +272,19 @@
                             SelectedItem="{Binding DestApplicator, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearDestApplicatorCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearDestApplicatorCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
 
 
                     <Grid
                         IsVisible="{Binding IsDestFacility}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите емкость объекта"
@@ -255,14 +293,17 @@
                             SelectedItem="{Binding DestFacilityTank, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearDestFacilityTankCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearDestFacilityTankCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     <Grid
                         IsVisible="{Binding IsDestTransport}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите емкость транспорта"
@@ -271,14 +312,17 @@
                             SelectedItem="{Binding DestTransportTank, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearDestTransportTankCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearDestTransportTankCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     <Grid
                         IsVisible="{Binding IsDestApplicator}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             Title="Выберите емкость аппликатора"
@@ -287,8 +331,11 @@
                             SelectedItem="{Binding DestApplicatorTank, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearDestApplicatorTankCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearDestApplicatorTankCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
                     
 
@@ -297,8 +344,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             x:Name="agrYearsList"
@@ -308,8 +355,11 @@
                             SelectedItem="{Binding AgrYear, Mode=TwoWay}" />
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearAgrYearCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearAgrYearCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
 
                     <Label 
@@ -317,8 +367,8 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Picker 
                             x:Name="fieldsList"
@@ -328,8 +378,11 @@
                             SelectedItem="{Binding Field, Mode=TwoWay}" />
                         <Button
                             Grid.Column="1"
-                            ImageSource="close.png"
-                            Command="{Binding ClearFieldCommand}"/>
+                            ImageSource="x.png"
+                            Command="{Binding ClearFieldCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
                     </Grid>
 
                     <Label 
@@ -340,22 +393,25 @@
                         Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
 
-                    <Label 
-                        Text="Размер задания, га" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Введите размер"
-                        Text="{Binding Size, Converter={StaticResource DoubleConverter}}" 
-                        Keyboard="Numeric"/>
 
-                    <Label
-                        Text="Вид задания" 
+                    <Label 
+                        Text="Размер задания" 
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        Title="Выберите вид задания"
-                        x:Name="assignmentTypeList"
-                        ItemsSource="{Binding AssignmentTypeList}"
-                        SelectedItem="{Binding AssignmentType}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="9*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Entry
+                            Placeholder="Введите размер"
+                            Text="{Binding Size, Converter={StaticResource DoubleConverter}}" 
+                            Keyboard="Numeric"/>
+                        <Picker 
+                            Grid.Column="1"
+                            Title="Eд.изм."
+                            ItemsSource="{Binding UnitList}"
+                            SelectedItem="{Binding Unit}"/>
+                    </Grid>
 
                 </StackLayout>
 

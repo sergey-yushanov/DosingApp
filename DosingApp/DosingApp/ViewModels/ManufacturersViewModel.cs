@@ -24,8 +24,6 @@ namespace DosingApp.ViewModels
         #region Constructor
         public ManufacturersViewModel()
         {
-            //LoadManufacturers();
-
             CreateCommand = new Command(CreateManufacturer);
             DeleteCommand = new Command(DeleteManufacturer);
             SaveCommand = new Command(SaveManufacturer);
@@ -47,10 +45,10 @@ namespace DosingApp.ViewModels
             {
                 if (selectedManufacturer != value)
                 {
-                    ManufacturerViewModel tempManufacturer = new ManufacturerViewModel(value) { ManufacturersViewModel = this };
-                    selectedManufacturer = null;
-                    OnPropertyChanged(nameof(SelectedManufacturer));
-                    Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(tempManufacturer));
+                    //ManufacturerViewModel tempManufacturer = new ManufacturerViewModel(value) { ManufacturersViewModel = this };
+                    //selectedManufacturer = null;
+                    //OnPropertyChanged(nameof(SelectedManufacturer));
+                    //Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(tempManufacturer));
                 }
             }
         }
@@ -64,7 +62,7 @@ namespace DosingApp.ViewModels
 
         private void CreateManufacturer()
         {
-            Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(new ManufacturerViewModel(new Manufacturer()) { ManufacturersViewModel = this }));
+            //Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(new ManufacturerViewModel(new Manufacturer()) { ManufacturersViewModel = this }));
         }
 
         private void DeleteManufacturer(object manufacturerInstance)
@@ -85,8 +83,14 @@ namespace DosingApp.ViewModels
         private void SaveManufacturer(object manufacturerInstance)
         {
             ManufacturerViewModel manufacturerViewModel = manufacturerInstance as ManufacturerViewModel;
-            if (manufacturerViewModel.Manufacturer != null && manufacturerViewModel.IsValid)
+            if (manufacturerViewModel.Manufacturer != null)
             {
+                if (!manufacturerViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название производителя", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (manufacturerViewModel.Manufacturer.ManufacturerId == 0)

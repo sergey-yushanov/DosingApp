@@ -23,6 +23,7 @@ namespace DosingApp.Models
             component.Name = Name;
             component.Consistency = Consistency;
             component.Density = Density;
+            component.Manufacturer = GetManufacturer();
             return component;
         }
     }
@@ -81,5 +82,7 @@ namespace DosingApp.Models
         {
             return Name;
         }
+
+        public string Icon { get { return "nav_right.png"; } }
     }
 }

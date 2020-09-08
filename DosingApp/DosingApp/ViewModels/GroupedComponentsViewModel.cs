@@ -20,7 +20,9 @@ namespace DosingApp.ViewModels
         private ObservableCollection<Manufacturer> manufacturers;
         private Manufacturer selectedManufacturer;
 
-        public ICommand EditManufacturersCommand { get; protected set; }
+        public ICommand CreateManufacturerCommand { get; protected set; }
+        public ICommand DeleteManufacturerCommand { get; protected set; }
+        public ICommand SaveManufacturerCommand { get; protected set; }
 
         public bool IsEditMode { get; protected set; }
         RecipeViewModel RecipeViewModel;
@@ -35,7 +37,9 @@ namespace DosingApp.ViewModels
             RecipeComponentViewModel = recipeComponentViewModel;
 
             LoadManufacturers();
-            EditManufacturersCommand = new Command(EditManufacturers);
+            CreateManufacturerCommand = new Command(CreateManufacturer);
+            DeleteManufacturerCommand = new Command(DeleteManufacturer);
+            SaveManufacturerCommand = new Command(SaveManufacturer);
         }
         #endregion Constructor
 
@@ -53,19 +57,88 @@ namespace DosingApp.ViewModels
             {
                 if (selectedManufacturer != value)
                 {
-                    ComponentsViewModel tempComponentsViewModel = new ComponentsViewModel(value, IsEditMode, RecipeViewModel, RecipeComponentViewModel);
-                    selectedManufacturer = null;
-                    OnPropertyChanged(nameof(SelectedManufacturer));
-                    Application.Current.MainPage.Navigation.PushAsync(new ComponentsPage(tempComponentsViewModel));
+                    if (!String.Equals(value.Name, Water.Name))
+                    {
+                        ComponentsViewModel tempComponentsViewModel = new ComponentsViewModel(value, IsEditMode, RecipeViewModel, RecipeComponentViewModel);
+                        selectedManufacturer = null;
+                        OnPropertyChanged(nameof(SelectedManufacturer));
+                        Application.Current.MainPage.Navigation.PushAsync(new ComponentsPage(tempComponentsViewModel));
+                    }
+                    else
+                    {
+                        if (IsEditMode)
+                        {
+                            selectedManufacturer = null;
+                        }
+                        else
+                        { 
+                            if (RecipeViewModel != null)
+                            {
+                                RecipeViewModel.Carrier = GetWaterComponent();
+                            }
+                            if (RecipeComponentViewModel != null)
+                            {
+                                RecipeComponentViewModel.Component = GetWaterComponent();
+                            }
+                            Back();
+                        }
+                    }
                 }
             }
         }
         #endregion Properties
 
         #region Commands
-        private void EditManufacturers()
+        private void Back()
         {
-            Application.Current.MainPage.Navigation.PushAsync(new ManufacturersPage());
+            Application.Current.MainPage.Navigation.PopAsync();
+        }
+
+        private void CreateManufacturer()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(new ManufacturerViewModel(new Manufacturer()) { GroupedComponentsViewModel = this }));
+        }
+
+        private void DeleteManufacturer(object manufacturerInstance)
+        {
+            ManufacturerViewModel manufacturerViewModel = manufacturerInstance as ManufacturerViewModel;
+            if (manufacturerViewModel.Manufacturer != null && manufacturerViewModel.Manufacturer.ManufacturerId != 0)
+            {
+                using (AppDbContext db = App.GetContext())
+                {
+                    db.Components.RemoveRange(manufacturerViewModel.Components);
+                    db.Manufacturers.Remove(manufacturerViewModel.Manufacturer);
+                    db.SaveChanges();
+                }
+            }
+            Back();
+        }
+
+        private void SaveManufacturer(object manufacturerInstance)
+        {
+            ManufacturerViewModel manufacturerViewModel = manufacturerInstance as ManufacturerViewModel;
+            if (manufacturerViewModel.Manufacturer != null)
+            {
+                if (!manufacturerViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название производителя", "Ok");
+                    return;
+                }
+
+                using (AppDbContext db = App.GetContext())
+                {
+                    if (manufacturerViewModel.Manufacturer.ManufacturerId == 0)
+                    {
+                        db.Entry(manufacturerViewModel.Manufacturer).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.Manufacturers.Update(manufacturerViewModel.Manufacturer);
+                    }
+                    db.SaveChanges();
+                }
+            }
+            Back();
         }
         #endregion Commands
 
@@ -77,7 +150,14 @@ namespace DosingApp.ViewModels
                 Manufacturers = new ObservableCollection<Manufacturer>(db.Manufacturers.ToList());
             }
         }
-        #endregion Methods
 
+        private Component GetWaterComponent()
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                return db.Components.FirstOrDefault(c => c.Name == Water.Name);
+            }
+        }
+        #endregion Methods
     }
 }

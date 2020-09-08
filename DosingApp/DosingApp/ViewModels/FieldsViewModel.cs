@@ -82,8 +82,14 @@ namespace DosingApp.ViewModels
         private void SaveField(object fieldInstance)
         {
             FieldViewModel fieldViewModel = fieldInstance as FieldViewModel;
-            if (fieldViewModel.Field != null && fieldViewModel.IsValid)
+            if (fieldViewModel.Field != null)
             {
+                if (!fieldViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название поля", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (fieldViewModel.Field.FieldId == 0)

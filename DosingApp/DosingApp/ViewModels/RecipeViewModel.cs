@@ -202,10 +202,7 @@ namespace DosingApp.ViewModels
 
         public bool IsValid
         {
-            get
-            {
-                return (!string.IsNullOrEmpty(Name));
-            }
+            get { return (!String.IsNullOrEmpty(Name)); }
         }
 
         public bool IsBack
@@ -248,7 +245,7 @@ namespace DosingApp.ViewModels
         {
             if (!IsValid)
             {
-                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте имя рецепта", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название рецепта", "Ok");
                 return;
             }
 
@@ -287,8 +284,14 @@ namespace DosingApp.ViewModels
         private void SaveRecipeComponent(object recipeComponentInstance)
         {
             RecipeComponentViewModel recipeComponentViewModel = recipeComponentInstance as RecipeComponentViewModel;
-            if (recipeComponentViewModel.RecipeComponent != null && recipeComponentViewModel.IsValid)
+            if (recipeComponentViewModel.RecipeComponent != null)
             {
+                if (!recipeComponentViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Выберите компонент", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (recipeComponentViewModel.RecipeComponent.RecipeComponentId == 0)

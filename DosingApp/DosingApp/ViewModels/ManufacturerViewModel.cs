@@ -16,7 +16,7 @@ namespace DosingApp.ViewModels
     public class ManufacturerViewModel : BaseViewModel
     {
         #region Attributes
-        ManufacturersViewModel manufacturersViewModel;
+        GroupedComponentsViewModel groupedComponentsViewModel;
         public Manufacturer Manufacturer { get; private set; }
 
         private ObservableCollection<Component> components;
@@ -33,10 +33,10 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
-        public ManufacturersViewModel ManufacturersViewModel
+        public GroupedComponentsViewModel GroupedComponentsViewModel
         {
-            get { return manufacturersViewModel; }
-            set { SetProperty(ref manufacturersViewModel, value); }
+            get { return groupedComponentsViewModel; }
+            set { SetProperty(ref groupedComponentsViewModel, value); }
         }
 
         public ObservableCollection<Component> Components
@@ -64,10 +64,7 @@ namespace DosingApp.ViewModels
 
         public bool IsValid
         {
-            get
-            {
-                return (!string.IsNullOrEmpty(Name));
-            }
+            get { return (!String.IsNullOrEmpty(Name)); }
         }
 
         public string Title

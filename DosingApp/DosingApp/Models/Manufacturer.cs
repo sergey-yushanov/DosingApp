@@ -11,5 +11,10 @@ namespace DosingApp.Models
         public string DisplayName { get; set; }
 
         public virtual List<Component> Components { get; set; }
+
+        public string Icon
+        { 
+            get { return String.Equals(Name, Water.Name) ? "nav_right.png" : "folder.png"; } 
+        }
     }
 }

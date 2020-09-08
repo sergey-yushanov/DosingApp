@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="DosingApp.Views.MainPage"
-             Title="Mix-App">
+             Title="MixApp">
 
     <StackLayout  Margin="{StaticResource PageMargin}">
         <StackLayout Orientation="Horizontal">

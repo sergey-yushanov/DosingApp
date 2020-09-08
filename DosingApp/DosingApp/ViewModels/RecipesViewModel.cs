@@ -93,8 +93,14 @@ namespace DosingApp.ViewModels
         private void SaveRecipe(object recipeInstance)
         {
             RecipeViewModel recipeViewModel = recipeInstance as RecipeViewModel;
-            if (recipeViewModel.Recipe != null && recipeViewModel.IsValid)
+            if (recipeViewModel.Recipe != null)
             {
+                if (!recipeViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название рецепта", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (recipeViewModel.Recipe.RecipeId == 0)

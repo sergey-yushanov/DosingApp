@@ -87,8 +87,14 @@ namespace DosingApp.ViewModels
         private void SaveProcessingType(object processingTypeInstance)
         {
             ProcessingTypeViewModel processingTypeViewModel = processingTypeInstance as ProcessingTypeViewModel;
-            if (processingTypeViewModel.ProcessingType != null && processingTypeViewModel.IsValid)
+            if (processingTypeViewModel.ProcessingType != null)
             {
+                if (!processingTypeViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название вида обработки", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (processingTypeViewModel.ProcessingType.ProcessingTypeId == 0)

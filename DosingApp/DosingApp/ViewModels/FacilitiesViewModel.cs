@@ -83,8 +83,14 @@ namespace DosingApp.ViewModels
         private void SaveFacility(object facilityInstance)
         {
             FacilityViewModel facilityViewModel = facilityInstance as FacilityViewModel;
-            if (facilityViewModel.Facility != null && facilityViewModel.IsValid)
+            if (facilityViewModel.Facility != null)
             {
+                if (!facilityViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название объекта", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (facilityViewModel.Facility.FacilityId == 0)

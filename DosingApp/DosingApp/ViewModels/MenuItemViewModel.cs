@@ -22,13 +22,13 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                return new Command(SelectMenuItemExecute);
+                return new Command(SelectMenuItem);
             }
         }
         #endregion Commands
 
         #region Methods
-        private void SelectMenuItemExecute()
+        private void SelectMenuItem()
         {
             switch (this.Id)
             {

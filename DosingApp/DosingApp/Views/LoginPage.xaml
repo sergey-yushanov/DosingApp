@@ -5,7 +5,7 @@
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
     x:Class="DosingApp.Views.LoginPage"
-    Title="Mix-App"
+    Title="MixApp"
     CloseWhenBackgroundIsClicked="False">
 
     <!--You can set an animation in the xaml file or in the csharp code behind-->

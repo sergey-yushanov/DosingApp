@@ -3,128 +3,120 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.JobComponentsPage"
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
-             NavigationPage.HasBackButton="False"
-             Title="{Binding Title}">
+             NavigationPage.HasBackButton="False">
 
     <ContentPage.Resources>
         <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+        <x:Int32 x:Key="Dec2">2</x:Int32>
+        <x:Int32 x:Key="Dec3">3</x:Int32>
     </ContentPage.Resources>
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label
+                x:Name="labelTitle"
+                Text="{Binding Title}"
+                FontSize="Medium"
+                TextColor="{StaticResource TitleColor}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
     
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout 
-                Margin="{StaticResource PageMargin}">
+        <StackLayout 
+            Margin="{StaticResource PageMargin}">
 
-                <StackLayout>
+            <StackLayout>
+                <ActivityIndicator 
+                    IsRunning="{Binding IsRunning}"
+                    IsVisible="{Binding IsRunning}"
+                    HeightRequest="40"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>
 
-                    <Label 
-                        Text="На количество гектар"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Партия смеси, га"
-                        Text="{Binding PartySize, Converter={StaticResource DoubleConverter}}"
-                        IsReadOnly="True"/>
+            <StackLayout>
 
-                </StackLayout>
-                
-                <StackLayout>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Button 
-                            Text="Выполнить" 
-                            Command="{Binding StartJobCommand}"/>
-                        <Button 
-                            Grid.Column="1" 
-                            Text="Выйти"
-                            Command="{Binding StopJobCommand}"/>
-                    </Grid>
-                </StackLayout>
+                <ListView
+                    ItemsSource="{Binding JobComponents}"
+                    VerticalOptions="FillAndExpand"
+                    HasUnevenRows="True">
 
-                <StackLayout>
-                    <ActivityIndicator 
-                        IsRunning="{Binding IsRunning}"
-                        IsVisible="{Binding IsRunning}"
-                        HeightRequest="40"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="CenterAndExpand"/>
-                </StackLayout>
-                
-                <StackLayout>
-
-                    <ListView 
-                        x:Name="jobComponentsList"
-                        ItemsSource="{Binding JobComponents}">
-
-                        <ListView.Header>
-                            <StackLayout Padding="0,10">
-
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="10*" />
-                                        <ColumnDefinition Width="4*" />
-                                        <ColumnDefinition Width="3*" />
-                                        <ColumnDefinition Width="3*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Label
-                                        Text="Название" 
-                                        TextColor="{StaticResource LabelEntryColor}"/>
-                                    <Label
-                                        Grid.Column="1"
-                                        Text="Объем" 
-                                        TextColor="{StaticResource LabelEntryColor}"/>
-                                    <Label
-                                        Grid.Column="2"
-                                        Text="Норма" 
-                                        TextColor="{StaticResource LabelEntryColor}"/>
-                                    <Label
-                                        Grid.Column="3"
-                                        Text="Доз."
-                                        TextColor="{StaticResource LabelEntryColor}"/>
-                                </Grid>
-                            </StackLayout>
-                        </ListView.Header>
-
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <ViewCell.View>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Padding="0,10">
                                         <Grid>
+
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="10*" />
                                                 <ColumnDefinition Width="4*" />
-                                                <ColumnDefinition Width="3*" />
-                                                <ColumnDefinition Width="3*" />
                                             </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
 
                                             <Label
+                                                Grid.Column="0"
+                                                Grid.Row="0"
                                                 Text="{Binding Name}" 
-                                                FontSize="Medium" />
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"/>
                                             <Label
                                                 Grid.Column="1"
-                                                Text="{Binding Volume, Converter={StaticResource DoubleConverter}}" 
+                                                Grid.Row="0"
+                                                Text="{Binding VolumeInfo}" 
+                                                FontSize="Medium" 
+                                                FontAttributes="Bold"/>
+                                            <Label
+                                                Grid.Column="0"
+                                                Grid.Row="1"
+                                                Text="{Binding ConsistencyInfo}" 
                                                 FontSize="Medium" />
                                             <Label
-                                                Grid.Column="2"
-                                                Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
+                                                Grid.Column="0"
+                                                Grid.Row="2"
+                                                Text="{Binding DispenserInfo}" 
                                                 FontSize="Medium" />
                                             <Label
-                                                Grid.Column="3"
-                                                Text="{Binding Dispenser}" 
+                                                Grid.Column="0"
+                                                Grid.Row="3"
+                                                Text="{Binding VolumeRateInfo}" 
                                                 FontSize="Medium" />
                                         </Grid>
-                                    </ViewCell.View>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-
-                </StackLayout>
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
             </StackLayout>
-        </ScrollView>
+
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Button 
+                        Text="Назад"
+                        Command="{Binding StopJobCommand}"/>
+                    <Button 
+                        Grid.Column="1" 
+                        Text="Выполнить" 
+                        Command="{Binding StartJobCommand}"/>
+                </Grid>
+            </StackLayout>
+
+        </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>

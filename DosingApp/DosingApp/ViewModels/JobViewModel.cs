@@ -33,7 +33,12 @@ namespace DosingApp.ViewModels
         private ObservableCollection<ApplicatorTank> sourceApplicatorTanks;
         private ObservableCollection<ApplicatorTank> destApplicatorTanks;
 
-        private bool isAccessToChangeMemory;
+        private bool noteVisibility;
+        private bool sourceTypeVisibility;
+        private bool destTypeVisibility;
+        private bool agrYearVisibility;
+        private bool fieldVisibility;
+        private bool sizeInfoVisibility;
         #endregion Attributes
 
         #region Constructor
@@ -42,7 +47,6 @@ namespace DosingApp.ViewModels
             Job = job;
             InitJob();
             CalculateVolume();
-            IsAccessToChangeMemory = false;
         }
         #endregion Constructor
 
@@ -58,53 +62,13 @@ namespace DosingApp.ViewModels
             get { return Job.Name; }
         }
 
-        public bool IsEnableToChange
-        {
-            get { return App.ActiveUser.AccessJobParams; }
-        }
-
-        public bool IsDisableToChange
-        {
-            get { return !App.ActiveUser.AccessJobParams; }
-        }
-
-        public bool IsAccessToChange
-        {
-            get { return Job.IsAccessToChange; }
-            set
-            {
-/*                if (value && !IsAccessToChangeMemory)
-                {
-                    AccessToChange();
-                }*/
-                 
-                if (value && IsAccessToChangeMemory)
-                {
-                    if (Job.IsAccessToChange != value)
-                    {
-                        Job.IsAccessToChange = value;
-                    }
-                }
-                OnPropertyChanged(nameof(IsAccessToChange));
-            }
-        }
-
-        public bool IsAccessToChangeMemory
-        {
-            get { return isAccessToChangeMemory; }
-            set
-            {
-                SetProperty(ref isAccessToChangeMemory, value);
-                if (value)
-                {
-                    IsAccessToChange = true;
-                }
-            }
-        }
-
         public string Note
         {
-            get { return Job.Note; }
+            get
+            {
+                NoteVisibility = Job.Note != null;
+                return Job.Note; 
+            }
             set
             {
                 if (Job.Note != value)
@@ -113,6 +77,12 @@ namespace DosingApp.ViewModels
                     OnPropertyChanged(nameof(Note));
                 }
             }
+        }
+
+        public bool NoteVisibility
+        {
+            get { return noteVisibility; }
+            set { SetProperty(ref noteVisibility, value); }
         }
 
         public Recipe Recipe
@@ -142,6 +112,9 @@ namespace DosingApp.ViewModels
                 IsSourceFacility = String.Equals(Job.SourceType, SourceDestType.Facility);
                 IsSourceTransport = String.Equals(Job.SourceType, SourceDestType.Transport);
                 IsSourceApplicator = String.Equals(Job.SourceType, SourceDestType.Applicator);
+
+                SourceTypeVisibility = Job.SourceType != null;
+
                 return Job.SourceType; 
             }
             set 
@@ -154,6 +127,12 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public bool SourceTypeVisibility
+        {
+            get { return sourceTypeVisibility; }
+            set { SetProperty(ref sourceTypeVisibility, value); }
+        }
+
         public string DestType
         {
             get
@@ -161,6 +140,9 @@ namespace DosingApp.ViewModels
                 IsDestFacility = String.Equals(Job.DestType, SourceDestType.Facility);
                 IsDestTransport = String.Equals(Job.DestType, SourceDestType.Transport);
                 IsDestApplicator = String.Equals(Job.DestType, SourceDestType.Applicator);
+                
+                DestTypeVisibility = Job.DestType != null;
+
                 return Job.DestType;
             }
             set
@@ -171,6 +153,12 @@ namespace DosingApp.ViewModels
                     OnPropertyChanged(nameof(DestType));
                 }
             }
+        }
+
+        public bool DestTypeVisibility
+        {
+            get { return destTypeVisibility; }
+            set { SetProperty(ref destTypeVisibility, value); }
         }
 
         public ObservableCollection<string> SourceDestTypes
@@ -492,7 +480,11 @@ namespace DosingApp.ViewModels
 
         public AgrYear AgrYear
         {
-            get { return Job.AgrYear; }
+            get
+            {
+                AgrYearVisibility = Job.AgrYear != null;
+                return Job.AgrYear; 
+            }
             set
             {
                 if (Job.AgrYear != value)
@@ -503,6 +495,12 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public bool AgrYearVisibility
+        {
+            get { return agrYearVisibility; }
+            set { SetProperty(ref agrYearVisibility, value); }
+        }
+
         public ObservableCollection<AgrYear> AgrYears
         {
             get { return agrYears; }
@@ -511,7 +509,11 @@ namespace DosingApp.ViewModels
 
         public Field Field
         {
-            get { return Job.Field; }
+            get
+            {
+                FieldVisibility = Job.Field != null;
+                return Job.Field; 
+            }
             set
             {
                 if (Job.Field != value)
@@ -520,6 +522,12 @@ namespace DosingApp.ViewModels
                     OnPropertyChanged(nameof(Field));
                 }
             }
+        }
+
+        public bool FieldVisibility
+        {
+            get { return fieldVisibility; }
+            set { SetProperty(ref fieldVisibility, value); }
         }
 
         public ObservableCollection<Field> Fields
@@ -553,6 +561,36 @@ namespace DosingApp.ViewModels
                 }
             }
         }
+
+        public double? AssignmentRemainSize
+        {
+            get { return Job.AssignmentRemainSize; }
+            set
+            {
+                if (Job.AssignmentRemainSize != value)
+                {
+                    Job.AssignmentRemainSize = value;
+                    OnPropertyChanged(nameof(AssignmentRemainSize));
+                }
+            }
+        }
+
+        public bool SizeInfoVisibility
+        {
+            get { return sizeInfoVisibility; }
+            set { SetProperty(ref sizeInfoVisibility, value); }
+        }
+
+        public string SizeInfoLabel
+        {
+            get { return "Размер задания, " + Job.Unit; }
+        }
+
+        public string SizeInfo
+        {
+            get { return Job.AssignmentRemainSize + " / " + Job.AssignmentSize; }
+        }
+
         public double? VolumeRate
         {
             get { return Job.VolumeRate; }
@@ -566,41 +604,18 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string AssignType
+        public string PartyCountInfo
         {
-            get { return Job.AssignmentType; }
-            set
-            {
-                if (Job.AssignmentType != value)
-                {
-                    Job.AssignmentType = value;
-                    OnPropertyChanged(nameof(AssignType));
-                }
-            }
-        }
-
-        public ObservableCollection<string> AssignmentTypeList
-        {
-            get { return new ObservableCollection<string>(AssignmentType.GetList()); }
+            get { return "Осталось сделать " + Job.PartyCount + " партий"; }
         }
 
         public bool IsValid
         {
-            get
-            {
-                return (!string.IsNullOrEmpty(Name));
-            }
+            get { return (!String.IsNullOrEmpty(Name)); }
         }
         #endregion Properties
 
         #region Commands
-        //private async void AccessToChange(object sender, ToggledEventArgs e)
-        //{
-            //if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Вы действительно хотите внести изменения в задание?", "Да", "Нет"))
-            //{
-                //IsAccessToChange = true;
-            //}
-        //}
         #endregion Commands
 
         #region Methods
@@ -644,10 +659,11 @@ namespace DosingApp.ViewModels
 
             Job.VolumeRate = Job.Assignment.VolumeRate;
 
-            Job.AssignmentType = Job.Assignment.Type;
             Job.AssignmentSize = Job.Assignment.Size;
-            //Job.Unit = Job.Assignment.Unit;
+            Job.AssignmentRemainSize = Job.AssignmentSize;
+            Job.Unit = Job.Assignment.Unit;
 
+            SizeInfoVisibility = Job.AssignmentSize != null;
 
             LoadItems();
             InitSelectedItems();
@@ -664,6 +680,9 @@ namespace DosingApp.ViewModels
                     Job.PartyVolume = DestApplicatorTank?.Volume;
                     break;
             }
+
+            Job.PartySize = GetPartySquare();  // посчитаем площадь, на которую хватает
+            Job.PartyCount = GetPartyCount();
         }
 
         public void CalculateVolume()
@@ -760,13 +779,30 @@ namespace DosingApp.ViewModels
             }
         }
 
-/*        private async void AccessToChange()
+        public double? GetPartySquare()
         {
-            if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Вы действительно хотите внести изменения в задание?", "Да", "Нет"))
+            return (Job.VolumeRate != 0 && Job.PartyVolume != null && Job.VolumeRate != null) ? (Job.PartyVolume / Job.VolumeRate) : 0.0;
+        }
+
+        private int? GetPartyCount()
+        {            
+            double? countSquare = 0.0;
+            double? countVolume = 0.0;
+            if (Job.PartySize != 0.0 && Job.PartySize != null && Job.AssignmentSize != null)
             {
-                IsAccessToChangeMemory = true;
+                countSquare = Job.AssignmentSize / Job.PartySize;
+                if (Job.VolumeRate != 0.0 && Job.VolumeRate != null)
+                {
+                    countVolume = countSquare / Job.VolumeRate;
+                }
             }
-        }*/
+            
+            var decimalCountSquare = (decimal)countSquare;
+            var decimalCountVolume = (decimal)countVolume;
+
+            var decimalCount = String.Equals(Job.Unit, SizeUnit.Square) ? decimalCountSquare : decimalCountVolume;
+            return (int)Math.Ceiling(decimalCount);
+        }
         #endregion Methods
     }
 }

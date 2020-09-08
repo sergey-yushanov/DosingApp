@@ -83,8 +83,14 @@ namespace DosingApp.ViewModels
         private void SaveTransport(object transportInstance)
         {
             TransportViewModel transportViewModel = transportInstance as TransportViewModel;
-            if (transportViewModel.Transport != null && transportViewModel.IsValid)
+            if (transportViewModel.Transport != null)
             {
+                if (!transportViewModel.IsValid)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название транспорта", "Ok");
+                    return;
+                }
+
                 using (AppDbContext db = App.GetContext())
                 {
                     if (transportViewModel.Transport.TransportId == 0)

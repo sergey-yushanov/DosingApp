@@ -539,22 +539,22 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public string Type
+        public string Unit
         {
-            get { return Assignment.Type; }
+            get { return Assignment.Unit; }
             set
             {
-                if (Assignment.Type != value)
+                if (Assignment.Unit != value)
                 {
-                    Assignment.Type = value;
-                    OnPropertyChanged(nameof(Type));
+                    Assignment.Unit = value;
+                    OnPropertyChanged(nameof(Unit));
                 }
             }
         }
 
-        public ObservableCollection<string> AssignmentTypeList
+        public ObservableCollection<string> UnitList
         {
-            get { return new ObservableCollection<string>(AssignmentType.GetList()); }
+            get { return new ObservableCollection<string>(SizeUnit.GetList()); }
         }
 
         public double? Size
@@ -572,10 +572,7 @@ namespace DosingApp.ViewModels
 
         public bool IsValid
         {
-            get
-            {
-                return (!string.IsNullOrEmpty(Name));
-            }
+            get { return (!String.IsNullOrEmpty(Name) && (Recipe != null) && (VolumeRate != null)); }
         }
 
         public string Title

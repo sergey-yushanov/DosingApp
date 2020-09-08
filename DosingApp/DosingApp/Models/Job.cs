@@ -11,10 +11,13 @@ namespace DosingApp.Models
         public int? AssignmentId { get; set; }
         public virtual Assignment Assignment { get; set; }
 
-        public bool IsAccessToChange { get; set; }
         public double? AssignmentSize { get; set; }
         public double? AssignmentRemainSize { get; set; }
         public double? PartySize { get; set; }
+        public string Unit { get; set; }
+
+        public int? PartyCount { get; set; }
+        public int? PartyRemainCount { get; set; }
 
         public string Note { get; set; }
 

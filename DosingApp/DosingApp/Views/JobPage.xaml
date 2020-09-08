@@ -23,189 +23,151 @@
                     <Label 
                         Text="Название задания"
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry 
-                        Text="{Binding Name}" 
-                        IsReadOnly="True"/>
+                    <Label                        
+                        Text="{Binding Name}"
+                        FontSize="Medium"
+                        Padding="0,10"/>
 
                     <Label 
                         Text="Заметка" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Editor 
-                        Placeholder="Введите текст заметки здесь"
+                        TextColor="{StaticResource LabelEntryColor}"
+                        IsVisible="{Binding NoteVisibility}"/>
+                    <Label 
                         Text="{Binding Note}"
-                        IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
-                        IsEnabled="{Binding IsAccessToChange}"
-                        Keyboard="Chat"/>
+                        IsVisible="{Binding NoteVisibility}"
+                        LineBreakMode="WordWrap"
+                        FontSize="Medium"
+                        Padding="0,10"/>
 
                     <Label 
                         Text="Рецепт смеси"
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        x:Name="recipesList"
-                        Title="Выберите рецепт"
-                        ItemsSource="{Binding Recipes}"
-                        ItemDisplayBinding="{Binding Name}"
-                        SelectedItem="{Binding Recipe, Mode=TwoWay}" 
-                        IsEnabled="{Binding IsAccessToChange}"/>
+                    <Label 
+                        Text="{Binding Recipe.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"/>
 
                     <Label
                         Text="Откуда носитель смеси" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        Title="Выберите тип источника"
-                        x:Name="sourceTypesList"
-                        ItemsSource="{Binding SourceDestTypes}"
-                        SelectedItem="{Binding SourceType, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите объект"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding Facilities}"
-                        IsVisible="{Binding IsSourceFacility}"
-                        SelectedItem="{Binding SourceFacility, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите транспорт"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding Transports}"
-                        IsVisible="{Binding IsSourceTransport}"
-                        SelectedItem="{Binding SourceTransport, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите аппликатор"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding Applicators}"
-                        IsVisible="{Binding IsSourceApplicator}"
-                        SelectedItem="{Binding SourceApplicator, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
+                        TextColor="{StaticResource LabelEntryColor}"
+                        IsVisible="{Binding SourceTypeVisibility}"/>
+                    <Label
+                        Text="{Binding SourceType}"
+                        IsVisible="{Binding SourceTypeVisibility}"
+                        FontSize="Medium"
+                        Padding="0,10"/>
+                    <Label
+                        Text="{Binding SourceFacility.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsSourceFacility}"/>
+                    <Label 
+                        Text="{Binding SourceTransport.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsSourceTransport}"/>
+                    <Label
+                        Text="{Binding SourceApplicator.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsSourceApplicator}"/>
 
-                    <Picker 
-                        Title="Выберите емкость объекта"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding SourceFacilityTanks}"
-                        IsVisible="{Binding IsSourceFacility}"
-                        SelectedItem="{Binding SourceFacilityTank, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите емкость транспорта"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding SourceTransportTanks}"
-                        IsVisible="{Binding IsSourceTransport}"
-                        SelectedItem="{Binding SourceTransportTank, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите емкость аппликатора"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding SourceApplicatorTanks}"
-                        IsVisible="{Binding IsSourceApplicator}"
-                        SelectedItem="{Binding SourceApplicatorTank, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
+                    <Label
+                        Text="{Binding SourceFacilityTank.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsSourceFacility}"/>
+                    <Label 
+                        Text="{Binding SourceTransportTank.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsSourceTransport}"/>
+                    <Label 
+                        Text="{Binding SourceApplicatorTank.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsSourceApplicator}"/>
                     
                     
                     <Label 
                         Text="Куда производится смесь"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        Title="Выберите тип приемника"
-                        x:Name="destTypesList"
-                        ItemsSource="{Binding SourceDestTypes}"
-                        SelectedItem="{Binding DestType, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите объект"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding Facilities}"
-                        IsVisible="{Binding IsDestFacility}"
-                        SelectedItem="{Binding DestFacility, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите транспорт"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding Transports}"
-                        IsVisible="{Binding IsDestTransport}"
-                        SelectedItem="{Binding DestTransport, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите аппликатор"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding Applicators}"
-                        IsVisible="{Binding IsDestApplicator}"
-                        SelectedItem="{Binding DestApplicator, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
+                        TextColor="{StaticResource LabelEntryColor}"
+                        IsVisible="{Binding DestTypeVisibility}"/>
+                    <Label 
+                        Text="{Binding DestType}"
+                        IsVisible="{Binding DestTypeVisibility}"
+                        FontSize="Medium"
+                        Padding="0,10"/>
+                    <Label
+                        Text="{Binding DestFacility.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsDestFacility}"/>
+                    <Label 
+                        Text="{Binding DestTransport.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsDestTransport}"/>
+                    <Label
+                        Text="{Binding DestApplicator.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsDestApplicator}"/>
 
-                    <Picker 
-                        Title="Выберите емкость объекта"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding DestFacilityTanks}"
-                        IsVisible="{Binding IsDestFacility}"
-                        SelectedItem="{Binding DestFacilityTank, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите емкость транспорта"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding DestTransportTanks}"
-                        IsVisible="{Binding IsDestTransport}"
-                        SelectedItem="{Binding DestTransportTank, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-                    <Picker 
-                        Title="Выберите емкость аппликатора"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding DestApplicatorTanks}"
-                        IsVisible="{Binding IsDestApplicator}"
-                        SelectedItem="{Binding DestApplicatorTank, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
+                    <Label
+                        Text="{Binding DestFacilityTank.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsDestFacility}"/>
+                    <Label
+                        Text="{Binding DestTransportTank.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsDestTransport}"/>
+                    <Label
+                        Text="{Binding DestApplicatorTank.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding IsDestApplicator}"/>
 
                     <Label 
                         Text="Сельхоз. год" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        x:Name="agrYearsList"
-                        Title="Выберите сельхоз. год"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding AgrYears}"
-                        SelectedItem="{Binding AgrYear, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
+                        TextColor="{StaticResource LabelEntryColor}"
+                        IsVisible="{Binding AgrYearVisibility}"/>
+                    <Label
+                        Text="{Binding AgrYear.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding AgrYearVisibility}"/>
 
                     <Label 
                         Text="Место обработки СЗР"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        x:Name="fieldsList"
-                        Title="Выберите поле"
-                        ItemDisplayBinding="{Binding Name}"
-                        ItemsSource="{Binding Fields}"
-                        SelectedItem="{Binding Field, Mode=TwoWay}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
+                        TextColor="{StaticResource LabelEntryColor}"
+                        IsVisible="{Binding FieldVisibility}"/>
+                    <Label
+                        Text="{Binding Field.Name}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding FieldVisibility}"/>
 
                     <Label 
                         Text="Норма вылива, л/га" 
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Введите норму"
+                    <Label
                         Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}"
-                        Keyboard="Numeric"
-                        IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
+                        FontSize="Medium"
+                        Padding="0,10"/>
 
                     <Label 
-                        Text="Размер задания, га" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Введите размер"
-                        Text="{Binding AssignmentSize, Converter={StaticResource DoubleConverter}}" 
-                        Keyboard="Numeric"
-                        IsReadOnly="{Binding IsAccessToChange, Converter={StaticResource InverseBoolConverter}}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-
+                        Text="{Binding SizeInfoLabel}" 
+                        TextColor="{StaticResource LabelEntryColor}"
+                        IsVisible="{Binding SizeInfoVisibility}"/>
                     <Label
-                        Text="Вид задания" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        Title="Выберите вид задания"
-                        ItemsSource="{Binding AssignmentTypeList}"
-                        SelectedItem="{Binding AssignmentType}"
-                        IsEnabled="{Binding IsAccessToChange}"/>
-
+                        Text="{Binding SizeInfo}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding SizeInfoVisibility}"/>
+                    
                     <Label 
                         Text="Размер партии смеси, л"
                         TextColor="{StaticResource LabelEntryColor}"/>

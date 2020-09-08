@@ -390,32 +390,28 @@
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
                         Placeholder="Введите норму"
-                        Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}, ConverterParameter=3}" 
+                        Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
 
-                    <StackLayout Orientation="Horizontal">
-                        <StackLayout
-                            Orientation="Vertical"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="FillAndExpand">
-                            <Label 
-                                Text="Размер задания" 
-                                TextColor="{StaticResource LabelEntryColor}"/>
-                            <Entry
-                                Placeholder="Введите размер"
-                                Text="{Binding Size, Converter={StaticResource DoubleConverter}}" 
-                                Keyboard="Numeric"/>
-                        </StackLayout>
-                        <StackLayout
-                            Orientation="Vertical"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="EndAndExpand">
-                            <Picker 
-                                Title="Eд.изм."
-                                ItemsSource="{Binding UnitList}"
-                                SelectedItem="{Binding Unit}"/>
-                        </StackLayout>
-                    </StackLayout>
+
+                    <Label 
+                        Text="Размер задания" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="9*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Entry
+                            Placeholder="Введите размер"
+                            Text="{Binding Size, Converter={StaticResource DoubleConverter}}" 
+                            Keyboard="Numeric"/>
+                        <Picker 
+                            Grid.Column="1"
+                            Title="Eд.изм."
+                            ItemsSource="{Binding UnitList}"
+                            SelectedItem="{Binding Unit}"/>
+                    </Grid>
 
                 </StackLayout>
 

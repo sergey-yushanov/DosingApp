@@ -60,7 +60,6 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
-                    jobViewModel.Job.PartySize = GetPartySquare(jobViewModel.Job);  // посчитаем площадь, на которую хватает
                     db.Entry(jobViewModel.Job).State = EntityState.Added;
                     db.SaveChanges();
 
@@ -101,11 +100,6 @@ namespace DosingApp.ViewModels
                 recipeComponents.ForEach(rc => rc.Component = db.Components.FirstOrDefault(c => c.ComponentId == rc.ComponentId));
                 return recipeComponents;
             }
-        }
-
-        public double? GetPartySquare(Job job)
-        {
-            return (job.VolumeRate != 0 && job.PartyVolume != null && job.VolumeRate != null) ? (job.PartyVolume / job.VolumeRate) : 0.0;
         }
 
         public List<JobComponent> GetJobComponents(Job job)

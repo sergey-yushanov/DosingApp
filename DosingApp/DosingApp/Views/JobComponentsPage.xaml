@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.JobComponentsPage"
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
-             NavigationPage.HasBackButton="False"
-             Title="{Binding Title}">
+             NavigationPage.HasBackButton="False">
 
     <ContentPage.Resources>
         <Helpers:DoubleConverter x:Key="DoubleConverter"/>
@@ -12,27 +11,20 @@
         <x:Int32 x:Key="Dec3">3</x:Int32>
     </ContentPage.Resources>
 
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label
+                x:Name="labelTitle"
+                Text="{Binding Title}"
+                FontSize="Medium"
+                TextColor="{StaticResource TitleColor}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
     <ContentPage.Content>
         <StackLayout 
             Margin="{StaticResource PageMargin}">
 
-            <StackLayout>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Button 
-                        Text="Назад"
-                        Command="{Binding StopJobCommand}"/>
-                    <Button 
-                        Grid.Column="1" 
-                        Text="Выполнить" 
-                        Command="{Binding StartJobCommand}"/>
-                </Grid>
-            </StackLayout>
-                
             <StackLayout>
                 <ActivityIndicator 
                     IsRunning="{Binding IsRunning}"
@@ -53,54 +45,75 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
-                                    <Grid
-                                        Padding="0,10">
-                                        
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="10*" />
-                                            <ColumnDefinition Width="4*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
+                                    <StackLayout Padding="0,10">
+                                        <Grid>
 
-                                        <Label
-                                            Grid.Column="0"
-                                            Grid.Row="0"
-                                            Text="{Binding Name}" 
-                                            FontSize="Medium"
-                                            FontAttributes="Bold"/>
-                                        <Label
-                                            Grid.Column="1"
-                                            Grid.Row="0"
-                                            Text="{Binding VolumeInfo}" 
-                                            FontSize="Medium" 
-                                            FontAttributes="Bold"/>
-                                        <Label
-                                            Grid.Column="0"
-                                            Grid.Row="1"
-                                            Text="{Binding ConsistencyInfo}" 
-                                            FontSize="Medium" />
-                                        <Label
-                                            Grid.Column="0"
-                                            Grid.Row="2"
-                                            Text="{Binding DispenserInfo}" 
-                                            FontSize="Medium" />
-                                        <Label
-                                            Grid.Column="0"
-                                            Grid.Row="3"
-                                            Text="{Binding VolumeRateInfo}" 
-                                            FontSize="Medium" />
-                                    </Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="10*" />
+                                                <ColumnDefinition Width="4*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+
+                                            <Label
+                                                Grid.Column="0"
+                                                Grid.Row="0"
+                                                Text="{Binding Name}" 
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"/>
+                                            <Label
+                                                Grid.Column="1"
+                                                Grid.Row="0"
+                                                Text="{Binding VolumeInfo}" 
+                                                FontSize="Medium" 
+                                                FontAttributes="Bold"/>
+                                            <Label
+                                                Grid.Column="0"
+                                                Grid.Row="1"
+                                                Text="{Binding ConsistencyInfo}" 
+                                                FontSize="Medium" />
+                                            <Label
+                                                Grid.Column="0"
+                                                Grid.Row="2"
+                                                Text="{Binding DispenserInfo}" 
+                                                FontSize="Medium" />
+                                            <Label
+                                                Grid.Column="0"
+                                                Grid.Row="3"
+                                                Text="{Binding VolumeRateInfo}" 
+                                                FontSize="Medium" />
+                                        </Grid>
+                                    </StackLayout>
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
 
+            </StackLayout>
+
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Button 
+                        Text="Назад"
+                        Command="{Binding StopJobCommand}"/>
+                    <Button 
+                        Grid.Column="1" 
+                        Text="Выполнить" 
+                        Command="{Binding StartJobCommand}"/>
+                </Grid>
             </StackLayout>
 
         </StackLayout>

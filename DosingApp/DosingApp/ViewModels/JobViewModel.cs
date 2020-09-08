@@ -604,6 +604,11 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public string PartyCountInfo
+        {
+            get { return "Осталось сделать " + Job.PartyCount + " партий"; }
+        }
+
         public bool IsValid
         {
             get { return (!String.IsNullOrEmpty(Name)); }
@@ -675,6 +680,9 @@ namespace DosingApp.ViewModels
                     Job.PartyVolume = DestApplicatorTank?.Volume;
                     break;
             }
+
+            Job.PartySize = GetPartySquare();  // посчитаем площадь, на которую хватает
+            Job.PartyCount = GetPartyCount();
         }
 
         public void CalculateVolume()
@@ -769,6 +777,31 @@ namespace DosingApp.ViewModels
                     return new ObservableCollection<ApplicatorTank>(applicatorTanksDB.ToList());
                 }
             }
+        }
+
+        public double? GetPartySquare()
+        {
+            return (Job.VolumeRate != 0 && Job.PartyVolume != null && Job.VolumeRate != null) ? (Job.PartyVolume / Job.VolumeRate) : 0.0;
+        }
+
+        private int? GetPartyCount()
+        {            
+            double? countSquare = 0.0;
+            double? countVolume = 0.0;
+            if (Job.PartySize != 0.0 && Job.PartySize != null && Job.AssignmentSize != null)
+            {
+                countSquare = Job.AssignmentSize / Job.PartySize;
+                if (Job.VolumeRate != 0.0 && Job.VolumeRate != null)
+                {
+                    countVolume = countSquare / Job.VolumeRate;
+                }
+            }
+            
+            var decimalCountSquare = (decimal)countSquare;
+            var decimalCountVolume = (decimal)countVolume;
+
+            var decimalCount = String.Equals(Job.Unit, SizeUnit.Square) ? decimalCountSquare : decimalCountVolume;
+            return (int)Math.Ceiling(decimalCount);
         }
         #endregion Methods
     }

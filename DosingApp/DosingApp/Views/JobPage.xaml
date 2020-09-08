@@ -167,6 +167,11 @@
                         FontSize="Medium"
                         Padding="0,10"
                         IsVisible="{Binding SizeInfoVisibility}"/>
+                    <Label
+                        Text="{Binding PartyCountInfo}"
+                        FontSize="Medium"
+                        Padding="0,10"
+                        IsVisible="{Binding SizeInfoVisibility}"/>
                     
                     <Label 
                         Text="Размер партии смеси, л"

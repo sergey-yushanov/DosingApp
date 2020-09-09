@@ -20,6 +20,7 @@ namespace DosingApp.ViewModels
         private ObservableCollection<string> dispensers;
         private bool isComponentEnabled;
         private bool isUnitEnabled;
+        private bool isDispenserVisible;
 
         public ICommand SelectComponentCommand { get; protected set; }
         public ICommand ClearDispenserCommand { get; protected set; }
@@ -142,6 +143,12 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isComponentEnabled, value); }
         }
 
+        public bool IsDispenserVisible
+        {
+            get { return isDispenserVisible; }
+            set { SetProperty(ref isDispenserVisible, value); }
+        }
+
         public string Title
         {
             get { return "Рецепт: " + RecipeViewModel.Name; ; }
@@ -193,9 +200,19 @@ namespace DosingApp.ViewModels
         public void CheckDryComponent(Component component)
         {
             IsUnitEnabled = component.IsLiquid();
+            IsDispenserVisible = component.IsLiquid();
+
             if (!component.IsLiquid())
             {
                 Unit = VolumeRateUnit.Dry;
+                Dispenser = RecipeComponent.DryComponentDispenser;
+            }
+            else
+            {
+                if (String.Equals(Dispenser, RecipeComponent.DryComponentDispenser))
+                {
+                    Dispenser = null;
+                }
             }
         }
 

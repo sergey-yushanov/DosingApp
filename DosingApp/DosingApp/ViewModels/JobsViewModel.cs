@@ -117,7 +117,7 @@ namespace DosingApp.ViewModels
                 VolumeRate = rc.VolumeRate,
                 VolumeUnit = GetVolumeUnit(rc),
                 VolumeRateUnit = rc.VolumeRateUnit,
-                Dispenser = GetDispenser(rc)
+                Dispenser = rc.Dispenser
             }));
 
             var carrierVolume = GetCarrierVolume(job, jobComponents);
@@ -180,11 +180,6 @@ namespace DosingApp.ViewModels
         private string GetVolumeUnit(RecipeComponent recipeComponent)
         {
             return String.Equals(recipeComponent.Component.Consistency, ComponentConsistency.Dry) ? VolumeUnit.Dry : VolumeUnit.Liquid;
-        }
-
-        private string GetDispenser(RecipeComponent recipeComponent)
-        {
-            return String.Equals(recipeComponent.Component.Consistency, ComponentConsistency.Dry) ? "Загр. вручную" : recipeComponent.Dispenser;
         }
         #endregion Methods
     }

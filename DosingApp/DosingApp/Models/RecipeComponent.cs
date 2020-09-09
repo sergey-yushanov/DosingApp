@@ -29,5 +29,7 @@ namespace DosingApp.Models
             int index = Dispenser != null ? Dispenser.IndexOf(fourthValve) : -1;
             return index != -1;
         }
+
+        public string DryComponentDispenser { get { return "Загр. вручную"; } }
     }
 }

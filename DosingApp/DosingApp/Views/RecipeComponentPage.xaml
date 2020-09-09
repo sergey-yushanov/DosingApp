@@ -63,9 +63,11 @@
 
                     <Label 
                         Text="Дозатор" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
+                        TextColor="{StaticResource LabelEntryColor}"
+                        IsVisible="{Binding IsDispenserVisible}"/>
 
-                    <Grid>
+                    <Grid
+                        IsVisible="{Binding IsDispenserVisible}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="11*" />
                             <ColumnDefinition Width="1*" />

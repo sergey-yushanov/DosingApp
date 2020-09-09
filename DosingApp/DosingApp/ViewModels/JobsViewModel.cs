@@ -113,7 +113,7 @@ namespace DosingApp.ViewModels
                 ComponentId = rc.ComponentId,
                 Component = rc.Component,
                 Order = rc.Order,
-                Volume = GetVolume(rc, job.PartySize),
+                Volume = GetVolume(rc, job),
                 VolumeRate = rc.VolumeRate,
                 VolumeUnit = GetVolumeUnit(rc),
                 VolumeRateUnit = rc.VolumeRateUnit,
@@ -141,21 +141,22 @@ namespace DosingApp.ViewModels
             return jobComponents;
         }
 
-        private double? GetVolume(RecipeComponent recipeComponent, double? square)
+        private double? GetVolume(RecipeComponent recipeComponent, Job job)
         {
-            double? doubleValue = 0.0;
-
-            if (String.Equals(recipeComponent.VolumeRateUnit, VolumeRateUnit.Dry))
+            if (job.VolumeRate != 0.0)
             {
-                doubleValue = recipeComponent.Component.Density != 0 ? recipeComponent.VolumeRate / recipeComponent.Component.Density * square : 0.0;
+                double? doubleValue = job.PartyVolume * recipeComponent.VolumeRate / job.VolumeRate;
+                if (String.Equals(recipeComponent.VolumeRateUnit, VolumeRateUnit.Dry))
+                {
+                    doubleValue = recipeComponent.Component.Density != 0 ? doubleValue / recipeComponent.Component.Density : doubleValue;
+                }
+                var decimalValue = (decimal)doubleValue;
+                return (double)Math.Round(decimalValue, 2);
             }
             else
             {
-                doubleValue = recipeComponent.VolumeRate * square;
+                return 0.0;
             }
-
-            var decimalValue = (decimal)doubleValue;
-            return (double)Math.Round(decimalValue, 2);
         }
 
         private double? GetCarrierVolume(Job job, List<JobComponent> jobComponents)

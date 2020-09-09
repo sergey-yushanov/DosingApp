@@ -221,6 +221,7 @@ namespace DosingApp.ViewModels
             if (App.GetUsedMixer() == null)
             {
                 Dispensers = null;
+                return;
             }
 
             using (AppDbContext db = App.GetContext())

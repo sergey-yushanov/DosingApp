@@ -58,6 +58,11 @@ namespace DosingApp.ViewModels
             JobViewModel jobViewModel = jobInstance as JobViewModel;
             if (jobViewModel.Job != null && jobViewModel.IsValid)
             {
+                if (jobViewModel.Job.PartyVolume == null)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте размер партии", "Ok");
+                    return;
+                }
                 using (AppDbContext db = App.GetContext())
                 {
                     db.Entry(jobViewModel.Job).State = EntityState.Added;
@@ -121,7 +126,7 @@ namespace DosingApp.ViewModels
             }));
 
             var carrierVolume = GetCarrierVolume(job, jobComponents);
-            var carrierVolumeRate = GetCarrierVolumeRate(carrierVolume, job.PartySize);
+            var carrierVolumeRate = GetCarrierVolumeRate(carrierVolume, job.PartyVolume, job.VolumeRate);
             var recipeCarrier = LoadRecipeCarrier(job);
 
             jobComponents.Insert(0, new JobComponent()
@@ -169,9 +174,9 @@ namespace DosingApp.ViewModels
             return (double)Math.Round(decimalValue, 2);
         }
 
-        private double? GetCarrierVolumeRate(double? carrierVolume, double? square)
+        private double? GetCarrierVolumeRate(double? carrierVolume, double? partyVolume, double? volumeRate)
         {
-            double? carrierVolumeRate = square != 0 ? carrierVolume / square : 0.0;
+            double? carrierVolumeRate = partyVolume != 0 ? carrierVolume / partyVolume * volumeRate : 0.0;
 
             double? doubleValue = carrierVolumeRate;
             var decimalValue = (decimal)doubleValue;

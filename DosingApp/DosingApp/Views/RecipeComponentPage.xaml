@@ -56,7 +56,8 @@
                             <Picker 
                                 Title="Eд.изм."
                                 ItemsSource="{Binding UnitList}"
-                                SelectedItem="{Binding Unit}"/>
+                                SelectedItem="{Binding Unit}"
+                                IsEnabled="{Binding IsUnitEnabled}"/>
                         </StackLayout>
                     </StackLayout>
 

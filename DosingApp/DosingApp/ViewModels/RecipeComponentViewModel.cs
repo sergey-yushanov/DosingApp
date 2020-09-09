@@ -4,6 +4,7 @@ using DosingApp.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -17,6 +18,7 @@ namespace DosingApp.ViewModels
 
         private ObservableCollection<Component> components;
         private bool isComponentEnabled;
+        private bool isUnitEnabled;
 
         public ICommand SelectComponentCommand { get; protected set; }
         #endregion Attributes
@@ -47,6 +49,7 @@ namespace DosingApp.ViewModels
                 if (RecipeComponent.Component != value)
                 {
                     DensityError(value, Unit);
+                    CheckDryComponent(value);
                     RecipeComponent.Component = value;
                     OnPropertyChanged(nameof(Component));
                 }
@@ -89,6 +92,12 @@ namespace DosingApp.ViewModels
         public ObservableCollection<string> UnitList
         {
             get { return new ObservableCollection<string>(VolumeRateUnit.GetList()); }
+        }
+
+        public bool IsUnitEnabled
+        {
+            get { return isUnitEnabled; }
+            set { SetProperty(ref isUnitEnabled, value); }
         }
 
         public string Dispenser
@@ -174,6 +183,15 @@ namespace DosingApp.ViewModels
             if (component != null && component.IsLiquid() && component.Density == null && String.Equals(unit, VolumeRateUnit.Dry))
             {
                 Application.Current.MainPage.DisplayAlert("Ошибка", " У выбранного компонента не указана плотность!", "Ok");
+            }
+        }
+
+        public void CheckDryComponent(Component component)
+        {
+            IsUnitEnabled = component.IsLiquid();
+            if (!component.IsLiquid())
+            {
+                Unit = VolumeRateUnit.Dry;
             }
         }
         #endregion Methods

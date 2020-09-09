@@ -64,11 +64,26 @@
                     <Label 
                         Text="Дозатор" 
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Picker 
-                        x:Name="dispensersList"
-                        Title="Выберите дозатор"
-                        ItemsSource="{Binding Dispensers}"
-                        SelectedItem="{Binding Dispenser, Mode=TwoWay}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="11*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Picker 
+                            x:Name="dispensersList"
+                            Title="Выберите дозатор"
+                            ItemsSource="{Binding Dispensers}"
+                            SelectedItem="{Binding Dispenser, Mode=TwoWay}" />
+                        <Button
+                            Grid.Column="1"
+                            ImageSource="x.png"
+                            Command="{Binding ClearDispenserCommand}"
+                            BorderColor="Transparent"
+                            BackgroundColor="Transparent"
+                            Scale="0.5"/>
+                    </Grid>
 
                     <Label
                         Text="Компонент для 4-го клапана в коллекторе - Вода"

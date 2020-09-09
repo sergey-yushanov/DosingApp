@@ -17,10 +17,12 @@ namespace DosingApp.ViewModels
         public RecipeComponent RecipeComponent { get; private set; }
 
         private ObservableCollection<Component> components;
+        private ObservableCollection<string> dispensers;
         private bool isComponentEnabled;
         private bool isUnitEnabled;
 
         public ICommand SelectComponentCommand { get; protected set; }
+        public ICommand ClearDispenserCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -29,8 +31,10 @@ namespace DosingApp.ViewModels
             RecipeComponent = recipeComponent;
             LoadComponents();
             InitSelectedComponent();
+            LoadDispensers();
 
             SelectComponentCommand = new Command(SelectComponent);
+            ClearDispenserCommand = new Command(ClearDispenser);
         }
         #endregion Constructor
 
@@ -123,15 +127,8 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> Dispensers
         {
-            get
-            {
-                if (App.GetUsedMixer() != null)
-                {
-                    return new ObservableCollection<string>(App.GetUsedMixer().GetDispensers());
-                }
-                else
-                    return null;
-            }
+            get { return dispensers; }
+            set { SetProperty(ref dispensers, value); }
         }
 
         public bool IsValid
@@ -151,7 +148,7 @@ namespace DosingApp.ViewModels
         }
         #endregion Properties
 
-        #region Methods
+        #region Commands
         private void SelectComponent()
         {
             if (IsComponentEnabled)
@@ -160,6 +157,13 @@ namespace DosingApp.ViewModels
             }
         }
 
+        private void ClearDispenser()
+        {
+            Dispenser = null;
+        }
+        #endregion Commands
+
+        #region Methods
         public void LoadComponents()
         {
             using (AppDbContext db = App.GetContext())
@@ -192,6 +196,22 @@ namespace DosingApp.ViewModels
             if (!component.IsLiquid())
             {
                 Unit = VolumeRateUnit.Dry;
+            }
+        }
+
+        public void LoadDispensers()
+        {
+            if (App.GetUsedMixer() == null)
+            {
+                Dispensers = null;
+            }
+
+            using (AppDbContext db = App.GetContext())
+            {
+                var recipeId = RecipeComponent.Recipe != null ? RecipeComponent.Recipe.RecipeId : RecipeComponent.RecipeId;
+                var recipeComponents = db.RecipeComponents.Where(rc => rc.RecipeId == recipeId && rc.RecipeComponentId != RecipeComponent.RecipeComponentId).ToList();
+                Dispensers = new ObservableCollection<string>(App.GetUsedMixer().GetDispensers());
+                recipeComponents.ForEach(rc => Dispensers.Remove(rc.Dispenser));
             }
         }
         #endregion Methods

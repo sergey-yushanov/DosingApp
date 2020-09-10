@@ -44,7 +44,7 @@ namespace DosingApp.ViewModels
         public ComponentsViewModel(Manufacturer manufacturer, bool isEditMode, RecipeViewModel recipeViewModel, RecipeComponentViewModel recipeComponentViewModel)
         {
             Manufacturer = manufacturer;
-            Title = "Производитель: " + Manufacturer.Name + "\nСписок компонентов";
+            Title = "Каталог: " + Manufacturer.Name + "\nСписок компонентов";
 
             CreateCommand = new Command(CreateComponent);
             DeleteCommand = new Command(DeleteComponent);

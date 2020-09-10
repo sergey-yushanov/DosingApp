@@ -49,7 +49,7 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                Title = (Manufacturer.ManufacturerId == 0) ? "Новый производитель" : "Производитель: " + Manufacturer.Name;
+                Title = (Manufacturer.ManufacturerId == 0) ? "Новый каталог" : "Каталог: " + Manufacturer.Name;
                 return Manufacturer.Name;
             }
             set

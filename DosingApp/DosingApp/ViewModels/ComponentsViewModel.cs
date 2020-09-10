@@ -148,12 +148,9 @@ namespace DosingApp.ViewModels
                             }
 
                             // get new item values from file
-                            var consistency = ComponentConsistency.Dry;
-                            if (double.TryParse(fileComponent.Density, NumberStyles.Any, CultureInfo.InvariantCulture, out double density))
-                            {
-                                consistency = ComponentConsistency.Liquid;
-                            }
-
+                            double.TryParse(fileComponent.Density, NumberStyles.Any, CultureInfo.InvariantCulture, out double density);
+                            string consistency = String.Equals(fileComponent.Consistency, ComponentConsistency.Dry) ? ComponentConsistency.Dry : ComponentConsistency.Liquid;
+                            
                             // create new item
                             if (String.Equals(action, DisplayActions.New) ||
                                 String.Equals(action, DisplayActions.Uncertain))

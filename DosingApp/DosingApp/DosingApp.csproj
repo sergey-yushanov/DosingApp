@@ -13,7 +13,6 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.452" />
     <PackageReference Include="CsvHelper" Version="15.0.5" />
-    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="FileHelpers" Version="3.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
     <PackageReference Include="PdfSharpCore" Version="1.2.6" />

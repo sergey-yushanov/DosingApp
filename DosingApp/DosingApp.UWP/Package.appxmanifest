@@ -14,7 +14,7 @@
   <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Mix-App</DisplayName>
+    <DisplayName>MixApp</DisplayName>
     <PublisherDisplayName>1f560d0e-e10e-43b0-ba26-1c0cb5dacc69</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="DosingApp.UWP.App">
       <uap:VisualElements
-        DisplayName="Mix-App"
+        DisplayName="MixApp"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="DosingApp.UWP"

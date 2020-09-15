@@ -21,7 +21,7 @@ namespace DosingApp.Models
         public int? ThreeWay { get; set; }
 
         public bool IsUsedMixer { get; set; }
-        public string UUID { get; set; }
+        //public string UUID { get; set; }
 
         public List<string> GetDispensers()
         {

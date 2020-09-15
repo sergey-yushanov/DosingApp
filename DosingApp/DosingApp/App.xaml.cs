@@ -45,15 +45,17 @@ namespace DosingApp
         // Получение контекста БД при запуске приложения
         public static AppDbContext GetContext()
         {
+            var appDbContextFactory = new AppDbContextFactory();
             string dbPath = DependencyService.Get<IPath>().GetDatabasePath(DBFILENAME);
-            return new AppDbContext(dbPath);
+            return appDbContextFactory.CreateDbContext(new string[] { dbPath });
         }
 
         // Получение контекста БД пользователей при запуске приложения
         public static UserDbContext GetUserContext()
         {
+            var userDbContextFactory = new UserDbContextFactory();
             string dbPath = DependencyService.Get<IPath>().GetDatabasePath(USERDBFILENAME);
-            return new UserDbContext(dbPath);
+            return userDbContextFactory.CreateDbContext(new string[] { dbPath });
         }
 
         // Создаем админа с пустым паролем, если его нет в базе

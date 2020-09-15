@@ -17,6 +17,7 @@
     <PackageReference Include="FileHelpers" Version="3.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
     <PackageReference Include="PdfSharpCore" Version="1.2.6" />
+    <PackageReference Include="Plugin.BLE" Version="2.1.1" />
     <PackageReference Include="Plugin.BluetoothLE" Version="6.3.0.19" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.5" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
@@ -29,6 +30,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AgrYearsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\DevicePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">

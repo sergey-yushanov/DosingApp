@@ -25,11 +25,11 @@ namespace DosingApp
             InitializeComponent();
 
             //GetContext().Database.Migrate();
-            //GetContext().Database.EnsureDeleted();
+            GetContext().Database.EnsureDeleted();
             GetContext().Database.EnsureCreated();
 
             //GetUserContext().Database.Migrate();
-            //GetUserContext().Database.EnsureDeleted();
+            GetUserContext().Database.EnsureDeleted();
             GetUserContext().Database.EnsureCreated();
 
             CreateAdminUser();
@@ -45,9 +45,10 @@ namespace DosingApp
         // Получение контекста БД при запуске приложения
         public static AppDbContext GetContext()
         {
-            var appDbContextFactory = new AppDbContextFactory();
+            //var appDbContextFactory = new AppDbContextFactory();
             string dbPath = DependencyService.Get<IPath>().GetDatabasePath(DBFILENAME);
-            return appDbContextFactory.CreateDbContext(new string[] { dbPath });
+            //return appDbContextFactory.CreateDbContext(new string[] { dbPath });
+            return new AppDbContext(dbPath);
         }
 
         // Получение контекста БД пользователей при запуске приложения

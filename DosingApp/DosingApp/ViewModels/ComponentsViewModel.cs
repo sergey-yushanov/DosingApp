@@ -44,7 +44,7 @@ namespace DosingApp.ViewModels
         public ComponentsViewModel(Manufacturer manufacturer, bool isEditMode, RecipeViewModel recipeViewModel, RecipeComponentViewModel recipeComponentViewModel)
         {
             Manufacturer = manufacturer;
-            Title = "Производитель: " + Manufacturer.Name + "\nСписок компонентов";
+            Title = "Каталог: " + Manufacturer.Name + "\nСписок компонентов";
 
             CreateCommand = new Command(CreateComponent);
             DeleteCommand = new Command(DeleteComponent);
@@ -148,12 +148,9 @@ namespace DosingApp.ViewModels
                             }
 
                             // get new item values from file
-                            var consistency = ComponentConsistency.Dry;
-                            if (double.TryParse(fileComponent.Density, NumberStyles.Any, CultureInfo.InvariantCulture, out double density))
-                            {
-                                consistency = ComponentConsistency.Liquid;
-                            }
-
+                            double.TryParse(fileComponent.Density, NumberStyles.Any, CultureInfo.InvariantCulture, out double density);
+                            string consistency = String.Equals(fileComponent.Consistency, ComponentConsistency.Dry) ? ComponentConsistency.Dry : ComponentConsistency.Liquid;
+                            
                             // create new item
                             if (String.Equals(action, DisplayActions.New) ||
                                 String.Equals(action, DisplayActions.Uncertain))

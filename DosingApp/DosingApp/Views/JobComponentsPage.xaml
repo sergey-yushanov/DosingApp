@@ -49,8 +49,7 @@
                                         <Grid>
 
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="10*" />
-                                                <ColumnDefinition Width="4*" />
+                                                <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
@@ -59,18 +58,22 @@
                                                 <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
 
-                                            <Label
+                                            <StackLayout
                                                 Grid.Column="0"
                                                 Grid.Row="0"
-                                                Text="{Binding Name}" 
-                                                FontSize="Medium"
-                                                FontAttributes="Bold"/>
-                                            <Label
-                                                Grid.Column="1"
-                                                Grid.Row="0"
-                                                Text="{Binding VolumeInfo}" 
-                                                FontSize="Medium" 
-                                                FontAttributes="Bold"/>
+                                                Orientation="Horizontal">
+                                                <Label
+                                                    Text="{Binding Name}" 
+                                                    FontSize="Medium"
+                                                    FontAttributes="Bold"
+                                                    HorizontalOptions="StartAndExpand"/>
+                                                <Label
+                                                    Text="{Binding VolumeInfo}" 
+                                                    FontSize="Medium" 
+                                                    FontAttributes="Bold"
+                                                    HorizontalOptions="End"/>
+                                            </StackLayout>
+                                            
                                             <Label
                                                 Grid.Column="0"
                                                 Grid.Row="1"

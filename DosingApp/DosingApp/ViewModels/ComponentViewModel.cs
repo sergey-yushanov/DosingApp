@@ -30,7 +30,7 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                Title = "Производитель: " + ComponentsViewModel.Manufacturer.Name + ((Component.ComponentId == 0) ? "\nНовый компонент" : "\nКомпонент: " + Component.Name);
+                Title = "Каталог: " + ComponentsViewModel.Manufacturer.Name + ((Component.ComponentId == 0) ? "\nНовый компонент" : "\nКомпонент: " + Component.Name);
                 return Component.Name; 
             }
             set

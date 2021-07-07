@@ -11,14 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.446" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.454" />
     <PackageReference Include="CsvHelper" Version="15.0.5" />
-    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="FileHelpers" Version="3.4.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.7" />
-    <PackageReference Include="PdfSharpCore" Version="1.2.5" />
-    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.3" />
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
+    <PackageReference Include="Plugin.BLE" Version="2.1.1" />
+    <PackageReference Include="Plugin.BluetoothLE" Version="6.3.0.19" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.5" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
     <PackageReference Include="Xamarin.Plugin.FilePicker" Version="2.1.41" />
   </ItemGroup>
@@ -28,6 +30,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AgrYearsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\DevicePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
@@ -93,9 +98,6 @@
     </Compile>
     <Compile Update="Views\ManufacturerPage.xaml.cs">
       <DependentUpon>ManufacturerPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ManufacturersPage.xaml.cs">
-      <DependentUpon>ManufacturersPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\TransportTankPage.xaml.cs">
       <DependentUpon>TransportTankPage.xaml</DependentUpon>

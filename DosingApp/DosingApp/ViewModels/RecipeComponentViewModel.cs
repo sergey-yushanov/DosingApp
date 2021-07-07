@@ -4,6 +4,7 @@ using DosingApp.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -16,9 +17,13 @@ namespace DosingApp.ViewModels
         public RecipeComponent RecipeComponent { get; private set; }
 
         private ObservableCollection<Component> components;
+        private ObservableCollection<string> dispensers;
         private bool isComponentEnabled;
+        private bool isUnitEnabled;
+        private bool isDispenserVisible;
 
         public ICommand SelectComponentCommand { get; protected set; }
+        public ICommand ClearDispenserCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -27,8 +32,10 @@ namespace DosingApp.ViewModels
             RecipeComponent = recipeComponent;
             LoadComponents();
             InitSelectedComponent();
+            LoadDispensers();
 
             SelectComponentCommand = new Command(SelectComponent);
+            ClearDispenserCommand = new Command(ClearDispenser);
         }
         #endregion Constructor
 
@@ -47,6 +54,7 @@ namespace DosingApp.ViewModels
                 if (RecipeComponent.Component != value)
                 {
                     DensityError(value, Unit);
+                    CheckDryComponent(value);
                     RecipeComponent.Component = value;
                     OnPropertyChanged(nameof(Component));
                 }
@@ -91,6 +99,12 @@ namespace DosingApp.ViewModels
             get { return new ObservableCollection<string>(VolumeRateUnit.GetList()); }
         }
 
+        public bool IsUnitEnabled
+        {
+            get { return isUnitEnabled; }
+            set { SetProperty(ref isUnitEnabled, value); }
+        }
+
         public string Dispenser
         {
             get 
@@ -114,15 +128,8 @@ namespace DosingApp.ViewModels
 
         public ObservableCollection<string> Dispensers
         {
-            get
-            {
-                if (App.GetUsedMixer() != null)
-                {
-                    return new ObservableCollection<string>(App.GetUsedMixer().GetDispensers());
-                }
-                else
-                    return null;
-            }
+            get { return dispensers; }
+            set { SetProperty(ref dispensers, value); }
         }
 
         public bool IsValid
@@ -136,13 +143,19 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isComponentEnabled, value); }
         }
 
+        public bool IsDispenserVisible
+        {
+            get { return isDispenserVisible; }
+            set { SetProperty(ref isDispenserVisible, value); }
+        }
+
         public string Title
         {
             get { return "Рецепт: " + RecipeViewModel.Name; ; }
         }
         #endregion Properties
 
-        #region Methods
+        #region Commands
         private void SelectComponent()
         {
             if (IsComponentEnabled)
@@ -151,6 +164,13 @@ namespace DosingApp.ViewModels
             }
         }
 
+        private void ClearDispenser()
+        {
+            Dispenser = null;
+        }
+        #endregion Commands
+
+        #region Methods
         public void LoadComponents()
         {
             using (AppDbContext db = App.GetContext())
@@ -174,6 +194,42 @@ namespace DosingApp.ViewModels
             if (component != null && component.IsLiquid() && component.Density == null && String.Equals(unit, VolumeRateUnit.Dry))
             {
                 Application.Current.MainPage.DisplayAlert("Ошибка", " У выбранного компонента не указана плотность!", "Ok");
+            }
+        }
+
+        public void CheckDryComponent(Component component)
+        {
+            IsUnitEnabled = component.IsLiquid();
+            IsDispenserVisible = component.IsLiquid();
+
+            if (!component.IsLiquid())
+            {
+                Unit = VolumeRateUnit.Dry;
+                Dispenser = RecipeComponent.DryComponentDispenser;
+            }
+            else
+            {
+                if (String.Equals(Dispenser, RecipeComponent.DryComponentDispenser))
+                {
+                    Dispenser = null;
+                }
+            }
+        }
+
+        public void LoadDispensers()
+        {
+            if (App.GetUsedMixer() == null)
+            {
+                Dispensers = null;
+                return;
+            }
+
+            using (AppDbContext db = App.GetContext())
+            {
+                var recipeId = RecipeComponent.Recipe != null ? RecipeComponent.Recipe.RecipeId : RecipeComponent.RecipeId;
+                var recipeComponents = db.RecipeComponents.Where(rc => rc.RecipeId == recipeId && rc.RecipeComponentId != RecipeComponent.RecipeComponentId).ToList();
+                Dispensers = new ObservableCollection<string>(App.GetUsedMixer().GetDispensers());
+                recipeComponents.ForEach(rc => Dispensers.Remove(rc.Dispenser));
             }
         }
         #endregion Methods

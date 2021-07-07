@@ -10,7 +10,7 @@
             <StackLayout
                 IsVisible="{Binding IsEditMode}">
                 <Button 
-                    Text="Добавить производителя"
+                    Text="Добавить каталог"
                     Command="{Binding CreateManufacturerCommand}"/>
             </StackLayout>
 

@@ -13,5 +13,8 @@ namespace DosingApp.Models.Files
 
         [Index(1)]
         public string Density { get; set; }
+
+        [Index(2)]
+        public string Consistency { get; set; }
     }
 }

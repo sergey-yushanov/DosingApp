@@ -6,7 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using Acr.UserDialogs;
+//using Acr.UserDialogs;
 
 namespace DosingApp.Droid
 {
@@ -20,7 +20,7 @@ namespace DosingApp.Droid
 
             base.OnCreate(savedInstanceState);
             
-            UserDialogs.Init(this);
+            //UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);

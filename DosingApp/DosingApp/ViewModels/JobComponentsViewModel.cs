@@ -1,5 +1,4 @@
-﻿using Acr.UserDialogs;
-using CsvHelper;
+﻿using CsvHelper;
 using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Models.Files;
@@ -75,12 +74,12 @@ namespace DosingApp.ViewModels
 
         private void StartJob()
         {
-            UserDialogs.Instance.ShowLoading("Смешивание", MaskType.None);
+            //UserDialogs.Instance.ShowLoading("Смешивание", MaskType.None);
         }
 
         private void StopJob()
         {
-            UserDialogs.Instance.HideLoading();
+            //UserDialogs.Instance.HideLoading();
             Back2Pages();
         }
 

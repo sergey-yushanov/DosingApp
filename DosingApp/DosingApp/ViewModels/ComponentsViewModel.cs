@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Models.Files;
@@ -121,11 +122,14 @@ namespace DosingApp.ViewModels
                 string fileActualPath = DependencyService.Get<IActualPath>().GetActualPathFromUri(fileData.FilePath);
                 fileActualPath = fileActualPath ?? fileData.FilePath;
 
-                using (var reader = new StreamReader(fileActualPath))
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    csv.Configuration.HasHeaderRecord = false;  // no header in *.csv file
-                    csv.Configuration.Delimiter = ";";
+                    HasHeaderRecord = false,
+                    Delimiter = ";"
+                };
+                using (var reader = new StreamReader(fileActualPath))
+                using (var csv = new CsvReader(reader, config))
+                {
                     var fileComponents = csv.GetRecords<FileComponent>().ToList();
 
                     using (var db = App.GetContext())

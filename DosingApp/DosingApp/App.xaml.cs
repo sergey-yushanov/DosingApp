@@ -25,11 +25,11 @@ namespace DosingApp
             InitializeComponent();
 
             //GetContext().Database.Migrate();
-            GetContext().Database.EnsureDeleted();
+            //GetContext().Database.EnsureDeleted();
             GetContext().Database.EnsureCreated();
 
             //GetUserContext().Database.Migrate();
-            GetUserContext().Database.EnsureDeleted();
+            //GetUserContext().Database.EnsureDeleted();
             GetUserContext().Database.EnsureCreated();
 
             CreateAdminUser();

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
+             x:Class="DosingApp.Views.MixerControlPage"
+             Title="Управление установкой">
+
+    <ContentPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+        <x:Int32 x:Key="Dec2">2</x:Int32>
+        <x:Int32 x:Key="Dec3">3</x:Int32>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout Margin="{StaticResource PageMargin}">
+            <StackLayout>
+
+                <Label
+                    Text="WebSocketState - Open"
+                    IsVisible="{Binding IsConnected}"
+                    TextColor="{StaticResource LabelEntryColor}"/>
+
+                <Label
+                    Text="WebSocketState - Close"
+                    IsVisible="{Binding IsConnected, Converter={StaticResource InverseBoolConverter}}"
+                    TextColor="{StaticResource LabelEntryColor}"/>
+
+                <Label 
+                    Text="{Binding IncomingMessageText}"
+                    TextColor="{StaticResource LabelEntryColor}"/>
+
+            </StackLayout>
+            <StackLayout>
+                <Button 
+                    Text="Команда" 
+                    Command="{Binding SendMessageCommand}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -21,6 +21,7 @@ namespace DosingApp.Models
         Fields,
         Users,
         Mixers,
+        MixerControl,
         Login
     }
 

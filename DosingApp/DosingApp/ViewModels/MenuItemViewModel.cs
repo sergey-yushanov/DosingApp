@@ -74,6 +74,9 @@ namespace DosingApp.ViewModels
                 case MenuItemType.Mixers:
                     Application.Current.MainPage.Navigation.PushAsync(new MixersPage());
                     break;
+                case MenuItemType.MixerControl:
+                    Application.Current.MainPage.Navigation.PushAsync(new MixerControlPage());
+                    break;
             }
         }
         #endregion Methods

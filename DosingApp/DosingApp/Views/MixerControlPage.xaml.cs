@@ -20,5 +20,12 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new MixerControlViewModel();
         }
+
+        protected override void OnDisappearing()
+        {
+            var mixerControlViewModel = (MixerControlViewModel)BindingContext;
+            mixerControlViewModel.WebsocketClientExit();
+            base.OnDisappearing();
+        }
     }
 }

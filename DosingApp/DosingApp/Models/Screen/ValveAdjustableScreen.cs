@@ -19,14 +19,11 @@ namespace DosingApp.Models.Screen
         public float CostOpen { get; set; }
         public SensorScreen Sensor { get; set; }
 
-        //public int CollectorNumber { get; set; }
-
         public ValveAdjustableScreen()
         {
             Sensor = new SensorScreen();
         }
 
-        //public string Name { get { return CollectorNumber.ToString() + "Кл0"; } }
         public string Name(int collectorNumber)
         {
             return collectorNumber.ToString() + "Кл0";

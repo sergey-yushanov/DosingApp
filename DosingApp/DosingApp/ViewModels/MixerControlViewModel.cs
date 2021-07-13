@@ -38,13 +38,13 @@ namespace DosingApp.ViewModels
 
         //private List<CollectorScreen> collectors;
         //private CollectorScreen collector;
-        //private Common common;
-
+        
+        private Common common;
         private CollectorScreen collector;
 
         //int collectorNumber;
-        private ObservableCollection<ValveScreen> collectorValves;
-        private ValveScreen selectedValve;
+        //private ObservableCollection<ValveScreen> collectorValves;
+        //private ValveScreen selectedValve;
         //private ValveAdjustableScreen collectorValveAdjustable;
         //private Flowmeter collectorFlowmeter;
 

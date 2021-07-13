@@ -8,48 +8,159 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-//using Plugin.DeviceInfo;
 using Newtonsoft.Json;
 using DosingApp.Models;
+using DosingApp.Models.WebSocket;
+using DosingApp.Models.Screen;
 using System.Windows.Input;
 using Websocket.Client;
+using DosingApp.DataContext;
+using System.Collections.Generic;
+using DosingApp.Views;
 
 namespace DosingApp.ViewModels
 {
     public class MixerControlViewModel : BaseViewModel
     {
         #region Attributes
-        //private readonly ClientWebSocket client;
-        //private readonly CancellationTokenSource cts;
         private IWebsocketClient client;
         private IncomingMessage incomingMessage;
         private OutgoingMessage outgoingMessage;
         private String incomingMessageText;
         private String outgoingMessageText;
         private bool isConnected;
+        
+        private Mixer mixer;
+        private String mixerName;
+
+        // mixer parts
+        //private MixerControl mixerControl;
+
+        //private List<CollectorScreen> collectors;
+        //private CollectorScreen collector;
+        //private Common common;
+
+        private CollectorScreen collector;
+
+        //int collectorNumber;
+        private ObservableCollection<ValveScreen> collectorValves;
+        private ValveScreen selectedValve;
+        //private ValveAdjustableScreen collectorValveAdjustable;
+        //private Flowmeter collectorFlowmeter;
+
+        //private ValveAdjustableScreen valveAdjustable;
+        //private Flowmeter flowmeter;
+
+        // commands
+        bool showSettings;
 
         public ICommand SendMessageCommand { get; protected set; }
 
-        private static readonly ManualResetEvent ExitEvent = new ManualResetEvent(false);
+        public ICommand CollectorValveOpenCommand { get; protected set; }
+        public ICommand CollectorValveCloseCommand { get; protected set; }
 
+        public ICommand CollectorValveAdjustableOpenCommand { get; protected set; }
+        public ICommand CollectorValveAdjustableCloseCommand { get; protected set; }
+
+        public ICommand ValveAdjustableOpenCommand { get; protected set; }
+        public ICommand ValveAdjustableCloseCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
         public MixerControlViewModel()
         {
-            SendMessageCommand = new Command(SendSettingsMessage);
+            //CollectorNumber = 1;
 
-            //client = new ClientWebSocket();
-            //cts = new CancellationTokenSource();
-            //ConnectToServerAsync();
+            // screen
+            GetActiveMixer();
+            if (Mixer != null)
+            {
+                // create template for mixer control
+                CreateMixerControl(Mixer);
 
-            ClientCreate();
-            ConnectToServerAsync();
-            //ConnectToServer();
+                // websocket
+                showSettings = true;
+                SendMessageCommand = new Command(SendSettingsMessage);
+                ClientCreate();
+                ConnectToServerAsync();
+
+                CollectorValveOpenCommand = new Command(CollectorValveOpen);
+                CollectorValveCloseCommand = new Command(CollectorValveClose);
+
+                CollectorValveAdjustableOpenCommand = new Command(CollectorValveAdjustableOpen);
+                CollectorValveAdjustableCloseCommand = new Command(CollectorValveAdjustableClose);
+
+                ValveAdjustableOpenCommand = new Command(ValveAdjustableOpen);
+                ValveAdjustableCloseCommand = new Command(ValveAdjustableClose);
+            }
         }
         #endregion Constructor
 
         #region Properties
+        public CollectorScreen Collector
+        {
+            get { return collector; }
+            set { SetProperty(ref collector, value); }
+        }
+
+        //public int CollectorNumber
+        //{
+        //    get { return collectorNumber; }
+        //    set { SetProperty(ref collectorNumber, value); }
+        //}
+
+        public ObservableCollection<ValveScreen> CollectorValves
+        {
+            get { return collectorValves; }
+            set { SetProperty(ref collectorValves, value); }
+        }
+
+        public ValveScreen SelectedValve
+        {
+            get { return selectedValve; }
+            set { SetProperty(ref selectedValve, value); }
+        }
+
+        //public ValveAdjustableScreen CollectorValveAdjustable
+        //{
+        //    get { return collectorValveAdjustable; }
+        //    set { SetProperty(ref collectorValveAdjustable, value); }
+        //}
+
+        //public Flowmeter CollectorFlowmeter
+        //{
+        //    get { return collectorFlowmeter; }
+        //    set { SetProperty(ref collectorFlowmeter, value); }
+        //}
+
+        //public ValveAdjustableScreen ValveAdjustable
+        //{
+        //    get { return valveAdjustable; }
+        //    set { SetProperty(ref valveAdjustable, value); }
+        //}
+
+        //public Flowmeter Flowmeter
+        //{
+        //    get { return flowmeter; }
+        //    set { SetProperty(ref flowmeter, value); }
+        //}
+
+        public string MixerName
+        {
+            get { return mixerName; }
+            set { SetProperty(ref mixerName, value); }
+        }
+
+        public Mixer Mixer
+        {
+            get
+            {
+                MixerName = (mixer != null) ? mixer.Name : "Не выбрана активная установка";
+                return mixer;
+            }
+            set { SetProperty(ref mixer, value); }
+        }
+
         public IncomingMessage IncomingMessage
         {
             get { return incomingMessage; }
@@ -79,12 +190,44 @@ namespace DosingApp.ViewModels
             get { return isConnected; }
             set { SetProperty(ref isConnected, value); }
         }
-        //public bool IsConnected => client.State == WebSocketState.Open;
         #endregion Properties
 
         #region Commands
-        //public Command SendMessage => sendMessageCommand ??
-        //(sendMessageCommand = new Command<string>(SendMessageAsync, CanSendMessage));
+        private void CollectorValveOpen(object valveInstance)
+        {
+            ValveScreen valveScreen = valveInstance as ValveScreen;
+            CollectorValveMessage(Collector.Number, new Valve { Number = valveScreen.Number, CommandOpen = true });
+        }
+
+        private void CollectorValveClose(object valveInstance)
+        {
+            ValveScreen valveScreen = valveInstance as ValveScreen;
+            CollectorValveMessage(Collector.Number, new Valve { Number = valveScreen.Number, CommandClose = true });
+        }
+
+        private void CollectorValveAdjustableOpen(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            CollectorValveAdjustableMessage(Collector.Number, new ValveAdjustable { CommandOpen = true });
+        }
+
+        private void CollectorValveAdjustableClose(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            CollectorValveAdjustableMessage(Collector.Number, new ValveAdjustable { CommandClose = true });
+        }
+
+        private void ValveAdjustableOpen(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            ValveAdjustableMessage(new ValveAdjustable { CommandOpen = true });
+        }
+
+        private void ValveAdjustableClose(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            ValveAdjustableMessage(new ValveAdjustable { CommandClose = true });
+        }
         #endregion Commands
 
         #region Methods
@@ -95,11 +238,8 @@ namespace DosingApp.ViewModels
                 Options =
                 {
                     KeepAliveInterval = TimeSpan.FromSeconds(5)
-                    //Proxy = ...
-                    //ClientCertificates = ...
                 }
             });
-
             var url = new Uri("ws://192.168.11.1/ws");
             client = new WebsocketClient(url, factory);
         }
@@ -109,121 +249,160 @@ namespace DosingApp.ViewModels
             await Task.Factory.StartNew(async () =>
             {
                 client.ReconnectTimeout = TimeSpan.FromSeconds(30);
-                client.ReconnectionHappened.Subscribe(info =>
-                    Console.WriteLine($"Websocket Reconnection happened, type: {info.Type}"));
+                client
+                    .ReconnectionHappened
+                    .Subscribe(info =>
+                    {
+                        Console.WriteLine($"Websocket Reconnection happened, type: {info.Type}");
+                        UpdateClientState();
+                    });
+
+                client
+                    .DisconnectionHappened
+                    .Subscribe(x =>
+                    {
+                        UpdateClientState();
+                    });
 
                 client
                     .MessageReceived
                     .Subscribe(message =>
                     {
-                        IncomingMessageText = message.Text;                        
+                        UpdateClientState();
+                        IncomingMessageText = message.Text;
                         IncomingMessage = JsonConvert.DeserializeObject<IncomingMessage>(IncomingMessageText);
-                        //Console.WriteLine(IncomingMessageText);
+                        UpdateIncomingData();
+                        //dynamic request = JsonConvert.DeserializeObject(IncomingMessageText);
+                        //Console.WriteLine(request.ContainsKey("common"));
                     });
 
                 Console.WriteLine("Websocket Starting...");
                 await client.Start();
                 Console.WriteLine("Websocket Started.");
 
-                //ExitEvent.WaitOne();
             }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
-        //void UpdateClientState()
-        //{
-        //IsConnected = client.State == WebSocketState.Open;
-
-        //OnPropertyChanged(nameof(IsConnected));
-        //Console.WriteLine($"Websocket state {client.State}");
-        //}
-
-        //async void ConnectToServerAsync()
-        //{
-        //    await client.ConnectAsync(new Uri("ws://192.168.11.1/ws"), cts.Token);
-        //    UpdateClientState();
-
-        //    await Task.Factory.StartNew(async () =>
-        //    {
-        //        while (IsConnected)
-        //        {
-        //            await ReadMessageAsync();
-        //            UpdateClientState();
-        //        }
-        //    }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-        //}
-
-        /*async Task ReadMessageAsync()
+        void UpdateClientState()
         {
-            WebSocketReceiveResult result;
-            var message = new ArraySegment<byte>(new byte[4096]);
-            do
+            IsConnected = client.IsRunning;
+        }
+
+        void UpdateIncomingData()
+        {
+            for (int i = 0; i < 4; i++)
             {
-                result = await client.ReceiveAsync(message, cts.Token);
-                if (result.MessageType != WebSocketMessageType.Text)
-                    return;
-                
-                var messageBytes = message.Skip(message.Offset).Take(result.Count).ToArray();
-                IncomingMessageText = Encoding.UTF8.GetString(messageBytes);
-                IncomingMessage = JsonConvert.DeserializeObject<IncomingMessage>(IncomingMessageText);
-
-                //try
-                //{
-                //    IncomingMessage = JsonConvert.DeserializeObject<IncomingMessage>(IncomingMessageText);
-                //}
-                //catch (Exception ex)
-                //{
-                //    Console.WriteLine($"Invalide message format. {ex.Message}");
-                //}
+                Collector.Valves[i].Command = (bool)IncomingMessage.Collectors[0].Valves[i].Command;
             }
-            while (!result.EndOfMessage);
-        }*/
 
-        /*async void SendMessageAsync(OutgoingMessage message)
-        {
-            //var msg = new OutgoingMessage
-            //{
-            //ShowSettings = false
-            //};
 
-            UpdateClientState();
-            if (!IsConnected)
-                return;
 
-            OutgoingMessageText = JsonConvert.SerializeObject(message, Formatting.Indented);
-
-            var byteMessage = Encoding.UTF8.GetBytes(OutgoingMessageText);
-            var segmnet = new ArraySegment<byte>(byteMessage);
-
-            await client.SendAsync(segmnet, WebSocketMessageType.Text, true, cts.Token);
-            OutgoingMessageText = string.Empty;
-        }*/
+            //Common = incomingMessage.Common;
+            //DispenserCollector = incomingMessage.DispenserCollectors[0];
+            //DispenserCollectorValves = DispenserCollector.Valves;
+        }
 
         private async Task SendMessageAsync(OutgoingMessage outgoingMessage)
         {
-            OutgoingMessageText = JsonConvert.SerializeObject(outgoingMessage, Formatting.Indented);
+            OutgoingMessageText = JsonConvert.SerializeObject(outgoingMessage, Formatting.Indented, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+            Console.WriteLine(OutgoingMessageText);
             client.Send(OutgoingMessageText);
 
-            //var byteMessage = Encoding.UTF8.GetBytes(OutgoingMessageText);
-            //var segmnet = new ArraySegment<byte>(byteMessage);
-            //await client.SendAsync(segmnet, WebSocketMessageType.Text, true, cts.Token);
-            
             OutgoingMessageText = string.Empty;
         }
 
         void SendSettingsMessage()
         {
+            showSettings = !showSettings;
             var outgoingMessage = new OutgoingMessage
             {
-                ShowSettings = false
+                ShowSettings = showSettings
             };
+
             Task.Run(async () => await SendMessageAsync(outgoingMessage));
         }
 
         public void WebsocketClientExit()
         {
-            ExitEvent.Set();
-            client.Dispose();
+            if (client != null)
+            {
+                client.Dispose();
+                client = null;
+            }
+            //client.Dispose();
             Console.WriteLine("Websocket Stoped.");
+        }
+
+        public void GetActiveMixer()
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                Mixer = db.Mixers.FirstOrDefault(m => m.IsUsedMixer == true);
+            }
+        }
+
+        public void CreateMixerControl(Mixer mixer)
+        {
+            //MessagingCenter.Subscribe<MixerControlViewModel>(this, "Update listview", (sender) =>
+            //{
+            //    //RefreshCategories();
+            //});
+
+            // todo: для других типов дозаторов сделать аналогично
+            //Collectors = new List<CollectorScreen>((int)mixer.Collector);
+            //for (int i = 0; i < (int)mixer.Collector; i++)
+            //{
+            //    Collectors.Add(new CollectorScreen(i+1));
+            //}
+            //Console.WriteLine(Collectors[0].Valves.Count);
+
+            Collector = new CollectorScreen(1);
+            //CollectorValves = new ObservableCollection<ValveScreen>();
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    CollectorValves.Add(new ValveScreen() { Number = i + 1 });
+            //}
+        }
+
+        public void CollectorValveMessage(int collectorNumber, Valve valve)
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                Collectors = new List<Collector> {new Collector
+                {
+                    Number = collectorNumber,
+                    Valves = new List<Valve> { valve }
+                }}
+            };
+            Task.Run(async () => await SendMessageAsync(outgoingMessage));
+        }
+
+        public void CollectorValveAdjustableMessage(int collectorNumber, ValveAdjustable valveAdjustable)
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                Collectors = new List<Collector> {new Collector
+                {
+                    Number = collectorNumber,
+                    ValveAdjustable = valveAdjustable
+                }}
+            };
+            Task.Run(async () => await SendMessageAsync(outgoingMessage));
+        }
+
+        public void ValveAdjustableMessage(ValveAdjustable valveAdjustable)
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                Common = new Common
+                {
+                    ValveAdjustable = valveAdjustable
+                }
+            };
+            Task.Run(async () => await SendMessageAsync(outgoingMessage));
         }
         #endregion Methods
     }

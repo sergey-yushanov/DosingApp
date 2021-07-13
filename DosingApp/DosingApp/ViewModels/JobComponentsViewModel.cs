@@ -27,6 +27,7 @@ namespace DosingApp.ViewModels
 
         public ICommand StartJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }
+        public ICommand BackCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -37,6 +38,7 @@ namespace DosingApp.ViewModels
             Title = "Задание: " + Job.Name + "\nКомпоненты";
             StartJobCommand = new Command(StartJob);
             StopJobCommand = new Command(StopJob);
+            BackCommand = new Command(Back);
         }
         #endregion Constructor
 
@@ -66,6 +68,11 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
+        private void Back()
+        {
+            Application.Current.MainPage.Navigation.PopAsync();
+        }
+
         private void Back2Pages()
         {
             Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);

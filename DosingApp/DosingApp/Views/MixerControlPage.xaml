@@ -3,34 +3,101 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.MixerControlPage"
-             Title="Управление установкой">
+             x:Name="MixerControl"
+             Title="Ручное управление и настройка">
 
     <ContentPage.Resources>
         <Helpers:DoubleConverter x:Key="DoubleConverter"/>
         <x:Int32 x:Key="Dec2">2</x:Int32>
         <x:Int32 x:Key="Dec3">3</x:Int32>
         <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <Helpers:ColorConverter x:Key="ColorConverter"/>
     </ContentPage.Resources>
     
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
-            <StackLayout>
 
+            <StackLayout>
                 <Label
-                    Text="WebSocketState - Open"
+                    Text="Соединение установлено"
+                    HorizontalOptions="StartAndExpand"
                     IsVisible="{Binding IsConnected}"
                     TextColor="{StaticResource LabelEntryColor}"/>
-
                 <Label
-                    Text="WebSocketState - Close"
+                    Text="Соединение отсутствует"
+                    HorizontalOptions="StartAndExpand"
                     IsVisible="{Binding IsConnected, Converter={StaticResource InverseBoolConverter}}"
-                    TextColor="{StaticResource LabelEntryColor}"/>
+                    TextColor="{StaticResource LabelAlertColor}"/>
+                <Label 
+                    Text="{Binding MixerName}"
+                    FontSize="Medium"
+                    HorizontalOptions="StartAndExpand"/>
+            </StackLayout>
 
+            <StackLayout
+                Padding="0,10">
+                <Label 
+                    Text="Коллекторный дозатор"
+                    HorizontalOptions="StartAndExpand"
+                    TextColor="{StaticResource LabelEntryColor}"/>
+            </StackLayout>
+            
+            <StackLayout>
+                <ListView
+                    x:Name="collectorValvesList"
+                    ItemsSource="{Binding Collector.Valves}"
+                    SelectionMode="None">
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="6*" />
+                                            <ColumnDefinition Width="4*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="5*" />
+                                            <ColumnDefinition Width="5*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                            Text="{Binding Name}"
+                                            FontSize="Medium" 
+                                            VerticalOptions="Center"/>
+                                        <Label
+                                            Grid.Column="1"
+                                            Text="{Binding State}"
+                                            TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='ValveOpened'}"
+                                            FontSize="Medium"
+                                            VerticalOptions="Center"/>
+                                        <Button
+                                            Grid.Column="3"
+                                            Text="Открыть"
+                                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveOpenCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                        <Button
+                                            Grid.Column="4"
+                                            Text="Закрыть"
+                                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveCloseCommand}"
+                                            CommandParameter="{Binding .}"/>
+
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <StackLayout 
+                Orientation="Horizontal">
                 <Label 
                     Text="{Binding IncomingMessageText}"
+                    HorizontalOptions="StartAndExpand"
                     TextColor="{StaticResource LabelEntryColor}"/>
-
             </StackLayout>
+            
             <StackLayout>
                 <Button 
                     Text="Команда" 

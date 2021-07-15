@@ -1,13 +1,14 @@
-﻿using DosingApp.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using DosingApp.Models.WebSocket;
+using DosingApp.ViewModels;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.Linq;
 
 namespace DosingApp.Models.Screen
 {
-    public class CollectorScreen
+    public class CollectorScreen : BaseViewModel
     {
+        private const int nValves = 4;  // в коллекторе 4 клапана on/off
+
         public int Number { get; set; }
         public ObservableCollection<ValveScreen> Valves { get; set; }
         public ValveAdjustableScreen ValveAdjustable { get; set; }
@@ -16,18 +17,32 @@ namespace DosingApp.Models.Screen
         public CollectorScreen(int number)
         {
             this.Number = number;
-
-            // в коллекторе 4 клапана on/off
             Valves = new ObservableCollection<ValveScreen>();
-            for (int i = 0; i < 4; i++)
+            for (int i = nValves; i > 0; i--)
             {
-                Valves.Add(new ValveScreen() { Number = i + 1, Name = this.Number.ToString() + "Кл" + (i + 1).ToString() });
+                Valves.Add(new ValveScreen() { Number = i, Name = this.Number.ToString() + "Кл" + i.ToString() });
             }
-            //ValveAdjustable = new ValveAdjustableScreen() { CollectorNumber = this.Number };
-            ValveAdjustable = new ValveAdjustableScreen();
+            ValveAdjustable = new ValveAdjustableScreen() { Name = this.Number.ToString() + "РегКл" };
             Flowmeter = new FlowmeterScreen();
         }
 
-        public string Name { get { return "Коллективный дозатор (КД) - " + Number.ToString(); } }
+        public string Name { get { return "Коллекторный дозатор " + Number.ToString() + " (КД " + Number.ToString() + ")"; } }
+
+        public void Update(Collector collector, bool showSettings)
+        {
+            for (int i = 0; i < nValves; i++)
+            {
+                var valve = Valves.FirstOrDefault(v => v.Number == collector.Valves[i].Number);
+                valve.Update(collector.Valves[i]);
+            }
+            ValveAdjustable.Update(collector.ValveAdjustable, showSettings);
+            Flowmeter.Update(collector.Flowmeter, showSettings);
+        }
+
+        //public void InitNew(Collector collector, bool showSettings)
+        //{
+        //    ValveAdjustable.InitNew(collector.ValveAdjustable, showSettings);
+        //    Flowmeter.InitNew(collector.Flowmeter, showSettings);
+        //}
     }
 }

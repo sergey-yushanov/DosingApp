@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 
 namespace DosingApp.Models.WebSocket
 {
+    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class MixerControl
     {
-        //public Mixer Mixer { get; set; }
+        public bool? ShowSettings { get; set; }
+        public virtual Common Common { get; set; }
+        public virtual List<Collector> Collectors { get; set; }
 
-        public virtual Collector Collector { get; set; }
-        public virtual ValveAdjustable ValveAdjustable { get; set; }
-        public virtual Flowmeter Flowmeter { get; set; }
         //public ObservableCollection<DispenserCollector> DispenserCollectors { get; set; }
         //public ObservableCollection<DispenserSingle> DispenserSingles { get; set; }
         //public ObservableCollection<DispenserThreeWay> DispenserThreeWays { get; set; }

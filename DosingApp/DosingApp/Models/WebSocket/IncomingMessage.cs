@@ -10,6 +10,7 @@ namespace DosingApp.Models.WebSocket
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class IncomingMessage
     {
+        public bool? ShowSettings { get; set; }
         public virtual Common Common { get; set; }
         public virtual List<Collector> Collectors { get; set; }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text;
 
 namespace DosingApp.Models
@@ -23,8 +24,8 @@ namespace DosingApp.Models
         public string Dispenser { get; set; }
 
         public string Name { get { return Component?.Name; } }
-        public string VolumeInfo { get { return Volume + " " + VolumeUnit; } }
-        public string VolumeRateInfo { get { return "Норма расхода: " + VolumeRate + " " + VolumeRateUnit; } }
+        public string VolumeInfo { get { return ((double)Volume).ToString("N", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeUnit; } }
+        public string VolumeRateInfo { get { return "Норма расхода: " + ((double)VolumeRate).ToString("N1", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeRateUnit; } }
         public string ConsistencyInfo { get { return "Форма: " + Component?.Consistency; } }
         public string DispenserInfo { get { return "Дозатор: " + Dispenser; } }
     }

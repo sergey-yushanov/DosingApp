@@ -63,7 +63,7 @@
                                                 Grid.Row="0"
                                                 Orientation="Horizontal">
                                                 <Label
-                                                    Text="{Binding Name}" 
+                                                    Text="{Binding Name}"
                                                     FontSize="Medium"
                                                     FontAttributes="Bold"
                                                     HorizontalOptions="StartAndExpand"/>

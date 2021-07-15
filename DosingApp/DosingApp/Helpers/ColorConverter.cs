@@ -16,7 +16,7 @@ namespace DosingApp.Helpers
                 switch (color)
                 {
                     case "ValveOpened":
-                        return Application.Current.Resources["LabelEntryColor"];
+                        return Application.Current.Resources["LabelGreenColor"];
                         //return Color.FromHex("c2bca8");
                     //case "text":
                     //    return Application.Current.Resources["ThemeBlue"];

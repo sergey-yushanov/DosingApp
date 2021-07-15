@@ -10998,7 +10998,19 @@ namespace DosingApp.Droid
 			public const int user = 2131165314;
 			
 			// aapt resource value: 0x7F070083
-			public const int x = 2131165315;
+			public const int wifi_off = 2131165315;
+			
+			// aapt resource value: 0x7F070084
+			public const int wifi_off_48px = 2131165316;
+			
+			// aapt resource value: 0x7F070085
+			public const int wifi_on = 2131165317;
+			
+			// aapt resource value: 0x7F070086
+			public const int wifi_on_48px = 2131165318;
+			
+			// aapt resource value: 0x7F070087
+			public const int x = 2131165319;
 			
 			static Drawable()
 			{

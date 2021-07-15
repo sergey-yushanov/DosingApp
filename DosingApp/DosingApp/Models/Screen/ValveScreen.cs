@@ -1,24 +1,31 @@
-﻿using DosingApp.ViewModels;
+﻿using DosingApp.Models.WebSocket;
+using DosingApp.ViewModels;
 
 namespace DosingApp.Models.Screen
 {
     public class ValveScreen : BaseViewModel
     {
+        private bool command;
+        private string state;
+
+        public void Update(Valve valve)
+        {
+            Command = (bool)valve.Command;
+        }
+
         public int Number { get; set; }
         public string Name { get; set; }
-
-        private bool command;
+        
         public bool Command
         {
             get { return command; }
             set 
             {
                 SetProperty(ref command, value);
-                State = value ? "Открыт" : "Закрыт";
+                State = value ? "ОТКР" : "ЗАКР";
             }
         }
 
-        private string state;
         public string State
         {
             get { return state; }

@@ -5,32 +5,32 @@ namespace DosingApp.Models.Screen
 {
     public class SensorScreen : BaseViewModel
     {
-        private float raw;
-        private float rawLowLimit;
-        private float rawHighLimit;
-        private float valueLowLimit;
-        private float valueHighLimit;
+        private double raw;
+        private double rawLowLimit;
+        private double rawHighLimit;
+        private double valueLowLimit;
+        private double valueHighLimit;
 
-        private bool isRawLowLimitSelected;
-        private bool isRawHighLimitSelected;
-        private bool isValueLowLimitSelected;
-        private bool isValueHighLimitSelected;
+        private bool isRawLowLimitFocused;
+        private bool isRawHighLimitFocused;
+        private bool isValueLowLimitFocused;
+        private bool isValueHighLimitFocused;
 
-        //private float? rawLowLimitNew;
-        //private float? rawHighLimitNew;
-        //private float? valueLowLimitNew;
-        //private float? valueHighLimitNew;
+        //private double? rawLowLimitNew;
+        //private double? rawHighLimitNew;
+        //private double? valueLowLimitNew;
+        //private double? valueHighLimitNew;
 
         public void Setup(Sensor sensor)
         {
             Raw = sensor.Raw ?? 0;
-            if (!IsRawLowLimitSelected)
+            if (!IsRawLowLimitFocused)
                 RawLowLimit = sensor.RawLowLimit ?? 0;
-            if (!IsRawHighLimitSelected)
+            if (!IsRawHighLimitFocused)
                 RawHighLimit = sensor.RawHighLimit ?? 0;
-            if (!IsValueLowLimitSelected)
+            if (!IsValueLowLimitFocused)
                 ValueLowLimit = sensor.ValueLowLimit ?? 0;
-            if (!IsValueHighLimitSelected)
+            if (!IsValueHighLimitFocused)
                 ValueHighLimit = sensor.ValueHighLimit ?? 0;
         }
 
@@ -43,81 +43,81 @@ namespace DosingApp.Models.Screen
         //}
 
         // aux values
-        public bool IsRawLowLimitSelected
+        public bool IsRawLowLimitFocused
         {
-            get { return isRawLowLimitSelected; }
-            set { SetProperty(ref isRawLowLimitSelected, value); }
+            get { return isRawLowLimitFocused; }
+            set { SetProperty(ref isRawLowLimitFocused, value); }
         }
         
-        public bool IsRawHighLimitSelected
+        public bool IsRawHighLimitFocused
         {
-            get { return isRawHighLimitSelected; }
-            set { SetProperty(ref isRawHighLimitSelected, value); }
+            get { return isRawHighLimitFocused; }
+            set { SetProperty(ref isRawHighLimitFocused, value); }
         }
 
-        public bool IsValueLowLimitSelected
+        public bool IsValueLowLimitFocused
         {
-            get { return isValueLowLimitSelected; }
-            set { SetProperty(ref isValueLowLimitSelected, value); }
+            get { return isValueLowLimitFocused; }
+            set { SetProperty(ref isValueLowLimitFocused, value); }
         }
 
-        public bool IsValueHighLimitSelected
+        public bool IsValueHighLimitFocused
         {
-            get { return isValueHighLimitSelected; }
-            set { SetProperty(ref isValueHighLimitSelected, value); }
+            get { return isValueHighLimitFocused; }
+            set { SetProperty(ref isValueHighLimitFocused, value); }
         }
 
         // read values
-        public float Raw
+        public double Raw
         {
             get { return raw; }
             set { SetProperty(ref raw, value); }
         }
 
-        public float RawLowLimit
+        public double RawLowLimit
         {
             get { return rawLowLimit; }
             set { SetProperty(ref rawLowLimit, value); }
         }
 
-        public float RawHighLimit
+        public double RawHighLimit
         {
             get { return rawHighLimit; }
             set { SetProperty(ref rawHighLimit, value); }
         }
 
-        public float ValueLowLimit
+        public double ValueLowLimit
         {
             get { return valueLowLimit; }
             set { SetProperty(ref valueLowLimit, value); }
         }
 
-        public float ValueHighLimit
+        public double ValueHighLimit
         {
             get { return valueHighLimit; }
             set { SetProperty(ref valueHighLimit, value); }
         }
 
         // new values
-        //public float? RawLowLimitNew
+        //public double? RawLowLimitNew
         //{
         //    get { return rawLowLimitNew; }
         //    set { SetProperty(ref rawLowLimitNew, value); }
         //}
 
-        //public float? RawHighLimitNew
+        //public double? RawHighLimitNew
         //{
         //    get { return rawHighLimitNew; }
         //    set { SetProperty(ref rawHighLimitNew, value); }
         //}
 
-        //public float? ValueLowLimitNew
+        //public double? ValueLowLimitNew
         //{
         //    get { return valueLowLimitNew; }
         //    set { SetProperty(ref valueLowLimitNew, value); }
         //}
 
-        //public float? ValueHighLimitNew
+        //public double? ValueHighLimitNew
         //{
         //    get { return valueHighLimitNew; }
         //    set { SetProperty(ref valueHighLimitNew, value); }

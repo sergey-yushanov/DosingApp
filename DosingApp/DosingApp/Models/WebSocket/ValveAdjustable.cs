@@ -14,16 +14,16 @@ namespace DosingApp.Models.WebSocket
         public bool? CommandClose { get; set; }
         // properties
         public bool? Faulty { get; set; }
-        public float? Setpoint { get; set; }
-        public float? Position { get; set; }
+        public double? Setpoint { get; set; }
+        public double? Position { get; set; }
         public int? Overtime { get; set; }
-        public float? LimitClose { get; set; }
-        public float? LimitOpen { get; set; }
-        public float? DeadbandClose { get; set; }
-        public float? DeadbandOpen { get; set; }
-        public float? DeadbandPosition { get; set; }
-        public float? CostClose { get; set; }
-        public float? CostOpen { get; set; }
+        public double? LimitClose { get; set; }
+        public double? LimitOpen { get; set; }
+        public double? DeadbandClose { get; set; }
+        public double? DeadbandOpen { get; set; }
+        public double? DeadbandPosition { get; set; }
+        public double? CostClose { get; set; }
+        public double? CostOpen { get; set; }
         public virtual Sensor Sensor { get; set; }
     }
 }

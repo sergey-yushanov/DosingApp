@@ -6,18 +6,19 @@ namespace DosingApp.Models.Screen
     public class ValveAdjustableScreen : BaseViewModel
     {
         private bool faulty;
-        private float setpoint;
-        private float position;
+        private double setpoint;
+        private double position;
         private int overtime;
-        private float limitClose;
-        private float limitOpen;
-        private float deadbandClose;
-        private float deadbandOpen;
-        private float deadbandPosition;
-        private float costClose;
-        private float costOpen;
+        private double limitClose;
+        private double limitOpen;
+        private double deadbandClose;
+        private double deadbandOpen;
+        private double deadbandPosition;
+        private double costClose;
+        private double costOpen;
 
         private bool isSetpointFocused;
+        private bool isOvertimeFocused;
         private bool isLimitCloseFocused;
         private bool isLimitOpenFocused;
         private bool isDeadbandCloseFocused;
@@ -26,14 +27,14 @@ namespace DosingApp.Models.Screen
         private bool isCostCloseFocused;
         private bool isCostOpenFocused;
 
-        //private float? setpointNew;
-        //private float? limitCloseNew;
-        //private float? limitOpenNew;
-        //private float? deadbandCloseNew;
-        //private float? deadbandOpenNew;
-        //private float? deadbandPositionNew;
-        //private float? costCloseNew;
-        //private float? costOpenNew;
+        //private double? setpointNew;
+        //private double? limitCloseNew;
+        //private double? limitOpenNew;
+        //private double? deadbandCloseNew;
+        //private double? deadbandOpenNew;
+        //private double? deadbandPositionNew;
+        //private double? costCloseNew;
+        //private double? costOpenNew;
 
         public string Name { get; set; }
 
@@ -50,7 +51,8 @@ namespace DosingApp.Models.Screen
             Position = valveAdjustable.Position ?? 0;
             if (ShowSettings)
             {
-                Overtime = valveAdjustable.Overtime ?? 150;
+                if (!IsOvertimeFocused)
+                    Overtime = valveAdjustable.Overtime ?? 150;
                 if (!IsLimitCloseFocused)
                     LimitClose = valveAdjustable.LimitClose ?? 0;
                 if (!IsLimitOpenFocused)
@@ -90,6 +92,12 @@ namespace DosingApp.Models.Screen
         {
             get { return isSetpointFocused; }
             set { SetProperty(ref isSetpointFocused, value); }
+        }
+
+        public bool IsOvertimeFocused
+        {
+            get { return isOvertimeFocused; }
+            set { SetProperty(ref isOvertimeFocused, value); }
         }
 
         public bool IsLimitCloseFocused
@@ -140,13 +148,13 @@ namespace DosingApp.Models.Screen
             set { SetProperty(ref faulty, value); }
         }
 
-        public float Setpoint
+        public double Setpoint
         {
             get { return setpoint; }
             set { SetProperty(ref setpoint, value); }
         }
 
-        public float Position
+        public double Position
         {
             get { return position; }
             set { SetProperty(ref position, value); }
@@ -158,43 +166,43 @@ namespace DosingApp.Models.Screen
             set { SetProperty(ref overtime, value); }
         }
 
-        public float LimitClose
+        public double LimitClose
         {
             get { return limitClose; }
             set { SetProperty(ref limitClose, value); }
         }
 
-        public float LimitOpen
+        public double LimitOpen
         {
             get { return limitOpen; }
             set { SetProperty(ref limitOpen, value); }
         }
 
-        public float DeadbandClose
+        public double DeadbandClose
         {
             get { return deadbandClose; }
             set { SetProperty(ref deadbandClose, value); }
         }
 
-        public float DeadbandOpen
+        public double DeadbandOpen
         {
             get { return deadbandOpen; }
             set { SetProperty(ref deadbandOpen, value); }
         }
 
-        public float DeadbandPosition
+        public double DeadbandPosition
         {
             get { return deadbandPosition; }
             set { SetProperty(ref deadbandPosition, value); }
         }
 
-        public float CostClose
+        public double CostClose
         {
             get { return costClose; }
             set { SetProperty(ref costClose, value); }
         }
 
-        public float CostOpen
+        public double CostOpen
         {
             get { return costOpen; }
             set { SetProperty(ref costOpen, value); }
@@ -203,49 +211,49 @@ namespace DosingApp.Models.Screen
         public SensorScreen Sensor { get; set; }
 
         // new values
-        //public float? SetpointNew
+        //public double? SetpointNew
         //{
         //    get { return setpointNew; }
         //    set { SetProperty(ref setpointNew, value); }
         //}
 
-        //public float? LimitCloseNew
+        //public double? LimitCloseNew
         //{
         //    get { return limitCloseNew; }
         //    set { SetProperty(ref limitCloseNew, value); }
         //}
 
-        //public float? LimitOpenNew
+        //public double? LimitOpenNew
         //{
         //    get { return limitOpenNew; }
         //    set { SetProperty(ref limitOpenNew, value); }
         //}
 
-        //public float? DeadbandCloseNew
+        //public double? DeadbandCloseNew
         //{
         //    get { return deadbandCloseNew; }
         //    set { SetProperty(ref deadbandCloseNew, value); }
         //}
 
-        //public float? DeadbandOpenNew
+        //public double? DeadbandOpenNew
         //{
         //    get { return deadbandOpenNew; }
         //    set { SetProperty(ref deadbandOpenNew, value); }
         //}
 
-        //public float? DeadbandPositionNew
+        //public double? DeadbandPositionNew
         //{
         //    get { return deadbandPositionNew; }
         //    set { SetProperty(ref deadbandPositionNew, value); }
         //}
 
-        //public float? CostCloseNew
+        //public double? CostCloseNew
         //{
         //    get { return costCloseNew; }
         //    set { SetProperty(ref costCloseNew, value); }
         //}
 
-        //public float? CostOpenNew
+        //public double? CostOpenNew
         //{
         //    get { return costOpenNew; }
         //    set { SetProperty(ref costOpenNew, value); }

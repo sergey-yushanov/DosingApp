@@ -13,7 +13,7 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class MixerControlPage : ContentPage
+    public partial class MixerControlPage : TabbedPage
     {
         public MixerControlPage()
         {

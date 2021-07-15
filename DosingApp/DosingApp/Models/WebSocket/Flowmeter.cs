@@ -9,9 +9,9 @@ namespace DosingApp.Models.WebSocket
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class Flowmeter
     {
-        public float? Flow { get; set; }
-        public float? Volume { get; set; }
-        public float? PulsesPerLiter { get; set; }
+        public double? Flow { get; set; }
+        public double? Volume { get; set; }
+        public double? PulsesPerLiter { get; set; }
         public bool? NullifyVolume { get; set; }
     }
 }

@@ -9,10 +9,10 @@ namespace DosingApp.Models.WebSocket
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class Sensor
     {
-        public float? Raw { get; set; }
-        public float? RawLowLimit { get; set; }
-        public float? RawHighLimit { get; set; }
-        public float? ValueLowLimit { get; set; }
-        public float? ValueHighLimit { get; set; }
+        public double? Raw { get; set; }
+        public double? RawLowLimit { get; set; }
+        public double? RawHighLimit { get; set; }
+        public double? ValueLowLimit { get; set; }
+        public double? ValueHighLimit { get; set; }
     }
 }

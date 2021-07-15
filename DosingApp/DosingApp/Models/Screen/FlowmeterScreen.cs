@@ -5,13 +5,13 @@ namespace DosingApp.Models.Screen
 {
     public class FlowmeterScreen : BaseViewModel
     {
-        private float flow;
-        private float volume;
-        private float pulsesPerLiter;
+        private double flow;
+        private double volume;
+        private double pulsesPerLiter;
 
         private bool isPulsesPerLiterFocused;
 
-        //private float? pulsesPerLiterNew;
+        //private double? pulsesPerLiterNew;
 
         public void Update(Flowmeter flowmeter, bool showSettings)
         {
@@ -36,26 +36,26 @@ namespace DosingApp.Models.Screen
         }
 
         // read values
-        public float Flow
+        public double Flow
         {
             get { return flow; }
             set { SetProperty(ref flow, value); }
         }
 
-        public float Volume
+        public double Volume
         {
             get { return volume; }
             set { SetProperty(ref volume, value); }
         }
 
-        public float PulsesPerLiter
+        public double PulsesPerLiter
         {
             get { return pulsesPerLiter; }
             set { SetProperty(ref pulsesPerLiter, value); }
         }
 
         // new values
-        //public float? PulsesPerLiterNew
+        //public double? PulsesPerLiterNew
         //{
         //    get { return pulsesPerLiterNew; }
         //    set { SetProperty(ref pulsesPerLiterNew, value); }

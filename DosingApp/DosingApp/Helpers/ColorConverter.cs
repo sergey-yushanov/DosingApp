@@ -15,12 +15,14 @@ namespace DosingApp.Helpers
                 var color = (string)parameter;
                 switch (color)
                 {
-                    case "ValveOpened":
+                    case "Work":
                         return Application.Current.Resources["LabelGreenColor"];
-                        //return Color.FromHex("c2bca8");
+                    case "Faulty":
+                        return Application.Current.Resources["LabelAlertColor"];
+                    //return Color.FromHex("c2bca8");
                     //case "text":
                     //    return Application.Current.Resources["ThemeBlue"];
-                        //return Color.FromHex("96907e");
+                    //return Color.FromHex("96907e");
                     default:
                         return Color.Default;
                 }

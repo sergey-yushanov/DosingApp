@@ -8,7 +8,9 @@
             <Label
                 x:Name="labelTitle"
                 Text="{Binding Title}"
-                FontSize="Medium"
+                FontSize="17.5"
+                FontAttributes="Bold"
+                FontFamily="sans-serif-light"
                 TextColor="{StaticResource TitleColor}"/>
         </StackLayout>
     </NavigationPage.TitleView>

@@ -13,6 +13,8 @@ namespace DosingApp.Models.Screen
         public ObservableCollection<ValveScreen> Valves { get; set; }
         public ValveAdjustableScreen ValveAdjustable { get; set; }
         public FlowmeterScreen Flowmeter { get; set; }
+        public ObservableCollection<float> RequiredVolumes { get; set; }
+        public ObservableCollection<float> DosedVolumes { get; set; }
 
         public CollectorScreen(int number)
         {
@@ -24,6 +26,9 @@ namespace DosingApp.Models.Screen
             }
             ValveAdjustable = new ValveAdjustableScreen() { Name = this.Number.ToString() + "РегКл" };
             Flowmeter = new FlowmeterScreen();
+            
+            RequiredVolumes = new ObservableCollection<float>();
+            DosedVolumes = new ObservableCollection<float>();
         }
 
         public string Name { get { return "Коллекторный дозатор " + Number.ToString() + " (КД " + Number.ToString() + ")"; } }
@@ -37,6 +42,12 @@ namespace DosingApp.Models.Screen
             }
             ValveAdjustable.Update(collector.ValveAdjustable, showSettings);
             Flowmeter.Update(collector.Flowmeter, showSettings);
+
+            for (int i = 0; i < nValves-1; i++)
+            {
+                DosedVolumes[i] = collector.Loop.DosedVolumes[i];
+                RequiredVolumes[i] = collector.Loop.RequiredVolumes[i];
+            }
         }
 
         //public void InitNew(Collector collector, bool showSettings)

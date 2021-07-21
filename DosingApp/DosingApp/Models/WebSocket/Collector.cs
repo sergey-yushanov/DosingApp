@@ -14,5 +14,6 @@ namespace DosingApp.Models.WebSocket
         public virtual ValveAdjustable ValveAdjustable { get; set; }
         public virtual Flowmeter Flowmeter { get; set; }
         public virtual List<Valve> Valves { get; set; }
+        public virtual CollectorLoop Loop { get; set; }
     }
 }

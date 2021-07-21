@@ -113,7 +113,7 @@ namespace DosingApp.ViewModels
             if (AccessAdminParams)
             {
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Users, Group = MenuItemGroup.AdminParams, Title = "Пользователи" });
-                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Mixers, Group = MenuItemGroup.AdminParams, Title = "Установки" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Mixers, Group = MenuItemGroup.AdminParams, Title = "Системы СЗР-Mix" });
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.MixerControl, Group = MenuItemGroup.AdminParams, Title = "Ручное управление и настройка" });
             }
 

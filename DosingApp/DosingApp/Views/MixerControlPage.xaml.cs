@@ -24,7 +24,7 @@ namespace DosingApp.Views
         protected override void OnDisappearing()
         {
             var mixerControlViewModel = (MixerControlViewModel)BindingContext;
-            mixerControlViewModel.WebsocketClientExit();
+            mixerControlViewModel.WebSocketService.WebsocketClientExit();
             base.OnDisappearing();
         }
     }

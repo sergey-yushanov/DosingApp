@@ -43,11 +43,11 @@ namespace DosingApp.Models.Screen
             ValveAdjustable.Update(collector.ValveAdjustable, showSettings);
             Flowmeter.Update(collector.Flowmeter, showSettings);
 
-            for (int i = 0; i < nValves-1; i++)
-            {
-                DosedVolumes[i] = collector.Loop.DosedVolumes[i];
-                RequiredVolumes[i] = collector.Loop.RequiredVolumes[i];
-            }
+            //for (int i = 0; i < nValves-1; i++)
+            //{
+            //    DosedVolumes[i] = collector.Loop.DosedVolumes[i];
+            //    RequiredVolumes[i] = collector.Loop.RequiredVolumes[i];
+            //}
         }
 
         //public void InitNew(Collector collector, bool showSettings)

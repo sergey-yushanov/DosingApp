@@ -28,5 +28,20 @@ namespace DosingApp.Models
         public string VolumeRateInfo { get { return "Норма расхода: " + ((double)VolumeRate).ToString("N1", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeRateUnit; } }
         public string ConsistencyInfo { get { return "Форма: " + Component?.Consistency; } }
         public string DispenserInfo { get { return "Дозатор: " + Dispenser; } }
+
+        // new
+        public double? VolumePumped { get; set; }
+        public string VolumePumpedInfo { get { return ((double)VolumePumped).ToString("N", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeUnit; } }
+        
+        public int GetCollectorNumber()
+        {
+            return 1;
+        }
+
+        public int GetDispenserNumber()
+        {
+            char number = Dispenser[Dispenser.Length - 1];
+            return Int32.Parse(number.ToString());
+        }
     }
 }

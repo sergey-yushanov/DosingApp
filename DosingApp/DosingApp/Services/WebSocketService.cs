@@ -204,6 +204,19 @@ namespace DosingApp.Services
             Console.WriteLine("Websocket Stoped.");
         }
 
+        public void CollectorLoopMessage(int collectorNumber, CollectorLoop collectorLoop)
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                Collectors = new List<Collector> {new Collector
+                {
+                    Number = collectorNumber,
+                    Loop = collectorLoop
+                }}
+            };
+            Task.Run(async () => await SendMessageAsync(outgoingMessage));
+        }
+
         public void CollectorValveMessage(int collectorNumber, Valve valve)
         {
             var outgoingMessage = new OutgoingMessage()

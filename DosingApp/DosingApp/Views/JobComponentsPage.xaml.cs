@@ -22,5 +22,12 @@ namespace DosingApp.Views
             ViewModel = viewModel;
             BindingContext = ViewModel;
         }
+
+        protected override void OnDisappearing()
+        {
+            var jobComponentsViewModel = (JobComponentsViewModel)BindingContext;
+            jobComponentsViewModel.WebSocketService.WebsocketClientExit();
+            base.OnDisappearing();
+        }
     }
 }

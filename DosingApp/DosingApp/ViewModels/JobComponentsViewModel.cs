@@ -2,6 +2,8 @@
 using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Models.Files;
+using DosingApp.Models.WebSocket;
+using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
 using Plugin.FilePicker;
@@ -24,10 +26,14 @@ namespace DosingApp.ViewModels
         private ObservableCollection<JobComponent> jobComponents;
         private bool isRunning;
         private string title;
+        private CollectorLoop collectorLoop;
 
         public ICommand StartJobCommand { get; protected set; }
+        public ICommand PauseJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
+
+        public WebSocketService WebSocketService;
         #endregion Attributes
 
         #region Constructor
@@ -39,6 +45,14 @@ namespace DosingApp.ViewModels
             StartJobCommand = new Command(StartJob);
             StopJobCommand = new Command(StopJob);
             BackCommand = new Command(Back);
+
+
+            WebSocketService = new WebSocketService();
+            if (WebSocketService.Mixer != null)
+            {
+                MakeRequirements(jobComponents);
+                WebSocketSendRequirements();
+            }
         }
         #endregion Constructor
 
@@ -79,20 +93,58 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
+        private void Back3Pages()
+        {
+            Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 2]);
+            Application.Current.MainPage.Navigation.PopAsync();
+        }
+
         private void StartJob()
         {
             //UserDialogs.Instance.ShowLoading("Смешивание", MaskType.None);
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { CommandStart = true });
         }
 
         private void StopJob()
         {
             //UserDialogs.Instance.HideLoading();
-            Back2Pages();
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { CommandStop = true });
+            Back3Pages();
         }
 
         #endregion Commands
 
         #region Methods
+        public void MakeRequirements(List<JobComponent> jobComponents)
+        {
+            var valveNums = new List<int>();
+            var requiredVolumes = new List<float>();
+            
+            foreach (var jobComponent in jobComponents)
+            {
+                if (jobComponent.Dispenser == DispenserSuffix.Carrier)
+                    continue;
+
+                if (jobComponent.Dispenser == DispenserSuffix.Dry)
+                    valveNums.Add(0);
+                else
+                    valveNums.Add(jobComponent.GetDispenserNumber());
+                
+                requiredVolumes.Add((float)jobComponent.Volume);
+            }
+
+            collectorLoop = new CollectorLoop
+            {
+                ValveNums = valveNums,
+                RequiredVolumes = requiredVolumes
+            };
+        }
+
+        public void WebSocketSendRequirements()
+        {
+            WebSocketService.CollectorLoopMessage(1, collectorLoop);
+        }
+
 /*        public void LoadJobComponents()
         {
             using (AppDbContext db = App.GetContext())

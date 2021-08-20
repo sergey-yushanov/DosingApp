@@ -32,6 +32,9 @@
                     HeightRequest="40"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="CenterAndExpand"/>
+                <ProgressBar 
+                    Progress="0.5"
+                    ProgressColor="Orange"/>
             </StackLayout>
 
             <StackLayout>
@@ -104,17 +107,25 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Button 
-                        Text="Назад"
+                        Text="Выход"
+                        IsVisible="True"
                         Command="{Binding StopJobCommand}"/>
                     <Button 
-                        Grid.Column="1" 
-                        Text="Выполнить" 
+                        Grid.Column="1"
+                        Text="Пауза"
+                        IsVisible="True"
+                        Command="{Binding PauseJobCommand}"/>
+                    <Button 
+                        Grid.Column="2"
+                        Text="Выполнить"
+                        IsVisible="True"
                         Command="{Binding StartJobCommand}"/>
                 </Grid>
             </StackLayout>

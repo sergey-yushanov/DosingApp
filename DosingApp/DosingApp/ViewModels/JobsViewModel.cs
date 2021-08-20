@@ -140,7 +140,7 @@ namespace DosingApp.ViewModels
                 VolumeRate = carrierVolumeRate,
                 VolumeUnit = VolumeUnit.Liquid,
                 VolumeRateUnit = VolumeRateUnit.Liquid,
-                Dispenser = "Носитель"
+                Dispenser = DispenserSuffix.Carrier
             });
 
             return jobComponents;

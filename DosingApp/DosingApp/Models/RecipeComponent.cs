@@ -30,6 +30,6 @@ namespace DosingApp.Models
             return index != -1;
         }
 
-        public string DryComponentDispenser { get { return "Загр. вручную"; } }
+        public string DryComponentDispenser { get { return DispenserSuffix.Dry; } }
     }
 }

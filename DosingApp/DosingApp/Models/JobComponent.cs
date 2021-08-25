@@ -30,9 +30,10 @@ namespace DosingApp.Models
         public string DispenserInfo { get { return "Дозатор: " + Dispenser; } }
 
         // new
-        public double? VolumePumped { get; set; }
-        public string VolumePumpedInfo { get { return ((double)VolumePumped).ToString("N", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeUnit; } }
-        
+        //public double? DosedVolume { get; set; }
+        //public double? ErrorVolume { get; set; }
+        //public string DosedVolumeInfo { get { return ((double)DosedVolume).ToString("N", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeUnit; } }
+
         public int GetCollectorNumber()
         {
             return 1;

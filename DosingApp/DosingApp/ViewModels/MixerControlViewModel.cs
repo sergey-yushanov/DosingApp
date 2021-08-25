@@ -35,7 +35,7 @@ namespace DosingApp.ViewModels
 
         //private Mixer mixer;
 
-        public WebSocketService WebSocketService;
+        public WebSocketService WebSocketService { get; protected set; }
 
         private string title;
 
@@ -186,6 +186,12 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref title, value); }
         }
 
+        //public WebSocketService WebSocketService
+        //{
+        //    get { return webSocketService; }
+        //    set { SetProperty(ref webSocketService, value); }
+        //}
+
         public CollectorScreen Collector
         {
             get { return WebSocketService.Collector; }
@@ -280,11 +286,11 @@ namespace DosingApp.ViewModels
         //    set { SetProperty(ref outgoingMessageText, value); }
         //}
 
-        public bool IsConnected
-        {
-            get { return WebSocketService.IsConnected; }
-            //set { SetProperty(ref isConnected, value); }
-        }
+        //public bool IsConnected
+        //{
+        //    get { return WebSocketService.IsConnected; }
+        //    //set { SetProperty(ref isConnected, value); }
+        //}
         #endregion Properties
 
         #region Commands

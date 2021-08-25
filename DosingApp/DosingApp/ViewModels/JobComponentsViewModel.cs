@@ -2,6 +2,7 @@
 using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Models.Files;
+using DosingApp.Models.Screen;
 using DosingApp.Models.WebSocket;
 using DosingApp.Services;
 using DosingApp.Views;
@@ -25,15 +26,25 @@ namespace DosingApp.ViewModels
         public Job Job { get; private set; }
         private ObservableCollection<JobComponent> jobComponents;
         private bool isRunning;
+        private bool isCompleted;
+        private Color progressBarColor;
         private string title;
+
+        // loop variables
+        //private ObservableCollection<JobComponent> jobComponentsDosed;
+        //private ObservableCollection<JobComponent> jobComponentsError;
         private CollectorLoop collectorLoop;
+        private float progress;
+        private bool isPause;
+
+        //
 
         public ICommand StartJobCommand { get; protected set; }
-        public ICommand PauseJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }
+        public ICommand PauseJobCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
 
-        public WebSocketService WebSocketService;
+        public WebSocketService WebSocketService { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -44,8 +55,8 @@ namespace DosingApp.ViewModels
             Title = "Задание: " + Job.Name + "\nКомпоненты";
             StartJobCommand = new Command(StartJob);
             StopJobCommand = new Command(StopJob);
+            PauseJobCommand = new Command(PauseJob);
             BackCommand = new Command(Back);
-
 
             WebSocketService = new WebSocketService();
             if (WebSocketService.Mixer != null)
@@ -74,10 +85,43 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isRunning, value); }
         }
 
+        public bool IsCompleted
+        {
+            get 
+            {
+                ProgressBarColor = (Color)(isCompleted ? Application.Current.Resources["OrangeColor"] : Application.Current.Resources["GreenColor"]);
+                return isCompleted; 
+            }
+            set { SetProperty(ref isCompleted, value); }
+        }
+
+        public Color ProgressBarColor
+        {
+            get { return progressBarColor; }
+            set { SetProperty(ref progressBarColor, value); }
+        }
+
         public string Title
         {
             get { return title; }
             set { SetProperty(ref title, value); }
+        }
+
+        public bool IsPause
+        {
+            get { return isPause; }
+            set { SetProperty(ref isPause, value); }
+        }
+
+        public float Progress
+        {
+            get { return progress; }
+            set { SetProperty(ref progress, value); }
+        }
+
+        public CollectorScreen Collector
+        {
+            get { return WebSocketService.Collector; }
         }
         #endregion Properties
 
@@ -97,6 +141,7 @@ namespace DosingApp.ViewModels
         {
             Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 2]);
             Application.Current.MainPage.Navigation.PopAsync();
+            Application.Current.MainPage.Navigation.PopAsync();
         }
 
         private void StartJob()
@@ -112,6 +157,10 @@ namespace DosingApp.ViewModels
             Back3Pages();
         }
 
+        private void PauseJob()
+        {
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { CommandPause = true });
+        }
         #endregion Commands
 
         #region Methods
@@ -122,14 +171,11 @@ namespace DosingApp.ViewModels
             
             foreach (var jobComponent in jobComponents)
             {
-                if (jobComponent.Dispenser == DispenserSuffix.Carrier)
+                if (jobComponent.Dispenser == DispenserSuffix.Carrier || jobComponent.Dispenser == DispenserSuffix.Dry)
                     continue;
-
-                if (jobComponent.Dispenser == DispenserSuffix.Dry)
-                    valveNums.Add(0);
                 else
                     valveNums.Add(jobComponent.GetDispenserNumber());
-                
+
                 requiredVolumes.Add((float)jobComponent.Volume);
             }
 

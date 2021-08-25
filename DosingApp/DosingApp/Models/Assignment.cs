@@ -85,5 +85,8 @@ namespace DosingApp.Models
 
         public double? Size { get; set; }
         public string Unit { get; set; }
+
+        //public double? SizeDosed { get; set; }
+        //public bool? IsRunning { get; set; }
     }
 }

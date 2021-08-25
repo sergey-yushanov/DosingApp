@@ -2,6 +2,7 @@
 using DosingApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System;
 
 namespace DosingApp.Models.Screen
 {
@@ -13,6 +14,8 @@ namespace DosingApp.Models.Screen
         public ObservableCollection<ValveScreen> Valves { get; set; }
         public ValveAdjustableScreen ValveAdjustable { get; set; }
         public FlowmeterScreen Flowmeter { get; set; }
+        
+        public ObservableCollection<int> ValveNums { get; set; }
         public ObservableCollection<float> RequiredVolumes { get; set; }
         public ObservableCollection<float> DosedVolumes { get; set; }
 
@@ -26,9 +29,16 @@ namespace DosingApp.Models.Screen
             }
             ValveAdjustable = new ValveAdjustableScreen() { Name = this.Number.ToString() + "РегКл" };
             Flowmeter = new FlowmeterScreen();
-            
+
+            ValveNums = new ObservableCollection<int>();
             RequiredVolumes = new ObservableCollection<float>();
             DosedVolumes = new ObservableCollection<float>();
+            for (int i = 0; i < nValves - 1; i++)
+            {
+                ValveNums.Add(0);
+                RequiredVolumes.Add(0);
+                DosedVolumes.Add(0);
+            }
         }
 
         public string Name { get { return "Коллекторный дозатор " + Number.ToString() + " (КД " + Number.ToString() + ")"; } }
@@ -43,11 +53,12 @@ namespace DosingApp.Models.Screen
             ValveAdjustable.Update(collector.ValveAdjustable, showSettings);
             Flowmeter.Update(collector.Flowmeter, showSettings);
 
-            //for (int i = 0; i < nValves-1; i++)
-            //{
-            //    DosedVolumes[i] = collector.Loop.DosedVolumes[i];
-            //    RequiredVolumes[i] = collector.Loop.RequiredVolumes[i];
-            //}
+            for (int i = 0; i < nValves - 1; i++)
+            {
+                ValveNums[i] = collector.Loop.ValveNums[i];
+                DosedVolumes[i] = collector.Loop.DosedVolumes[i];
+                RequiredVolumes[i] = collector.Loop.RequiredVolumes[i];
+            }
         }
 
         //public void InitNew(Collector collector, bool showSettings)

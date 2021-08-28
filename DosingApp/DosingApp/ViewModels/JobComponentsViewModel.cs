@@ -25,6 +25,10 @@ namespace DosingApp.ViewModels
         #region Attributes
         public Job Job { get; private set; }
         private ObservableCollection<JobComponent> jobComponents;
+        private ObservableCollection<JobComponentScreen> jobComponentScreens;
+
+        private JobScreen jobScreen;
+
         private bool isRunning;
         private bool isCompleted;
         private Color progressBarColor;
@@ -33,8 +37,11 @@ namespace DosingApp.ViewModels
         // loop variables
         //private ObservableCollection<JobComponent> jobComponentsDosed;
         //private ObservableCollection<JobComponent> jobComponentsError;
+        private CommonLoop commonLoop;
         private CollectorLoop collectorLoop;
-        private float progress;
+        //private float progressBarValue;
+        //private float requiredVolume;
+        //private float dosedVolume;
         private bool isPause;
 
         //
@@ -51,7 +58,20 @@ namespace DosingApp.ViewModels
         public JobComponentsViewModel(Job job, List<JobComponent> jobComponents)
         {
             Job = job;
-            JobComponents = new ObservableCollection<JobComponent>(jobComponents);
+
+            JobScreen = new JobScreen(jobComponents);
+
+            //JobComponents = new ObservableCollection<JobComponent>(jobComponents);
+
+            //requiredVolume = 0;
+
+            //JobComponentScreens = new ObservableCollection<JobComponentScreen>();
+            //for(int i = 0; i < jobComponents.Count; i++)
+            //{
+            //    JobComponentScreens.Add(new JobComponentScreen(jobComponents[i]));
+            //    //requiredVolume += (float)jobComponents[i].Volume;
+            //}
+
             Title = "Задание: " + Job.Name + "\nКомпоненты";
             StartJobCommand = new Command(StartJob);
             StopJobCommand = new Command(StopJob);
@@ -68,10 +88,22 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public JobScreen JobScreen
+        {
+            get { return jobScreen; }
+            set { SetProperty(ref jobScreen, value); }
+        }
+
         public ObservableCollection<JobComponent> JobComponents
         {
             get { return jobComponents; }
             set { SetProperty(ref jobComponents, value); }
+        }
+
+        public ObservableCollection<JobComponentScreen> JobComponentScreens
+        {
+            get { return jobComponentScreens; }
+            set { SetProperty(ref jobComponentScreens, value); }
         }
 
         public double? PartySize
@@ -101,6 +133,12 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref progressBarColor, value); }
         }
 
+        //public float ProgressBarValue
+        //{
+        //    get { return progressBarValue; }
+        //    set { SetProperty(ref progressBarValue, value); }
+        //}
+
         public string Title
         {
             get { return title; }
@@ -113,15 +151,22 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isPause, value); }
         }
 
-        public float Progress
-        {
-            get { return progress; }
-            set { SetProperty(ref progress, value); }
-        }
-
         public CollectorScreen Collector
         {
-            get { return WebSocketService.Collector; }
+            get 
+            {
+                //UpdateJobComponents();
+                return WebSocketService.Collector; 
+            }
+        }
+
+        public CommonScreen Common
+        {
+            get 
+            {
+                //UpdateJobComponents();
+                return WebSocketService.Common; 
+            }
         }
         #endregion Properties
 
@@ -146,20 +191,18 @@ namespace DosingApp.ViewModels
 
         private void StartJob()
         {
-            //UserDialogs.Instance.ShowLoading("Смешивание", MaskType.None);
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { CommandStart = true });
+            WebSocketService.CommonLoopMessage(new CommonLoop { CommandStart = true });
         }
 
         private void StopJob()
         {
-            //UserDialogs.Instance.HideLoading();
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { CommandStop = true });
+            WebSocketService.CommonLoopMessage(new CommonLoop { CommandStop = true });
             Back3Pages();
         }
 
         private void PauseJob()
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { CommandPause = true });
+            WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
         }
         #endregion Commands
 
@@ -168,14 +211,20 @@ namespace DosingApp.ViewModels
         {
             var valveNums = new List<int>();
             var requiredVolumes = new List<float>();
+            float carrierRequiredVolume = 0;
             
             foreach (var jobComponent in jobComponents)
             {
-                if (jobComponent.Dispenser == DispenserSuffix.Carrier || jobComponent.Dispenser == DispenserSuffix.Dry)
+                if (jobComponent.Dispenser == DispenserSuffix.Carrier)
+                {
+                    carrierRequiredVolume = (float)jobComponent.Volume;
                     continue;
-                else
-                    valveNums.Add(jobComponent.GetDispenserNumber());
+                }
 
+                if (jobComponent.Dispenser == DispenserSuffix.Dry)
+                    continue;
+                
+                valveNums.Add(jobComponent.GetDispenserNumber());
                 requiredVolumes.Add((float)jobComponent.Volume);
             }
 
@@ -184,20 +233,67 @@ namespace DosingApp.ViewModels
                 ValveNums = valveNums,
                 RequiredVolumes = requiredVolumes
             };
+
+            commonLoop = new CommonLoop
+            {
+                CarrierRequiredVolume = carrierRequiredVolume
+            };
         }
 
         public void WebSocketSendRequirements()
         {
             WebSocketService.CollectorLoopMessage(1, collectorLoop);
+            WebSocketService.CommonLoopMessage(commonLoop);
         }
 
-/*        public void LoadJobComponents()
+        public void UpdateJobComponents()
         {
-            using (AppDbContext db = App.GetContext())
-            {
-                var recipeComponentsDb = db.RecipeComponents.Where(rc => rc.RecipeId == Job.RecipeId);
-            }
-        }*/
+            JobScreen.Update(Common, Collector);
+            OnPropertyChanged(nameof(JobScreen));
+
+            //dosedVolume = 0;
+
+            //for (int i = 0; i < JobComponentScreens.Count; i++)
+            //{
+            //    JobComponentScreens[i].Update(Common, Collector);
+            //    dosedVolume += (float)JobComponentScreens[i].DosedVolume;
+            //}
+
+            //ProgressBarValue = dosedVolume / requiredVolume;
+
+            //for (int i = 0; i < JobComponentScreens.Count; i++)
+            //{
+            //    Console.WriteLine(JobComponentScreens[i].DosedVolume);
+            //}
+            //Console.WriteLine("=========");
+
+            //OnPropertyChanged(nameof(JobComponentScreens));
+        }
+
+        //public void Update(CommonScreen common, CollectorScreen collector)
+        //{
+        //    Console.WriteLine(common.CarrierDosedVolume);
+        //    Console.WriteLine(Dispenser);
+            
+
+        //    if (Dispenser == DispenserSuffix.Dry)
+        //        return;
+
+        //    if (Dispenser == DispenserSuffix.Carrier)
+        //        DosedVolume = common.CarrierDosedVolume;
+        //    else
+        //        DosedVolume = collector.DosedVolumes[GetDispenserNumber() - 1];
+
+        //    DosedVolumeError = (Volume - DosedVolume) / Volume * 100;
+        //}
+
+        /*        public void LoadJobComponents()
+                {
+                    using (AppDbContext db = App.GetContext())
+                    {
+                        var recipeComponentsDb = db.RecipeComponents.Where(rc => rc.RecipeId == Job.RecipeId);
+                    }
+                }*/
         #endregion Methods
 
     }

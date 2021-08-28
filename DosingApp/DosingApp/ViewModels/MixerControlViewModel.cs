@@ -61,6 +61,9 @@ namespace DosingApp.ViewModels
 
         //public ICommand SendMessageCommand { get; protected set; }
 
+        public ICommand PumpStartCommand { get; protected set; }
+        public ICommand PumpStopCommand { get; protected set; }
+
         public ICommand AckCommand { get; protected set; }
 
         public ICommand CollectorValveOpenCommand { get; protected set; }
@@ -130,6 +133,9 @@ namespace DosingApp.ViewModels
 
                 //ClientCreate();
                 //ConnectToServerAsync();
+
+                PumpStartCommand = new Command(PumpStart);
+                PumpStopCommand = new Command(PumpStop);
 
                 AckCommand = new Command(Ack);
 
@@ -294,6 +300,24 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
+        private void PumpStart()
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                PumpStart = true
+            };
+            Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
+        }
+
+        private void PumpStop()
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                PumpStop = true
+            };
+            Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
+        }
+
         private void Ack()
         {
             var outgoingMessage = new OutgoingMessage()

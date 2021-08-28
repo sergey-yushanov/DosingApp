@@ -12,6 +12,8 @@ namespace DosingApp.Models.WebSocket
     {
         public bool? ShowSettings { get; set; }
         public bool? Ack { get; set; }
+        public bool? PumpStart { get; set; }
+        public bool? PumpStop { get; set; }
         public virtual Common Common { get; set; }
         public virtual List<Collector> Collectors { get; set; }
     }

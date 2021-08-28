@@ -101,7 +101,7 @@ namespace DosingApp.ViewModels
         {
             using (AppDbContext db = App.GetContext())
             {
-                var recipeComponents = db.RecipeComponents.Where(rc => rc.RecipeId == job.RecipeId).ToList();
+                var recipeComponents = db.RecipeComponents.Where(rc => rc.RecipeId == job.RecipeId).OrderBy(rc => rc.Order).ToList();
                 recipeComponents.ForEach(rc => rc.Component = db.Components.FirstOrDefault(c => c.ComponentId == rc.ComponentId));
                 return recipeComponents;
             }

@@ -15,6 +15,7 @@ using DosingApp.Models.Screen;
 using DosingApp.ViewModels;
 using DosingApp.Models;
 using DosingApp.DataContext;
+using System.Collections.ObjectModel;
 
 namespace DosingApp.Services
 {
@@ -31,6 +32,7 @@ namespace DosingApp.Services
         private Mixer mixer;
         private CommonScreen common;
         private CollectorScreen collector;
+        //private ObservableCollection<JobComponentScreen> jobComponentScreens;
         #endregion Attributes
 
         #region Constructor
@@ -64,6 +66,12 @@ namespace DosingApp.Services
             get { return common; }
             set { SetProperty(ref common, value); }
         }
+
+        //public ObservableCollection<JobComponentScreen> JobComponentScreens
+        //{
+        //    get { return jobComponentScreens; }
+        //    set { SetProperty(ref jobComponentScreens, value); }
+        //}
 
         public IncomingMessage IncomingMessage
         {
@@ -202,6 +210,12 @@ namespace DosingApp.Services
             }
             //client.Dispose();
             Console.WriteLine("Websocket Stoped.");
+        }
+
+        public void CommonLoopMessage(CommonLoop commonLoop)
+        {
+            var outgoingMessage = new OutgoingMessage() { Common = new Common { Loop = commonLoop } };
+            Task.Run(async () => await SendMessageAsync(outgoingMessage));
         }
 
         public void CollectorLoopMessage(int collectorNumber, CollectorLoop collectorLoop)

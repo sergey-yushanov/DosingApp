@@ -8,15 +8,13 @@ using System.Text;
 namespace DosingApp.Models.WebSocket
 {
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
-    public class CollectorLoop
+    public class CommonLoop
     {
         public bool? CommandStart { get; set; }
         public bool? CommandStop { get; set; }
         public bool? CommandPause { get; set; }
-        public virtual List<int> ValveNums { get; set; }
-        public virtual List<float> RequiredVolumes { get; set; }
-        public virtual List<float> DosedVolumes { get; set; }
-        public float? RatioVolume { get; set; }
-        public float? RatioVolumeMicro { get; set; }
+        public float? CarrierRequiredVolume { get; set; }
+        public float? CarrierDosedVolume { get; set; }
+        public float? ValveSetpoint { get; set; }
     }
 }

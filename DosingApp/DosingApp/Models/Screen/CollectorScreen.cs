@@ -61,6 +61,11 @@ namespace DosingApp.Models.Screen
             }
         }
 
+        public int GetValvesNum()
+        {
+            return nValves;
+        }
+
         //public void InitNew(Collector collector, bool showSettings)
         //{
         //    ValveAdjustable.InitNew(collector.ValveAdjustable, showSettings);

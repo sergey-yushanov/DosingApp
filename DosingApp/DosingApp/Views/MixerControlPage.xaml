@@ -54,6 +54,14 @@
                         </Grid.ColumnDefinitions>
 
                         <Button
+                            Text="НА пуск"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.PumpStartCommand}"/>
+                        <Button
+                            Grid.Column="1"
+                            Text="НА стоп"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.PumpStopCommand}"/>
+                        
+                        <Button
                             Grid.Column="4"
                             Text="Сброс"
                             Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.AckCommand}"/>

@@ -49,14 +49,14 @@
                 <ProgressBar
                     x:Name="progressBar"
                     ScaleY="5"
-                    Progress="{Binding Progress}"
+                    Progress="{Binding JobScreen.ProgressBarValue}"
                     ProgressColor="{Binding ProgressBarColor}"/>
             </StackLayout>
 
             <StackLayout>
 
                 <ListView
-                    ItemsSource="{Binding JobComponents}"
+                    ItemsSource="{Binding JobScreen.JobComponentScreens}"
                     SelectionMode="None"
                     VerticalOptions="FillAndExpand"
                     HasUnevenRows="True">
@@ -93,17 +93,39 @@
                                                     FontAttributes="Bold"
                                                     HorizontalOptions="End"/>
                                             </StackLayout>
-                                            
-                                            <Label
+
+                                            <StackLayout
                                                 Grid.Column="0"
                                                 Grid.Row="1"
-                                                Text="{Binding ConsistencyInfo}" 
-                                                FontSize="Medium" />
-                                            <Label
+                                                Orientation="Horizontal">
+                                                <Label
+                                                    Text="{Binding ConsistencyInfo}"
+                                                    FontSize="Medium"
+                                                    HorizontalOptions="StartAndExpand"/>
+                                                <Label
+                                                    IsVisible="{Binding IsNotDry}"
+                                                    Text="{Binding DosedVolume}"
+                                                    FontSize="Medium" 
+                                                    FontAttributes="Bold"
+                                                    HorizontalOptions="End"/>
+                                            </StackLayout>
+
+                                            <StackLayout
                                                 Grid.Column="0"
                                                 Grid.Row="2"
-                                                Text="{Binding DispenserInfo}" 
-                                                FontSize="Medium" />
+                                                Orientation="Horizontal">
+                                                <Label
+                                                    Text="{Binding DispenserInfo}"
+                                                    FontSize="Medium"
+                                                    HorizontalOptions="StartAndExpand"/>
+                                                <Label
+                                                    IsVisible="{Binding IsNotDry}"
+                                                    Text="{Binding DosedVolumeErrorInfo}"
+                                                    FontSize="Medium" 
+                                                    FontAttributes="Bold"
+                                                    HorizontalOptions="End"/>
+                                            </StackLayout>
+                                            
                                             <Label
                                                 Grid.Column="0"
                                                 Grid.Row="3"

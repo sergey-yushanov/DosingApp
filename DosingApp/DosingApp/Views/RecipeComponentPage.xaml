@@ -89,7 +89,7 @@
 
                     <Label
                         Text="Компонент для 4-го клапана в коллекторе - Вода"
-                        TextColor="{StaticResource LabelAlertColor}"
+                        TextColor="{StaticResource AlertColor}"
                         IsVisible="{Binding IsComponentEnabled, Converter={StaticResource InverseBoolConverter}}"/>
 
 

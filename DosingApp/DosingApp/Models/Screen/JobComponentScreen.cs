@@ -8,6 +8,43 @@ namespace DosingApp.Models.Screen
 {
     public class JobComponentScreen : BaseViewModel
     {
+        private double? dosedVolume;
+        private double? dosedVolumeError;
+        private string dosedVolumeInfo;
+        private string dosedVolumeErrorInfo;
+
+        public double? DosedVolume
+        {
+            get { return dosedVolume; }
+            set
+            {
+                DosedVolumeInfo = String.Format("{0,12:N2} {1}", Convert.ToDouble(value), VolumeUnit);
+                SetProperty(ref dosedVolume, value);
+            }
+        }
+
+        public double? DosedVolumeError
+        {
+            get { return dosedVolumeError; }
+            set 
+            {
+                DosedVolumeErrorInfo = String.Format("{0,12:P2}", Convert.ToDouble(value));
+                SetProperty(ref dosedVolumeError, value); 
+            }
+        }
+
+        public string DosedVolumeInfo
+        {
+            get { return dosedVolumeInfo; }
+            set { SetProperty(ref dosedVolumeInfo, value); }
+        }
+
+        public string DosedVolumeErrorInfo
+        {
+            get { return dosedVolumeErrorInfo; }
+            set { SetProperty(ref dosedVolumeErrorInfo, value); }
+        }
+
         public double? Volume { get; set; }
         public double? VolumeRate { get; set; }
         public string VolumeUnit { get; set; }
@@ -20,11 +57,8 @@ namespace DosingApp.Models.Screen
         public string ConsistencyInfo { get; set; }
         public string DispenserInfo { get; set; }
 
-        public double? DosedVolume { get; set; }
-        public double? DosedVolumeError { get; set; }
-
-        public string DosedVolumeInfo { get { return String.Format("{0,12:N2} {1}", Convert.ToDouble(DosedVolume), VolumeUnit); } }
-        public string DosedVolumeErrorInfo { get { return String.Format("{0,12:P2}", Convert.ToDouble(DosedVolumeError)); } }
+        //public string DosedVolumeInfo; // { get { return String.Format("{0,12:N2} {1}", Convert.ToDouble(DosedVolume), VolumeUnit); } }
+        //public string DosedVolumeErrorInfo { get { return String.Format("{0,12:P2}", Convert.ToDouble(DosedVolumeError)); } }
 
         public bool IsNotDry { get { return Dispenser != DispenserSuffix.Dry; } }
 
@@ -52,11 +86,11 @@ namespace DosingApp.Models.Screen
             }
 
             if (Dispenser == DispenserSuffix.Carrier)
-                DosedVolume = common.CarrierDosedVolume;
+                DosedVolume = (double?)common.CarrierDosedVolume;
             else
                 DosedVolume = collector.DosedVolumes[GetDispenserNumber() - 1];
 
-            DosedVolumeError = (Volume - DosedVolume) / Volume;
+            DosedVolumeError = (double?)((Volume - DosedVolume) / Volume);
         }
 
         public int GetCollectorNumber()

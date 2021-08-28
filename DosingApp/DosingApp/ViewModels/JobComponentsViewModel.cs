@@ -249,7 +249,7 @@ namespace DosingApp.ViewModels
         public void UpdateJobComponents()
         {
             JobScreen.Update(Common, Collector);
-            OnPropertyChanged(nameof(JobScreen));
+            //OnPropertyChanged(nameof(JobScreen));
 
             //dosedVolume = 0;
 

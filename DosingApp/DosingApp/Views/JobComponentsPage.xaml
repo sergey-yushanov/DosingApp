@@ -104,7 +104,7 @@
                                                     HorizontalOptions="StartAndExpand"/>
                                                 <Label
                                                     IsVisible="{Binding IsNotDry}"
-                                                    Text="{Binding DosedVolume}"
+                                                    Text="{Binding DosedVolumeInfo}"
                                                     FontSize="Medium" 
                                                     FontAttributes="Bold"
                                                     HorizontalOptions="End"/>

@@ -16,5 +16,6 @@ namespace DosingApp.Models.WebSocket
         public bool? PumpStop { get; set; }
         public virtual Common Common { get; set; }
         public virtual List<Collector> Collectors { get; set; }
+        public virtual List<SingleDos> Singles { get; set; }
     }
 }

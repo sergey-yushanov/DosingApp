@@ -10,6 +10,7 @@ namespace DosingApp.Models.WebSocket
         public bool? ShowSettings { get; set; }
         public virtual Common Common { get; set; }
         public virtual List<Collector> Collectors { get; set; }
+        public virtual List<SingleDos> Singles { get; set; }
 
         //public ObservableCollection<DispenserCollector> DispenserCollectors { get; set; }
         //public ObservableCollection<DispenserSingle> DispenserSingles { get; set; }

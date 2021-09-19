@@ -32,6 +32,7 @@ namespace DosingApp.Services
         private Mixer mixer;
         private CommonScreen common;
         private CollectorScreen collector;
+        private SingleDosScreen singleDos;
         //private ObservableCollection<JobComponentScreen> jobComponentScreens;
         #endregion Attributes
 
@@ -59,6 +60,12 @@ namespace DosingApp.Services
         {
             get { return collector; }
             set { SetProperty(ref collector, value); }
+        }
+
+        public SingleDosScreen SingleDos
+        {
+            get { return singleDos; }
+            set { SetProperty(ref singleDos, value); }
         }
 
         public CommonScreen Common
@@ -124,6 +131,7 @@ namespace DosingApp.Services
             //Console.WriteLine(Collectors[0].Valves.Count);
 
             Collector = new CollectorScreen(1);
+            SingleDos = new SingleDosScreen(1);
             Common = new CommonScreen();
         }
 
@@ -186,6 +194,7 @@ namespace DosingApp.Services
         public void UpdateIncomingData()
         {
             Collector.Update(incomingMessage.Collectors[0], incomingMessage.ShowSettings ?? false);
+            SingleDos.Update(incomingMessage.Singles[0], incomingMessage.ShowSettings ?? false);
             Common.Update(incomingMessage.Common, incomingMessage.ShowSettings ?? false);
         }
 
@@ -231,6 +240,19 @@ namespace DosingApp.Services
             Task.Run(async () => await SendMessageAsync(outgoingMessage));
         }
 
+        public void SingleLoopMessage(int singleDosNumber, SingleDosLoop singleDosLoop)
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                Singles = new List<SingleDos> {new SingleDos
+                {
+                    Number = singleDosNumber,
+                    Loop = singleDosLoop
+                }}
+            };
+            Task.Run(async () => await SendMessageAsync(outgoingMessage));
+        }
+
         public void CollectorValveMessage(int collectorNumber, Valve valve)
         {
             var outgoingMessage = new OutgoingMessage()
@@ -257,6 +279,19 @@ namespace DosingApp.Services
             Task.Run(async () => await SendMessageAsync(outgoingMessage));
         }
 
+        public void SingleValveAdjustableMessage(int singleDosNumber, ValveAdjustable valveAdjustable)
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                Singles = new List<SingleDos> {new SingleDos
+                {
+                    Number = singleDosNumber,
+                    ValveAdjustable = valveAdjustable
+                }}
+            };
+            Task.Run(async () => await SendMessageAsync(outgoingMessage));
+        }
+
         public void CollectorFlowmeterMessage(int collectorNumber, Flowmeter flowmeter)
         {
             var outgoingMessage = new OutgoingMessage()
@@ -264,6 +299,19 @@ namespace DosingApp.Services
                 Collectors = new List<Collector> {new Collector
                 {
                     Number = collectorNumber,
+                    Flowmeter = flowmeter
+                }}
+            };
+            Task.Run(async () => await SendMessageAsync(outgoingMessage));
+        }
+
+        public void SingleFlowmeterMessage(int singleDosNumber, Flowmeter flowmeter)
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                Singles = new List<SingleDos> {new SingleDos
+                {
+                    Number = singleDosNumber,
                     Flowmeter = flowmeter
                 }}
             };

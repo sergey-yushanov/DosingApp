@@ -108,6 +108,26 @@ namespace DosingApp.ViewModels
 
         public ICommand FlowmeterNullifyCommand { get; protected set; }
         public ICommand FlowmeterPulsesPerLiterCommand { get; protected set; }
+
+        public ICommand SingleDosValveAdjustableOpenCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableCloseCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableSetpointCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableOvertimeCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableLimitCloseCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableLimitOpenCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableDeadbandCloseCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableDeadbandOpenCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableDeadbandPositionCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableCostCloseCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableCostOpenCommand { get; protected set; }
+
+        public ICommand SingleDosValveAdjustableSensorRawLowLimitCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableSensorRawHighLimitCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableSensorValueLowLimitCommand { get; protected set; }
+        public ICommand SingleDosValveAdjustableSensorValueHighimitCommand { get; protected set; }
+
+        public ICommand SingleDosFlowmeterNullifyCommand { get; protected set; }
+        public ICommand SingleDosFlowmeterPulsesPerLiterCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -181,6 +201,27 @@ namespace DosingApp.ViewModels
 
                 FlowmeterNullifyCommand = new Command(FlowmeterNullify);
                 FlowmeterPulsesPerLiterCommand = new Command(FlowmeterPulsesPerLiter);
+
+
+                SingleDosValveAdjustableOpenCommand = new Command(SingleDosValveAdjustableOpen);
+                SingleDosValveAdjustableCloseCommand = new Command(SingleDosValveAdjustableClose);
+                SingleDosValveAdjustableSetpointCommand = new Command(SingleDosValveAdjustableSetpoint);
+                SingleDosValveAdjustableOvertimeCommand = new Command(SingleDosValveAdjustableOvertime);
+                SingleDosValveAdjustableLimitCloseCommand = new Command(SingleDosValveAdjustableLimitClose);
+                SingleDosValveAdjustableLimitOpenCommand = new Command(SingleDosValveAdjustableLimitOpen);
+                SingleDosValveAdjustableDeadbandCloseCommand = new Command(SingleDosValveAdjustableDeadbandClose);
+                SingleDosValveAdjustableDeadbandOpenCommand = new Command(SingleDosValveAdjustableDeadbandOpen);
+                SingleDosValveAdjustableDeadbandPositionCommand = new Command(SingleDosValveAdjustableDeadbandPosition);
+                SingleDosValveAdjustableCostCloseCommand = new Command(SingleDosValveAdjustableCostClose);
+                SingleDosValveAdjustableCostOpenCommand = new Command(SingleDosValveAdjustableCostOpen);
+
+                SingleDosValveAdjustableSensorRawLowLimitCommand = new Command(SingleDosValveAdjustableSensorRawLowLimit);
+                SingleDosValveAdjustableSensorRawHighLimitCommand = new Command(SingleDosValveAdjustableSensorRawHighLimit);
+                SingleDosValveAdjustableSensorValueLowLimitCommand = new Command(SingleDosValveAdjustableSensorValueLowLimit);
+                SingleDosValveAdjustableSensorValueHighimitCommand = new Command(SingleDosValveAdjustableSensorValueHighimit);
+
+                SingleDosFlowmeterNullifyCommand = new Command(SingleDosFlowmeterNullify);
+                SingleDosFlowmeterPulsesPerLiterCommand = new Command(SingleDosFlowmeterPulsesPerLiter);
             }
         }
         #endregion Constructor
@@ -208,6 +249,12 @@ namespace DosingApp.ViewModels
         {
             get { return WebSocketService.Common; }
 //            set { SetProperty(ref common, value); }
+        }
+
+        public SingleDosScreen SingleDos
+        {
+            get { return WebSocketService.SingleDos; }
+            //            set { SetProperty(ref common, value); }
         }
 
         //public int CollectorNumber
@@ -560,6 +607,108 @@ namespace DosingApp.ViewModels
             FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
             WebSocketService.FlowmeterMessage(new Flowmeter { PulsesPerLiter = (float)flowmeterScreen.PulsesPerLiter });
         }
+
+
+        private void SingleDosValveAdjustableOpen(object valveAdjustableInstance)
+        {
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CommandOpen = true });
+        }
+
+        private void SingleDosValveAdjustableClose(object valveAdjustableInstance)
+        {
+            //ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CommandClose = true });
+        }
+
+        private void SingleDosValveAdjustableSetpoint(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Setpoint = (float)valveAdjustableScreen.Setpoint });
+        }
+
+        private void SingleDosValveAdjustableOvertime(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Overtime = (int)valveAdjustableScreen.Overtime });
+        }
+
+        private void SingleDosValveAdjustableLimitClose(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { LimitClose = (float)valveAdjustableScreen.LimitClose });
+        }
+
+        private void SingleDosValveAdjustableLimitOpen(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { LimitOpen = (float)valveAdjustableScreen.LimitOpen });
+        }
+
+        private void SingleDosValveAdjustableDeadbandClose(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { DeadbandClose = (float)valveAdjustableScreen.DeadbandClose });
+        }
+
+        private void SingleDosValveAdjustableDeadbandOpen(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { DeadbandOpen = (float)valveAdjustableScreen.DeadbandOpen });
+        }
+
+        private void SingleDosValveAdjustableDeadbandPosition(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { DeadbandPosition = (float)valveAdjustableScreen.DeadbandPosition });
+        }
+
+        private void SingleDosValveAdjustableCostClose(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CostClose = (float)valveAdjustableScreen.CostClose });
+        }
+
+        private void SingleDosValveAdjustableCostOpen(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CostOpen = (float)valveAdjustableScreen.CostOpen });
+        }
+
+        private void SingleDosValveAdjustableSensorRawLowLimit(object valveAdjustableSensorInstance)
+        {
+            SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawLowLimit = (float)sensorScreen.RawLowLimit } });
+        }
+
+        private void SingleDosValveAdjustableSensorRawHighLimit(object valveAdjustableSensorInstance)
+        {
+            SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawHighLimit = (float)sensorScreen.RawHighLimit } });
+        }
+
+        private void SingleDosValveAdjustableSensorValueLowLimit(object valveAdjustableSensorInstance)
+        {
+            SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueLowLimit = (float)sensorScreen.ValueLowLimit } });
+        }
+
+        private void SingleDosValveAdjustableSensorValueHighimit(object valveAdjustableSensorInstance)
+        {
+            SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
+            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueHighLimit = (float)sensorScreen.ValueHighLimit } });
+        }
+
+        private void SingleDosFlowmeterNullify(object flowmeterInstance)
+        {
+            //FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
+            WebSocketService.SingleFlowmeterMessage(1, new Flowmeter { NullifyVolume = true });
+        }
+
+        private void SingleDosFlowmeterPulsesPerLiter(object flowmeterInstance)
+        {
+            FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
+            WebSocketService.SingleFlowmeterMessage(1, new Flowmeter { PulsesPerLiter = (float)flowmeterScreen.PulsesPerLiter });
+        }
         #endregion Commands
 
         #region Methods
@@ -575,7 +724,7 @@ namespace DosingApp.ViewModels
         //    var url = new Uri("ws://192.168.11.1/ws");
         //    client = new WebsocketClient(url, factory);
         //}
-        
+
         //async void ConnectToServerAsync()
         //{
         //    await Task.Factory.StartNew(async () =>
@@ -623,7 +772,7 @@ namespace DosingApp.ViewModels
         //    Collector.Update(IncomingMessage.Collectors[0], IncomingMessage.ShowSettings ?? false);
         //    Common.Update(IncomingMessage.Common, IncomingMessage.ShowSettings ?? false);
 
-            
+
         //    //for (int i = 0; i < 4; i++)
         //    //{
         //    //    var valve = Collector.Valves.FirstOrDefault(v => v.Number == IncomingMessage.Collectors[0].Valves[i].Number);

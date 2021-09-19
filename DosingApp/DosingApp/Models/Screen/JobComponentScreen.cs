@@ -61,6 +61,7 @@ namespace DosingApp.Models.Screen
         //public string DosedVolumeErrorInfo { get { return String.Format("{0,12:P2}", Convert.ToDouble(DosedVolumeError)); } }
 
         public bool IsNotDry { get { return Dispenser != DispenserSuffix.Dry; } }
+        public bool IsVisible { get; set; }
 
         public JobComponentScreen(JobComponent jobComponent)
         {
@@ -75,9 +76,18 @@ namespace DosingApp.Models.Screen
             VolumeRateInfo = jobComponent.VolumeRateInfo;
             ConsistencyInfo = jobComponent.ConsistencyInfo;
             DispenserInfo = jobComponent.DispenserInfo;
+
+            if ((Dispenser == DispenserSuffix.Carrier) || (Dispenser == DispenserSuffix.Dry))
+            {
+                IsVisible = false;
+            }
+            else
+            { 
+                IsVisible = true; 
+            }
         }
 
-        public void Update(CommonScreen common, CollectorScreen collector)
+        public void Update(CommonScreen common, CollectorScreen collector, SingleDosScreen singleDos)
         {
             if (Dispenser == DispenserSuffix.Dry)
             {
@@ -86,14 +96,29 @@ namespace DosingApp.Models.Screen
             }
 
             if (Dispenser == DispenserSuffix.Carrier)
+            {
                 DosedVolume = (double?)common.CarrierDosedVolume;
-            else
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
+            {
                 DosedVolume = collector.DosedVolumes[GetDispenserNumber() - 1];
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
+            {
+                DosedVolume = singleDos.DosedVolume;
+            }
 
             DosedVolumeError = (double?)((Volume - DosedVolume) / Volume);
         }
 
         public int GetCollectorNumber()
+        {
+            return 1;
+        }
+
+        public int GetSingleNumber()
         {
             return 1;
         }

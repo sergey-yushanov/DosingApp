@@ -8,11 +8,11 @@ using System.Text;
 namespace DosingApp.Models.WebSocket
 {
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
-    public class IncomingMessage
+    public class SingleDos
     {
-        public bool? ShowSettings { get; set; }
-        public virtual Common Common { get; set; }
-        public virtual List<Collector> Collectors { get; set; }
-        public virtual List<SingleDos> Singles { get; set; }
+        public int Number { get; set; }
+        public virtual ValveAdjustable ValveAdjustable { get; set; }
+        public virtual Flowmeter Flowmeter { get; set; }
+        public virtual SingleDosLoop Loop { get; set; }
     }
 }

@@ -88,8 +88,8 @@
                                                     FontAttributes="Bold"
                                                     HorizontalOptions="StartAndExpand"/>
                                                 <Label
-                                                    Text="{Binding VolumeInfo}" 
-                                                    FontSize="Medium" 
+                                                    Text="{Binding VolumeInfo}"
+                                                    FontSize="Medium"
                                                     FontAttributes="Bold"
                                                     HorizontalOptions="End"/>
                                             </StackLayout>
@@ -103,7 +103,7 @@
                                                     FontSize="Medium"
                                                     HorizontalOptions="StartAndExpand"/>
                                                 <Label
-                                                    IsVisible="{Binding IsNotDry}"
+                                                    IsVisible="{Binding IsVisible}"
                                                     Text="{Binding DosedVolumeInfo}"
                                                     FontSize="Medium" 
                                                     FontAttributes="Bold"
@@ -119,7 +119,7 @@
                                                     FontSize="Medium"
                                                     HorizontalOptions="StartAndExpand"/>
                                                 <Label
-                                                    IsVisible="{Binding IsNotDry}"
+                                                    IsVisible="{Binding IsVisible}"
                                                     Text="{Binding DosedVolumeErrorInfo}"
                                                     FontSize="Medium" 
                                                     FontAttributes="Bold"

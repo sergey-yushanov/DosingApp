@@ -39,6 +39,7 @@ namespace DosingApp.ViewModels
         //private ObservableCollection<JobComponent> jobComponentsError;
         private CommonLoop commonLoop;
         private CollectorLoop collectorLoop;
+        private SingleDosLoop singleDosLoop;
         //private float progressBarValue;
         //private float requiredVolume;
         //private float dosedVolume;
@@ -160,6 +161,15 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public SingleDosScreen SingleDos
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return WebSocketService.SingleDos;
+            }
+        }
+
         public CommonScreen Common
         {
             get 
@@ -212,7 +222,8 @@ namespace DosingApp.ViewModels
             var valveNums = new List<int>();
             var requiredVolumes = new List<float>();
             float carrierRequiredVolume = 0;
-            
+            float singleRequiredVolume = 0;
+
             foreach (var jobComponent in jobComponents)
             {
                 if (jobComponent.Dispenser == DispenserSuffix.Carrier)
@@ -222,10 +233,22 @@ namespace DosingApp.ViewModels
                 }
 
                 if (jobComponent.Dispenser == DispenserSuffix.Dry)
+                {
                     continue;
-                
-                valveNums.Add(jobComponent.GetDispenserNumber());
-                requiredVolumes.Add((float)jobComponent.Volume);
+                }
+
+                if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
+                {
+                    valveNums.Add(jobComponent.GetDispenserNumber());
+                    requiredVolumes.Add((float)jobComponent.Volume);
+                    continue;
+                }
+
+                if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
+                {
+                    singleRequiredVolume = (float)jobComponent.Volume;
+                    continue;
+                }
             }
 
             collectorLoop = new CollectorLoop
@@ -238,17 +261,23 @@ namespace DosingApp.ViewModels
             {
                 CarrierRequiredVolume = carrierRequiredVolume
             };
+
+            singleDosLoop = new SingleDosLoop
+            {
+                RequiredVolume = singleRequiredVolume
+            };
         }
 
         public void WebSocketSendRequirements()
         {
             WebSocketService.CollectorLoopMessage(1, collectorLoop);
+            WebSocketService.SingleLoopMessage(1, singleDosLoop);
             WebSocketService.CommonLoopMessage(commonLoop);
         }
 
         public void UpdateJobComponents()
         {
-            JobScreen.Update(Common, Collector);
+            JobScreen.Update(Common, Collector, SingleDos);
             //OnPropertyChanged(nameof(JobScreen));
 
             //dosedVolume = 0;

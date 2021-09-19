@@ -44,14 +44,14 @@ namespace DosingApp.Models.Screen
             }
         }
 
-        public void Update(CommonScreen commonScreen, CollectorScreen collectorScreen)
+        public void Update(CommonScreen commonScreen, CollectorScreen collectorScreen, SingleDosScreen singleDosScreen)
         {
             DosedVolume = 0;
 
             for (int i = 0; i < JobComponentScreens.Count; i++)
             {
-                JobComponentScreens[i].Update(commonScreen, collectorScreen);
-                DosedVolume += (float)JobComponentScreens[i].DosedVolume;
+                JobComponentScreens[i].Update(commonScreen, collectorScreen, singleDosScreen);
+                DosedVolume += (float?)JobComponentScreens[i].DosedVolume;
             }
 
             ProgressBarValue = DosedVolume / RequiredVolume;

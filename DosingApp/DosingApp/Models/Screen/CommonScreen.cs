@@ -8,8 +8,8 @@ namespace DosingApp.Models.Screen
         public virtual ValveAdjustableScreen ValveAdjustable { get; set; }
         public virtual FlowmeterScreen Flowmeter { get; set; }
 
-        public double? CarrierRequiredVolume { get; set; }
-        public double? CarrierDosedVolume { get; set; }
+        public float? CarrierRequiredVolume { get; set; }
+        public float? CarrierDosedVolume { get; set; }
 
         public CommonScreen()
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text;
 
 namespace DosingApp.Models
@@ -23,9 +24,26 @@ namespace DosingApp.Models
         public string Dispenser { get; set; }
 
         public string Name { get { return Component?.Name; } }
-        public string VolumeInfo { get { return Volume + " " + VolumeUnit; } }
-        public string VolumeRateInfo { get { return "Норма расхода: " + VolumeRate + " " + VolumeRateUnit; } }
+        //public string VolumeInfo { get { return ((double)Volume).ToString("N", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeUnit; } }
+        public string VolumeInfo { get { return String.Format("{0,12:N2} {1}", (double)Volume, VolumeUnit); } }
+        public string VolumeRateInfo { get { return "Норма расхода: " + ((double)VolumeRate).ToString("N1", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeRateUnit; } }
         public string ConsistencyInfo { get { return "Форма: " + Component?.Consistency; } }
         public string DispenserInfo { get { return "Дозатор: " + Dispenser; } }
+
+        // new
+        //public double? DosedVolume { get; set; }
+        //public double? ErrorVolume { get; set; }
+        //public string DosedVolumeInfo { get { return ((double)DosedVolume).ToString("N", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeUnit; } }
+
+        public int GetCollectorNumber()
+        {
+            return 1;
+        }
+
+        public int GetDispenserNumber()
+        {
+            char number = Dispenser[Dispenser.Length - 1];
+            return Int32.Parse(number.ToString());
+        }
     }
 }

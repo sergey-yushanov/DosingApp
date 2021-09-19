@@ -113,7 +113,7 @@
         <ContentPage Title="Компоненты">
 
             <StackLayout 
-                    Margin="{StaticResource PageMargin}">
+                Margin="{StaticResource PageMargin}">
 
                 <StackLayout>
                     <Button 

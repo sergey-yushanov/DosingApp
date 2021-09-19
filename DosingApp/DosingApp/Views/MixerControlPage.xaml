@@ -1,0 +1,1398 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
+             x:Class="DosingApp.Views.MixerControlPage"
+             x:Name="MixerControl">
+
+    <TabbedPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+        <x:Int32 x:Key="Dec2">2</x:Int32>
+        <x:Int32 x:Key="Dec3">3</x:Int32>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <Helpers:ColorConverter x:Key="ColorConverter"/>
+    </TabbedPage.Resources>
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label 
+                Text="{Binding Title}"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="CenterAndExpand"
+                FontSize="17.5"
+                FontAttributes="Bold"
+                FontFamily="sans-serif-light"
+                TextColor="{StaticResource TitleColor}"/>
+            <Image
+                Source="wifi_on_48px"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="End"
+                IsVisible="{Binding WebSocketService.IsConnected}"/>
+            <Image
+                Source="wifi_off_48px"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="End"
+                IsVisible="{Binding WebSocketService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <TabbedPage.Children>
+        <ContentPage Title="Управление">
+            <ScrollView>
+                <StackLayout Margin="{StaticResource PageMargin}">
+
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button
+                            Text="НА пуск"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.PumpStartCommand}"/>
+                            <Button
+                            Grid.Column="1"
+                            Text="НА стоп"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.PumpStopCommand}"/>
+
+                            <Button
+                            Grid.Column="4"
+                            Text="Сброс"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.AckCommand}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView 
+                   HeightRequest="1"
+                   Color="LightGray"
+                   Margin ="0, 0, 0, 0"/>
+
+                    <StackLayout>
+                        <Label 
+                    Text="Коллекторный дозатор"
+                    HorizontalOptions="StartAndExpand"
+                    FontSize="Medium"
+                    TextColor="{StaticResource LabelEntryColor}"/>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label 
+                            Text="Клапан"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label 
+                            Grid.Column="1"
+                            Text="Статус"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <StackLayout BindableLayout.ItemsSource="{Binding Collector.Valves}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                    Text="{Binding Name}"
+                                    FontSize="Medium" 
+                                    VerticalOptions="Center"/>
+                                    <Label
+                                    Grid.Column="1"
+                                    Text="{Binding State}"
+                                    TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                    FontSize="Medium"
+                                    FontAttributes="Bold"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="StartAndExpand"/>
+                                    <Button
+                                    Grid.Column="3"
+                                    Text="Открыть"
+                                    Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveOpenCommand}"
+                                    CommandParameter="{Binding .}"/>
+                                    <Button
+                                    Grid.Column="4"
+                                    Text="Закрыть"
+                                    Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveCloseCommand}"
+                                    CommandParameter="{Binding .}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                            Text="Расходомер"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label
+                            Grid.Column="1"
+                            Text="Расход, л/мин"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label 
+                            Grid.Column="3"
+                            Text="Объем, л"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                            Text="1G1"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                            <Label
+                            Grid.Column="1"
+                            Text="{Binding Collector.Flowmeter.Flow}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                            <Label
+                            Grid.Column="3"
+                            Text="{Binding Collector.Flowmeter.Volume}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                            <Button
+                            Grid.Column="4"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFlowmeterNullifyCommand}"
+                            CommandParameter="{Binding Collector.Flowmeter}"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                            Text="Рег. клапан"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label 
+                            Grid.Column="1"
+                            Text="Уставка, %"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label
+                            Grid.Column="2"
+                            Text="Открытие, %"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                            Text="{Binding Collector.ValveAdjustable.Name}"
+                            FontSize="Medium"
+                            TextColor="{Binding Collector.ValveAdjustable.Faulty, Converter={StaticResource ColorConverter}, ConverterParameter='Faulty'}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                            <Entry
+                            Grid.Column="1"
+                            Text="{Binding Collector.ValveAdjustable.Setpoint, Converter={StaticResource DoubleConverter}}"
+                            FontSize="Medium"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Collector.ValveAdjustable.IsSetpointFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableSetpointCommand}"
+                            ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                            <Label
+                            Grid.Column="3"
+                            Text="{Binding Collector.ValveAdjustable.Position}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                            <Button
+                            Grid.Column="5"
+                            Text="Открыть"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableOpenCommand}"
+                            CommandParameter="{Binding Collector.ValveAdjustable}"/>
+                            <Button
+                            Grid.Column="6"
+                            Text="Закрыть"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableCloseCommand}"
+                            CommandParameter="{Binding Collector.ValveAdjustable}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView 
+                   HeightRequest="1"
+                   Color="LightGray"
+                   Margin ="0, 0, 0, 0"/>
+
+                    <StackLayout>
+                        <Label 
+                        Text="Одиночный дозатор"
+                        HorizontalOptions="StartAndExpand"
+                        FontSize="Medium"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                            Text="Расходомер"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label
+                            Grid.Column="1"
+                            Text="Расход, л/мин"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label 
+                            Grid.Column="3"
+                            Text="Объем, л"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Text="{Binding SingleDos.ValveAdjustable.Name}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="StartAndExpand"/>
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding SingleDos.Flowmeter.Flow}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Label
+                                Grid.Column="3"
+                                Text="{Binding SingleDos.Flowmeter.Volume}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Column="4"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosFlowmeterNullifyCommand}"
+                                CommandParameter="{Binding SingleDos.Flowmeter}"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Text="Рег. клапан"
+                                HorizontalOptions="StartAndExpand"
+                                TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label 
+                                Grid.Column="1"
+                                Text="Уставка, %"
+                                HorizontalOptions="StartAndExpand"
+                                TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label
+                                Grid.Column="2"
+                                Text="Открытие, %"
+                                HorizontalOptions="StartAndExpand"
+                                TextColor="{StaticResource LabelEntryColor}"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Text="{Binding SingleDos.ValveAdjustable.Name}"
+                                FontSize="Medium"
+                                TextColor="{Binding SingleDos.ValveAdjustable.Faulty, Converter={StaticResource ColorConverter}, ConverterParameter='Faulty'}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="StartAndExpand"/>
+                            <Entry
+                                Grid.Column="1"
+                                Text="{Binding SingleDos.ValveAdjustable.Setpoint, Converter={StaticResource DoubleConverter}}"
+                                FontSize="Medium"
+                                Keyboard="Numeric"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                HorizontalTextAlignment="End"
+                                IsFocused="{Binding SingleDos.ValveAdjustable.IsSetpointFocused}"
+                                ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableSetpointCommand}"
+                                ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                            <Label
+                                Grid.Column="3"
+                                Text="{Binding SingleDos.ValveAdjustable.Position}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Column="5"
+                                Text="Открыть"
+                                Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableOpenCommand}"
+                                CommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                            <Button
+                                Grid.Column="6"
+                                Text="Закрыть"
+                                Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableCloseCommand}"
+                                CommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView 
+                   HeightRequest="1"
+                   Color="LightGray"
+                   Margin ="0, 0, 0, 0"/>
+
+                    <StackLayout>
+                        <Label 
+                        Text="Носитель"
+                        HorizontalOptions="StartAndExpand"
+                        FontSize="Medium"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                            Text="Расходомер"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label
+                            Grid.Column="1"
+                            Text="Расход, л/мин"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label 
+                            Grid.Column="3"
+                            Text="Объем, л"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                            Text="M1"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                            <Label
+                            Grid.Column="1"
+                            Text="{Binding Common.Flowmeter.Flow}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                            <Label
+                            Grid.Column="3"
+                            Text="{Binding Common.Flowmeter.Volume}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                            <Button
+                            Grid.Column="4"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.FlowmeterNullifyCommand}"
+                            CommandParameter="{Binding Common.Flowmeter}"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                            Text="Рег. клапан"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label 
+                            Grid.Column="1"
+                            Text="Уставка, %"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                            <Label
+                            Grid.Column="2"
+                            Text="Открытие, %"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                            Text="{Binding Common.ValveAdjustable.Name}"
+                            FontSize="Medium"
+                            TextColor="{Binding Common.ValveAdjustable.Faulty, Converter={StaticResource ColorConverter}, ConverterParameter='Faulty'}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                            <Entry
+                            Grid.Column="1"
+                            Text="{Binding Common.ValveAdjustable.Setpoint, Converter={StaticResource DoubleConverter}}"
+                            FontSize="Medium"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.ValveAdjustable.IsSetpointFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableSetpointCommand}"
+                            ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                            <Label
+                            Grid.Column="3"
+                            Text="{Binding Common.ValveAdjustable.Position}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                            <Button
+                            Grid.Column="5"
+                            Text="Открыть"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableOpenCommand}"
+                            CommandParameter="{Binding Common.ValveAdjustable}"/>
+                            <Button
+                            Grid.Column="6"
+                            Text="Закрыть"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableCloseCommand}"
+                            CommandParameter="{Binding Common.ValveAdjustable}"/>
+                        </Grid>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </ContentPage>
+        <ContentPage Title="Настройка">
+            <StackLayout Margin="{StaticResource PageMargin}">
+                <!--<StackLayout>-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="1Кол"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Entry
+                            Grid.Column="1"
+                            Text="{Binding Collector.Flowmeter.PulsesPerLiter, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Collector.Flowmeter.IsPulsesPerLiterFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFlowmeterPulsesPerLiterCommand}"
+                            ReturnCommandParameter="{Binding Collector.Flowmeter}"/>
+
+                        <Label
+                            Grid.Column="3"
+                            Text="1ОД"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Entry
+                            Grid.Column="4"
+                            Text="{Binding SingleDos.Flowmeter.PulsesPerLiter, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding SingleDos.Flowmeter.IsPulsesPerLiterFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosFlowmeterPulsesPerLiterCommand}"
+                            ReturnCommandParameter="{Binding SingleDos.Flowmeter}"/>
+
+                        <Label
+                            Grid.Column="6"
+                            Text="M1"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Entry
+                            Grid.Column="7"
+                            Text="{Binding Common.Flowmeter.PulsesPerLiter, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.Flowmeter.IsPulsesPerLiterFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.FlowmeterPulsesPerLiterCommand}"
+                            ReturnCommandParameter="{Binding Common.Flowmeter}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="Клапан"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label
+                            Grid.Column="1"
+                            Text="Код"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label
+                            Grid.Column="2"
+                            Text="Мин. код"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label
+                            Grid.Column="3"
+                            Text="Макс. код"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label
+                            Grid.Column="4"
+                            Text="Мин. %"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label
+                            Grid.Column="5"
+                            Text="Макс. %"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+
+                        <Label
+                            Grid.Row="1"
+                            Text="1Кол"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding Collector.ValveAdjustable.Sensor.Raw}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Text="{Binding Collector.ValveAdjustable.Sensor.RawLowLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Collector.ValveAdjustable.Sensor.IsRawLowLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableSensorRawLowLimitCommand}"
+                            ReturnCommandParameter="{Binding Collector.ValveAdjustable.Sensor}"/>
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Text="{Binding Collector.ValveAdjustable.Sensor.RawHighLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Collector.ValveAdjustable.Sensor.IsRawHighLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableSensorRawHighLimitCommand}"
+                            ReturnCommandParameter="{Binding Collector.ValveAdjustable.Sensor}"/>
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            Text="{Binding Collector.ValveAdjustable.Sensor.ValueLowLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Collector.ValveAdjustable.Sensor.IsValueLowLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableSensorValueLowLimitCommand}"
+                            ReturnCommandParameter="{Binding Collector.ValveAdjustable.Sensor}"/>
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="5"
+                            Text="{Binding Collector.ValveAdjustable.Sensor.ValueHighLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Collector.ValveAdjustable.Sensor.IsValueHighLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableSensorValueHighLimitCommand}"
+                            ReturnCommandParameter="{Binding Collector.ValveAdjustable.Sensor}"/>
+
+
+                        <Label
+                            Grid.Row="2"
+                            Text="1ОД"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding SingleDos.ValveAdjustable.Sensor.Raw}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Text="{Binding SingleDos.ValveAdjustable.Sensor.RawLowLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding SingleDos.ValveAdjustable.Sensor.IsRawLowLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableSensorRawLowLimitCommand}"
+                            ReturnCommandParameter="{Binding SingleDos.ValveAdjustable.Sensor}"/>
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            Text="{Binding SingleDos.ValveAdjustable.Sensor.RawHighLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding SingleDos.ValveAdjustable.Sensor.IsRawHighLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableSensorRawHighLimitCommand}"
+                            ReturnCommandParameter="{Binding SingleDos.ValveAdjustable.Sensor}"/>
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="4"
+                            Text="{Binding SingleDos.ValveAdjustable.Sensor.ValueLowLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding SingleDos.ValveAdjustable.Sensor.IsValueLowLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableSensorValueLowLimitCommand}"
+                            ReturnCommandParameter="{Binding SingleDos.ValveAdjustable.Sensor}"/>
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="5"
+                            Text="{Binding SingleDos.ValveAdjustable.Sensor.ValueHighLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding SingleDos.ValveAdjustable.Sensor.IsValueHighLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableSensorValueHighLimitCommand}"
+                            ReturnCommandParameter="{Binding SingleDos.ValveAdjustable.Sensor}"/>
+
+                        
+                        
+                        <Label
+                            Grid.Row="3"
+                            Text="{Binding Common.ValveAdjustable.Name}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Text="{Binding Common.ValveAdjustable.Sensor.Raw}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Entry
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Text="{Binding Common.ValveAdjustable.Sensor.RawLowLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.ValveAdjustable.Sensor.IsRawLowLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableSensorRawLowLimitCommand}"
+                            ReturnCommandParameter="{Binding Common.ValveAdjustable.Sensor}"/>
+                        <Entry
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            Text="{Binding Common.ValveAdjustable.Sensor.RawHighLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.ValveAdjustable.Sensor.IsRawHighLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableSensorRawHighLimitCommand}"
+                            ReturnCommandParameter="{Binding Common.ValveAdjustable.Sensor}"/>
+                        <Entry
+                            Grid.Row="3"
+                            Grid.Column="4"
+                            Text="{Binding Common.ValveAdjustable.Sensor.ValueLowLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.ValveAdjustable.Sensor.IsValueLowLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableSensorValueLowLimitCommand}"
+                            ReturnCommandParameter="{Binding Common.ValveAdjustable.Sensor}"/>
+                        <Entry
+                            Grid.Row="3"
+                            Grid.Column="5"
+                            Text="{Binding Common.ValveAdjustable.Sensor.ValueHighLimit, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.ValveAdjustable.Sensor.IsValueHighLimitFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableSensorValueHighLimitCommand}"
+                            ReturnCommandParameter="{Binding Common.ValveAdjustable.Sensor}"/>
+                    </Grid>
+
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Text="Клапан"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="1"
+                        Text="overtime"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="2"
+                        Text="dbClose"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="3"
+                        Text="dbOpen"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="4"
+                        Text="dbPosition"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+
+                    <Label
+                        Grid.Row="1"
+                        Text="1Кол"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding Collector.ValveAdjustable.Overtime}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.ValveAdjustable.IsOvertimeFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableOvertimeCommand}"
+                        ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Text="{Binding Collector.ValveAdjustable.DeadbandClose, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.ValveAdjustable.IsDeadbandCloseFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableDeadbandCloseCommand}"
+                        ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Text="{Binding Collector.ValveAdjustable.DeadbandOpen, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.ValveAdjustable.IsDeadbandOpenFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableDeadbandOpenCommand}"
+                        ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="4"
+                        Text="{Binding Collector.ValveAdjustable.DeadbandPosition, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.ValveAdjustable.IsDeadbandPositionFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableDeadbandPositionCommand}"
+                        ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Text="limitClose"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Text="limitOpen"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Text="costClose"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="4"
+                        Text="costOpen"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Text="{Binding Collector.ValveAdjustable.LimitClose, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.ValveAdjustable.IsLimitCloseFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableLimitCloseCommand}"
+                        ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Text="{Binding Collector.ValveAdjustable.LimitOpen, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.ValveAdjustable.IsLimitOpenFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableLimitOpenCommand}"
+                        ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Text="{Binding Collector.ValveAdjustable.CostClose, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.ValveAdjustable.IsCostCloseFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableCostCloseCommand}"
+                        ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="4"
+                        Text="{Binding Collector.ValveAdjustable.CostOpen, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.ValveAdjustable.IsCostOpenFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableCostOpenCommand}"
+                        ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                </Grid>
+
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Text="Клапан"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="1"
+                        Text="overtime"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="2"
+                        Text="dbClose"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="3"
+                        Text="dbOpen"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="4"
+                        Text="dbPosition"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+
+                    <Label
+                        Grid.Row="1"
+                        Text="1ОД"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding SingleDos.ValveAdjustable.Overtime}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding SingleDos.ValveAdjustable.IsOvertimeFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableOvertimeCommand}"
+                        ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Text="{Binding SingleDos.ValveAdjustable.DeadbandClose, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding SingleDos.ValveAdjustable.IsDeadbandCloseFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableDeadbandCloseCommand}"
+                        ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Text="{Binding SingleDos.ValveAdjustable.DeadbandOpen, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding SingleDos.ValveAdjustable.IsDeadbandOpenFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableDeadbandOpenCommand}"
+                        ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="4"
+                        Text="{Binding SingleDos.ValveAdjustable.DeadbandPosition, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding SingleDos.ValveAdjustable.IsDeadbandPositionFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableDeadbandPositionCommand}"
+                        ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Text="limitClose"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Text="limitOpen"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Text="costClose"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="4"
+                        Text="costOpen"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Text="{Binding SingleDos.ValveAdjustable.LimitClose, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding SingleDos.ValveAdjustable.IsLimitCloseFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableLimitCloseCommand}"
+                        ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Text="{Binding SingleDos.ValveAdjustable.LimitOpen, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding SingleDos.ValveAdjustable.IsLimitOpenFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableLimitOpenCommand}"
+                        ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Text="{Binding SingleDos.ValveAdjustable.CostClose, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding SingleDos.ValveAdjustable.IsCostCloseFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableCostCloseCommand}"
+                        ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="4"
+                        Text="{Binding SingleDos.ValveAdjustable.CostOpen, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding SingleDos.ValveAdjustable.IsCostOpenFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.SingleDosValveAdjustableCostOpenCommand}"
+                        ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                </Grid>
+                
+                
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Text="Клапан"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="1"
+                        Text="overtime"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="2"
+                        Text="dbClose"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="3"
+                        Text="dbOpen"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Column="4"
+                        Text="dbPosition"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+
+                    <Label
+                        Grid.Row="1"
+                        Text="{Binding Common.ValveAdjustable.Name}"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding Common.ValveAdjustable.Overtime}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Common.ValveAdjustable.IsOvertimeFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableOvertimeCommand}"
+                        ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Text="{Binding Common.ValveAdjustable.DeadbandClose, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Common.ValveAdjustable.IsDeadbandCloseFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableDeadbandCloseCommand}"
+                        ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Text="{Binding Common.ValveAdjustable.DeadbandOpen, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Common.ValveAdjustable.IsDeadbandOpenFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableDeadbandOpenCommand}"
+                        ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="4"
+                        Text="{Binding Common.ValveAdjustable.DeadbandPosition, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Common.ValveAdjustable.IsDeadbandPositionFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableDeadbandPositionCommand}"
+                        ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Text="limitClose"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Text="limitOpen"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Text="costClose"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="4"
+                        Text="costOpen"
+                        HorizontalOptions="StartAndExpand"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Text="{Binding Common.ValveAdjustable.LimitClose, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Common.ValveAdjustable.IsLimitCloseFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableLimitCloseCommand}"
+                        ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Text="{Binding Common.ValveAdjustable.LimitOpen, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Common.ValveAdjustable.IsLimitOpenFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableLimitOpenCommand}"
+                        ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Text="{Binding Common.ValveAdjustable.CostClose, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Common.ValveAdjustable.IsCostCloseFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableCostCloseCommand}"
+                        ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="4"
+                        Text="{Binding Common.ValveAdjustable.CostOpen, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Common.ValveAdjustable.IsCostOpenFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.ValveAdjustableCostOpenCommand}"
+                        ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                </Grid>
+
+                <!--</StackLayout>-->
+                
+            </StackLayout>
+        </ContentPage>
+    </TabbedPage.Children>
+</TabbedPage>

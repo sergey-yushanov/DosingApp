@@ -9,6 +9,8 @@ namespace DosingApp.Models
         public const string Collector = "Кол";
         public const string Single = "ОД";
         public const string ThreeWay = "ТХК";
+        public const string Carrier = "Носитель";
+        public const string Dry = "Загр. вручную";
     }
 
     public class Mixer
@@ -21,6 +23,7 @@ namespace DosingApp.Models
         public int? ThreeWay { get; set; }
 
         public bool IsUsedMixer { get; set; }
+        //public string UUID { get; set; }
 
         public List<string> GetDispensers()
         {

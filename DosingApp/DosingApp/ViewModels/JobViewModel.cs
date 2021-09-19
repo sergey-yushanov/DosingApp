@@ -1,4 +1,4 @@
-﻿using Acr.UserDialogs;
+﻿//using Acr.UserDialogs;
 using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Services;

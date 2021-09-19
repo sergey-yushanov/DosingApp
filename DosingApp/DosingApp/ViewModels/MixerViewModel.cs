@@ -29,7 +29,7 @@ namespace DosingApp.ViewModels
         {
             get
             {
-                Title = (Mixer.MixerId == 0) ? "Новая установка" : "Установка: " + Mixer.Name;
+                Title = (Mixer.MixerId == 0) ? "Новая система" : "Система: " + Mixer.Name;
                 return Mixer.Name;
             }
             set

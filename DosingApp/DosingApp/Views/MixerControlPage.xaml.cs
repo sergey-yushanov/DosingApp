@@ -13,19 +13,19 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class ManufacturersPage : ContentPage
+    public partial class MixerControlPage : TabbedPage
     {
-        public ManufacturersPage()
+        public MixerControlPage()
         {
             InitializeComponent();
-            BindingContext = new ManufacturersViewModel();
+            BindingContext = new MixerControlViewModel();
         }
 
-        protected override void OnAppearing()
+        protected override void OnDisappearing()
         {
-            var manufacturersViewModel = (ManufacturersViewModel)BindingContext;
-            manufacturersViewModel.LoadManufacturers();
-            base.OnAppearing();
+            var mixerControlViewModel = (MixerControlViewModel)BindingContext;
+            mixerControlViewModel.WebSocketService.WebsocketClientExit();
+            base.OnDisappearing();
         }
     }
 }

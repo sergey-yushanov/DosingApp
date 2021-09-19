@@ -19,6 +19,7 @@ namespace DosingApp.ViewModels
         public ICommand CreateCommand { get; protected set; }
         public ICommand DeleteCommand { get; protected set; }
         public ICommand SaveCommand { get; protected set; }
+        public ICommand NullifyCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
         #endregion Attributes
 
@@ -28,6 +29,7 @@ namespace DosingApp.ViewModels
             CreateCommand = new Command(CreateAssignment);
             DeleteCommand = new Command(DeleteAssignment);
             SaveCommand = new Command(SaveAssignment);
+            NullifyCommand = new Command(NullifyAssignment);
             BackCommand = new Command(Back);
         }
         #endregion Constructor
@@ -114,6 +116,11 @@ namespace DosingApp.ViewModels
                 }
             }
             Back();
+        }
+
+        private void NullifyAssignment()
+        {
+
         }
         #endregion Commands
 

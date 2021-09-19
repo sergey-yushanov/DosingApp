@@ -58,6 +58,11 @@ namespace DosingApp.ViewModels
             JobViewModel jobViewModel = jobInstance as JobViewModel;
             if (jobViewModel.Job != null && jobViewModel.IsValid)
             {
+                if (jobViewModel.Job.PartyVolume == null)
+                {
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте размер партии", "Ok");
+                    return;
+                }
                 using (AppDbContext db = App.GetContext())
                 {
                     db.Entry(jobViewModel.Job).State = EntityState.Added;
@@ -96,7 +101,7 @@ namespace DosingApp.ViewModels
         {
             using (AppDbContext db = App.GetContext())
             {
-                var recipeComponents = db.RecipeComponents.Where(rc => rc.RecipeId == job.RecipeId).ToList();
+                var recipeComponents = db.RecipeComponents.Where(rc => rc.RecipeId == job.RecipeId).OrderBy(rc => rc.Order).ToList();
                 recipeComponents.ForEach(rc => rc.Component = db.Components.FirstOrDefault(c => c.ComponentId == rc.ComponentId));
                 return recipeComponents;
             }
@@ -113,15 +118,15 @@ namespace DosingApp.ViewModels
                 ComponentId = rc.ComponentId,
                 Component = rc.Component,
                 Order = rc.Order,
-                Volume = GetVolume(rc, job.PartySize),
+                Volume = GetVolume(rc, job),
                 VolumeRate = rc.VolumeRate,
                 VolumeUnit = GetVolumeUnit(rc),
                 VolumeRateUnit = rc.VolumeRateUnit,
-                Dispenser = GetDispenser(rc)
+                Dispenser = rc.Dispenser
             }));
 
             var carrierVolume = GetCarrierVolume(job, jobComponents);
-            var carrierVolumeRate = GetCarrierVolumeRate(carrierVolume, job.PartySize);
+            var carrierVolumeRate = GetCarrierVolumeRate(carrierVolume, job.PartyVolume, job.VolumeRate);
             var recipeCarrier = LoadRecipeCarrier(job);
 
             jobComponents.Insert(0, new JobComponent()
@@ -135,27 +140,28 @@ namespace DosingApp.ViewModels
                 VolumeRate = carrierVolumeRate,
                 VolumeUnit = VolumeUnit.Liquid,
                 VolumeRateUnit = VolumeRateUnit.Liquid,
-                Dispenser = "Носитель"
+                Dispenser = DispenserSuffix.Carrier
             });
 
             return jobComponents;
         }
 
-        private double? GetVolume(RecipeComponent recipeComponent, double? square)
+        private double? GetVolume(RecipeComponent recipeComponent, Job job)
         {
-            double? doubleValue = 0.0;
-
-            if (String.Equals(recipeComponent.VolumeRateUnit, VolumeRateUnit.Dry))
+            if (job.VolumeRate != 0.0)
             {
-                doubleValue = recipeComponent.Component.Density != 0 ? recipeComponent.VolumeRate / recipeComponent.Component.Density * square : 0.0;
+                double? doubleValue = job.PartyVolume * recipeComponent.VolumeRate / job.VolumeRate;
+                if (String.Equals(recipeComponent.VolumeRateUnit, VolumeRateUnit.Dry))
+                {
+                    doubleValue = recipeComponent.Component.Density != 0 ? doubleValue / recipeComponent.Component.Density : doubleValue;
+                }
+                var decimalValue = (decimal)doubleValue;
+                return (double)Math.Round(decimalValue, 2);
             }
             else
             {
-                doubleValue = recipeComponent.VolumeRate * square;
+                return 0.0;
             }
-
-            var decimalValue = (decimal)doubleValue;
-            return (double)Math.Round(decimalValue, 2);
         }
 
         private double? GetCarrierVolume(Job job, List<JobComponent> jobComponents)
@@ -168,9 +174,9 @@ namespace DosingApp.ViewModels
             return (double)Math.Round(decimalValue, 2);
         }
 
-        private double? GetCarrierVolumeRate(double? carrierVolume, double? square)
+        private double? GetCarrierVolumeRate(double? carrierVolume, double? partyVolume, double? volumeRate)
         {
-            double? carrierVolumeRate = square != 0 ? carrierVolume / square : 0.0;
+            double? carrierVolumeRate = partyVolume != 0 ? carrierVolume / partyVolume * volumeRate : 0.0;
 
             double? doubleValue = carrierVolumeRate;
             var decimalValue = (decimal)doubleValue;
@@ -180,11 +186,6 @@ namespace DosingApp.ViewModels
         private string GetVolumeUnit(RecipeComponent recipeComponent)
         {
             return String.Equals(recipeComponent.Component.Consistency, ComponentConsistency.Dry) ? VolumeUnit.Dry : VolumeUnit.Liquid;
-        }
-
-        private string GetDispenser(RecipeComponent recipeComponent)
-        {
-            return String.Equals(recipeComponent.Component.Consistency, ComponentConsistency.Dry) ? "Загр. вручную" : recipeComponent.Dispenser;
         }
         #endregion Methods
     }

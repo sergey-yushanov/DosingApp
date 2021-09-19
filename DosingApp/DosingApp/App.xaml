@@ -12,10 +12,15 @@
             <Thickness x:Key="PageMargin">20</Thickness>
             <Color x:Key="LabelEntryColor">#0000FF</Color>
             <Color x:Key="TitleColor">#FFFFFF</Color>
-            <Color x:Key="LabelAlertColor">#FF0000</Color>
+            <Color x:Key="AlertColor">#FF0000</Color>
+            <Color x:Key="GreenColor">#008000</Color>
+            <Color x:Key="OrangeColor">Orange</Color>
 
             <Style ApplyToDerivedTypes="true" TargetType="NavigationPage">
                 <Setter Property="BarTextColor" Value="{StaticResource Key=TitleColor}"/>
+            </Style>
+            <Style x:Key="RegularFontlabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="sans-serif-light"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

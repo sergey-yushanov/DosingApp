@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <UserSecretsId>a3c43cca-e9e0-4fae-8c6c-4d0c26030304</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,15 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.446" />
-    <PackageReference Include="CsvHelper" Version="15.0.5" />
-    <PackageReference Include="EntityFramework" Version="6.4.4" />
-    <PackageReference Include="FileHelpers" Version="3.4.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.7" />
-    <PackageReference Include="PdfSharpCore" Version="1.2.5" />
-    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.3" />
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="CsvHelper" Version="27.1.1" />
+    <PackageReference Include="FileHelpers" Version="3.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
+    <PackageReference Include="System.Net.WebSockets.WebSocketProtocol" Version="5.0.0" />
+    <PackageReference Include="Websocket.Client" Version="4.3.32" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1821" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Plugin.FilePicker" Version="2.1.41" />
   </ItemGroup>
 
@@ -28,6 +32,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AgrYearsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\DevicePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
@@ -54,6 +61,9 @@
     </Compile>
     <Compile Update="Views\JobComponentsPage.xaml.cs">
       <DependentUpon>JobComponentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MixerControlPage.xaml.cs">
+      <DependentUpon>MixerControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MixerPage.xaml.cs">
       <DependentUpon>MixerPage.xaml</DependentUpon>
@@ -93,9 +103,6 @@
     </Compile>
     <Compile Update="Views\ManufacturerPage.xaml.cs">
       <DependentUpon>ManufacturerPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ManufacturersPage.xaml.cs">
-      <DependentUpon>ManufacturersPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\TransportTankPage.xaml.cs">
       <DependentUpon>TransportTankPage.xaml</DependentUpon>

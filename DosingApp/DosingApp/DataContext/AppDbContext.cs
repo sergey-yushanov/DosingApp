@@ -40,6 +40,7 @@ namespace DosingApp.DataContext
         public AppDbContext(string dbPath)
         {
             _dbPath = dbPath;
+            //this.Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

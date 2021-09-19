@@ -9,18 +9,32 @@
         <Helpers:DoubleConverter x:Key="DoubleConverter"/>
         <x:Int32 x:Key="Dec2">2</x:Int32>
         <x:Int32 x:Key="Dec3">3</x:Int32>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
     </ContentPage.Resources>
 
     <NavigationPage.TitleView>
-        <StackLayout>
-            <Label
-                x:Name="labelTitle"
+        <StackLayout Orientation="Horizontal">
+            <Label 
                 Text="{Binding Title}"
-                FontSize="Medium"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="CenterAndExpand"
+                FontSize="17.5"
+                FontAttributes="Bold"
+                FontFamily="sans-serif-light"
                 TextColor="{StaticResource TitleColor}"/>
+            <Image
+                Source="wifi_on_48px"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="End"
+                IsVisible="{Binding WebSocketService.IsConnected}"/>
+            <Image
+                Source="wifi_off_48px"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="End"
+                IsVisible="{Binding WebSocketService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
         </StackLayout>
     </NavigationPage.TitleView>
-    
+
     <ContentPage.Content>
         <StackLayout 
             Margin="{StaticResource PageMargin}">
@@ -32,12 +46,18 @@
                     HeightRequest="40"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="CenterAndExpand"/>
+                <ProgressBar
+                    x:Name="progressBar"
+                    ScaleY="5"
+                    Progress="{Binding JobScreen.ProgressBarValue}"
+                    ProgressColor="{Binding ProgressBarColor}"/>
             </StackLayout>
 
             <StackLayout>
 
                 <ListView
-                    ItemsSource="{Binding JobComponents}"
+                    ItemsSource="{Binding JobScreen.JobComponentScreens}"
+                    SelectionMode="None"
                     VerticalOptions="FillAndExpand"
                     HasUnevenRows="True">
 
@@ -49,8 +69,7 @@
                                         <Grid>
 
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="10*" />
-                                                <ColumnDefinition Width="4*" />
+                                                <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
@@ -59,28 +78,54 @@
                                                 <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
 
-                                            <Label
+                                            <StackLayout
                                                 Grid.Column="0"
                                                 Grid.Row="0"
-                                                Text="{Binding Name}" 
-                                                FontSize="Medium"
-                                                FontAttributes="Bold"/>
-                                            <Label
-                                                Grid.Column="1"
-                                                Grid.Row="0"
-                                                Text="{Binding VolumeInfo}" 
-                                                FontSize="Medium" 
-                                                FontAttributes="Bold"/>
-                                            <Label
+                                                Orientation="Horizontal">
+                                                <Label
+                                                    Text="{Binding Name}"
+                                                    FontSize="Medium"
+                                                    FontAttributes="Bold"
+                                                    HorizontalOptions="StartAndExpand"/>
+                                                <Label
+                                                    Text="{Binding VolumeInfo}"
+                                                    FontSize="Medium"
+                                                    FontAttributes="Bold"
+                                                    HorizontalOptions="End"/>
+                                            </StackLayout>
+
+                                            <StackLayout
                                                 Grid.Column="0"
                                                 Grid.Row="1"
-                                                Text="{Binding ConsistencyInfo}" 
-                                                FontSize="Medium" />
-                                            <Label
+                                                Orientation="Horizontal">
+                                                <Label
+                                                    Text="{Binding ConsistencyInfo}"
+                                                    FontSize="Medium"
+                                                    HorizontalOptions="StartAndExpand"/>
+                                                <Label
+                                                    IsVisible="{Binding IsVisible}"
+                                                    Text="{Binding DosedVolumeInfo}"
+                                                    FontSize="Medium" 
+                                                    FontAttributes="Bold"
+                                                    HorizontalOptions="End"/>
+                                            </StackLayout>
+
+                                            <StackLayout
                                                 Grid.Column="0"
                                                 Grid.Row="2"
-                                                Text="{Binding DispenserInfo}" 
-                                                FontSize="Medium" />
+                                                Orientation="Horizontal">
+                                                <Label
+                                                    Text="{Binding DispenserInfo}"
+                                                    FontSize="Medium"
+                                                    HorizontalOptions="StartAndExpand"/>
+                                                <Label
+                                                    IsVisible="{Binding IsVisible}"
+                                                    Text="{Binding DosedVolumeErrorInfo}"
+                                                    FontSize="Medium" 
+                                                    FontAttributes="Bold"
+                                                    HorizontalOptions="End"/>
+                                            </StackLayout>
+                                            
                                             <Label
                                                 Grid.Column="0"
                                                 Grid.Row="3"
@@ -101,17 +146,25 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Button 
-                        Text="Назад"
+                        Text="Выход"
+                        IsVisible="True"
                         Command="{Binding StopJobCommand}"/>
                     <Button 
-                        Grid.Column="1" 
-                        Text="Выполнить" 
+                        Grid.Column="1"
+                        Text="Пауза"
+                        IsVisible="True"
+                        Command="{Binding PauseJobCommand}"/>
+                    <Button 
+                        Grid.Column="2"
+                        Text="Выполнить"
+                        IsVisible="True"
                         Command="{Binding StartJobCommand}"/>
                 </Grid>
             </StackLayout>

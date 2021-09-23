@@ -1402,76 +1402,133 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="12*" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
+
                     <Label
-                        Text="Коэф. для обратного движения клапана"
+                        Text="Объем (1)"
                         FontSize="Medium"
                         VerticalOptions="Center"
                         HorizontalOptions="StartAndExpand"/>
                     <Entry
                         Grid.Column="1"
-                        Text="{Binding Collector.RatioVolume, Converter={StaticResource DoubleConverter}}"
+                        Text="{Binding Collector.Volume1, Converter={StaticResource DoubleConverter}}"
                         Keyboard="Numeric"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="End"
-                        IsFocused="{Binding Collector.IsRatioVolumeFocused}"
-                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorRatioVolumeCommand}"
-                        ReturnCommandParameter="{Binding Collector.RatioVolume}"/>
+                        IsFocused="{Binding Collector.IsVolume1Focused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorVolume1Command}"
+                        ReturnCommandParameter="{Binding Collector.Volume1}"/>
 
                     <Label
                         Grid.Row="1"
-                        Text="Микро объем"
+                        Text="Объем (2)"
                         FontSize="Medium"
                         VerticalOptions="Center"
                         HorizontalOptions="StartAndExpand"/>
                     <Entry
                         Grid.Row="1"
                         Grid.Column="1"
-                        Text="{Binding Collector.MicroVolume, Converter={StaticResource DoubleConverter}}"
+                        Text="{Binding Collector.Volume2, Converter={StaticResource DoubleConverter}}"
                         Keyboard="Numeric"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="End"
-                        IsFocused="{Binding Collector.IsMicroVolumeFocused}"
-                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorMicroVolumeCommand}"
-                        ReturnCommandParameter="{Binding Collector.MicroVolume}"/>
+                        IsFocused="{Binding Collector.IsVolume2Focused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorVolume2Command}"
+                        ReturnCommandParameter="{Binding Collector.Volume2}"/>
 
                     <Label
                         Grid.Row="2"
-                        Text="Положение клапана (микро объем)"
+                        Text="Коэф. обратного движения клапана (0)"
                         FontSize="Medium"
                         VerticalOptions="Center"
                         HorizontalOptions="StartAndExpand"/>
                     <Entry
                         Grid.Row="2"
                         Grid.Column="1"
-                        Text="{Binding Collector.MicroSetpoint, Converter={StaticResource DoubleConverter}}"
+                        Text="{Binding Collector.RatioVolume0, Converter={StaticResource DoubleConverter}}"
                         Keyboard="Numeric"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="End"
-                        IsFocused="{Binding Collector.IsMicroSetpointFocused}"
-                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorMicroSetpointCommand}"
-                        ReturnCommandParameter="{Binding Collector.MicroSetpoint}"/>
+                        IsFocused="{Binding Collector.IsRatioVolume0Focused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorRatioVolume0Command}"
+                        ReturnCommandParameter="{Binding Collector.RatioVolume0}"/>
 
                     <Label
                         Grid.Row="3"
-                        Text="Коэф. для обратного движения клапана (микро объем)"
+                        Text="Коэф. обратного движения клапана (1)"
                         FontSize="Medium"
                         VerticalOptions="Center"
                         HorizontalOptions="StartAndExpand"/>
                     <Entry
                         Grid.Row="3"
                         Grid.Column="1"
-                        Text="{Binding Collector.RatioVolumeMicro, Converter={StaticResource DoubleConverter}}"
+                        Text="{Binding Collector.RatioVolume1, Converter={StaticResource DoubleConverter}}"
                         Keyboard="Numeric"
                         HorizontalOptions="FillAndExpand"
                         HorizontalTextAlignment="End"
-                        IsFocused="{Binding Collector.IsRatioVolumeMicroFocused}"
-                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorRatioVolumeMicroCommand}"
-                        ReturnCommandParameter="{Binding Collector.RatioVolumeMicro}"/>
+                        IsFocused="{Binding Collector.IsRatioVolume1Focused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorRatioVolume1Command}"
+                        ReturnCommandParameter="{Binding Collector.RatioVolume1}"/>
+
+                    <Label
+                        Grid.Row="4"
+                        Text="Коэф. обратного движения клапана (2)"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Text="{Binding Collector.RatioVolume2, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.IsRatioVolume2Focused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorRatioVolume2Command}"
+                        ReturnCommandParameter="{Binding Collector.RatioVolume2}"/>
+
+
+                    <Label
+                        Grid.Row="5"
+                        Text="Положение клапана (1)"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Text="{Binding Collector.Setpoint1, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.IsSetpoint1Focused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorSetpoint1Command}"
+                        ReturnCommandParameter="{Binding Collector.Setpoint1}"/>
+
+                    <Label
+                        Grid.Row="6"
+                        Text="Положение клапана (2)"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Text="{Binding Collector.Setpoint2, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.IsSetpoint2Focused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorSetpoint2Command}"
+                        ReturnCommandParameter="{Binding Collector.Setpoint2}"/>
+
                 </Grid>
             </StackLayout>
         </ContentPage>

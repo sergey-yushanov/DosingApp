@@ -87,10 +87,15 @@ namespace DosingApp.ViewModels
         public ICommand CollectorValveAdjustableSensorValueHighLimitCommand { get; protected set; }
 
 
-        public ICommand CollectorRatioVolumeCommand { get; protected set; }
-        public ICommand CollectorMicroVolumeCommand { get; protected set; }
-        public ICommand CollectorMicroSetpointCommand { get; protected set; }
-        public ICommand CollectorRatioVolumeMicroCommand { get; protected set; }
+        public ICommand CollectorRatioVolume0Command { get; protected set; }
+        public ICommand CollectorRatioVolume1Command { get; protected set; }
+        public ICommand CollectorRatioVolume2Command { get; protected set; }
+
+        public ICommand CollectorVolume1Command { get; protected set; }
+        public ICommand CollectorVolume2Command { get; protected set; }
+
+        public ICommand CollectorSetpoint1Command { get; protected set; }
+        public ICommand CollectorSetpoint2Command { get; protected set; }
 
 
         public ICommand CollectorFlowmeterNullifyCommand { get; protected set; }
@@ -186,10 +191,15 @@ namespace DosingApp.ViewModels
                 CollectorValveAdjustableSensorValueLowLimitCommand = new Command(CollectorValveAdjustableSensorValueLowLimit);
                 CollectorValveAdjustableSensorValueHighLimitCommand = new Command(CollectorValveAdjustableSensorValueHighLimit);
 
-                CollectorRatioVolumeCommand = new Command(CollectorRatioVolume);
-                CollectorMicroVolumeCommand = new Command(CollectorMicroVolume);
-                CollectorMicroSetpointCommand = new Command(CollectorMicroSetpoint);
-                CollectorRatioVolumeMicroCommand = new Command(CollectorRatioVolumeMicro);
+                CollectorRatioVolume0Command = new Command(CollectorRatioVolume0);
+                CollectorRatioVolume1Command = new Command(CollectorRatioVolume1);
+                CollectorRatioVolume2Command = new Command(CollectorRatioVolume2);
+
+                CollectorVolume1Command = new Command(CollectorVolume1);
+                CollectorVolume2Command = new Command(CollectorVolume2);
+
+                CollectorSetpoint1Command = new Command(CollectorSetpoint1);
+                CollectorSetpoint2Command = new Command(CollectorSetpoint2);
 
                 CollectorFlowmeterNullifyCommand = new Command(CollectorFlowmeterNullify);
                 CollectorFlowmeterPulsesPerLiterCommand = new Command(CollectorFlowmeterPulsesPerLiter);
@@ -506,24 +516,39 @@ namespace DosingApp.ViewModels
             WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueHighLimit = (double)sensorScreen.ValueHighLimit } });
         }
 
-        private void CollectorRatioVolume(object value)
+        private void CollectorRatioVolume0(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume = (double)value });
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume0 = (double)value });
         }
 
-        private void CollectorMicroVolume(object value)
+        private void CollectorRatioVolume1(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { MicroVolume = (double)value });
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume1 = (double)value });
         }
 
-        private void CollectorMicroSetpoint(object value)
+        private void CollectorRatioVolume2(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { MicroSetpoint = (double)value });
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume2 = (double)value });
         }
 
-        private void CollectorRatioVolumeMicro(object value)
+        private void CollectorVolume1(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolumeMicro = (double)value });
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Volume1 = (double)value });
+        }
+
+        private void CollectorVolume2(object value)
+        {
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Volume2 = (double)value });
+        }
+
+        private void CollectorSetpoint1(object value)
+        {
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Setpoint1 = (double)value });
+        }
+
+        private void CollectorSetpoint2(object value)
+        {
+            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Setpoint2 = (double)value });
         }
 
         private void CollectorFlowmeterNullify(object flowmeterInstance)

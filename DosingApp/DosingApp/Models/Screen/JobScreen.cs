@@ -40,7 +40,10 @@ namespace DosingApp.Models.Screen
             for (int i = 0; i < jobComponents.Count; i++)
             {
                 JobComponentScreens.Add(new JobComponentScreen(jobComponents[i]));
-                RequiredVolume += (float)jobComponents[i].Volume;
+                if (jobComponents[i].Dispenser != DispenserSuffix.Dry)
+                {
+                    RequiredVolume += (double)jobComponents[i].Volume;
+                }
             }
         }
 
@@ -51,7 +54,10 @@ namespace DosingApp.Models.Screen
             for (int i = 0; i < JobComponentScreens.Count; i++)
             {
                 JobComponentScreens[i].Update(commonScreen, collectorScreen, singleDosScreen);
-                DosedVolume += (float?)JobComponentScreens[i].DosedVolume;
+                DosedVolume += (double?)JobComponentScreens[i].DosedVolume;
+
+                //Console.Write(JobComponentScreens[i].Dispenser + ": ");
+                //Console.WriteLine((double?)JobComponentScreens[i].DosedVolume);
             }
 
             ProgressBarValue = DosedVolume / RequiredVolume;

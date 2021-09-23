@@ -16,8 +16,18 @@ namespace DosingApp.Models.Screen
         public FlowmeterScreen Flowmeter { get; set; }
         
         public ObservableCollection<int> ValveNums { get; set; }
-        public ObservableCollection<float> RequiredVolumes { get; set; }
-        public ObservableCollection<float> DosedVolumes { get; set; }
+        public ObservableCollection<double> RequiredVolumes { get; set; }
+        public ObservableCollection<double> DosedVolumes { get; set; }
+
+        private double ratioVolume;
+        private double ratioVolumeMicro;
+        private double microVolume;
+        private double microSetpoint;
+
+        private bool isRatioVolumeFocused;
+        private bool isRatioVolumeMicroFocused;
+        private bool isMicroVolumeFocused;
+        private bool isMicroSetpointFocused;
 
         public CollectorScreen(int number)
         {
@@ -31,8 +41,8 @@ namespace DosingApp.Models.Screen
             Flowmeter = new FlowmeterScreen();
 
             ValveNums = new ObservableCollection<int>();
-            RequiredVolumes = new ObservableCollection<float>();
-            DosedVolumes = new ObservableCollection<float>();
+            RequiredVolumes = new ObservableCollection<double>();
+            DosedVolumes = new ObservableCollection<double>();
             for (int i = 0; i < nValves - 1; i++)
             {
                 ValveNums.Add(0);
@@ -56,9 +66,23 @@ namespace DosingApp.Models.Screen
             for (int i = 0; i < nValves - 1; i++)
             {
                 ValveNums[i] = collector.Loop.ValveNums[i];
-                DosedVolumes[i] = collector.Loop.DosedVolumes[i];
-                RequiredVolumes[i] = collector.Loop.RequiredVolumes[i];
+                
+                int valveInd = ValveNums[i] - 1;
+                if (valveInd != -1)
+                {
+                    DosedVolumes[valveInd] = collector.Loop.DosedVolumes[i];
+                    RequiredVolumes[valveInd] = collector.Loop.RequiredVolumes[i];
+                }
             }
+
+            if (!IsRatioVolumeFocused)
+                RatioVolume = collector.Loop.RatioVolume ?? 0;
+            if (!IsRatioVolumeMicroFocused)
+                RatioVolumeMicro = collector.Loop.RatioVolumeMicro ?? 0;
+            if (!IsMicroVolumeFocused)
+                MicroVolume = collector.Loop.MicroVolume ?? 0;
+            if (!IsMicroSetpointFocused)
+                MicroSetpoint = collector.Loop.MicroSetpoint ?? 0;
         }
 
         public int GetValvesNum()
@@ -71,5 +95,56 @@ namespace DosingApp.Models.Screen
         //    ValveAdjustable.InitNew(collector.ValveAdjustable, showSettings);
         //    Flowmeter.InitNew(collector.Flowmeter, showSettings);
         //}
+
+
+        // aux values
+        public bool IsRatioVolumeFocused
+        {
+            get { return isRatioVolumeFocused; }
+            set { SetProperty(ref isRatioVolumeFocused, value); }
+        }
+
+        public bool IsRatioVolumeMicroFocused
+        {
+            get { return isRatioVolumeMicroFocused; }
+            set { SetProperty(ref isRatioVolumeMicroFocused, value); }
+        }
+
+        public bool IsMicroVolumeFocused
+        {
+            get { return isMicroVolumeFocused; }
+            set { SetProperty(ref isMicroVolumeFocused, value); }
+        }
+
+        public bool IsMicroSetpointFocused
+        {
+            get { return isMicroSetpointFocused; }
+            set { SetProperty(ref isMicroSetpointFocused, value); }
+        }
+
+        // read values
+        public double RatioVolume
+        {
+            get { return ratioVolume; }
+            set { SetProperty(ref ratioVolume, value); }
+        }
+
+        public double RatioVolumeMicro
+        {
+            get { return ratioVolumeMicro; }
+            set { SetProperty(ref ratioVolumeMicro, value); }
+        }
+
+        public double MicroVolume
+        {
+            get { return microVolume; }
+            set { SetProperty(ref microVolume, value); }
+        }
+
+        public double MicroSetpoint
+        {
+            get { return microSetpoint; }
+            set { SetProperty(ref microSetpoint, value); }
+        }
     }
 }

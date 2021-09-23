@@ -1394,5 +1394,86 @@
                 
             </StackLayout>
         </ContentPage>
+        <ContentPage Title="Дозация">
+            <StackLayout Margin="{StaticResource PageMargin}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Text="Коэф. для обратного движения клапана"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Column="1"
+                        Text="{Binding Collector.RatioVolume, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.IsRatioVolumeFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorRatioVolumeCommand}"
+                        ReturnCommandParameter="{Binding Collector.RatioVolume}"/>
+
+                    <Label
+                        Grid.Row="1"
+                        Text="Микро объем"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding Collector.MicroVolume, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.IsMicroVolumeFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorMicroVolumeCommand}"
+                        ReturnCommandParameter="{Binding Collector.MicroVolume}"/>
+
+                    <Label
+                        Grid.Row="2"
+                        Text="Положение клапана (микро объем)"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Text="{Binding Collector.MicroSetpoint, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.IsMicroSetpointFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorMicroSetpointCommand}"
+                        ReturnCommandParameter="{Binding Collector.MicroSetpoint}"/>
+
+                    <Label
+                        Grid.Row="3"
+                        Text="Коэф. для обратного движения клапана (микро объем)"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="StartAndExpand"/>
+                    <Entry
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Text="{Binding Collector.RatioVolumeMicro, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        IsFocused="{Binding Collector.IsRatioVolumeMicroFocused}"
+                        ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorRatioVolumeMicroCommand}"
+                        ReturnCommandParameter="{Binding Collector.RatioVolumeMicro}"/>
+                </Grid>
+            </StackLayout>
+        </ContentPage>
     </TabbedPage.Children>
 </TabbedPage>

@@ -14,9 +14,11 @@ namespace DosingApp.Models.WebSocket
         public bool? CommandStop { get; set; }
         public bool? CommandPause { get; set; }
         public virtual List<int> ValveNums { get; set; }
-        public virtual List<float> RequiredVolumes { get; set; }
-        public virtual List<float> DosedVolumes { get; set; }
-        public float? RatioVolume { get; set; }
-        public float? RatioVolumeMicro { get; set; }
+        public virtual List<double> RequiredVolumes { get; set; }
+        public virtual List<double> DosedVolumes { get; set; }
+        public double? RatioVolume { get; set; }
+        public double? RatioVolumeMicro { get; set; }
+        public double? MicroVolume { get; set; }
+        public double? MicroSetpoint { get; set; }
     }
 }

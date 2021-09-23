@@ -40,9 +40,9 @@ namespace DosingApp.ViewModels
         private CommonLoop commonLoop;
         private CollectorLoop collectorLoop;
         private SingleDosLoop singleDosLoop;
-        //private float progressBarValue;
-        //private float requiredVolume;
-        //private float dosedVolume;
+        //private double progressBarValue;
+        //private double requiredVolume;
+        //private double dosedVolume;
         private bool isPause;
 
         //
@@ -70,7 +70,7 @@ namespace DosingApp.ViewModels
             //for(int i = 0; i < jobComponents.Count; i++)
             //{
             //    JobComponentScreens.Add(new JobComponentScreen(jobComponents[i]));
-            //    //requiredVolume += (float)jobComponents[i].Volume;
+            //    //requiredVolume += (double)jobComponents[i].Volume;
             //}
 
             Title = "Задание: " + Job.Name + "\nКомпоненты";
@@ -134,7 +134,7 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref progressBarColor, value); }
         }
 
-        //public float ProgressBarValue
+        //public double ProgressBarValue
         //{
         //    get { return progressBarValue; }
         //    set { SetProperty(ref progressBarValue, value); }
@@ -220,15 +220,15 @@ namespace DosingApp.ViewModels
         public void MakeRequirements(List<JobComponent> jobComponents)
         {
             var valveNums = new List<int>();
-            var requiredVolumes = new List<float>();
-            float carrierRequiredVolume = 0;
-            float singleRequiredVolume = 0;
+            var requiredVolumes = new List<double>();
+            double carrierRequiredVolume = 0;
+            double singleRequiredVolume = 0;
 
             foreach (var jobComponent in jobComponents)
             {
                 if (jobComponent.Dispenser == DispenserSuffix.Carrier)
                 {
-                    carrierRequiredVolume = (float)jobComponent.Volume;
+                    carrierRequiredVolume = (double)jobComponent.Volume;
                     continue;
                 }
 
@@ -240,13 +240,13 @@ namespace DosingApp.ViewModels
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
                 {
                     valveNums.Add(jobComponent.GetDispenserNumber());
-                    requiredVolumes.Add((float)jobComponent.Volume);
+                    requiredVolumes.Add((double)jobComponent.Volume);
                     continue;
                 }
 
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
                 {
-                    singleRequiredVolume = (float)jobComponent.Volume;
+                    singleRequiredVolume = (double)jobComponent.Volume;
                     continue;
                 }
             }
@@ -259,7 +259,8 @@ namespace DosingApp.ViewModels
 
             commonLoop = new CommonLoop
             {
-                CarrierRequiredVolume = carrierRequiredVolume
+                CarrierRequiredVolume = carrierRequiredVolume,
+                CarrierReserve = (double)Job.Recipe.CarrierReserve
             };
 
             singleDosLoop = new SingleDosLoop
@@ -270,9 +271,10 @@ namespace DosingApp.ViewModels
 
         public void WebSocketSendRequirements()
         {
-            WebSocketService.CollectorLoopMessage(1, collectorLoop);
-            WebSocketService.SingleLoopMessage(1, singleDosLoop);
-            WebSocketService.CommonLoopMessage(commonLoop);
+            //WebSocketService.CollectorLoopMessage(1, collectorLoop);
+            //WebSocketService.SingleLoopMessage(1, singleDosLoop);
+            //WebSocketService.CommonLoopMessage(commonLoop);
+            WebSocketService.AllLoopMessage(commonLoop, collectorLoop, singleDosLoop);
         }
 
         public void UpdateJobComponents()
@@ -285,7 +287,7 @@ namespace DosingApp.ViewModels
             //for (int i = 0; i < JobComponentScreens.Count; i++)
             //{
             //    JobComponentScreens[i].Update(Common, Collector);
-            //    dosedVolume += (float)JobComponentScreens[i].DosedVolume;
+            //    dosedVolume += (double)JobComponentScreens[i].DosedVolume;
             //}
 
             //ProgressBarValue = dosedVolume / requiredVolume;

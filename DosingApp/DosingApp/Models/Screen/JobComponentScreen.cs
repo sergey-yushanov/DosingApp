@@ -79,11 +79,12 @@ namespace DosingApp.Models.Screen
 
             if ((Dispenser == DispenserSuffix.Carrier) || (Dispenser == DispenserSuffix.Dry))
             {
-                IsVisible = false;
+                //IsVisible = false;
+                IsVisible = true;
             }
             else
-            { 
-                IsVisible = true; 
+            {
+                IsVisible = true;
             }
         }
 
@@ -110,7 +111,7 @@ namespace DosingApp.Models.Screen
                 DosedVolume = singleDos.DosedVolume;
             }
 
-            DosedVolumeError = (double?)((Volume - DosedVolume) / Volume);
+            DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);
         }
 
         public int GetCollectorNumber()

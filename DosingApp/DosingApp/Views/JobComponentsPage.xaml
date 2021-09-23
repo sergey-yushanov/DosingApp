@@ -159,7 +159,7 @@
                     <Button 
                         Grid.Column="1"
                         Text="Пауза"
-                        IsVisible="True"
+                        IsVisible="False"
                         Command="{Binding PauseJobCommand}"/>
                     <Button 
                         Grid.Column="2"

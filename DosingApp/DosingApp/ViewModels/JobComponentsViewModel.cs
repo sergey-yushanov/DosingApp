@@ -204,10 +204,13 @@ namespace DosingApp.ViewModels
             WebSocketService.CommonLoopMessage(new CommonLoop { CommandStart = true });
         }
 
-        private void StopJob()
+        private async void StopJob()
         {
-            WebSocketService.CommonLoopMessage(new CommonLoop { CommandStop = true });
-            Back3Pages();
+            if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Если идет дозация, то она будет завершена. Выйти?", "Да", "Нет"))
+            {
+                WebSocketService.CommonLoopMessage(new CommonLoop { CommandStop = true });
+                Back3Pages();
+            }
         }
 
         private void PauseJob()

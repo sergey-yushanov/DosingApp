@@ -174,6 +174,7 @@ namespace DosingApp.Services
                     {
                         UpdateClientState();
                         incomingMessageText = message.Text;
+                        //Console.WriteLine(incomingMessageText);
                         incomingMessage = JsonConvert.DeserializeObject<IncomingMessage>(incomingMessageText);
                         UpdateIncomingData();
                     });
@@ -188,7 +189,7 @@ namespace DosingApp.Services
         private void UpdateClientState()
         {
             IsConnected = client.IsRunning;
-            //Console.WriteLine("Websocket Running..." + IsConnected);
+            //Console.WriteLine("Websocket Running: " + IsConnected);
         }
 
         public void UpdateIncomingData()
@@ -247,6 +248,28 @@ namespace DosingApp.Services
                 Singles = new List<SingleDos> {new SingleDos
                 {
                     Number = singleDosNumber,
+                    Loop = singleDosLoop
+                }}
+            };
+            Task.Run(async () => await SendMessageAsync(outgoingMessage));
+        }
+
+        public void AllLoopMessage(CommonLoop commonLoop, CollectorLoop collectorLoop, SingleDosLoop singleDosLoop)
+        {
+            var outgoingMessage = new OutgoingMessage()
+            {
+                Common = new Common 
+                { 
+                    Loop = commonLoop 
+                },
+                Collectors = new List<Collector> {new Collector
+                {
+                    Number = 1,
+                    Loop = collectorLoop
+                }},
+                Singles = new List<SingleDos> {new SingleDos
+                {
+                    Number = 1,
                     Loop = singleDosLoop
                 }}
             };

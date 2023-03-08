@@ -1,5 +1,6 @@
 ﻿using DosingApp.Models.WebSocket;
 using DosingApp.ViewModels;
+using System;
 
 namespace DosingApp.Models.Screen
 {
@@ -8,8 +9,8 @@ namespace DosingApp.Models.Screen
         public virtual ValveAdjustableScreen ValveAdjustable { get; set; }
         public virtual FlowmeterScreen Flowmeter { get; set; }
 
-        public float? CarrierRequiredVolume { get; set; }
-        public float? CarrierDosedVolume { get; set; }
+        public double? CarrierRequiredVolume { get; set; }
+        public double? CarrierDosedVolume { get; set; }
 
         public CommonScreen()
         {
@@ -24,6 +25,12 @@ namespace DosingApp.Models.Screen
 
             CarrierDosedVolume = common.Loop.CarrierDosedVolume;
             CarrierRequiredVolume = common.Loop.CarrierRequiredVolume;
+
+            //Console.Write("CarrierDosedVolume: ");
+            //Console.WriteLine(CarrierDosedVolume);
+
+            //Console.Write("CarrierRequiredVolume: ");
+            //Console.WriteLine(CarrierRequiredVolume);
         }
 
         //public void InitNew(Common common, bool showSettings)

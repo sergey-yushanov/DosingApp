@@ -13,8 +13,9 @@ namespace DosingApp.Models.WebSocket
         public bool? CommandStart { get; set; }
         public bool? CommandStop { get; set; }
         public bool? CommandPause { get; set; }
-        public float? CarrierRequiredVolume { get; set; }
-        public float? CarrierDosedVolume { get; set; }
-        public float? ValveSetpoint { get; set; }
+        public double? CarrierRequiredVolume { get; set; }
+        public double? CarrierDosedVolume { get; set; }
+        public double? ValveSetpoint { get; set; }
+        public double? CarrierReserve { get; set; }
     }
 }

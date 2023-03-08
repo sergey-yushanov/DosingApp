@@ -12,8 +12,8 @@ namespace DosingApp.Models.Screen
         public ValveAdjustableScreen ValveAdjustable { get; set; }
         public FlowmeterScreen Flowmeter { get; set; }
         
-        public float? RequiredVolume { get; set; }
-        public float? DosedVolume { get; set; }
+        public double? RequiredVolume { get; set; }
+        public double? DosedVolume { get; set; }
 
         public SingleDosScreen(int number)
         {

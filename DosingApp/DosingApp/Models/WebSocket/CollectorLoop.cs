@@ -20,11 +20,14 @@ namespace DosingApp.Models.WebSocket
         public double? RatioVolume0 { get; set; }
         public double? RatioVolume1 { get; set; }
         public double? RatioVolume2 { get; set; }
+        public double? RatioVolume3 { get; set; }
 
         public double? Volume1 { get; set; }
         public double? Volume2 { get; set; }
+        public double? Volume3 { get; set; }
 
         public double? Setpoint1 { get; set; }
         public double? Setpoint2 { get; set; }
+        public double? Setpoint3 { get; set; }
     }
 }

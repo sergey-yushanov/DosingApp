@@ -395,24 +395,12 @@
 
 
                     <Label 
-                        Text="Размер задания" 
+                        Text="Размер партии смеси, л" 
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="9*" />
-                            <ColumnDefinition Width="3*" />
-                        </Grid.ColumnDefinitions>
-                        <Entry
-                            Placeholder="Введите размер"
-                            Text="{Binding Size, Converter={StaticResource DoubleConverter}}" 
-                            Keyboard="Numeric"/>
-                        <Picker 
-                            Grid.Column="1"
-                            Title="Eд.изм."
-                            ItemsSource="{Binding UnitList}"
-                            SelectedItem="{Binding Unit}"/>
-                    </Grid>
-
+                    <Entry
+                        Placeholder="Введите размер партии"
+                        Text="{Binding Size, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"/>
                 </StackLayout>
 
                 <StackLayout>

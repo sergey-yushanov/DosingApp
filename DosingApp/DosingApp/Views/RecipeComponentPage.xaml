@@ -87,10 +87,10 @@
                             Scale="0.5"/>
                     </Grid>
 
-                    <Label
+                    <!--<Label
                         Text="Компонент для 4-го клапана в коллекторе - Вода"
                         TextColor="{StaticResource AlertColor}"
-                        IsVisible="{Binding IsComponentEnabled, Converter={StaticResource InverseBoolConverter}}"/>
+                        IsVisible="{Binding IsComponentEnabled, Converter={StaticResource InverseBoolConverter}}"/>-->
 
 
                 </StackLayout>

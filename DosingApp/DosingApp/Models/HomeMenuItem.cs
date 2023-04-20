@@ -29,7 +29,7 @@ namespace DosingApp.Models
     {
         public static string MainMenu = "Главное меню";
         public static string MainParams = "Основные параметры";
-        public static string AdditionalParams = "Дополнительные параметры";
+        //public static string AdditionalParams = "Дополнительные параметры";
         public static string AdminParams = "Инженерное меню";
         public static string LoginMenu = "Авторизация";
     }

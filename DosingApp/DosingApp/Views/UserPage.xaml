@@ -78,7 +78,7 @@
                             IsEnabled="{Binding IsAdminUsername, Converter={StaticResource InverseBoolConverter}}"/>
                     </StackLayout>
 
-                    <!--<StackLayout
+                    <StackLayout
                         Orientation="Horizontal">
                         <Label 
                             Text="Дополнительные параметры"
@@ -91,7 +91,7 @@
                             HorizontalOptions="End" 
                             IsEnabled="{Binding IsAdminUsername, Converter={StaticResource InverseBoolConverter}}"/>
 
-                    </StackLayout>-->
+                    </StackLayout>
 
                     <StackLayout 
                         Orientation="Horizontal">

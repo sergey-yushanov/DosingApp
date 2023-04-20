@@ -22,7 +22,7 @@ namespace DosingApp.Models
             user.AccessJobParams = true;
             user.AccessMainMenu = true;
             user.AccessMainParams = true;
-            user.AccessAdditionalParams = true;
+            user.AccessAdditionalParams = false;
             user.AccessAdminParams = true;
             return user;
         }

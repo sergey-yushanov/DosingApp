@@ -24,6 +24,7 @@ namespace DosingApp.ViewModels
         private ObservableCollection<Applicator> applicators;
         private ObservableCollection<AgrYear> agrYears;
         private ObservableCollection<Field> fields;
+        private string place;
 
         private ObservableCollection<FacilityTank> sourceFacilityTanks;
         private ObservableCollection<FacilityTank> destFacilityTanks;
@@ -524,6 +525,12 @@ namespace DosingApp.ViewModels
         {
             get { return fields; }
             set { SetProperty(ref fields, value); }
+        }
+
+        public string Place
+        {
+            get { return place; }
+            set { SetProperty(ref place, value); }
         }
 
         public double? VolumeRate

@@ -19,26 +19,27 @@
 
                 <StackLayout>
 
-                    <Label 
-                        Text="Название"
-                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Label HorizontalTextAlignment="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Название" TextColor="{StaticResource LabelEntryColor}"/>
+                                <Span Text=" *" TextColor="{StaticResource AlertColor}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                     <Entry 
                         Placeholder="Введите название задания" 
                         Text="{Binding Name}" 
                         Keyboard="Chat"/>
 
-                    <Label 
-                        Text="Заметка" 
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                    <Editor 
-                        Placeholder="Введите текст заметки здесь"
-                        Text="{Binding Note}" 
-                        Keyboard="Chat"/>
-
-                    <Label 
-                        Text="Рецепт смеси"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-
+                    <Label HorizontalTextAlignment="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Рецепт смеси" TextColor="{StaticResource LabelEntryColor}"/>
+                                <Span Text=" *" TextColor="{StaticResource AlertColor}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="11*" />
@@ -60,7 +61,7 @@
                             Scale="0.5"/>
                     </Grid>
 
-                    <Label
+                    <!--<Label
                         Text="Откуда носитель смеси" 
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Grid>
@@ -360,9 +361,37 @@
                             BorderColor="Transparent"
                             BackgroundColor="Transparent"
                             Scale="0.5"/>
-                    </Grid>
+                    </Grid>-->
 
-                    <Label 
+                    <Label HorizontalTextAlignment="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Норма вылива, л/га" TextColor="{StaticResource LabelEntryColor}"/>
+                                <Span Text=" *" TextColor="{StaticResource AlertColor}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Entry
+                        Placeholder="Введите норму"
+                        Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
+                        Keyboard="Numeric"/>
+
+
+                    <Label HorizontalTextAlignment="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Размер партии смеси, л" TextColor="{StaticResource LabelEntryColor}"/>
+                                <Span Text=" *" TextColor="{StaticResource AlertColor}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Entry
+                        Placeholder="Введите размер партии"
+                        Text="{Binding Size, Converter={StaticResource DoubleConverter}}"
+                        Keyboard="Numeric"/>
+
+
+                    <!--<Label 
                         Text="Место обработки СЗР"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Grid>
@@ -383,24 +412,34 @@
                             BorderColor="Transparent"
                             BackgroundColor="Transparent"
                             Scale="0.5"/>
-                    </Grid>
+                    </Grid>-->
 
                     <Label 
-                        Text="Норма вылива, л/га" 
+                        Text="Место обработки СЗР" 
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Введите норму"
-                        Text="{Binding VolumeRate, Converter={StaticResource DoubleConverter}}" 
-                        Keyboard="Numeric"/>
+                    <Editor 
+                        Placeholder="Введите информацию о месте"
+                        Text="{Binding Place}" 
+                        Keyboard="Chat"/>
 
 
                     <Label 
-                        Text="Размер партии смеси, л" 
+                        Text="Заметка" 
                         TextColor="{StaticResource LabelEntryColor}"/>
-                    <Entry
-                        Placeholder="Введите размер партии"
-                        Text="{Binding Size, Converter={StaticResource DoubleConverter}}"
-                        Keyboard="Numeric"/>
+                    <Editor 
+                        Placeholder="Введите текст заметки"
+                        Text="{Binding Note}" 
+                        Keyboard="Chat"/>
+
+
+                    <Label HorizontalTextAlignment="Start" Padding="0,10,0,5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="*" TextColor="{StaticResource AlertColor}"/>
+                                <Span Text=" - обязательное поле для ввода значения" TextColor="Gray"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                 </StackLayout>
 
                 <StackLayout>

@@ -46,13 +46,15 @@ namespace DosingApp.ViewModels
         private bool isPause;
 
         //
+        private ushort testRegister;
 
         public ICommand StartJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }
         public ICommand PauseJobCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
 
-        public WebSocketService WebSocketService { get; protected set; }
+        public ModbusService ModbusService { get; protected set; }
+        //public WebSocketService WebSocketService { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -79,16 +81,20 @@ namespace DosingApp.ViewModels
             PauseJobCommand = new Command(PauseJob);
             BackCommand = new Command(Back);
 
-            WebSocketService = new WebSocketService();
-            if (WebSocketService.Mixer != null)
-            {
-                MakeRequirements(jobComponents);
-                WebSocketSendRequirements();
-            }
+            //WebSocketService = new WebSocketService();
+            //if (WebSocketService.Mixer != null)
+            //{
+            //    MakeRequirements(jobComponents);
+            //    WebSocketSendRequirements();
+            //}
+
+            ModbusService = new ModbusService();
         }
         #endregion Constructor
 
         #region Properties
+
+
         public JobScreen JobScreen
         {
             get { return jobScreen; }
@@ -152,12 +158,21 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isPause, value); }
         }
 
+        public ushort TestRegister
+        {
+            get
+            {
+                return ModbusService.TestRegister;
+            }
+        }
+
         public CollectorScreen Collector
         {
             get 
             {
                 //UpdateJobComponents();
-                return WebSocketService.Collector; 
+                return ModbusService.Collector;
+                //return WebSocketService.Collector;
             }
         }
 
@@ -166,7 +181,8 @@ namespace DosingApp.ViewModels
             get
             {
                 //UpdateJobComponents();
-                return WebSocketService.SingleDos;
+                return ModbusService.SingleDos;
+                //return WebSocketService.SingleDos;
             }
         }
 
@@ -175,7 +191,8 @@ namespace DosingApp.ViewModels
             get 
             {
                 //UpdateJobComponents();
-                return WebSocketService.Common; 
+                return ModbusService.Common;
+                //return WebSocketService.Common; 
             }
         }
         #endregion Properties
@@ -201,21 +218,21 @@ namespace DosingApp.ViewModels
 
         private void StartJob()
         {
-            WebSocketService.CommonLoopMessage(new CommonLoop { CommandStart = true });
+            //WebSocketService.CommonLoopMessage(new CommonLoop { CommandStart = true });
         }
 
         private async void StopJob()
         {
             if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Если идет дозация, то она будет завершена. Выйти?", "Да", "Нет"))
             {
-                WebSocketService.CommonLoopMessage(new CommonLoop { CommandStop = true });
+                //WebSocketService.CommonLoopMessage(new CommonLoop { CommandStop = true });
                 Back3Pages();
             }
         }
 
         private void PauseJob()
         {
-            WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
+            //WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
         }
         #endregion Commands
 
@@ -277,12 +294,19 @@ namespace DosingApp.ViewModels
             //WebSocketService.CollectorLoopMessage(1, collectorLoop);
             //WebSocketService.SingleLoopMessage(1, singleDosLoop);
             //WebSocketService.CommonLoopMessage(commonLoop);
-            WebSocketService.AllLoopMessage(commonLoop, collectorLoop, singleDosLoop);
+
+
+            //WebSocketService.AllLoopMessage(commonLoop, collectorLoop, singleDosLoop);
         }
 
         public void UpdateJobComponents()
         {
-            JobScreen.Update(Common, Collector, SingleDos);
+            ModbusService.MasterMessages();
+            OnPropertyChanged(nameof(TestRegister));
+            //JobScreen.Update(Common, Collector, SingleDos);
+
+
+
             //OnPropertyChanged(nameof(JobScreen));
 
             //dosedVolume = 0;
@@ -308,7 +332,7 @@ namespace DosingApp.ViewModels
         //{
         //    Console.WriteLine(common.CarrierDosedVolume);
         //    Console.WriteLine(Dispenser);
-            
+
 
         //    if (Dispenser == DispenserSuffix.Dry)
         //        return;

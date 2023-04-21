@@ -32,7 +32,8 @@ namespace DosingApp.Views
         protected override void OnDisappearing()
         {
             var jobComponentsViewModel = (JobComponentsViewModel)BindingContext;
-            jobComponentsViewModel.WebSocketService.WebsocketClientExit();
+            //jobComponentsViewModel.WebSocketService.WebsocketClientExit();
+            jobComponentsViewModel.ModbusService.MasterDispose();
             TimerStop();
             base.OnDisappearing();
         }

@@ -158,13 +158,13 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isPause, value); }
         }
 
-        public ushort TestRegister
-        {
-            get
-            {
-                return ModbusService.TestRegister;
-            }
-        }
+        //public ushort TestRegister
+        //{
+        //    get
+        //    {
+        //        return ModbusService.TestRegister;
+        //    }
+        //}
 
         public CollectorScreen Collector
         {
@@ -302,7 +302,7 @@ namespace DosingApp.ViewModels
         public void UpdateJobComponents()
         {
             ModbusService.MasterMessages();
-            OnPropertyChanged(nameof(TestRegister));
+            //OnPropertyChanged(nameof(TestRegister));
             //JobScreen.Update(Common, Collector, SingleDos);
 
 

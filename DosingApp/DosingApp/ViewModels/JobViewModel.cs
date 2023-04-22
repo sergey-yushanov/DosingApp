@@ -577,6 +577,19 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public double? PartySize
+        {
+            get { return Job.PartySize; }
+            set
+            {
+                if (Job.PartySize != value)
+                {
+                    Job.PartySize = value;
+                    OnPropertyChanged(nameof(PartySize));
+                }
+            }
+        }
+
         public bool SizeInfoVisibility
         {
             get { return sizeInfoVisibility; }
@@ -665,26 +678,31 @@ namespace DosingApp.ViewModels
             Job.AssignmentRemainSize = Job.AssignmentSize;
             Job.Unit = Job.Assignment.Unit;
 
-            SizeInfoVisibility = Job.AssignmentSize != null;
+            // Size и Volume в Сделать смесь становятся одним и тем же
+            // Связано это с отказом задания в других ед. измерения, отличных от литров
+            //Job.PartySize = Job.AssignmentSize;
+            Job.PartyVolume = Job.AssignmentSize;
+
+            //SizeInfoVisibility = Job.AssignmentSize != null;
 
             LoadItems();
             InitSelectedItems();
 
-            switch (DestType)
-            {
-                case SourceDestType.Facility:
-                    Job.PartyVolume = DestFacilityTank?.Volume;
-                    break;
-                case SourceDestType.Transport:
-                    Job.PartyVolume = DestTransportTank?.Volume;
-                    break;
-                case SourceDestType.Applicator:
-                    Job.PartyVolume = DestApplicatorTank?.Volume;
-                    break;
-            }
+            //switch (DestType)
+            //{
+            //    case SourceDestType.Facility:
+            //        Job.PartyVolume = DestFacilityTank?.Volume;
+            //        break;
+            //    case SourceDestType.Transport:
+            //        Job.PartyVolume = DestTransportTank?.Volume;
+            //        break;
+            //    case SourceDestType.Applicator:
+            //        Job.PartyVolume = DestApplicatorTank?.Volume;
+            //        break;
+            //}
 
-            Job.PartySize = GetPartySquare();  // посчитаем площадь, на которую хватает
-            Job.PartyCount = GetPartyCount();
+            //Job.PartySize = GetPartySquare();  // посчитаем площадь, на которую хватает
+            //Job.PartyCount = GetPartyCount();
         }
 
         public void CalculateVolume()

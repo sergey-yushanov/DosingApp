@@ -18,6 +18,7 @@ using DosingApp.DataContext;
 using System.Collections.Generic;
 using DosingApp.Views;
 using DosingApp.Services;
+using DosingApp.Models.Modbus;
 
 namespace DosingApp.ViewModels
 {
@@ -35,7 +36,8 @@ namespace DosingApp.ViewModels
 
         //private Mixer mixer;
 
-        public WebSocketService WebSocketService { get; protected set; }
+        //public WebSocketService WebSocketService { get; protected set; }
+        public ModbusService ModbusService { get; protected set; }
 
         private string title;
 
@@ -145,15 +147,18 @@ namespace DosingApp.ViewModels
         #region Constructor
         public MixerControlViewModel()
         {
-            WebSocketService = new WebSocketService();
+            //WebSocketService = new WebSocketService();
+            ModbusService = new ModbusService();
 
             // screen
             //GetActiveMixer();
 
             //if (Mixer != null)
-            if (WebSocketService.Mixer != null)
+            //if (WebSocketService.Mixer != null)
+            if (ModbusService.Mixer != null)
             {
-                Title = (WebSocketService.Mixer != null) ? WebSocketService.Mixer.Name + " (Ручной режим)" : "Не выбрана активная установка";
+                //Title = (WebSocketService.Mixer != null) ? WebSocketService.Mixer.Name + " (Ручной режим)" : "Не выбрана активная установка";
+                Title = (ModbusService.Mixer != null) ?  ModbusService.Mixer.Name + " (Ручной режим)" : "Не выбрана активная установка";
 
                 // create template for mixer control
                 //CreateMixerControl(Mixer);
@@ -263,19 +268,22 @@ namespace DosingApp.ViewModels
 
         public CollectorScreen Collector
         {
-            get { return WebSocketService.Collector; }
+            //get { return WebSocketService.Collector; }
+            get { return ModbusService.Collector; }
 //            set { SetProperty(ref WebSocketService.Collector, value); }
         }
 
         public CommonScreen Common
         {
-            get { return WebSocketService.Common; }
+            //get { return WebSocketService.Common; }
+            get { return  ModbusService.Common; }
 //            set { SetProperty(ref common, value); }
         }
 
         public SingleDosScreen SingleDos
         {
-            get { return WebSocketService.SingleDos; }
+            //get { return WebSocketService.SingleDos; }
+            get { return  ModbusService.SingleDos; }
             //            set { SetProperty(ref common, value); }
         }
 
@@ -371,11 +379,12 @@ namespace DosingApp.ViewModels
         #region Commands
         private void PumpStart()
         {
-            var outgoingMessage = new OutgoingMessage()
-            {
-                PumpStart = true
-            };
-            Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
+
+            //var outgoingMessage = new OutgoingMessage()
+            //{
+            //    PumpStart = true
+            //};
+            //Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
         }
 
         private void PumpStop()
@@ -384,7 +393,7 @@ namespace DosingApp.ViewModels
             {
                 PumpStop = true
             };
-            Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
+            //Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
         }
 
         private void Ack()
@@ -393,7 +402,7 @@ namespace DosingApp.ViewModels
             {
                 Ack = true
             };
-            Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
+            //Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
         }
 
         private void ShowSettings()
@@ -402,7 +411,7 @@ namespace DosingApp.ViewModels
             {
                 ShowSettings = true
             };
-            Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
+            //Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
         }
 
         private void HideSettings()
@@ -411,360 +420,363 @@ namespace DosingApp.ViewModels
             {
                 ShowSettings = false
             };
-            Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
+            //Task.Run(async () => await WebSocketService.SendMessageAsync(outgoingMessage));
         }
 
         private void CollectorValveOpen(object valveInstance)
         {
             ValveScreen valveScreen = valveInstance as ValveScreen;
-            WebSocketService.CollectorValveMessage(1, new Valve { Number = valveScreen.Number, CommandOpen = true });
+            //WebSocketService.CollectorValveMessage(1, new Valve { Number = valveScreen.Number, CommandOpen = true });
         }
 
         private void CollectorValveClose(object valveInstance)
         {
             ValveScreen valveScreen = valveInstance as ValveScreen;
-            WebSocketService.CollectorValveMessage(1, new Valve { Number = valveScreen.Number, CommandClose = true });
+            //WebSocketService.CollectorValveMessage(1, new Valve { Number = valveScreen.Number, CommandClose = true });
         }
 
         private void CollectorValveAdjustableOpen(object valveAdjustableInstance)
         {
             //ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { CommandOpen = true });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { CommandOpen = true });
+            ModbusService.WriteSingleRegister(ColMod.ValveAdjustableOpen(1));
         }
 
         private void CollectorValveAdjustableClose(object valveAdjustableInstance)
         {
             //ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { CommandClose = true });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { CommandClose = true });
+            ModbusService.WriteSingleRegister(ColMod.ValveAdjustableClose(1));
         }
 
         private void CollectorValveAdjustableSetpoint(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Setpoint = (double)valveAdjustableScreen.Setpoint });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Setpoint = (double)valveAdjustableScreen.Setpoint });
+            ModbusService.WriteSingleRegister32(ColMod.ValveAdjustableSetpoint(1, (float)valveAdjustableScreen.Setpoint));
         }
 
         private void CollectorValveAdjustableOvertime(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Overtime = (int)valveAdjustableScreen.Overtime });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Overtime = (int)valveAdjustableScreen.Overtime });
         }
 
         private void CollectorValveAdjustableLimitClose(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { LimitClose = (double)valveAdjustableScreen.LimitClose });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { LimitClose = (double)valveAdjustableScreen.LimitClose });
         }
 
         private void CollectorValveAdjustableLimitOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { LimitOpen = (double)valveAdjustableScreen.LimitOpen });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { LimitOpen = (double)valveAdjustableScreen.LimitOpen });
         }
 
         private void CollectorValveAdjustableDeadbandClose(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { DeadbandClose = (double)valveAdjustableScreen.DeadbandClose });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { DeadbandClose = (double)valveAdjustableScreen.DeadbandClose });
         }
 
         private void CollectorValveAdjustableDeadbandOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { DeadbandOpen = (double)valveAdjustableScreen.DeadbandOpen });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { DeadbandOpen = (double)valveAdjustableScreen.DeadbandOpen });
         }
 
         private void CollectorValveAdjustableDeadbandPosition(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { DeadbandPosition = (double)valveAdjustableScreen.DeadbandPosition });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { DeadbandPosition = (double)valveAdjustableScreen.DeadbandPosition });
         }
 
         private void CollectorValveAdjustableCostClose(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { CostClose = (double)valveAdjustableScreen.CostClose });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { CostClose = (double)valveAdjustableScreen.CostClose });
         }
 
         private void CollectorValveAdjustableCostOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { CostOpen = (double)valveAdjustableScreen.CostOpen });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { CostOpen = (double)valveAdjustableScreen.CostOpen });
         }
 
         private void CollectorValveAdjustableSensorRawLowLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawLowLimit = (double)sensorScreen.RawLowLimit } });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawLowLimit = (double)sensorScreen.RawLowLimit } });
         }
 
         private void CollectorValveAdjustableSensorRawHighLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawHighLimit = (double)sensorScreen.RawHighLimit } });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawHighLimit = (double)sensorScreen.RawHighLimit } });
         }
 
         private void CollectorValveAdjustableSensorValueLowLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueLowLimit = (double)sensorScreen.ValueLowLimit } });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueLowLimit = (double)sensorScreen.ValueLowLimit } });
         }
 
         private void CollectorValveAdjustableSensorValueHighLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueHighLimit = (double)sensorScreen.ValueHighLimit } });
+            //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueHighLimit = (double)sensorScreen.ValueHighLimit } });
         }
 
         private void CollectorRatioVolume0(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume0 = (double)value });
+            //WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume0 = (double)value });
         }
 
         private void CollectorRatioVolume1(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume1 = (double)value });
+            //WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume1 = (double)value });
         }
 
         private void CollectorRatioVolume2(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume2 = (double)value });
+            //WebSocketService.CollectorLoopMessage(1, new CollectorLoop { RatioVolume2 = (double)value });
         }
 
         private void CollectorVolume1(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Volume1 = (double)value });
+            //WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Volume1 = (double)value });
         }
 
         private void CollectorVolume2(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Volume2 = (double)value });
+            //WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Volume2 = (double)value });
         }
 
         private void CollectorSetpoint1(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Setpoint1 = (double)value });
+            //WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Setpoint1 = (double)value });
         }
 
         private void CollectorSetpoint2(object value)
         {
-            WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Setpoint2 = (double)value });
+            //WebSocketService.CollectorLoopMessage(1, new CollectorLoop { Setpoint2 = (double)value });
         }
 
         private void CollectorFlowmeterNullify(object flowmeterInstance)
         {
             //FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
-            WebSocketService.CollectorFlowmeterMessage(1, new Flowmeter { NullifyVolume = true });
+            //WebSocketService.CollectorFlowmeterMessage(1, new Flowmeter { NullifyVolume = true });
         }
 
         private void CollectorFlowmeterPulsesPerLiter(object flowmeterInstance)
         {
             FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
-            WebSocketService.CollectorFlowmeterMessage(1, new Flowmeter { PulsesPerLiter = (double)flowmeterScreen.PulsesPerLiter });
+            //WebSocketService.CollectorFlowmeterMessage(1, new Flowmeter { PulsesPerLiter = (double)flowmeterScreen.PulsesPerLiter });
         }
 
         private void ValveAdjustableOpen(object valveAdjustableInstance)
         {
             //ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { CommandOpen = true });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { CommandOpen = true });
         }
 
         private void ValveAdjustableClose(object valveAdjustableInstance)
         {
             //ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { CommandClose = true });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { CommandClose = true });
         }
 
         private void ValveAdjustableSetpoint(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Setpoint = valveAdjustableScreen.Setpoint });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Setpoint = valveAdjustableScreen.Setpoint });
         }
 
         private void ValveAdjustableOvertime(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Overtime = (int)valveAdjustableScreen.Overtime });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Overtime = (int)valveAdjustableScreen.Overtime });
         }
 
         private void ValveAdjustableLimitClose(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { LimitClose = (double)valveAdjustableScreen.LimitClose });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { LimitClose = (double)valveAdjustableScreen.LimitClose });
         }
 
         private void ValveAdjustableLimitOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { LimitOpen = (double)valveAdjustableScreen.LimitOpen });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { LimitOpen = (double)valveAdjustableScreen.LimitOpen });
         }
 
         private void ValveAdjustableDeadbandClose(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { DeadbandClose = (double)valveAdjustableScreen.DeadbandClose });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { DeadbandClose = (double)valveAdjustableScreen.DeadbandClose });
         }
 
         private void ValveAdjustableDeadbandOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { DeadbandOpen = (double)valveAdjustableScreen.DeadbandOpen });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { DeadbandOpen = (double)valveAdjustableScreen.DeadbandOpen });
         }
 
         private void ValveAdjustableDeadbandPosition(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { DeadbandPosition = (double)valveAdjustableScreen.DeadbandPosition });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { DeadbandPosition = (double)valveAdjustableScreen.DeadbandPosition });
         }
 
         private void ValveAdjustableCostClose(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { CostClose = (double)valveAdjustableScreen.CostClose });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { CostClose = (double)valveAdjustableScreen.CostClose });
         }
 
         private void ValveAdjustableCostOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { CostOpen = (double)valveAdjustableScreen.CostOpen });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { CostOpen = (double)valveAdjustableScreen.CostOpen });
         }
 
         private void ValveAdjustableSensorRawLowLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Sensor = new Sensor { RawLowLimit = (double)sensorScreen.RawLowLimit } });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Sensor = new Sensor { RawLowLimit = (double)sensorScreen.RawLowLimit } });
         }
 
         private void ValveAdjustableSensorRawHighLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Sensor = new Sensor { RawHighLimit = (double)sensorScreen.RawHighLimit } });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Sensor = new Sensor { RawHighLimit = (double)sensorScreen.RawHighLimit } });
         }
 
         private void ValveAdjustableSensorValueLowLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Sensor = new Sensor { ValueLowLimit = (double)sensorScreen.ValueLowLimit } });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Sensor = new Sensor { ValueLowLimit = (double)sensorScreen.ValueLowLimit } });
         }
 
         private void ValveAdjustableSensorValueHighLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Sensor = new Sensor { ValueHighLimit = (double)sensorScreen.ValueHighLimit } });
+            //WebSocketService.ValveAdjustableMessage(new ValveAdjustable { Sensor = new Sensor { ValueHighLimit = (double)sensorScreen.ValueHighLimit } });
         }
 
         private void FlowmeterNullify(object flowmeterInstance)
         {
             //FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
-            WebSocketService.FlowmeterMessage(new Flowmeter { NullifyVolume = true });
+            //WebSocketService.FlowmeterMessage(new Flowmeter { NullifyVolume = true });
         }
 
         private void FlowmeterPulsesPerLiter(object flowmeterInstance)
         {
             FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
-            WebSocketService.FlowmeterMessage(new Flowmeter { PulsesPerLiter = (double)flowmeterScreen.PulsesPerLiter });
+            //WebSocketService.FlowmeterMessage(new Flowmeter { PulsesPerLiter = (double)flowmeterScreen.PulsesPerLiter });
         }
 
 
         private void SingleDosValveAdjustableOpen(object valveAdjustableInstance)
         {
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CommandOpen = true });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CommandOpen = true });
         }
 
         private void SingleDosValveAdjustableClose(object valveAdjustableInstance)
         {
             //ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CommandClose = true });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CommandClose = true });
         }
 
         private void SingleDosValveAdjustableSetpoint(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Setpoint = (double)valveAdjustableScreen.Setpoint });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Setpoint = (double)valveAdjustableScreen.Setpoint });
         }
 
         private void SingleDosValveAdjustableOvertime(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Overtime = (int)valveAdjustableScreen.Overtime });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Overtime = (int)valveAdjustableScreen.Overtime });
         }
 
         private void SingleDosValveAdjustableLimitClose(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { LimitClose = (double)valveAdjustableScreen.LimitClose });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { LimitClose = (double)valveAdjustableScreen.LimitClose });
         }
 
         private void SingleDosValveAdjustableLimitOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { LimitOpen = (double)valveAdjustableScreen.LimitOpen });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { LimitOpen = (double)valveAdjustableScreen.LimitOpen });
         }
 
         private void SingleDosValveAdjustableDeadbandClose(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { DeadbandClose = (double)valveAdjustableScreen.DeadbandClose });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { DeadbandClose = (double)valveAdjustableScreen.DeadbandClose });
         }
 
         private void SingleDosValveAdjustableDeadbandOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { DeadbandOpen = (double)valveAdjustableScreen.DeadbandOpen });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { DeadbandOpen = (double)valveAdjustableScreen.DeadbandOpen });
         }
 
         private void SingleDosValveAdjustableDeadbandPosition(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { DeadbandPosition = (double)valveAdjustableScreen.DeadbandPosition });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { DeadbandPosition = (double)valveAdjustableScreen.DeadbandPosition });
         }
 
         private void SingleDosValveAdjustableCostClose(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CostClose = (double)valveAdjustableScreen.CostClose });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CostClose = (double)valveAdjustableScreen.CostClose });
         }
 
         private void SingleDosValveAdjustableCostOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CostOpen = (double)valveAdjustableScreen.CostOpen });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { CostOpen = (double)valveAdjustableScreen.CostOpen });
         }
 
         private void SingleDosValveAdjustableSensorRawLowLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawLowLimit = (double)sensorScreen.RawLowLimit } });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawLowLimit = (double)sensorScreen.RawLowLimit } });
         }
 
         private void SingleDosValveAdjustableSensorRawHighLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawHighLimit = (double)sensorScreen.RawHighLimit } });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { RawHighLimit = (double)sensorScreen.RawHighLimit } });
         }
 
         private void SingleDosValveAdjustableSensorValueLowLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueLowLimit = (double)sensorScreen.ValueLowLimit } });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueLowLimit = (double)sensorScreen.ValueLowLimit } });
         }
 
         private void SingleDosValveAdjustableSensorValueHighLimit(object valveAdjustableSensorInstance)
         {
             SensorScreen sensorScreen = valveAdjustableSensorInstance as SensorScreen;
-            WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueHighLimit = (double)sensorScreen.ValueHighLimit } });
+            //WebSocketService.SingleValveAdjustableMessage(1, new ValveAdjustable { Sensor = new Sensor { ValueHighLimit = (double)sensorScreen.ValueHighLimit } });
         }
 
         private void SingleDosFlowmeterNullify(object flowmeterInstance)
         {
             //FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
-            WebSocketService.SingleFlowmeterMessage(1, new Flowmeter { NullifyVolume = true });
+            //WebSocketService.SingleFlowmeterMessage(1, new Flowmeter { NullifyVolume = true });
         }
 
         private void SingleDosFlowmeterPulsesPerLiter(object flowmeterInstance)
         {
             FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
-            WebSocketService.SingleFlowmeterMessage(1, new Flowmeter { PulsesPerLiter = (double)flowmeterScreen.PulsesPerLiter });
+            //WebSocketService.SingleFlowmeterMessage(1, new Flowmeter { PulsesPerLiter = (double)flowmeterScreen.PulsesPerLiter });
         }
         #endregion Commands
 

@@ -84,6 +84,7 @@ namespace DosingApp.Models
         public string Place { get; set; }
 
         public double? VolumeRate { get; set; }
+        //public double? Volume { get; set; }
 
         public double? Size { get; set; }
         public string Unit { get; set; }

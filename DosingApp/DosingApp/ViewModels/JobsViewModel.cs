@@ -60,7 +60,7 @@ namespace DosingApp.ViewModels
             {
                 if (jobViewModel.Job.PartyVolume == null)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте размер партии", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте требуемый размер партии смеси", "Ok");
                     return;
                 }
                 using (AppDbContext db = App.GetContext())
@@ -151,6 +151,7 @@ namespace DosingApp.ViewModels
             if (job.VolumeRate != 0.0)
             {
                 double? doubleValue = job.PartyVolume * recipeComponent.VolumeRate / job.VolumeRate;
+
                 if (String.Equals(recipeComponent.VolumeRateUnit, VolumeRateUnit.Dry))
                 {
                     doubleValue = recipeComponent.Component.Density != 0 ? doubleValue / recipeComponent.Component.Density : doubleValue;

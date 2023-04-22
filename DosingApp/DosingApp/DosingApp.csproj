@@ -50,7 +50,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Modbus\" />
     <Folder Include="Resources\" />
   </ItemGroup>
 

@@ -27,12 +27,12 @@
                 Source="wifi_on_48px"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="End"
-                IsVisible="{Binding WebSocketService.IsConnected}"/>
+                IsVisible="{Binding ModbusService.IsConnected}"/>
             <Image
                 Source="wifi_off_48px"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="End"
-                IsVisible="{Binding WebSocketService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
+                IsVisible="{Binding ModbusService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
         </StackLayout>
     </NavigationPage.TitleView>
 

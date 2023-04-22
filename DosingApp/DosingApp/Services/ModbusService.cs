@@ -9,28 +9,34 @@ using DosingApp.DataContext;
 using System.Linq;
 using System.Net.Sockets;
 using NModbus.Extensions.Enron;
+using NModbus.Utility;
+using DosingApp.Models.Modbus;
+using DosingApp.Models.WebSocket;
+using Newtonsoft.Json;
 
 namespace DosingApp.Services
 {
     public class ModbusService : BaseViewModel
     {
         #region Attributes
+        private const byte slaveId = 1;
+
         private TcpClient tcpClient;
         private IModbusMaster modbusMaster;
         private bool isConnected;
 
-        private ushort[] registersCommon;
-        private ushort[,] registersCollector;
-        private ushort[] registersSingleDos;
+        //private ushort[] registersCommon;
+        //private ushort[,] registersCollector;
+        //private ushort[] registersSingleDos;
 
-        private byte slaveId;
-        private ushort numRegistersCommon;
-        private ushort numRegistersCollector;
-        private ushort numRegistersSingleDos;
+        
+        //private ushort numRegistersCommon;
+        //private ushort numRegistersCollector;
+        //private ushort numRegistersSingleDos;
 
-        private ushort startAddressCommon;
-        private ushort startAddressCollector;
-        private ushort startAddressSingleDos;
+        //private ushort startAddressCommon;
+        //private ushort startAddressCollector;
+        //private ushort startAddressSingleDos;
 
         //private bool isConnected;
 
@@ -39,7 +45,11 @@ namespace DosingApp.Services
         private CollectorScreen collector;
         private SingleDosScreen singleDos;
 
-        private ushort counter;
+
+        private CollectorModbus collectorModbus;
+
+        //private ushort counter;
+        //private float fCounter;
         #endregion Attributes
 
         #region Constructor
@@ -51,18 +61,20 @@ namespace DosingApp.Services
                 CreateMixerControl(Mixer);
                 MasterCreate();
             }
+
+            //collectorModbus
             
-            slaveId = 1;
-            numRegistersCommon = 24;
-            numRegistersCollector = 20;
-            numRegistersSingleDos = 10;
+            //numRegistersCommon = 24;
+            //numRegistersCollector = 20;
+            //numRegistersSingleDos = 10;
 
-            startAddressCommon = 16384;
-            startAddressCollector = 16384;
-            startAddressSingleDos = 16384;
+            //startAddressCommon = 16384;
+            //startAddressCollector = 16384;
+            //startAddressSingleDos = 16384;
 
-            registersCommon = new ushort[numRegistersCommon];
-            counter = 0;
+            //registersCommon = new ushort[numRegistersCommon];
+            //counter = 0;
+            //fCounter = 0;
         }
         #endregion Constructor
 
@@ -77,6 +89,12 @@ namespace DosingApp.Services
         {
             get { return collector; }
             set { SetProperty(ref collector, value); }
+        }
+
+        public CollectorModbus CollectorModbus
+        {
+            get { return collectorModbus; }
+            set { SetProperty(ref collectorModbus, value); }
         }
 
         public SingleDosScreen SingleDos
@@ -97,13 +115,13 @@ namespace DosingApp.Services
             set { SetProperty(ref isConnected, value); }
         }
 
-        public ushort TestRegister
-        {
-            get 
-            {
-                return registersCommon[numRegistersCommon-1];
-            }
-        }
+        //public ushort TestRegister
+        //{
+        //    get 
+        //    {
+        //        return registersCommon[numRegistersCommon-1];
+        //    }
+        //}
         #endregion Properties
 
         #region Methods
@@ -125,15 +143,17 @@ namespace DosingApp.Services
             //}
             //Console.WriteLine(Collectors[0].Valves.Count);
 
-            Collector = new CollectorScreen(2);
+            Collector = new CollectorScreen(1);
             SingleDos = new SingleDosScreen(1);
             Common = new CommonScreen();
+
+
         }
 
         public void MasterCreate()
         {
             tcpClient = new TcpClient();
-            tcpClient.Connect("192.168.1.234", 502);
+            tcpClient.Connect("192.168.3.5", 502);
             UpdateClientState();
 
             var factory = new ModbusFactory();
@@ -158,11 +178,32 @@ namespace DosingApp.Services
 
         public void MasterMessages()
         {
-            counter++;
+            //counter++;
+            //fCounter++;
+
             //UInt32 www = 0x42c80083;
-            modbusMaster.WriteSingleRegister(slaveId, startAddressCommon, counter);
-            registersCommon = modbusMaster.ReadHoldingRegisters(slaveId, startAddressCommon, numRegistersCommon);
-            Console.WriteLine($"{DateTime.Now}\tHR_{(startAddressCommon + numRegistersCommon - 1)} = {registersCommon[numRegistersCommon-1]}");
+            //modbusMaster.WriteSingleRegister(slaveId, startAddressCommon, counter);
+
+            //if (!BitConverter.IsLittleEndian)
+            //{
+            //    int bits = BitConverter.SingleToInt32Bits(fCounter);
+            //    int revBits = BinaryPrimitives.ReverseEndianness(bits);
+            //    fCounter = BitConverter.Int32BitsToSingle(revBits);
+            //}
+
+            //uint value32 = BitConverter.ToUInt32(BitConverter.GetBytes(fCounter), 0);
+            //modbusMaster.WriteSingleRegister32(slaveId, (ushort)(startAddressCommon + 1), value32);
+
+            //registersCommon = modbusMaster.ReadHoldingRegisters(slaveId, startAddressCommon, numRegistersCommon);
+            
+
+            //ushort tmpAddress = 16418;
+            //ushort[] tmpRegisters = modbusMaster.ReadHoldingRegisters(slaveId, tmpAddress, 2);
+            //float tmpValue = ModbusUtility.GetSingle(tmpRegisters[1], tmpRegisters[0]);
+
+            //Console.WriteLine($"{DateTime.Now}\tHR_{(tmpAddress)},{tmpAddress + 1} = {tmpValue}");
+
+            //;
 
             //for (int i = 0; i < numRegistersCommon; i++)
             //{
@@ -176,6 +217,66 @@ namespace DosingApp.Services
             Console.WriteLine($"TCP Client connected = {IsConnected}");
         }
 
+
+        public void SendMessage(OutgoingMessage outgoingMessage)
+        {
+            String outgoingMessageText = JsonConvert.SerializeObject(outgoingMessage, Formatting.Indented, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+            Console.WriteLine(outgoingMessageText);
+
+            Console.WriteLine(outgoingMessage.Collectors[0].ValveAdjustable.CommandClose);
+
+            ushort value = Convert.ToUInt16(outgoingMessage.Collectors[0].ValveAdjustable.CommandOpen);
+            //WriteSingleRegister(16600, value);
+
+            //outgoingMessageText = JsonConvert.SerializeObject(outgoingMessage, Formatting.Indented, new JsonSerializerSettings
+            //{
+            //    NullValueHandling = NullValueHandling.Ignore
+            //});
+            //Console.WriteLine(outgoingMessageText);
+            //client.Send(outgoingMessageText);
+
+            //outgoingMessageText = string.Empty;
+        }
+
+
+        public IModbusMaster GetModbusMaster()
+        {
+            return modbusMaster;
+        }
+
+        public void WriteSingleRegister(RegisterValue registerValue)
+        {
+            modbusMaster.WriteSingleRegister(slaveId, registerValue.Register, registerValue.Value);
+            Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister\tHR_{registerValue.Register} = {registerValue.Value}");
+        }
+
+        public void WriteSingleRegister32(RegisterValue32 registerValue)
+        {
+            modbusMaster.WriteSingleRegister32(slaveId, registerValue.Register, registerValue.Value);
+            Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister32\tHR_{registerValue.Register} = {registerValue.Value}");
+        }
+
+        public void CollectorValveAdjustableMessage(int collectorNumber, ValveAdjustable valveAdjustable)
+        {
+            var collectorModbus = new CollectorModbus();
+            collectorModbus.ValveAdjustableOpen((ushort)collectorNumber);
+
+
+            //var outgoingMessage = new OutgoingMessage()
+            //{
+            //    Collectors = new List<Collector> {new Collector
+            //    {
+            //        Number = collectorNumber,
+            //        ValveAdjustable = valveAdjustable
+            //    }}
+            //};
+            //SendMessage(outgoingMessage);
+
+            WriteSingleRegister(new CollectorModbus().ValveAdjustableOpen((ushort)collectorNumber));
+        }
         #endregion Methods
     }
 }

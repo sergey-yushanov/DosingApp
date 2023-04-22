@@ -25,6 +25,7 @@ namespace DosingApp.ViewModels
         private ObservableCollection<Applicator> applicators;
         private ObservableCollection<AgrYear> agrYears;
         private ObservableCollection<Field> fields;
+        private string place;
 
         private ObservableCollection<FacilityTank> sourceFacilityTanks;
         private ObservableCollection<FacilityTank> destFacilityTanks;
@@ -38,6 +39,7 @@ namespace DosingApp.ViewModels
         private bool destTypeVisibility;
         private bool agrYearVisibility;
         private bool fieldVisibility;
+        private bool placeVisibility;
         private bool sizeInfoVisibility;
         #endregion Attributes
 

@@ -47,7 +47,7 @@
                         FontSize="Medium"
                         Padding="0,10"/>
 
-                    <Label
+                    <!--<Label
                         Text="Откуда носитель смеси" 
                         TextColor="{StaticResource LabelEntryColor}"
                         IsVisible="{Binding SourceTypeVisibility}"/>
@@ -138,7 +138,7 @@
                         Text="{Binding AgrYear.Name}"
                         FontSize="Medium"
                         Padding="0,10"
-                        IsVisible="{Binding AgrYearVisibility}"/>
+                        IsVisible="{Binding AgrYearVisibility}"/>-->
 
                     <Label 
                         Text="Место обработки СЗР"

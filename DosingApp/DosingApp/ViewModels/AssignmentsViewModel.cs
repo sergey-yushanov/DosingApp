@@ -89,17 +89,8 @@ namespace DosingApp.ViewModels
             {
                 if (!assignmentViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название задания, выберите рецепт и введите норму вылива", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название задания, выберите рецепт, введите норму вылива и размер партии смеси", "Ok");
                     return;
-                }
-
-                if (assignmentViewModel.Size != null)
-                {
-                    if (String.IsNullOrEmpty(assignmentViewModel.Unit))
-                    {
-                        Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте ед. изм. размера задания", "Ok");
-                        return;
-                    }
                 }
 
                 using (AppDbContext db = App.GetContext())

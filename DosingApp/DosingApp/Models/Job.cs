@@ -69,6 +69,8 @@ namespace DosingApp.Models
         public int? FieldId { get; set; }
         public virtual Field Field { get; set; }
 
+        public string Place { get; set; }
+
         public double? PartyVolume { get; set; }
         public double? VolumeRate { get; set; }
 

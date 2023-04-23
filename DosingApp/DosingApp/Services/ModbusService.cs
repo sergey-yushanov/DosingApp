@@ -25,31 +25,10 @@ namespace DosingApp.Services
         private IModbusMaster modbusMaster;
         private bool isConnected;
 
-        //private ushort[] registersCommon;
-        //private ushort[,] registersCollector;
-        //private ushort[] registersSingleDos;
-
-        
-        //private ushort numRegistersCommon;
-        //private ushort numRegistersCollector;
-        //private ushort numRegistersSingleDos;
-
-        //private ushort startAddressCommon;
-        //private ushort startAddressCollector;
-        //private ushort startAddressSingleDos;
-
-        //private bool isConnected;
-
         private Mixer mixer;
         private CommonScreen common;
         private CollectorScreen collector;
         private SingleDosScreen singleDos;
-
-
-        private CollectorModbus collectorModbus;
-
-        //private ushort counter;
-        //private float fCounter;
         #endregion Attributes
 
         #region Constructor
@@ -61,20 +40,6 @@ namespace DosingApp.Services
                 CreateMixerControl(Mixer);
                 MasterCreate();
             }
-
-            //collectorModbus
-            
-            //numRegistersCommon = 24;
-            //numRegistersCollector = 20;
-            //numRegistersSingleDos = 10;
-
-            //startAddressCommon = 16384;
-            //startAddressCollector = 16384;
-            //startAddressSingleDos = 16384;
-
-            //registersCommon = new ushort[numRegistersCommon];
-            //counter = 0;
-            //fCounter = 0;
         }
         #endregion Constructor
 
@@ -89,12 +54,6 @@ namespace DosingApp.Services
         {
             get { return collector; }
             set { SetProperty(ref collector, value); }
-        }
-
-        public CollectorModbus CollectorModbus
-        {
-            get { return collectorModbus; }
-            set { SetProperty(ref collectorModbus, value); }
         }
 
         public SingleDosScreen SingleDos
@@ -114,14 +73,6 @@ namespace DosingApp.Services
             get { return isConnected; }
             set { SetProperty(ref isConnected, value); }
         }
-
-        //public ushort TestRegister
-        //{
-        //    get 
-        //    {
-        //        return registersCommon[numRegistersCommon-1];
-        //    }
-        //}
         #endregion Properties
 
         #region Methods
@@ -153,7 +104,7 @@ namespace DosingApp.Services
         public void MasterCreate()
         {
             tcpClient = new TcpClient();
-            tcpClient.Connect("192.168.3.5", 502);
+            tcpClient.Connect("192.168.1.234", 502);
             UpdateClientState();
 
             var factory = new ModbusFactory();
@@ -217,35 +168,10 @@ namespace DosingApp.Services
             Console.WriteLine($"TCP Client connected = {IsConnected}");
         }
 
-
-        public void SendMessage(OutgoingMessage outgoingMessage)
-        {
-            String outgoingMessageText = JsonConvert.SerializeObject(outgoingMessage, Formatting.Indented, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-            Console.WriteLine(outgoingMessageText);
-
-            Console.WriteLine(outgoingMessage.Collectors[0].ValveAdjustable.CommandClose);
-
-            ushort value = Convert.ToUInt16(outgoingMessage.Collectors[0].ValveAdjustable.CommandOpen);
-            //WriteSingleRegister(16600, value);
-
-            //outgoingMessageText = JsonConvert.SerializeObject(outgoingMessage, Formatting.Indented, new JsonSerializerSettings
-            //{
-            //    NullValueHandling = NullValueHandling.Ignore
-            //});
-            //Console.WriteLine(outgoingMessageText);
-            //client.Send(outgoingMessageText);
-
-            //outgoingMessageText = string.Empty;
-        }
-
-
-        public IModbusMaster GetModbusMaster()
-        {
-            return modbusMaster;
-        }
+        //public IModbusMaster GetModbusMaster()
+        //{
+        //    return modbusMaster;
+        //}
 
         public void WriteSingleRegister(RegisterValue registerValue)
         {
@@ -257,25 +183,6 @@ namespace DosingApp.Services
         {
             modbusMaster.WriteSingleRegister32(slaveId, registerValue.Register, registerValue.Value);
             Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister32\tHR_{registerValue.Register} = {registerValue.Value}");
-        }
-
-        public void CollectorValveAdjustableMessage(int collectorNumber, ValveAdjustable valveAdjustable)
-        {
-            var collectorModbus = new CollectorModbus();
-            collectorModbus.ValveAdjustableOpen((ushort)collectorNumber);
-
-
-            //var outgoingMessage = new OutgoingMessage()
-            //{
-            //    Collectors = new List<Collector> {new Collector
-            //    {
-            //        Number = collectorNumber,
-            //        ValveAdjustable = valveAdjustable
-            //    }}
-            //};
-            //SendMessage(outgoingMessage);
-
-            WriteSingleRegister(new CollectorModbus().ValveAdjustableOpen((ushort)collectorNumber));
         }
         #endregion Methods
     }

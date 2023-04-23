@@ -7,216 +7,109 @@ using System.Text;
 
 namespace DosingApp.Models.Modbus
 {
-    public class RegisterValue
+    public static class CollectorModbus
     {
-        public ushort Register { get; set; }
-        public ushort Value { get; set; }
-    }
-
-    public class RegisterValue32
-    {
-        public ushort Register { get; set; }
-        public uint Value { get; set; }
-    }
-
-    struct _union_bit_field_s
-    {
-        ushort bits;
-
-        public bool this[int i]
+        public class Record
         {
-            get
-            {
-                return (bits & (1 << i)) != 0;
-            }
-            set
-            {
-                if (value)
-                {
-                    bits |= (ushort)(1 << i);
-                }
-
-                else
-                {
-                    bits &= (ushort)~(1 << i);
-                }
-            }
-        }
-    }
-
-
-    [StructLayout(LayoutKind.Explicit)]
-    struct union_bit_field_s
-    {
-        [FieldOffset(0)]
-        public _union_bit_field_s s;
-        [FieldOffset(0)]
-        public ushort w;
-    }
-
-    //public struct CW
-    //{
-    //    public bool valveAdjustableOpen { get; set; }
-    //    public bool valveAdjustableClose { get; set; }
-    //    public bool valve1Open { get; set; }
-    //    public bool valve1Close { get; set; }
-    //    public bool valve2Open { get; set; }
-    //    public bool valve2Close { get; set; }
-    //    public bool valve3Open { get; set; }
-    //    public bool valve3Close { get; set; }
-    //    public bool valve4Open { get; set; }
-    //    public bool valve4Close { get; set; }
-    //}
-
-    //[StructLayout(LayoutKind.Explicit)]
-    //public struct ControlWord
-    //{
-    //    [FieldOffset(0)]
-    //    public CW cw;
-    //    [FieldOffset(0)]
-    //    public ushort register;
-    //}
-
-    public static class ColMod
-    {
-        private const ushort startAddressOffset = 16600;
-
-        private static ushort GetStartAddress(ushort number)
-        {
-            return (ushort)(startAddressOffset + 100 * (number - 1));
+            public Register Register { get; set; }
+            public ushort ReadValue { get; set; }
         }
 
-        private static ushort GetControlWordAddress(ushort number)
+        public static class Record32
         {
-            return GetStartAddress(number);
+            public static Register32 Register { get; set; }
+
+            public static float Value(uint value) { return Utils.SwapBytes(value); }
+            public static uint Value(float value) { return Utils.SwapBytes(value); }
         }
 
-        public static RegisterValue ValveAdjustableOpen(ushort number)
+        public enum ValveCommand
         {
-            var controlWord = new union_bit_field_s();
-            controlWord.s[0] = true;
-            return new RegisterValue() { Register = GetControlWordAddress(number), Value = controlWord.w };
+            OPN,
+            CLS
         }
 
-        public static RegisterValue ValveAdjustableClose(ushort number)
+        public enum ControlWord : ushort
         {
-            var controlWord = new union_bit_field_s();
-            controlWord.s[1] = true;
-            return new RegisterValue() { Register = GetControlWordAddress(number), Value = controlWord.w };
+            VADJ_MAN_OPN = (ushort)1,
+            VADJ_MAN_CLS = (ushort)2,
+            VLV_1_MAN_OPN = (ushort)4,
+            VLV_1_MAN_CLS = (ushort)8,
+            VLV_2_MAN_OPN = (ushort)16,
+            VLV_2_MAN_CLS = (ushort)32,
+            VLV_3_MAN_OPN = (ushort)64,
+            VLV_3_MAN_CLS = (ushort)128,
+            VLV_4_MAN_OPN = (ushort)256,
+            VLV_4_MAN_CLS = (ushort)512,
+            VOL_RST = (ushort)1024
         }
 
-        public static uint SwapBytes(uint x)
+        public enum StatusWord
         {
-            // swap adjacent 16-bit blocks
-            x = (x >> 16) | (x << 16);
-            // swap adjacent 8-bit blocks
-            return ((x & 0xFF00FF00) >> 8) | ((x & 0x00FF00FF) << 8);
+            VADJ_FAULTY,
+            VLV_1_FAULTY,
+            VLV_2_FAULTY,
+            VLV_3_FAULTY,
+            VLV_4_FAULTY
         }
 
-        public static RegisterValue32 ValveAdjustableSetpoint(ushort number, float setPoint)
+        public enum Register
         {
-            byte tmpByte;
-            byte[] bytes = BitConverter.GetBytes(setPoint);
+            CW = (ushort)0,
+            SW = (ushort)1,
+            ORDER = (ushort)8,
+            DOSE_ORDER = (ushort)9,
+            VLV_1_ORDER = (ushort)14,
+            VLV_2_ORDER = (ushort)19,
+            VLV_3_ORDER = (ushort)24
+        }
 
-            tmpByte = bytes[1];
-            bytes[1] = bytes[0];
-            bytes[0] = tmpByte;
+        public enum Register32
+        {
+            VOL = 2,
+            VOL_RATIO = 4,
+            FLOW = 6,
+            VADJ_SP = 10,
+            VADJ_POS = 12,
+            VLV_1_REQ_VOL = 15,
+            VLV_1_DOSE_VOL = 17,
+            VLV_2_REQ_VOL = 20,
+            VLV_2_DOSE_VOL = 22,
+            VLV_3_REQ_VOL = 25,
+            VLV_3_DOSE_VOL = 27
+        }
 
-            tmpByte = bytes[3];
-            bytes[3] = bytes[2];
-            bytes[2] = tmpByte;
-            
-            Array.Reverse(bytes, 0, bytes.Length);
-            uint num = BitConverter.ToUInt32(bytes, 0);
-            
-            return new RegisterValue32() { Register = (ushort)(GetStartAddress(number) + 10), Value = num };
+        private static ushort GetRegister(ushort number, Register register)
+        {
+            return (ushort)(Registers.Collectors[number-1] + register);
+        }
+
+        private static ushort GetRegister32(ushort number, Register32 register)
+        {
+
+            return (ushort)(Registers.Collectors[number-1] + register);
+        }
+
+        public static RegisterValue ValveCommand(ushort collectorNumber, ushort valveNumber)
+        {
+            return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VADJ_MAN_OPN };
+        }
+
+        public static RegisterValue ValveAdjustableOpen(ushort collectorNumber)
+        {
+            return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VADJ_MAN_OPN };
+        }
+
+        public static RegisterValue ValveAdjustableClose(ushort collectorNumber)
+        {
+            return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VADJ_MAN_CLS };
+        }
+
+
+
+        public static RegisterValue32 ValveAdjustableSetpoint(ushort collectorNumber, float setPoint)
+        {
+            return new RegisterValue32() { Register = GetRegister32(collectorNumber, Register32.VADJ_SP), Value = Record32.Value(setPoint) };
         }
     }
-
-    public class CollectorModbus
-    {
-        private const ushort nValves = 3;
-        private const ushort startAddressOffset = 16600;
-        
-        //public ushort Number { get; set; }
-        //public ushort StartAddress { get; set; }
-
-        //private union_bit_field_s controlWord { get; set; }
-
-        //public ushort StatusWord { get; set; }
-        //public float Volume { get; set; }
-        //public float VolumeRatio { get; set; }
-        //public float Flow { get; set; }
-        //public ushort Order { get; set; }
-        //public ushort DoseOrder { get; set; }
-        //public float SetPoint { get; set; }
-        //public float Position { get; set; }
-
-        //public ValveModbus[] Valves { get; set; }
-
-        //public CollectorModbus(ushort number)
-        //{
-        //    //controlWord = new union_bit_field_s();
-
-        //    //controlWord = new ControlWord();
-
-        //    // todo: добавить проверку правильности количества коллекторов
-        //    this.Number = number;
-        //    //this.StartAddress = (ushort)(this.startAddressOffset + 100 * (this.Number - 1));
-
-        //}
-
-
-
-        private ushort GetStartAddress(ushort number)
-        {
-            return (ushort)(startAddressOffset + 100 * (number - 1));
-        }
-
-        public ushort GetControlWordAddress(ushort number)
-        {
-            return this.GetStartAddress(number);
-        }
-
-        //public RegisterValue GetValue()
-        //{
-
-        //}
-
-        public RegisterValue ValveAdjustableOpen(ushort number)
-        {
-            var controlWord = new union_bit_field_s();
-            controlWord.s[0] = true;
-            return new RegisterValue() { Register = GetControlWordAddress(number), Value = controlWord.w };
-        }
-
-        public RegisterValue ValveAdjustableClose(ushort number)
-        {
-            var controlWord = new union_bit_field_s();
-            controlWord.s[1] = true;
-            return new RegisterValue() { Register = GetControlWordAddress(number), Value = controlWord.w };
-        }
-
-
-        //public void ValveAdjustableOpen(byte slaveId, IModbusMaster modbusMaster)
-        //{
-        //    this.WriteControlWord(slaveId, modbusMaster, GetStartAddress(), 1);
-        //}
-
-        //public void ValveAdjustableClose(byte slaveId, IModbusMaster modbusMaster)
-        //{
-        //    this.WriteControlWord(slaveId, modbusMaster, GetStartAddress(), 2);
-        //}
-
-        //public void WriteSingleRegister(byte slaveId, IModbusMaster modbusMaster, ushort startAddress, ushort value)
-        //{
-        //    modbusMaster.WriteSingleRegister(slaveId, startAddress, value);
-        //    Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister\tHR_{GetStartAddress()} = {value}");
-        //}
-
-
-
-    }
-
-
 }

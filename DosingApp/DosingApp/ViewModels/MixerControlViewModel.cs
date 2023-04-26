@@ -427,17 +427,19 @@ namespace DosingApp.ViewModels
         {
             ValveScreen valveScreen = valveInstance as ValveScreen;
             //WebSocketService.CollectorValveMessage(1, new Valve { Number = valveScreen.Number, CommandOpen = true });
+            ModbusService.WriteSingleRegister(CollectorModbus.ValveOpen(1, (ushort)valveScreen.Number));
         }
 
         private void CollectorValveClose(object valveInstance)
         {
             ValveScreen valveScreen = valveInstance as ValveScreen;
             //WebSocketService.CollectorValveMessage(1, new Valve { Number = valveScreen.Number, CommandClose = true });
+            ModbusService.WriteSingleRegister(CollectorModbus.ValveClose(1, (ushort)valveScreen.Number));
         }
 
         private void CollectorValveAdjustableOpen(object valveAdjustableInstance)
         {
-            //ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             //WebSocketService.CollectorValveAdjustableMessage(1, new ValveAdjustable { CommandOpen = true });
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableOpen(1));
         }

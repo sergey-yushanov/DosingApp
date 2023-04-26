@@ -46,7 +46,7 @@ namespace DosingApp.ViewModels
         private bool isPause;
 
         //
-        private ushort testRegister;
+        //private ushort testRegister;
 
         public ICommand StartJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }

@@ -260,38 +260,38 @@
                             </Grid.ColumnDefinitions>
 
                             <Label
-                            Text="{Binding Collector.ValveAdjustable.Name}"
-                            FontSize="Medium"
-                            TextColor="{Binding Collector.ValveAdjustable.Faulty, Converter={StaticResource ColorConverter}, ConverterParameter='Faulty'}"
-                            VerticalOptions="Center"
-                            HorizontalOptions="StartAndExpand"/>
+                                Text="{Binding Collector.ValveAdjustable.Name}"
+                                FontSize="Medium"
+                                TextColor="{Binding Collector.ValveAdjustable.Faulty, Converter={StaticResource ColorConverter}, ConverterParameter='Faulty'}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="StartAndExpand"/>
                             <Entry
-                            Grid.Column="1"
-                            Text="{Binding Collector.ValveAdjustable.Setpoint, Converter={StaticResource DoubleConverter}}"
-                            FontSize="Medium"
-                            Keyboard="Numeric"
-                            VerticalOptions="Center"
-                            HorizontalOptions="FillAndExpand"
-                            HorizontalTextAlignment="End"
-                            IsFocused="{Binding Collector.ValveAdjustable.IsSetpointFocused}"
-                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableSetpointCommand}"
-                            ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
+                                Grid.Column="1"
+                                Text="{Binding Collector.ValveAdjustable.Setpoint, Converter={StaticResource DoubleConverter}}"
+                                FontSize="Medium"
+                                Keyboard="Numeric"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                HorizontalTextAlignment="End"
+                                IsFocused="{Binding Collector.ValveAdjustable.IsSetpointFocused}"
+                                ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableSetpointCommand}"
+                                ReturnCommandParameter="{Binding Collector.ValveAdjustable}"/>
                             <Label
-                            Grid.Column="3"
-                            Text="{Binding Collector.ValveAdjustable.Position}"
-                            FontSize="Medium"
-                            VerticalOptions="Center"
-                            HorizontalOptions="EndAndExpand"/>
+                                Grid.Column="3"
+                                Text="{Binding Collector.ValveAdjustable.Position}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
                             <Button
-                            Grid.Column="5"
-                            Text="Открыть"
-                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableOpenCommand}"
-                            CommandParameter="{Binding Collector.ValveAdjustable}"/>
+                                Grid.Column="5"
+                                Text="Открыть"
+                                Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableOpenCommand}"
+                                CommandParameter="{Binding Collector.ValveAdjustable}"/>
                             <Button
-                            Grid.Column="6"
-                            Text="Закрыть"
-                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableCloseCommand}"
-                            CommandParameter="{Binding Collector.ValveAdjustable}"/>
+                                Grid.Column="6"
+                                Text="Закрыть"
+                                Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorValveAdjustableCloseCommand}"
+                                CommandParameter="{Binding Collector.ValveAdjustable}"/>
                         </Grid>
                     </StackLayout>
 

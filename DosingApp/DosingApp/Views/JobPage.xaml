@@ -167,10 +167,10 @@
                         Padding="0,10"/>
 
                     <Label 
-                        Text="Требуемый размер партии смеси (корректировка), л"
+                        Text="Иной размер партии смеси (корректировка), л"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
-                        Placeholder="Введите размер партии"
+                        Placeholder="При необходимости укажите новый размер партии смеси"
                         Text="{Binding PartyVolume, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
 

@@ -681,7 +681,8 @@ namespace DosingApp.ViewModels
             // Size и Volume в Сделать смесь становятся одним и тем же
             // Связано это с отказом задания в других ед. измерения, отличных от литров
             //Job.PartySize = Job.AssignmentSize;
-            Job.PartyVolume = Job.AssignmentSize;
+            //Job.PartyVolume = Job.AssignmentSize;
+            Job.PartyVolume = null;
 
             //SizeInfoVisibility = Job.AssignmentSize != null;
 
@@ -801,7 +802,16 @@ namespace DosingApp.ViewModels
 
         public double? GetPartySquare()
         {
-            return (Job.VolumeRate != 0 && Job.PartyVolume != null && Job.VolumeRate != null) ? (Job.PartyVolume / Job.VolumeRate) : 0.0;
+            double? tmpVolume;
+            if (Job.PartyVolume == null)
+            {
+                tmpVolume = Job.AssignmentSize;
+            }
+            else
+            {
+                tmpVolume = Job.PartyVolume;
+            }
+            return (Job.VolumeRate != 0 && tmpVolume != null && Job.VolumeRate != null) ? (tmpVolume / Job.VolumeRate) : 0.0;
         }
 
         private int? GetPartyCount()

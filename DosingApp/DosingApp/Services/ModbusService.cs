@@ -13,6 +13,7 @@ using NModbus.Utility;
 using DosingApp.Models.Modbus;
 using DosingApp.Models.WebSocket;
 using Newtonsoft.Json;
+using Xamarin.Forms;
 
 namespace DosingApp.Services
 {
@@ -20,6 +21,7 @@ namespace DosingApp.Services
     {
         #region Attributes
         private const byte slaveId = 1;
+        private const string url = "192.168.1.234";
 
         private TcpClient tcpClient;
         private IModbusMaster modbusMaster;
@@ -27,8 +29,10 @@ namespace DosingApp.Services
 
         private Mixer mixer;
         private CommonScreen common;
-        private CollectorScreen collector;
-        private SingleDosScreen singleDos;
+        private CollectorScreen collector1;
+        private CollectorScreen collector2;
+        //private SingleDosScreen singleDos;
+        private VolumeDosScreen volumeDos;
         #endregion Attributes
 
         #region Constructor
@@ -50,16 +54,28 @@ namespace DosingApp.Services
             set { SetProperty(ref mixer, value); }
         }
 
-        public CollectorScreen Collector
+        public CollectorScreen Collector1
         {
-            get { return collector; }
-            set { SetProperty(ref collector, value); }
+            get { return collector1; }
+            set { SetProperty(ref collector1, value); }
         }
 
-        public SingleDosScreen SingleDos
+        public CollectorScreen Collector2
         {
-            get { return singleDos; }
-            set { SetProperty(ref singleDos, value); }
+            get { return collector2; }
+            set { SetProperty(ref collector2, value); }
+        }
+
+        //public SingleDosScreen SingleDos
+        //{
+        //    get { return singleDos; }
+        //    set { SetProperty(ref singleDos, value); }
+        //}
+
+        public VolumeDosScreen VolumeDos
+        {
+            get { return volumeDos; }
+            set { SetProperty(ref volumeDos, value); }
         }
 
         public CommonScreen Common
@@ -94,17 +110,24 @@ namespace DosingApp.Services
             //}
             //Console.WriteLine(Collectors[0].Valves.Count);
 
-            Collector = new CollectorScreen(1);
-            SingleDos = new SingleDosScreen(1);
             Common = new CommonScreen();
-
-
+            Collector1 = new CollectorScreen(1);
+            Collector2 = new CollectorScreen(2);
+            VolumeDos = new VolumeDosScreen(1);
         }
 
         public void MasterCreate()
         {
             tcpClient = new TcpClient();
-            tcpClient.Connect("192.168.1.234", 502);
+            try
+            {
+                tcpClient.Connect(url, 502);
+            }
+            catch (Exception ex)
+            {
+                //Application.Current.MainPage.DisplayAlert("Предупреждение", "Не удалось установить связь с ПЛК\nАдрес " + url + " не доступен", "Ok");
+                //return;
+            }
             UpdateClientState();
 
             var factory = new ModbusFactory();
@@ -168,19 +191,16 @@ namespace DosingApp.Services
             Console.WriteLine($"TCP Client connected = {IsConnected}");
         }
 
-        //public IModbusMaster GetModbusMaster()
-        //{
-        //    return modbusMaster;
-        //}
-
         public void WriteSingleRegister(RegisterValue registerValue)
         {
+            if (!IsConnected) return;
             modbusMaster.WriteSingleRegister(slaveId, registerValue.Register, registerValue.Value);
             Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister\tHR_{registerValue.Register} = {registerValue.Value}");
         }
 
         public void WriteSingleRegister32(RegisterValue32 registerValue)
         {
+            if (!IsConnected) return;
             modbusMaster.WriteSingleRegister32(slaveId, registerValue.Register, registerValue.Value);
             Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister32\tHR_{registerValue.Register} = {registerValue.Value}");
         }

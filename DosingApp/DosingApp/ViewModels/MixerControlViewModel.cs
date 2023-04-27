@@ -266,25 +266,29 @@ namespace DosingApp.ViewModels
         //    set { SetProperty(ref webSocketService, value); }
         //}
 
-        public CollectorScreen Collector
+        public CollectorScreen Collector1
         {
-            //get { return WebSocketService.Collector; }
-            get { return ModbusService.Collector; }
-//            set { SetProperty(ref WebSocketService.Collector, value); }
+            get { return ModbusService.Collector1; }
+        }
+
+        public CollectorScreen Collector2
+        {
+            get { return ModbusService.Collector2; }
         }
 
         public CommonScreen Common
         {
-            //get { return WebSocketService.Common; }
             get { return  ModbusService.Common; }
-//            set { SetProperty(ref common, value); }
         }
 
-        public SingleDosScreen SingleDos
+        //public SingleDosScreen SingleDos
+        //{
+        //    get { return  ModbusService.SingleDos; }
+        //}
+
+        public VolumeDosScreen volumeDos
         {
-            //get { return WebSocketService.SingleDos; }
-            get { return  ModbusService.SingleDos; }
-            //            set { SetProperty(ref common, value); }
+            get { return ModbusService.VolumeDos; }
         }
 
         //public int CollectorNumber

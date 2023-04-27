@@ -8,7 +8,7 @@ namespace DosingApp.Models.Screen
 {
     public class CollectorScreen : BaseViewModel
     {
-        private const int nValves = 3;  // в коллекторе 3 клапана on/off
+        private const int nValves = 4;  // в коллекторе 4 клапана on/off
 
         public int Number { get; set; }
         public ObservableCollection<ValveScreen> Valves { get; set; }

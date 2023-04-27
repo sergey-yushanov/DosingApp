@@ -166,22 +166,42 @@ namespace DosingApp.ViewModels
         //    }
         //}
 
-        public CollectorScreen Collector
+        public CollectorScreen Collector1
         {
             get 
             {
                 //UpdateJobComponents();
-                return ModbusService.Collector;
+                return ModbusService.Collector1;
                 //return WebSocketService.Collector;
             }
         }
 
-        public SingleDosScreen SingleDos
+        public CollectorScreen Collector2
         {
             get
             {
                 //UpdateJobComponents();
-                return ModbusService.SingleDos;
+                return ModbusService.Collector2;
+                //return WebSocketService.Collector;
+            }
+        }
+
+        //public SingleDosScreen SingleDos
+        //{
+        //    get
+        //    {
+        //        //UpdateJobComponents();
+        //        return ModbusService.SingleDos;
+        //        //return WebSocketService.SingleDos;
+        //    }
+        //}
+
+        public VolumeDosScreen VolumeDos
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.VolumeDos;
                 //return WebSocketService.SingleDos;
             }
         }

@@ -55,7 +55,20 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public int? Single
+        //public int? Single
+        //{
+        //    get { return Mixer.Single; }
+        //    set
+        //    {
+        //        if (Mixer.Single != value)
+        //        {
+        //            Mixer.Single = value;
+        //            OnPropertyChanged(nameof(Single));
+        //        }
+        //    }
+        //}
+
+        public int? Volume
         {
             get { return Mixer.Single; }
             set

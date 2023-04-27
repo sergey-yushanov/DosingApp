@@ -63,6 +63,9 @@
     <Compile Update="Views\JobComponentsPage.xaml.cs">
       <DependentUpon>JobComponentsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\ManualControlPage.xaml.cs">
+      <DependentUpon>ManualControlPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MixerControlPage.xaml.cs">
       <DependentUpon>MixerControlPage.xaml</DependentUpon>
     </Compile>

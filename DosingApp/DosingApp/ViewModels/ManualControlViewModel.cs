@@ -51,6 +51,16 @@ namespace DosingApp.ViewModels
 
         public ICommand VolumeDosValveOpenCommand { get; protected set; }
         public ICommand VolumeDosValveCloseCommand { get; protected set; }
+
+        public ICommand CarrierResetCommand { get; protected set; }
+        public ICommand Collector1ResetCommand { get; protected set; }
+        public ICommand Collector2ResetCommand { get; protected set; }
+        public ICommand VolumeDosResetCommand { get; protected set; }
+
+        private string carrierInfo;
+        private string collector1Info;
+        private string collector2Info;
+        private string volumeDosInfo;
         #endregion Attributes
 
         #region Constructor
@@ -84,6 +94,11 @@ namespace DosingApp.ViewModels
 
                 VolumeDosValveOpenCommand = new Command(VolumeDosValveOpen);
                 VolumeDosValveCloseCommand = new Command(VolumeDosValveClose);
+
+                CarrierResetCommand = new Command(CarrierReset);
+                Collector1ResetCommand = new Command(Collector1Reset);
+                Collector2ResetCommand = new Command(Collector2Reset);
+                VolumeDosResetCommand = new Command(VolumeDosReset);
             }
         }
         #endregion Constructor
@@ -118,6 +133,31 @@ namespace DosingApp.ViewModels
         public VolumeDosScreen VolumeDos
         {
             get { return ModbusService.VolumeDos; }
+        }
+
+
+        public string CarrierInfo
+        {
+            get { return carrierInfo; }
+            set { SetProperty(ref carrierInfo, value); }
+        }
+
+        public string Collector1Info
+        {
+            get { return collector1Info; }
+            set { SetProperty(ref collector1Info, value); }
+        }
+
+        public string Collector2Info
+        {
+            get { return collector2Info; }
+            set { SetProperty(ref collector2Info, value); }
+        }
+
+        public string VolumeDosInfo
+        {
+            get { return volumeDosInfo; }
+            set { SetProperty(ref volumeDosInfo, value); }
         }
 
         //public int CollectorNumber
@@ -235,7 +275,6 @@ namespace DosingApp.ViewModels
             ModbusService.WriteSingleRegister(CollectorModbus.ValveClose(1, (ushort)valveScreen.Number));
         }
 
-
         private void Collector2ValveAdjustableOpen(object valveAdjustableInstance)
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
@@ -260,19 +299,47 @@ namespace DosingApp.ViewModels
             ModbusService.WriteSingleRegister(CollectorModbus.ValveClose(2, (ushort)valveScreen.Number));
         }
 
-        private void VolumeDosValveOpen(object valveInstance)
+        private void VolumeDosValveOpen()
         {
             ModbusService.WriteSingleRegister(VolumeDosModbus.ValveOpen(1));
         }
 
-        private void VolumeDosValveClose(object valveInstance)
+        private void VolumeDosValveClose()
         {
             ModbusService.WriteSingleRegister(VolumeDosModbus.ValveClose(1));
+        }
+
+        private void CarrierReset()
+        {
+            ModbusService.WriteSingleRegister(CommonModbus.VolumeReset());
+        }
+
+        private void Collector1Reset()
+        {
+            ModbusService.WriteSingleRegister(CollectorModbus.VolumeReset(1));
+        }
+
+        private void Collector2Reset()
+        {
+            ModbusService.WriteSingleRegister(CollectorModbus.VolumeReset(2));
+        }
+
+        private void VolumeDosReset()
+        {
+            ModbusService.WriteSingleRegister(VolumeDosModbus.VolumeReset(1));
         }
         #endregion Commands
 
         #region Methods
+        public void Update()
+        {
+            ModbusService.MasterMessages();
 
+            CarrierInfo = Common.Flowmeter.Volume.ToString("N2") + " л  ";
+            Collector1Info = Collector1.Flowmeter.Volume.ToString("N2") + " л  ";
+            Collector2Info = Collector2.Flowmeter.Volume.ToString("N2") + " л  ";
+            VolumeDosInfo = VolumeDos.Flowmeter.Volume.ToString("N2") + " л  ";
+        }
         #endregion Methods
     }
 }

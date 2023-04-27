@@ -3,33 +3,55 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.ManualControlPage"
-             x:Name="ManualControl">
+             x:Name="ManualControl"
+             Title="Ручное управление">
 
     <ContentPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+        <x:Int32 x:Key="Dec2">2</x:Int32>
+        <x:Int32 x:Key="Dec3">3</x:Int32>
         <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
         <Helpers:ColorConverter x:Key="ColorConverter"/>
     </ContentPage.Resources>
     
     <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal">
-            <Label 
-                Text="{Binding Title}"
-                HorizontalOptions="StartAndExpand"
-                VerticalOptions="CenterAndExpand"
-                FontSize="17.5"
-                FontAttributes="Bold"
-                FontFamily="sans-serif-light"
-                TextColor="{StaticResource TitleColor}"/>
-            <Image
-                Source="wifi_on_48px"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="End"
-                IsVisible="{Binding ModbusService.IsConnected}"/>
-            <Image
-                Source="wifi_off_48px"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="End"
-                IsVisible="{Binding ModbusService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
+        <StackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+
+                <Label 
+                    Text="{Binding Title}"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    FontFamily="sans-serif-light"
+                    TextColor="{StaticResource TitleColor}"/>
+                <Image
+                    Grid.Column="1"
+                    Source="wifi_on_48px"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    IsVisible="{Binding ModbusService.IsConnected}"/>
+                <Image
+                    Grid.Column="1"
+                    Source="wifi_off_48px"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    IsVisible="{Binding ModbusService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
+
+                <Button
+                    Grid.Column="2"
+                    Text="Ack"
+                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.AckCommand}"/>
+            </Grid>
         </StackLayout>
     </NavigationPage.TitleView>
 
@@ -52,9 +74,10 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
@@ -74,7 +97,7 @@
 
                         <Label 
                             Grid.Row="1"
-                            Text="Клапан"
+                            Text="Кл"
                             FontSize="Medium"
                             VerticalOptions="Center"/>
                         <Button
@@ -87,6 +110,19 @@
                             Grid.Column="2"
                             Text="Закрыть"
                             Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierValveCloseCommand}"/>
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            Text="{Binding CarrierInfo}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="5"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierResetCommand}"/>
                     </Grid>
                 </StackLayout>
 
@@ -111,9 +147,10 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="3*" />
                                     <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="3*" />
                                     <ColumnDefinition Width="3*" />
                                 </Grid.ColumnDefinitions>
@@ -143,9 +180,10 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
@@ -166,6 +204,17 @@
                             Text="Закрыть"
                             Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveAdjustableCloseCommand}"
                             CommandParameter="{Binding Collector1.ValveAdjustable}"/>
+
+                        <Label
+                            Grid.Column="4"
+                            Text="{Binding Collector1Info}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Column="5"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ResetCommand}"/>
                     </Grid>
                 </StackLayout>
 
@@ -191,9 +240,10 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="3*" />
                                     <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="3*" />
                                     <ColumnDefinition Width="3*" />
                                 </Grid.ColumnDefinitions>
@@ -223,9 +273,10 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
@@ -246,6 +297,17 @@
                             Text="Закрыть"
                             Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveAdjustableCloseCommand}"
                             CommandParameter="{Binding Collector2.ValveAdjustable}"/>
+
+                        <Label
+                            Grid.Column="4"
+                            Text="{Binding Collector2Info}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Column="5"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ResetCommand}"/>
                     </Grid>
                 </StackLayout>
 
@@ -268,15 +330,16 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
 
                         <Label 
-                            Text="Клапан"
+                            Text="Кл"
                             FontSize="Medium"
                             VerticalOptions="Center"/>
                         <Button
@@ -287,6 +350,17 @@
                             Grid.Column="2"
                             Text="Закрыть"
                             Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosValveCloseCommand}"/>
+
+                        <Label
+                            Grid.Column="4"
+                            Text="{Binding VolumeDosInfo}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Column="5"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosResetCommand}"/>
                     </Grid>
                 </StackLayout>
                 

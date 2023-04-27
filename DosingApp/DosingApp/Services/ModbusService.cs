@@ -129,6 +129,7 @@ namespace DosingApp.Services
                 //return;
             }
             UpdateClientState();
+            Console.WriteLine($"TCP Client connected = {IsConnected}");
 
             var factory = new ModbusFactory();
             modbusMaster = factory.CreateMaster(tcpClient);
@@ -148,10 +149,13 @@ namespace DosingApp.Services
                 //tcpClient = null;
             }
             UpdateClientState();
+            Console.WriteLine($"TCP Client connected = {IsConnected}");
         }
 
         public void MasterMessages()
         {
+            UpdateClientState();
+
             Common.Update(ReadRegisters(Registers.Common, CommonModbus.numberOfPoints));
             Collector1.Update(ReadRegisters(Registers.Collectors[0], CollectorModbus.numberOfPoints));
             Collector2.Update(ReadRegisters(Registers.Collectors[1], CollectorModbus.numberOfPoints));
@@ -161,7 +165,6 @@ namespace DosingApp.Services
         private void UpdateClientState()
         {
             IsConnected = tcpClient.Connected;
-            Console.WriteLine($"TCP Client connected = {IsConnected}");
         }
 
         public void WriteSingleRegister(RegisterValue registerValue)

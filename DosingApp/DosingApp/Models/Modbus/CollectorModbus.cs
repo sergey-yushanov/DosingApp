@@ -9,6 +9,10 @@ namespace DosingApp.Models.Modbus
 {
     public static class CollectorModbus
     {
+        public static ushort numberOfPoints = 29;
+        public static ushort numberOfFloats = 11;
+        public static ushort floatOffset = 7;
+
         public class Record
         {
             public Register Register { get; set; }
@@ -57,26 +61,26 @@ namespace DosingApp.Models.Modbus
         {
             CW = (ushort)0,
             SW = (ushort)1,
-            ORDER = (ushort)8,
-            DOSE_ORDER = (ushort)9,
-            VLV_1_ORDER = (ushort)14,
-            VLV_2_ORDER = (ushort)19,
-            VLV_3_ORDER = (ushort)24
+            ORDER = (ushort)2,
+            DOSE_ORDER = (ushort)3,
+            VLV_1_ORDER = (ushort)4,
+            VLV_2_ORDER = (ushort)5,
+            VLV_3_ORDER = (ushort)6
         }
 
         public enum Register32
         {
-            VOL = 2,
-            VOL_RATIO = 4,
-            FLOW = 6,
-            VADJ_SP = 10,
-            VADJ_POS = 12,
-            VLV_1_REQ_VOL = 15,
-            VLV_1_DOSE_VOL = 17,
-            VLV_2_REQ_VOL = 20,
-            VLV_2_DOSE_VOL = 22,
-            VLV_3_REQ_VOL = 25,
-            VLV_3_DOSE_VOL = 27
+            VOL = (ushort)7,
+            VOL_RATIO = (ushort)9,
+            FLOW = (ushort)11,
+            VADJ_SP = (ushort)13,
+            VADJ_POS = (ushort)15,
+            VLV_1_REQ_VOL = (ushort)17,
+            VLV_1_DOSE_VOL = (ushort)19,
+            VLV_2_REQ_VOL = (ushort)21,
+            VLV_2_DOSE_VOL = (ushort)23,
+            VLV_3_REQ_VOL = (ushort)25,
+            VLV_3_DOSE_VOL = (ushort)27
         }
 
         private static ushort GetRegister(ushort number, Register register)

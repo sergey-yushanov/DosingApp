@@ -71,6 +71,12 @@ namespace DosingApp.Models.Screen
             }
         }
 
+        public void Update(float setPoint, float position)
+        {
+            Setpoint = setPoint;
+            Position = position;
+        }
+
         //public void InitNew(ValveAdjustable valveAdjustable, bool ShowSettings)
         //{
         //    SetpointNew = valveAdjustable.Setpoint;

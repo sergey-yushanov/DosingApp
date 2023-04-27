@@ -71,5 +71,33 @@ namespace DosingApp.Models.Screen
             //OnPropertyChanged(nameof(JobComponentScreens));
         }
 
+        public void Update(CommonScreen commonScreen, CollectorScreen collectorScreen1, CollectorScreen collectorScreen2, VolumeDosScreen volumeDosScreen)
+        {
+            DosedVolume = 0;
+
+            List<CollectorScreen> collectors = new List<CollectorScreen>();
+            collectors.Add(collectorScreen1);
+            collectors.Add(collectorScreen2);
+
+            for (int i = 0; i < JobComponentScreens.Count; i++)
+            {
+                JobComponentScreens[i].Update(commonScreen, collectors, volumeDosScreen);
+                DosedVolume += (double?)JobComponentScreens[i].DosedVolume;
+
+                //Console.Write(JobComponentScreens[i].Dispenser + ": ");
+                //Console.WriteLine((double?)JobComponentScreens[i].DosedVolume);
+            }
+
+            ProgressBarValue = DosedVolume / RequiredVolume;
+
+            //for (int i = 0; i < JobComponentScreens.Count; i++)
+            //{
+            //    Console.WriteLine(JobComponentScreens[i].DosedVolume);
+            //}
+            //Console.WriteLine("=========");
+
+            //OnPropertyChanged(nameof(JobComponentScreens));
+        }
+
     }
 }

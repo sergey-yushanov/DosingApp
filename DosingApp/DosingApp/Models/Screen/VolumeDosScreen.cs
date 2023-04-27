@@ -3,6 +3,7 @@ using DosingApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
+using DosingApp.Models.Modbus;
 
 namespace DosingApp.Models.Screen
 {
@@ -34,6 +35,17 @@ namespace DosingApp.Models.Screen
 
             DosedVolume = volumeDos.Loop.DosedVolume;
             RequiredVolume = volumeDos.Loop.RequiredVolume;
+        }
+
+        public void Update(ushort[] registers)
+        {
+            float flow = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.FLOW));
+            float volume = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.VOL));
+            float pulsesPerLiter = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.VOL_RATIO));
+            Flowmeter.Update(flow, volume, pulsesPerLiter);
+
+            DosedVolume = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.DOSE_VOL));
+            RequiredVolume = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.REQ_VOL));
         }
 
         //public void InitNew(Collector collector, bool showSettings)

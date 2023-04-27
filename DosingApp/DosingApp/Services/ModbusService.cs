@@ -152,37 +152,10 @@ namespace DosingApp.Services
 
         public void MasterMessages()
         {
-            //counter++;
-            //fCounter++;
-
-            //UInt32 www = 0x42c80083;
-            //modbusMaster.WriteSingleRegister(slaveId, startAddressCommon, counter);
-
-            //if (!BitConverter.IsLittleEndian)
-            //{
-            //    int bits = BitConverter.SingleToInt32Bits(fCounter);
-            //    int revBits = BinaryPrimitives.ReverseEndianness(bits);
-            //    fCounter = BitConverter.Int32BitsToSingle(revBits);
-            //}
-
-            //uint value32 = BitConverter.ToUInt32(BitConverter.GetBytes(fCounter), 0);
-            //modbusMaster.WriteSingleRegister32(slaveId, (ushort)(startAddressCommon + 1), value32);
-
-            //registersCommon = modbusMaster.ReadHoldingRegisters(slaveId, startAddressCommon, numRegistersCommon);
-            
-
-            //ushort tmpAddress = 16418;
-            //ushort[] tmpRegisters = modbusMaster.ReadHoldingRegisters(slaveId, tmpAddress, 2);
-            //float tmpValue = ModbusUtility.GetSingle(tmpRegisters[1], tmpRegisters[0]);
-
-            //Console.WriteLine($"{DateTime.Now}\tHR_{(tmpAddress)},{tmpAddress + 1} = {tmpValue}");
-
-            //;
-
-            //for (int i = 0; i < numRegistersCommon; i++)
-            //{
-            //    Console.WriteLine($"HoldingRegisters {(startAddressCommon + i)}={registers[i]}");
-            //}
+            Common.Update(ReadRegisters(Registers.Common, CommonModbus.numberOfPoints));
+            Collector1.Update(ReadRegisters(Registers.Collectors[0], CollectorModbus.numberOfPoints));
+            Collector2.Update(ReadRegisters(Registers.Collectors[1], CollectorModbus.numberOfPoints));
+            VolumeDos.Update(ReadRegisters(Registers.VolumeDoses[0], VolumeDosModbus.numberOfPoints));
         }
 
         private void UpdateClientState()
@@ -203,6 +176,27 @@ namespace DosingApp.Services
             if (!IsConnected) return;
             modbusMaster.WriteSingleRegister32(slaveId, registerValue.Register, registerValue.Value);
             Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister32\tHR_{registerValue.Register} = {registerValue.Value}");
+        }
+
+        public ushort[] ReadRegisters(ushort startAddress, ushort numberOfPoints)
+        {
+            return modbusMaster.ReadHoldingRegisters(slaveId, startAddress, numberOfPoints);
+        }
+
+        public uint[] ReadRegisters32(int startAddress, int numberOfPoints)
+        {
+            ushort[] registers;
+            int numberOfFloats = numberOfPoints / 2;
+            uint[] registers32 = new uint[numberOfFloats];
+
+            registers = modbusMaster.ReadHoldingRegisters(slaveId, (ushort)startAddress, (ushort)numberOfPoints);
+
+            for(int i = 0, j = 0; i < numberOfPoints; i += 2, j++)
+            {
+                registers32[j] = (uint)((registers[i] << 16) | registers[i + 1]);
+            }
+
+            return registers32;
         }
         #endregion Methods
     }

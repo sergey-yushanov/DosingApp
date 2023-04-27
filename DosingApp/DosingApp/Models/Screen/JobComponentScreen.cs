@@ -1,6 +1,7 @@
 ﻿using DosingApp.Models.WebSocket;
 using DosingApp.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -109,6 +110,33 @@ namespace DosingApp.Models.Screen
             if (Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
             {
                 DosedVolume = singleDos.DosedVolume;
+            }
+
+            DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);
+        }
+
+        public void Update(CommonScreen common, List<CollectorScreen> collectors, VolumeDosScreen volumeDos)
+        {
+            if (Dispenser == DispenserSuffix.Dry)
+            {
+                DosedVolume = 0;
+                return;
+            }
+
+            if (Dispenser == DispenserSuffix.Carrier)
+            {
+                DosedVolume = (double?)common.CarrierDosedVolume;
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
+            {
+                int collectorIndex = (int)Char.GetNumericValue(Dispenser[0]) - 1;
+                DosedVolume = collectors[collectorIndex].DosedVolumes[GetDispenserNumber() - 1];
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
+            {
+                DosedVolume = volumeDos.DosedVolume;
             }
 
             DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);

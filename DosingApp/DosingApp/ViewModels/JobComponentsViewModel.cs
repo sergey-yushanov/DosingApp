@@ -2,6 +2,7 @@
 using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Models.Files;
+using DosingApp.Models.Modbus;
 using DosingApp.Models.Screen;
 using DosingApp.Models.WebSocket;
 using DosingApp.Services;
@@ -38,8 +39,11 @@ namespace DosingApp.ViewModels
         //private ObservableCollection<JobComponent> jobComponentsDosed;
         //private ObservableCollection<JobComponent> jobComponentsError;
         private CommonLoop commonLoop;
-        private CollectorLoop collectorLoop;
-        private SingleDosLoop singleDosLoop;
+        private static int nCollectors = 2;
+        private ObservableCollection<CollectorLoop> collectorsLoop;
+
+        //private SingleDosLoop singleDosLoop;
+        private VolumeDosLoop volumeDosLoop;
         //private double progressBarValue;
         //private double requiredVolume;
         //private double dosedVolume;
@@ -53,16 +57,21 @@ namespace DosingApp.ViewModels
         public ICommand PauseJobCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
 
-        public ModbusService ModbusService { get; protected set; }
         //public WebSocketService WebSocketService { get; protected set; }
+        public ModbusService ModbusService { get; protected set; }
         #endregion Attributes
 
         #region Constructor
         public JobComponentsViewModel(Job job, List<JobComponent> jobComponents)
         {
             Job = job;
-
             JobScreen = new JobScreen(jobComponents);
+
+            CollectorsLoop = new ObservableCollection<CollectorLoop>();
+            for (int i = 0; i < nCollectors; i++)
+            {
+                CollectorsLoop.Add(new CollectorLoop(i));
+            }
 
             //JobComponents = new ObservableCollection<JobComponent>(jobComponents);
 
@@ -84,17 +93,23 @@ namespace DosingApp.ViewModels
             //WebSocketService = new WebSocketService();
             //if (WebSocketService.Mixer != null)
             //{
-            //    MakeRequirements(jobComponents);
-            //    WebSocketSendRequirements();
+            //MakeRequirements(jobComponents);
+            //WebSocketSendRequirements();
+            //ModbusSendRequirements();
             //}
+
+            ModbusService = new ModbusService();
+            if (ModbusService.Mixer != null)
+            {
+                MakeRequirements(jobComponents);
+                ModbusSendRequirements();
+            }
 
             ModbusService = new ModbusService();
         }
         #endregion Constructor
 
         #region Properties
-
-
         public JobScreen JobScreen
         {
             get { return jobScreen; }
@@ -166,25 +181,26 @@ namespace DosingApp.ViewModels
         //    }
         //}
 
-        public CollectorScreen Collector1
-        {
-            get 
-            {
-                //UpdateJobComponents();
-                return ModbusService.Collector1;
-                //return WebSocketService.Collector;
-            }
-        }
+        //public CollectorScreen Collector1
+        //{
+        //    get
+        //    {
+        //        //UpdateJobComponents();
+        //        return ModbusService.Collector1;
+        //        //return WebSocketService.Collector;
+        //    }
+        //}
 
-        public CollectorScreen Collector2
-        {
-            get
-            {
-                //UpdateJobComponents();
-                return ModbusService.Collector2;
-                //return WebSocketService.Collector;
-            }
-        }
+
+        //public CollectorScreen Collector2
+        //{
+        //    get
+        //    {
+        //        //UpdateJobComponents();
+        //        return ModbusService.Collector2;
+        //        //return WebSocketService.Collector;
+        //    }
+        //}
 
         //public SingleDosScreen SingleDos
         //{
@@ -195,6 +211,30 @@ namespace DosingApp.ViewModels
         //        //return WebSocketService.SingleDos;
         //    }
         //}
+
+        public ObservableCollection<CollectorLoop> CollectorsLoop
+        {
+            get { return collectorsLoop; }
+            set { SetProperty(ref collectorsLoop, value); }
+        }
+
+        public CollectorScreen Collector1
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.Collector1;
+            }
+        }
+
+        public CollectorScreen Collector2
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.Collector2;
+            }
+        }
 
         public VolumeDosScreen VolumeDos
         {
@@ -239,6 +279,7 @@ namespace DosingApp.ViewModels
         private void StartJob()
         {
             //WebSocketService.CommonLoopMessage(new CommonLoop { CommandStart = true });
+            ModbusService.WriteSingleRegister(CommonModbus.LoopStart());
         }
 
         private async void StopJob()
@@ -246,6 +287,7 @@ namespace DosingApp.ViewModels
             if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Если идет дозация, то она будет завершена. Выйти?", "Да", "Нет"))
             {
                 //WebSocketService.CommonLoopMessage(new CommonLoop { CommandStop = true });
+                ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
                 Back3Pages();
             }
         }
@@ -253,16 +295,19 @@ namespace DosingApp.ViewModels
         private void PauseJob()
         {
             //WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
+            ModbusService.WriteSingleRegister(CommonModbus.LoopPause());
         }
         #endregion Commands
 
         #region Methods
         public void MakeRequirements(List<JobComponent> jobComponents)
         {
-            var valveNums = new List<int>();
-            var requiredVolumes = new List<double>();
+            //var valveNums = new List<int>();
+            //var requiredVolumes = new List<double>();
+            
             double carrierRequiredVolume = 0;
-            double singleRequiredVolume = 0;
+            //double singleRequiredVolume = 0;
+            double volumeDosRequiredVolume = 0;
 
             foreach (var jobComponent in jobComponents)
             {
@@ -279,23 +324,35 @@ namespace DosingApp.ViewModels
 
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
                 {
-                    valveNums.Add(jobComponent.GetDispenserNumber());
-                    requiredVolumes.Add((double)jobComponent.Volume);
+                    //valveNums.Add(jobComponent.GetDispenserNumber());
+                    //requiredVolumes.Add((double)jobComponent.Volume);
+
+                    int collectorIndex = (int)Char.GetNumericValue(jobComponent.Dispenser[0]) - 1;
+                    CollectorsLoop[collectorIndex].ValveNums.Add(jobComponent.GetDispenserNumber());
+                    CollectorsLoop[collectorIndex].RequiredVolumes.Add((double)jobComponent.Volume);
+                    
                     continue;
                 }
 
+
+                //if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
+                //{
+                //    singleRequiredVolume = (double)jobComponent.Volume;
+                //    continue;
+                //}
+
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
                 {
-                    singleRequiredVolume = (double)jobComponent.Volume;
+                    volumeDosRequiredVolume = (double)jobComponent.Volume;
                     continue;
                 }
             }
 
-            collectorLoop = new CollectorLoop
-            {
-                ValveNums = valveNums,
-                RequiredVolumes = requiredVolumes
-            };
+            //collectorLoop = new CollectorLoop
+            //{
+            //    ValveNums = valveNums,
+            //    RequiredVolumes = requiredVolumes
+            //};
 
             commonLoop = new CommonLoop
             {
@@ -303,14 +360,19 @@ namespace DosingApp.ViewModels
                 CarrierReserve = (double)Job.Recipe.CarrierReserve
             };
 
-            singleDosLoop = new SingleDosLoop
+            //singleDosLoop = new SingleDosLoop
+            //{
+            //    RequiredVolume = singleRequiredVolume
+            //};
+
+            volumeDosLoop = new VolumeDosLoop
             {
-                RequiredVolume = singleRequiredVolume
+                RequiredVolume = volumeDosRequiredVolume
             };
         }
 
         public void WebSocketSendRequirements()
-        {
+        {            
             //WebSocketService.CollectorLoopMessage(1, collectorLoop);
             //WebSocketService.SingleLoopMessage(1, singleDosLoop);
             //WebSocketService.CommonLoopMessage(commonLoop);
@@ -319,14 +381,42 @@ namespace DosingApp.ViewModels
             //WebSocketService.AllLoopMessage(commonLoop, collectorLoop, singleDosLoop);
         }
 
+        public void ModbusSendRequirements()
+        {
+            for (int i = 0; i < nCollectors; i++)
+            {
+                ushort collectorNumber = (ushort)(i + 1);
+                for (int j = 0; j < CollectorsLoop[i].ValveNums.Count; j++)
+                {
+                    ushort order = (ushort)(j + 1);
+                    ModbusService.WriteSingleRegister(CollectorModbus.ValveOrder(collectorNumber, (ushort)CollectorsLoop[i].ValveNums[j], order));
+                    ModbusService.WriteSingleRegister32(CollectorModbus.VolumeRequired(collectorNumber, (ushort)CollectorsLoop[i].ValveNums[j], (float)CollectorsLoop[i].RequiredVolumes[j]));
+                }
+            }
+
+            ModbusService.WriteSingleRegister32(VolumeDosModbus.VolumeRequired(1, (float)volumeDosLoop.RequiredVolume));
+
+            ModbusService.WriteSingleRegister32(CommonModbus.VolumeRequired((float)commonLoop.CarrierRequiredVolume));
+            ModbusService.WriteSingleRegister32(CommonModbus.Reserve((float)commonLoop.CarrierReserve));
+        }
+
         public void UpdateJobComponents()
         {
             ModbusService.MasterMessages();
+
+            //ushort[] registersCommon;
+            //registersCommon = ModbusService.ReadRegisters(Registers.Common, CommonModbus.numberOfPoints);
+
+
+            //CarrierDosedVolume
+            // = (ushort)CommonModbus.Register32.CAR_DOSE_VOL;
+
+            //var y = registersCommon[x];
+
             //OnPropertyChanged(nameof(TestRegister));
-            //JobScreen.Update(Common, Collector, SingleDos);
 
-
-
+            //Console.WriteLine("UpdateJobComponents");
+            JobScreen.Update(Common, Collector1, Collector2, VolumeDos);
             //OnPropertyChanged(nameof(JobScreen));
 
             //dosedVolume = 0;

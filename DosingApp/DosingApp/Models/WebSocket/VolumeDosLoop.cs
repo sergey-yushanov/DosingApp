@@ -15,7 +15,5 @@ namespace DosingApp.Models.WebSocket
         public bool? CommandPause { get; set; }
         public double? RequiredVolume { get; set; }
         public double? DosedVolume { get; set; }
-        public double? RatioVolume { get; set; }
-        public double? RatioVolumeMicro { get; set; }
     }
 }

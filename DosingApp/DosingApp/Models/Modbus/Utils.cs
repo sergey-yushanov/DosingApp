@@ -21,5 +21,10 @@ namespace DosingApp.Models.Modbus
             byte[] bytes = BitConverter.GetBytes(x);
             return BitConverter.ToSingle(bytes, 0);
         }
+
+        public static uint ConcatUshorts(ushort[] registers, int startIndex)
+        {
+            return (uint)((registers[startIndex] << 16) | registers[startIndex + 1]);
+        }
     }
 }

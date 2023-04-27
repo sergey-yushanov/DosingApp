@@ -9,6 +9,10 @@ namespace DosingApp.Models.Modbus
 {
     public static class CommonModbus
     {
+        public static ushort numberOfPoints = 24;
+        public static ushort numberOfFloats = 11;
+        public static ushort floatOffset = 2;
+
         public class Record
         {
             public Register Register { get; set; }
@@ -53,19 +57,25 @@ namespace DosingApp.Models.Modbus
             VLV_FAULTY
         }
 
-        public enum Register
+        public enum Register : ushort
         {
             CW = (ushort)0,
             SW = (ushort)1,
         }
 
-        public enum Register32
+        public enum Register32 : ushort
         {
-            VOL = 2,
-            VOL_RATIO = 4,
-            FLOW = 6,
-            REQ_VOL = 8,
-            DOSE_VOL = 10
+            CAR_VOL = 2,
+            CAR_VOL_RATIO = 4,
+            CAR_FLOW = 6,
+            CAR_REQ_VOL = 8,
+            CAR_DOSE_VOL = 10,
+            CAR_RES_PCT = 12,
+            COL_FINE_K1 = 14,
+            COL_FINE_K2 = 16,
+            COL_FINE_K3 = 18,
+            COL_FINE_SP = 20,
+            VDOS_FINE_K4 = 22
         }
 
         private static ushort GetRegister(Register register)
@@ -77,6 +87,36 @@ namespace DosingApp.Models.Modbus
         {
 
             return (ushort)(Registers.Common + register);
+        }
+
+        public static RegisterValue LoopStart()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.LOOP_MAN_START };
+        }
+
+        public static RegisterValue LoopStop()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.LOOP_MAN_STOP };
+        }
+
+        public static RegisterValue LoopPause()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.LOOP_MAN_PAUSE };
+        }
+
+        public static RegisterValue LoopContinue()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.LOOP_MAN_CONT };
+        }
+
+        public static RegisterValue LoopClear()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.LOOP_MAN_CLEAR };
+        }
+
+        public static RegisterValue LoopPass()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.LOOP_MAN_PASS };
         }
 
         public static RegisterValue Ack()
@@ -111,12 +151,25 @@ namespace DosingApp.Models.Modbus
 
         public static RegisterValue32 VolumeRatio(float volumeRatio)
         {
-            return new RegisterValue32() { Register = GetRegister32(Register32.VOL_RATIO), Value = Record32.Value(volumeRatio) };
+            return new RegisterValue32() { Register = GetRegister32(Register32.CAR_VOL_RATIO), Value = Record32.Value(volumeRatio) };
         }
 
         public static RegisterValue32 VolumeRequired(float volumeRequired)
         {
-            return new RegisterValue32() { Register = GetRegister32(Register32.REQ_VOL), Value = Record32.Value(volumeRequired) };
+            return new RegisterValue32() { Register = GetRegister32(Register32.CAR_REQ_VOL), Value = Record32.Value(volumeRequired) };
+        }
+
+        //public static RegisterValue32 VolumeDosed(ushort[] registers)
+        //{
+        //    Record32.Value( (volumeRequired)
+        //    registers[GetRegister32(Register32.CAR_DOSE_VOL)]
+
+        //    return new RegisterValue32() { Register = GetRegister32(Register32.CAR_DOSE_VOL), Value = Record32.Value(volumeRequired) };
+        //}
+
+        public static RegisterValue32 Reserve(float reserve)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.CAR_RES_PCT), Value = Record32.Value(reserve) };
         }
     }
 }

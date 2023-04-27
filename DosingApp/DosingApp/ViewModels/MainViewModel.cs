@@ -97,6 +97,7 @@ namespace DosingApp.ViewModels
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Components, Group = MenuItemGroup.MainParams, Title = "Компоненты смеси" });
             }
 
+            AccessAdditionalParams = false;
             if (AccessAdditionalParams)
             {
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Applicators, Group = MenuItemGroup.AdditionalParams, Title = "Аппликаторы" });

@@ -113,7 +113,9 @@ namespace DosingApp.Models.Screen
 
             float flow = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.FLOW));
             float volume = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VOL));
-            float pulsesPerLiter = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VOL_RATIO));
+            float pulsesPerLiter = (float)Flowmeter.PulsesPerLiter;
+            if (!Flowmeter.IsPulsesPerLiterFocused)
+                pulsesPerLiter = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VOL_RATIO));
             Flowmeter.Update(flow, volume, pulsesPerLiter);
 
             DosedVolumes[0] = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VLV_1_DOSE_VOL));

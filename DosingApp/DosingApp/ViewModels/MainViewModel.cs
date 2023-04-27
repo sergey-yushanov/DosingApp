@@ -117,7 +117,7 @@ namespace DosingApp.ViewModels
             {
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Users, Group = MenuItemGroup.AdminParams, Title = "Пользователи" });
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Mixers, Group = MenuItemGroup.AdminParams, Title = "Системы СЗР-Mix" });
-                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.MixerControl, Group = MenuItemGroup.AdminParams, Title = "Настройка" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.MixerControl, Group = MenuItemGroup.AdminParams, Title = "Настройки" });
             }
 
             var groups = MainMenu.GroupBy(m => m.Group).Select(g => new MenuGrouping<string, MenuItemViewModel>(g.Key, g));

@@ -41,7 +41,9 @@ namespace DosingApp.Models.Screen
         {
             float flow = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.FLOW));
             float volume = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.VOL));
-            float pulsesPerLiter = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.VOL_RATIO));
+            float pulsesPerLiter = (float)Flowmeter.PulsesPerLiter;
+            if (!Flowmeter.IsPulsesPerLiterFocused)
+                pulsesPerLiter = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.VOL_RATIO));
             Flowmeter.Update(flow, volume, pulsesPerLiter);
 
             DosedVolume = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.DOSE_VOL));

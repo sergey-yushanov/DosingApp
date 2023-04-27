@@ -171,5 +171,30 @@ namespace DosingApp.Models.Modbus
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.CAR_RES_PCT), Value = Record32.Value(reserve) };
         }
+
+        public static RegisterValue32 CollectorFineK1(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K1), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineK2(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K2), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineK3(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K3), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineSetPoint(float setPoint)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_SP), Value = Record32.Value(setPoint) };
+        }
+
+        public static RegisterValue32 VolumeDosFineK4(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.VDOS_FINE_K4), Value = Record32.Value(k) };
+        }
     }
 }

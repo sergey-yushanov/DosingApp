@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.ManualControlPage"
-             x:Name="ManualControl"
-             Title="Ручное управление">
+             x:Name="ManualControl">
 
     <ContentPage.Resources>
         <Helpers:DoubleConverter x:Key="DoubleConverter"/>
@@ -27,7 +26,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label 
-                    Text="{Binding Title}"
+                    Text="Ручное управление"
                     HorizontalOptions="StartAndExpand"
                     VerticalOptions="CenterAndExpand"
                     FontSize="20"

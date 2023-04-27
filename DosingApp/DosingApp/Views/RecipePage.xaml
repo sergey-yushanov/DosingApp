@@ -21,15 +21,20 @@
 
                     <StackLayout>
 
-                        <Label 
-                            Text="Название"
-                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label HorizontalTextAlignment="Start">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Название" TextColor="{StaticResource LabelEntryColor}"/>
+                                    <Span Text=" *" TextColor="{StaticResource AlertColor}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
                         <Entry 
                             Placeholder="Введите название рецепта" 
                             Text="{Binding Name}"
                             Keyboard="Chat"/>
 
-                        <Label 
+                        <!--<Label 
                             Text="Культура"
                             TextColor="{StaticResource LabelEntryColor}"/>
                         <Picker 
@@ -47,11 +52,16 @@
                             Title="Выберите вид обработки"
                             ItemsSource="{Binding ProcessingTypes}"
                             ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding ProcessingType, Mode=TwoWay}" />
+                            SelectedItem="{Binding ProcessingType, Mode=TwoWay}" />-->
 
-                        <Label 
-                            Text="Носитель смеси"
-                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label HorizontalTextAlignment="Start">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Носитель смеси" TextColor="{StaticResource LabelEntryColor}"/>
+                                    <Span Text=" *" TextColor="{StaticResource AlertColor}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
 
                         <Grid>
                             <Entry
@@ -83,6 +93,16 @@
                             Placeholder="Введите запас носителя" 
                             Text="{Binding CarrierReserve}" 
                             Keyboard="Numeric" />
+
+
+                        <Label HorizontalTextAlignment="Start" Padding="0,10,0,5">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="*" TextColor="{StaticResource AlertColor}"/>
+                                    <Span Text=" - обязательное поле для ввода значения" TextColor="Gray"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
 
                     </StackLayout>
 

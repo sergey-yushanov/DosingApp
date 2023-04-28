@@ -21,7 +21,7 @@ namespace DosingApp.Services
     {
         #region Attributes
         private const byte slaveId = 1;
-        private const string url = "192.168.1.234";
+        private const string url = "192.168.3.5";
 
         private TcpClient tcpClient;
         private IModbusMaster modbusMaster;
@@ -183,7 +183,14 @@ namespace DosingApp.Services
 
         public ushort[] ReadRegisters(ushort startAddress, ushort numberOfPoints)
         {
-            return modbusMaster.ReadHoldingRegisters(slaveId, startAddress, numberOfPoints);
+            try
+            {
+                return modbusMaster.ReadHoldingRegisters(slaveId, startAddress, numberOfPoints);
+            }
+            catch (Exception ex)
+            {
+                return new ushort[numberOfPoints];
+            }
         }
 
         public uint[] ReadRegisters32(int startAddress, int numberOfPoints)

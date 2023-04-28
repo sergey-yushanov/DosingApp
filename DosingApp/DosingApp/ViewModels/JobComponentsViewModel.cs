@@ -101,11 +101,12 @@ namespace DosingApp.ViewModels
             ModbusService = new ModbusService();
             if (ModbusService.Mixer != null)
             {
+                ModbusService.WriteSingleRegister(CommonModbus.LoopClear());
+
                 MakeRequirements(jobComponents);
                 ModbusSendRequirements();
             }
-
-            ModbusService = new ModbusService();
+            //ModbusService = new ModbusService();
         }
         #endregion Constructor
 

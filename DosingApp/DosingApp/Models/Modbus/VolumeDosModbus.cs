@@ -42,7 +42,7 @@ namespace DosingApp.Models.Modbus
 
         public enum StatusWord
         {
-            VLV_FAULTY
+            VLV_FAULTY = (ushort)1
         }
 
         public enum Register

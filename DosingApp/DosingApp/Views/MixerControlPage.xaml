@@ -146,9 +146,11 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
+                            <ColumnDefinition Width="10*" />
+                            <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
 
@@ -157,7 +159,7 @@
                             FontSize="Medium"
                             VerticalOptions="Center"/>
                         <Entry
-                            Grid.Column="1"
+                            Grid.Column="2"
                             Text="{Binding Common.CollectorFineK1, Converter={StaticResource DoubleConverter}}"
                             Keyboard="Numeric"
                             HorizontalOptions="FillAndExpand"
@@ -173,7 +175,7 @@
                             VerticalOptions="Center"/>
                         <Entry
                             Grid.Row="1"
-                            Grid.Column="1"
+                            Grid.Column="2"
                             Text="{Binding Common.CollectorFineK2, Converter={StaticResource DoubleConverter}}"
                             Keyboard="Numeric"
                             HorizontalOptions="FillAndExpand"
@@ -184,12 +186,12 @@
 
                         <Label 
                             Grid.Row="2"
-                            Text="К3, точно при заданном открытии клапана"
+                            Text="К3, точно при заданном открытии"
                             FontSize="Medium"
                             VerticalOptions="Center"/>
                         <Entry
                             Grid.Row="2"
-                            Grid.Column="1"
+                            Grid.Column="2"
                             Text="{Binding Common.CollectorFineK3, Converter={StaticResource DoubleConverter}}"
                             Keyboard="Numeric"
                             HorizontalOptions="FillAndExpand"
@@ -205,13 +207,35 @@
                             VerticalOptions="Center"/>
                         <Entry
                             Grid.Row="3"
-                            Grid.Column="1"
+                            Grid.Column="2"
                             Text="{Binding Common.CollectorFineSetPoint, Converter={StaticResource DoubleConverter}}"
                             Keyboard="Numeric"
                             HorizontalOptions="FillAndExpand"
                             HorizontalTextAlignment="End"
                             IsFocused="{Binding Common.IsCollectorFineSetPointFocused}"
                             ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineSetPointCommand}"
+                            ReturnCommandParameter="{Binding Common}"/>
+
+                        <Label 
+                            Grid.Row="4"
+                            Text="Дозация досуха"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Switch 
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            IsToggled="{Binding Common.VolumeDosDryOn}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" />
+                        <Entry
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Text="{Binding Common.CollectorDry, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorDryFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorDryCommand}"
                             ReturnCommandParameter="{Binding Common}"/>
                     </Grid>
                 </StackLayout>
@@ -235,11 +259,10 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="12*" />
+                            <ColumnDefinition Width="10*" />
+                            <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
 
@@ -248,13 +271,35 @@
                             FontSize="Medium"
                             VerticalOptions="Center"/>
                         <Entry
-                            Grid.Column="1"
+                            Grid.Column="2"
                             Text="{Binding Common.VolumeDosFineK4, Converter={StaticResource DoubleConverter}}"
                             Keyboard="Numeric"
                             HorizontalOptions="FillAndExpand"
                             HorizontalTextAlignment="End"
                             IsFocused="{Binding Common.IsVolumeDosFineK4Focused}"
                             ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.VolumeDosFineK4Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+
+                        <Label 
+                            Grid.Row="1"
+                            Text="Дозация досуха"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Switch 
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsToggled="{Binding Common.VolumeDosDryOn}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" />
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Text="{Binding Common.VolumeDosDry, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsVolumeDosDryFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.VolumeDosDryCommand}"
                             ReturnCommandParameter="{Binding Common}"/>
                     </Grid>
                 </StackLayout>

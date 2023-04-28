@@ -45,16 +45,21 @@ namespace DosingApp.Models.Modbus
             VLV_3_MAN_CLS = (ushort)128,
             VLV_4_MAN_OPN = (ushort)256,
             VLV_4_MAN_CLS = (ushort)512,
-            VOL_RST = (ushort)1024
+            VOL_RST = (ushort)1024,
+            
+            DRY_ENABLE = (ushort)2048,
+            DRY_DISABLE = (ushort)4096
         }
 
         public enum StatusWord
         {
-            VADJ_FAULTY,
-            VLV_1_FAULTY,
-            VLV_2_FAULTY,
-            VLV_3_FAULTY,
-            VLV_4_FAULTY
+            VADJ_FAULTY = (ushort)1,
+            VLV_1_FAULTY = (ushort)2,
+            VLV_2_FAULTY = (ushort)4,
+            VLV_3_FAULTY = (ushort)8,
+            VLV_4_FAULTY = (ushort)16,
+            
+            DRY_ON = (ushort)32
         }
 
         public enum Register

@@ -42,19 +42,27 @@ namespace DosingApp.Models.Modbus
             LOOP_MAN_CLEAR = (ushort)16,
             LOOP_MAN_PASS = (ushort)32,
 
+            COL_DRY_ENABLE = (ushort)64,
+            COL_DRY_DISABLE = (ushort)128,
+
             PUMP_MAN_START = (ushort)256,
             PUMP_MAN_STOP = (ushort)512,
             VLV_MAN_OPN = (ushort)1024,
             VLV_MAN_CLS = (ushort)2048,
             VOL_RST = (ushort)4096,
 
+            VDOS_DRY_ENABLE = (ushort)8192,
+            VDOS_DRY_DISABLE = (ushort)16384,
+
             ACK = (ushort)32768
         }
 
         public enum StatusWord
         {
-            PUMP_FAULTY,
-            VLV_FAULTY
+            PUMP_FAULTY = (ushort)1,
+            VLV_FAULTY = (ushort)2,
+            COL_DRY_ON = (ushort)4,
+            VDOS_DRY_ON = (ushort)8
         }
 
         public enum Register : ushort
@@ -75,7 +83,10 @@ namespace DosingApp.Models.Modbus
             COL_FINE_K2 = 16,
             COL_FINE_K3 = 18,
             COL_FINE_SP = 20,
-            VDOS_FINE_K4 = 22
+            VDOS_FINE_K4 = 22,
+
+            COL_DRY = 24,
+            VDOS_DRY = 26
         }
 
         private static ushort GetRegister(Register register)

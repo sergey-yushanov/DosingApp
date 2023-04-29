@@ -14,43 +14,25 @@
     </ContentPage.Resources>
     
     <NavigationPage.TitleView>
-        <StackLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="8*" />
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="3*" />
-                </Grid.ColumnDefinitions>
-
-                <Label 
-                    Text="Ручное управление"
-                    HorizontalOptions="StartAndExpand"
-                    VerticalOptions="CenterAndExpand"
-                    FontSize="20"
-                    FontAttributes="Bold"
-                    FontFamily="sans-serif-light"
-                    TextColor="{StaticResource TitleColor}"/>
-                <Image
-                    Grid.Column="1"
-                    Source="wifi_on_48px"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="CenterAndExpand"
-                    IsVisible="{Binding ModbusService.IsConnected}"/>
-                <Image
-                    Grid.Column="1"
-                    Source="wifi_off_48px"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="CenterAndExpand"
-                    IsVisible="{Binding ModbusService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
-
-                <!--<Button
-                    Grid.Column="2"
-                    Text="Ack"
-                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.AckCommand}"/>-->
-            </Grid>
+        <StackLayout Orientation="Horizontal">
+            <Label 
+                Text="Ручное управление"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="CenterAndExpand"
+                FontSize="20"
+                FontAttributes="Bold"
+                FontFamily="sans-serif-light"
+                TextColor="{StaticResource TitleColor}"/>
+            <Image
+                Source="wifi_on_48px"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="End"
+                IsVisible="{Binding ModbusService.IsConnected}"/>
+            <Image
+                Source="wifi_off_48px"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="End"
+                IsVisible="{Binding ModbusService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
         </StackLayout>
     </NavigationPage.TitleView>
 

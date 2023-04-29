@@ -18,7 +18,7 @@
                 Text="{Binding Title}"
                 HorizontalOptions="StartAndExpand"
                 VerticalOptions="CenterAndExpand"
-                FontSize="17.5"
+                FontSize="20"
                 FontAttributes="Bold"
                 FontFamily="sans-serif-light"
                 TextColor="{StaticResource TitleColor}"/>

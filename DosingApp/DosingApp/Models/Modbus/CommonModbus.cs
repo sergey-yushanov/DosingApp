@@ -59,10 +59,10 @@ namespace DosingApp.Models.Modbus
 
         public enum StatusWord
         {
-            PUMP_FAULTY = (ushort)1,
-            VLV_FAULTY = (ushort)2,
-            COL_DRY_ON = (ushort)4,
-            VDOS_DRY_ON = (ushort)8
+            PUMP_COM = (ushort)256,
+            VLV_COM = (ushort)512,
+            COL_DRY_ON = (ushort)1024,
+            VDOS_DRY_ON = (ushort)2048
         }
 
         public enum Register : ushort
@@ -206,6 +206,16 @@ namespace DosingApp.Models.Modbus
         public static RegisterValue32 VolumeDosFineK4(float k)
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.VDOS_FINE_K4), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorDry(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_DRY), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 VolumeDosDry(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.VDOS_DRY), Value = Record32.Value(k) };
         }
     }
 }

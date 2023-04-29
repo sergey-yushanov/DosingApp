@@ -73,6 +73,9 @@ namespace DosingApp.ViewModels
         public ICommand CollectorFineK3Command { get; protected set; }
         public ICommand CollectorFineSetPointCommand { get; protected set; }
         public ICommand VolumeDosFineK4Command { get; protected set; }
+
+        public ICommand CollectorDryCommand { get; protected set; }
+        public ICommand VolumeDosDryCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -95,6 +98,9 @@ namespace DosingApp.ViewModels
                 CollectorFineSetPointCommand = new Command(CollectorFineSetPoint);
 
                 VolumeDosFineK4Command = new Command(VolumeDosFineK4);
+
+                CollectorDryCommand = new Command(CollectorDry);
+                VolumeDosDryCommand = new Command(VolumeDosDry);
             }
         }
         #endregion Constructor
@@ -273,6 +279,18 @@ namespace DosingApp.ViewModels
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
             ModbusService.WriteSingleRegister32(CommonModbus.VolumeDosFineK4((float)commonScreen.VolumeDosFineK4));
+        }
+
+        private void CollectorDry(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorDry((float)commonScreen.CollectorDry));
+        }
+
+        private void VolumeDosDry(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.VolumeDosDry((float)commonScreen.VolumeDosDry));
         }
         #endregion Commands
 

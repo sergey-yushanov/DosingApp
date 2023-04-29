@@ -224,7 +224,7 @@
                         <Switch 
                             Grid.Row="4"
                             Grid.Column="1"
-                            IsToggled="{Binding Common.VolumeDosDryOn}"
+                            IsToggled="{Binding IsCollectorDry}"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="End" />
                         <Entry
@@ -288,7 +288,7 @@
                         <Switch 
                             Grid.Row="1"
                             Grid.Column="1"
-                            IsToggled="{Binding Common.VolumeDosDryOn}"
+                            IsToggled="{Binding Common.IsVolumeDosDry}"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="End" />
                         <Entry

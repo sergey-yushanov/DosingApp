@@ -18,12 +18,20 @@ namespace DosingApp.Models.Screen
         private double collectorFineK3;
         private double collectorFineSetPoint;
         private double volumeDosFineK4;
+        
+        private double collectorDry;
+
+        private bool isVolumeDosDry;
+        private double volumeDosDry;
 
         private bool isCollectorFineK1Focused;
         private bool isCollectorFineK2Focused;
         private bool isCollectorFineK3Focused;
         private bool isCollectorFineSetPointFocused;
         private bool isVolumeDosFineK4Focused;
+        
+        private bool isVolumeDosDryFocused;
+        private bool isCollectorDryFocused;
 
         public CommonScreen()
         {
@@ -107,6 +115,18 @@ namespace DosingApp.Models.Screen
             set { SetProperty(ref volumeDosFineK4, value); }
         }
 
+        public double CollectorDry
+        {
+            get { return collectorDry; }
+            set { SetProperty(ref collectorDry, value); }
+        }
+
+        public double VolumeDosDry
+        {
+            get { return volumeDosDry; }
+            set { SetProperty(ref volumeDosDry, value); }
+        }
+
         public bool IsCollectorFineK1Focused
         {
             get { return isCollectorFineK1Focused; }
@@ -135,6 +155,24 @@ namespace DosingApp.Models.Screen
         {
             get { return isVolumeDosFineK4Focused; }
             set { SetProperty(ref isVolumeDosFineK4Focused, value); }
-        }        
+        }
+
+        public bool IsCollectorDryFocused
+        {
+            get { return isCollectorDryFocused; }
+            set { SetProperty(ref isCollectorDryFocused, value); }
+        }
+
+        public bool IsVolumeDosDry
+        {
+            get { return isVolumeDosDry; }
+            set { SetProperty(ref isVolumeDosDry, value); }
+        }
+
+        public bool IsVolumeDosDryFocused
+        {
+            get { return isVolumeDosDryFocused; }
+            set { SetProperty(ref isVolumeDosDryFocused, value); }
+        }
     }
 }

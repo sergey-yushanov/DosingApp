@@ -46,10 +46,10 @@
                     HorizontalOptions="CenterAndExpand"
                     IsVisible="{Binding ModbusService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
 
-                <Button
+                <!--<Button
                     Grid.Column="2"
                     Text="Ack"
-                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.AckCommand}"/>
+                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.AckCommand}"/>-->
             </Grid>
         </StackLayout>
     </NavigationPage.TitleView>

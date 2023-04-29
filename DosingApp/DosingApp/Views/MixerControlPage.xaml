@@ -216,7 +216,7 @@
                             ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineSetPointCommand}"
                             ReturnCommandParameter="{Binding Common}"/>
 
-                        <Label 
+                        <!--<Label 
                             Grid.Row="4"
                             Text="Дозация досуха"
                             FontSize="Medium"
@@ -236,7 +236,7 @@
                             HorizontalTextAlignment="End"
                             IsFocused="{Binding Common.IsCollectorDryFocused}"
                             ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorDryCommand}"
-                            ReturnCommandParameter="{Binding Common}"/>
+                            ReturnCommandParameter="{Binding Common}"/>-->
                     </Grid>
                 </StackLayout>
 

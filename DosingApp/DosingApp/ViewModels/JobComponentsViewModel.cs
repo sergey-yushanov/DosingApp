@@ -40,6 +40,7 @@ namespace DosingApp.ViewModels
         //private ObservableCollection<JobComponent> jobComponentsError;
         private CommonLoop commonLoop;
         private static int nCollectors = 2;
+        private static int nDoseValves = 3;
         private ObservableCollection<CollectorLoop> collectorsLoop;
 
         //private SingleDosLoop singleDosLoop;
@@ -386,12 +387,24 @@ namespace DosingApp.ViewModels
         {
             for (int i = 0; i < nCollectors; i++)
             {
+                bool[] usedValves = new bool[nDoseValves];
                 ushort collectorNumber = (ushort)(i + 1);
                 for (int j = 0; j < CollectorsLoop[i].ValveNums.Count; j++)
                 {
                     ushort order = (ushort)(j + 1);
-                    ModbusService.WriteSingleRegister(CollectorModbus.ValveOrder(collectorNumber, (ushort)CollectorsLoop[i].ValveNums[j], order));
-                    ModbusService.WriteSingleRegister32(CollectorModbus.VolumeRequired(collectorNumber, (ushort)CollectorsLoop[i].ValveNums[j], (float)CollectorsLoop[i].RequiredVolumes[j]));
+                    ushort valveNum = (ushort)CollectorsLoop[i].ValveNums[j];
+                    ModbusService.WriteSingleRegister(CollectorModbus.ValveOrder(collectorNumber, valveNum, order));
+                    ModbusService.WriteSingleRegister32(CollectorModbus.VolumeRequired(collectorNumber, valveNum, (float)CollectorsLoop[i].RequiredVolumes[j]));
+                    usedValves[valveNum - 1] = true;
+                }
+
+                for (int j = 0; j < nDoseValves; j++)
+                {
+                    if (!usedValves[j])
+                    {
+                        ModbusService.WriteSingleRegister(CollectorModbus.ValveOrder(collectorNumber, (ushort)(j + 1), 0));
+                        ModbusService.WriteSingleRegister32(CollectorModbus.VolumeRequired(collectorNumber, (ushort)(j + 1), 0.0f));
+                    }
                 }
             }
 

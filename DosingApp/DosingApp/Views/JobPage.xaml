@@ -143,12 +143,12 @@
                     <Label 
                         Text="Место обработки СЗР"
                         TextColor="{StaticResource LabelEntryColor}"
-                        IsVisible="{Binding FieldVisibility}"/>
+                        IsVisible="{Binding PlaceVisibility}"/>
                     <Label
-                        Text="{Binding Field.Name}"
+                        Text="{Binding Place}"
                         FontSize="Medium"
                         Padding="0,10"
-                        IsVisible="{Binding FieldVisibility}"/>
+                        IsVisible="{Binding PlaceVisibility}"/>
 
                     <Label 
                         Text="Норма вылива, л/га" 

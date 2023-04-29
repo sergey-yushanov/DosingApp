@@ -532,6 +532,21 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref fieldVisibility, value); }
         }
 
+        public string Place
+        {
+            get 
+            {
+                PlaceVisibility = Job.Place != null;
+                return Job.Place; 
+            }
+        }
+
+        public bool PlaceVisibility
+        {
+            get { return placeVisibility; }
+            set { SetProperty(ref placeVisibility, value); }
+        }
+
         public ObservableCollection<Field> Fields
         {
             get { return fields; }

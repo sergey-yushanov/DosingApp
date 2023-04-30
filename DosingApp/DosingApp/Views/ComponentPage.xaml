@@ -57,7 +57,6 @@
                         Placeholder="Введите тип фасовки" 
                         Text="{Binding Packing}" 
                         Keyboard="Chat"/>
-                    
                 </StackLayout>
                 <StackLayout>
                     <Grid>

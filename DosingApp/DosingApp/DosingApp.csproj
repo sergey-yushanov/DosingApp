@@ -12,6 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20230430172545_TestMigrationField.cs" />
+    <Compile Remove="Migrations\20230430172545_TestMigrationField.Designer.cs" />
+    <Compile Remove="Migrations\20230430173135_AnotherTestMigrationField.cs" />
+    <Compile Remove="Migrations\20230430173135_AnotherTestMigrationField.Designer.cs" />
+    <Compile Remove="Migrations\20230430204523_DeleteTestMigrationField.cs" />
+    <Compile Remove="Migrations\20230430204523_DeleteTestMigrationField.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.1.1" />
     <PackageReference Include="FileHelpers" Version="3.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />

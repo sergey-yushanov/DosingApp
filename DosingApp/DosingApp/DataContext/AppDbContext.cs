@@ -43,6 +43,12 @@ namespace DosingApp.DataContext
             //this.Database.Migrate();
         }
 
+        public AppDbContext()
+        {
+            _dbPath = "";
+            //this.Database.Migrate();
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"Filename={_dbPath}");

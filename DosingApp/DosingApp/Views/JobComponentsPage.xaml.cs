@@ -29,14 +29,27 @@ namespace DosingApp.Views
             TimerStart();
         }
 
-        protected override void OnDisappearing()
+        protected override bool OnBackButtonPressed()
         {
             var jobComponentsViewModel = (JobComponentsViewModel)BindingContext;
-            //jobComponentsViewModel.WebSocketService.WebsocketClientExit();
+
+            if (jobComponentsViewModel.StopJobCommand.CanExecute(null))
+                jobComponentsViewModel.StopJobCommand.Execute(null);
+
             jobComponentsViewModel.ModbusService.MasterDispose();
             TimerStop();
-            base.OnDisappearing();
+            return base.OnBackButtonPressed();
         }
+
+        //protected override void OnDisappearing()
+        //{
+        //    Console.WriteLine("OnDisappearing");
+        //    var jobComponentsViewModel = (JobComponentsViewModel)BindingContext;
+        //    //jobComponentsViewModel.WebSocketService.WebsocketClientExit();
+        //    jobComponentsViewModel.ModbusService.MasterDispose();
+        //    TimerStop();
+        //    base.OnDisappearing();
+        //}
 
         public void TimerStart()
         {

@@ -45,6 +45,11 @@ namespace DosingApp.Services
                 MasterCreate();
             }
         }
+
+        ~ModbusService()
+        {
+            MasterDispose();
+        }
         #endregion Constructor
 
         #region Properties
@@ -119,20 +124,39 @@ namespace DosingApp.Services
         public void MasterCreate()
         {
             tcpClient = new TcpClient();
+            MasterConnect();
+            //try
+            //{
+            //    tcpClient.Connect(url, 502);
+            //}
+            //catch (Exception ex)
+            //{
+            //    //return;
+            //}
+            //UpdateClientState();
+            //Console.WriteLine($"TCP Client connected = {IsConnected}");
+
+            var factory = new ModbusFactory();
+            modbusMaster = factory.CreateMaster(tcpClient);
+        }
+
+        public void MasterConnect()
+        {
+            UpdateClientState();
+
+            if (IsConnected)
+                return;
+
             try
             {
                 tcpClient.Connect(url, 502);
             }
             catch (Exception ex)
             {
-                //Application.Current.MainPage.DisplayAlert("Предупреждение", "Не удалось установить связь с ПЛК\nАдрес " + url + " не доступен", "Ok");
-                //return;
+                Console.WriteLine($"TCP Client connect attempt false");
             }
             UpdateClientState();
             Console.WriteLine($"TCP Client connected = {IsConnected}");
-
-            var factory = new ModbusFactory();
-            modbusMaster = factory.CreateMaster(tcpClient);
         }
 
         public void MasterDispose()
@@ -145,6 +169,7 @@ namespace DosingApp.Services
 
             if (tcpClient != null)
             {
+                //tcpClient.GetStream().Close();
                 tcpClient.Close();
                 //tcpClient = null;
             }
@@ -154,7 +179,8 @@ namespace DosingApp.Services
 
         public void MasterMessages()
         {
-            UpdateClientState();
+            //UpdateClientState();
+            MasterConnect();
 
             Common.Update(ReadRegisters(Registers.Common, CommonModbus.numberOfPoints));
             Collector1.Update(ReadRegisters(Registers.Collectors[0], CollectorModbus.numberOfPoints));

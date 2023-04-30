@@ -27,13 +27,21 @@ namespace DosingApp.Views
             TimerStart((MixerControlViewModel)BindingContext);
         }
 
-        protected override void OnDisappearing()
+        protected override bool OnBackButtonPressed()
         {
             var mixerControlViewModel = (MixerControlViewModel)BindingContext;
             mixerControlViewModel.ModbusService.MasterDispose();
             TimerStop();
-            base.OnDisappearing();
+            return base.OnBackButtonPressed();
         }
+
+        //protected override void OnDisappearing()
+        //{
+        //    var mixerControlViewModel = (MixerControlViewModel)BindingContext;
+        //    mixerControlViewModel.ModbusService.MasterDispose();
+        //    TimerStop();
+        //    base.OnDisappearing();
+        //}
 
         public void TimerStart(MixerControlViewModel viewModel)
         {

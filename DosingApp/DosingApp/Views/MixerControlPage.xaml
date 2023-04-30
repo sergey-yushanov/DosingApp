@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Class="DosingApp.Views.MixerControlPage"
+             NavigationPage.HasBackButton="False"
              x:Name="MixerControl">
 
     <ContentPage.Resources>

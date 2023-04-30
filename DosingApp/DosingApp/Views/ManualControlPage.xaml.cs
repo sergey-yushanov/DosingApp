@@ -27,13 +27,23 @@ namespace DosingApp.Views
             TimerStart((ManualControlViewModel)BindingContext);
         }
 
-        protected override void OnDisappearing()
+        protected override bool OnBackButtonPressed()
         {
+            Console.WriteLine("OnBackButtonPressed");
             var manualControlViewModel = (ManualControlViewModel)BindingContext;
             manualControlViewModel.ModbusService.MasterDispose();
             TimerStop();
-            base.OnDisappearing();
+            return base.OnBackButtonPressed();
         }
+
+        //protected override void OnDisappearing()
+        //{
+        //    Console.WriteLine("OnBackButtonPressed");
+        //    var manualControlViewModel = (ManualControlViewModel)BindingContext;
+        //    manualControlViewModel.ModbusService.MasterDispose();
+        //    TimerStop();
+        //    base.OnDisappearing();
+        //}
 
         public void TimerStart(ManualControlViewModel viewModel)
         {

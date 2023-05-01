@@ -35,6 +35,11 @@ namespace DosingApp.Models.Screen
 
         private bool pumpCommand;
 
+        private bool loopActive;
+        private bool loopPause;
+        private bool loopRun;
+        private bool loopDone;
+
         public CommonScreen()
         {
             ValveAdjustable = new ValveAdjustableScreen() { Name = "РегКл" };
@@ -188,6 +193,30 @@ namespace DosingApp.Models.Screen
         {
             get { return pumpCommand; }
             set { SetProperty(ref pumpCommand, value); }
+        }
+
+        public bool LoopActive
+        {
+            get { return loopActive; }
+            set { SetProperty(ref loopActive, value); }
+        }
+
+        public bool LoopPause
+        {
+            get { return loopPause; }
+            set { SetProperty(ref loopPause, value); }
+        }
+
+        public bool LoopRun
+        {
+            get { return loopRun; }
+            set { SetProperty(ref loopRun, value); }
+        }
+
+        public bool LoopDone
+        {
+            get { return loopDone; }
+            set { SetProperty(ref loopDone, value); }
         }
     }
 }

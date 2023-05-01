@@ -59,6 +59,10 @@ namespace DosingApp.Models.Modbus
 
         public enum StatusWord
         {
+            LOOP_ACTIVE = (ushort)0,
+            LOOP_PAUSE = (ushort)1,
+            LOOP_RUN = (ushort)2,
+            LOOP_DONE = (ushort)3,
             PUMP_COM = (ushort)8,
             VLV_COM = (ushort)9,
             COL_DRY_ON = (ushort)10,

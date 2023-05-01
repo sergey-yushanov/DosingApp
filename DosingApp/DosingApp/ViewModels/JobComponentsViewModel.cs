@@ -16,6 +16,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -60,6 +62,9 @@ namespace DosingApp.ViewModels
 
         //public WebSocketService WebSocketService { get; protected set; }
         public ModbusService ModbusService { get; protected set; }
+
+        public bool IsExitJob { get; set; }
+        public bool IsNotInitializedLoop { get; set; }
         #endregion Attributes
 
         #region Constructor
@@ -100,13 +105,20 @@ namespace DosingApp.ViewModels
             //}
 
             ModbusService = new ModbusService();
+            IsNotInitializedLoop = false;
+            //if (!ModbusService.IsConnected)
+            //{
+            //    IsNotInitializedLoop = true;
+            //}
+
             if (ModbusService.Mixer != null)
             {
                 ModbusService.WriteSingleRegister(CommonModbus.LoopClear());
-
                 MakeRequirements(jobComponents);
                 ModbusSendRequirements();
             }
+
+            IsExitJob = false;
             //ModbusService = new ModbusService();
         }
         #endregion Constructor
@@ -281,6 +293,8 @@ namespace DosingApp.ViewModels
         private void StartJob()
         {
             //WebSocketService.CommonLoopMessage(new CommonLoop { CommandStart = true });
+            ModbusSendRequirements();
+            Thread.Sleep(1000);
             ModbusService.WriteSingleRegister(CommonModbus.LoopStart());
         }
 
@@ -288,8 +302,9 @@ namespace DosingApp.ViewModels
         {
             if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Если идет дозация, то она будет завершена. Выйти?", "Да", "Нет"))
             {
-                //WebSocketService.CommonLoopMessage(new CommonLoop { CommandStop = true });
                 ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
+                ModbusService.MasterDispose();
+                IsExitJob = true;
                 Back3Pages();
             }
         }
@@ -476,6 +491,18 @@ namespace DosingApp.ViewModels
                         var recipeComponentsDb = db.RecipeComponents.Where(rc => rc.RecipeId == Job.RecipeId);
                     }
                 }*/
+
+
+        public void ExitJob()
+        {
+            Application.Current.MainPage.DisplayAlert("Предупреждение", "Отсутствует связь с ПЛК, вы будете перенаправлены на главную страницу", "Ok");
+            {
+                ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
+                ModbusService.MasterDispose();
+                IsExitJob = true;
+                Back3Pages();
+            }
+        }
         #endregion Methods
 
     }

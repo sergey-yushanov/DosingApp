@@ -76,6 +76,9 @@ namespace DosingApp.ViewModels
 
         public ICommand CollectorDryCommand { get; protected set; }
         public ICommand VolumeDosDryCommand { get; protected set; }
+
+        public ICommand VolumeDosDryEnableCommand { get; protected set; }
+        public ICommand VolumeDosDryDisableCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -101,6 +104,9 @@ namespace DosingApp.ViewModels
 
                 CollectorDryCommand = new Command(CollectorDry);
                 VolumeDosDryCommand = new Command(VolumeDosDry);
+
+                VolumeDosDryEnableCommand = new Command(VolumeDosDryEnable);
+                VolumeDosDryDisableCommand = new Command(VolumeDosDryDisable);
             }
         }
         #endregion Constructor
@@ -291,6 +297,16 @@ namespace DosingApp.ViewModels
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
             ModbusService.WriteSingleRegister32(CommonModbus.VolumeDosDry((float)commonScreen.VolumeDosDry));
+        }
+
+        private void VolumeDosDryEnable(object commonInstance)
+        {
+            ModbusService.WriteSingleRegister(CommonModbus.VolumeDosDryEnable());
+        }
+
+        private void VolumeDosDryDisable(object commonInstance)
+        {
+            ModbusService.WriteSingleRegister(CommonModbus.VolumeDosDryDisable());
         }
         #endregion Commands
 

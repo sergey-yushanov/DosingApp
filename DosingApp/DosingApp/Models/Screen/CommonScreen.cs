@@ -81,9 +81,11 @@ namespace DosingApp.Models.Screen
                 CollectorFineK3 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K3));
             if (!IsCollectorFineSetPointFocused)
                 CollectorFineSetPoint = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_SP));
-            
             if (!IsVolumeDosFineK4Focused)
                 VolumeDosFineK4 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_FINE_K4));
+
+            if (!IsVolumeDosDryFocused)
+                VolumeDosDry = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_DRY));
         }
 
         //public void InitNew(Common common, bool showSettings)

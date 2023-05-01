@@ -9,7 +9,7 @@ namespace DosingApp.Models.Modbus
 {
     public static class CommonModbus
     {
-        public static ushort numberOfPoints = 24;
+        public static ushort numberOfPoints = 28;
         public static ushort numberOfFloats = 11;
         public static ushort floatOffset = 2;
 
@@ -158,6 +158,16 @@ namespace DosingApp.Models.Modbus
         public static RegisterValue VolumeReset()
         {
             return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.VOL_RST };
+        }
+
+        public static RegisterValue VolumeDosDryEnable()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.VDOS_DRY_ENABLE };
+        }
+
+        public static RegisterValue VolumeDosDryDisable()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.VDOS_DRY_DISABLE };
         }
 
         public static RegisterValue32 VolumeRatio(float volumeRatio)

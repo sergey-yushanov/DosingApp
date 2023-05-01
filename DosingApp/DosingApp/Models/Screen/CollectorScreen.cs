@@ -107,6 +107,14 @@ namespace DosingApp.Models.Screen
 
         public void Update(ushort[] registers)
         {
+            union_bit_field_s status = new union_bit_field_s();
+            status.w = registers[(int)CollectorModbus.Register.SW];
+            ValveAdjustable.Open = status.s[(int)CollectorModbus.StatusWord.VADJ_OPN];
+            Valves[3].Command = status.s[(int)CollectorModbus.StatusWord.VLV_1_COM];
+            Valves[2].Command = status.s[(int)CollectorModbus.StatusWord.VLV_2_COM];
+            Valves[1].Command = status.s[(int)CollectorModbus.StatusWord.VLV_3_COM];
+            Valves[0].Command = status.s[(int)CollectorModbus.StatusWord.VLV_4_COM];
+
             float setPoint = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VADJ_SP));
             float position = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VADJ_POS));
             ValveAdjustable.Update(setPoint, position);

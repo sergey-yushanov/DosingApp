@@ -5,6 +5,7 @@ namespace DosingApp.Models.Screen
 {
     public class ValveAdjustableScreen : BaseViewModel
     {
+        private bool open;
         private bool faulty;
         private double setpoint;
         private double position;
@@ -45,6 +46,7 @@ namespace DosingApp.Models.Screen
 
         public void Update(ValveAdjustable valveAdjustable, bool ShowSettings)
         {
+            Open = valveAdjustable.Open ?? false;
             Faulty = valveAdjustable.Faulty ?? false;
             if (!IsSetpointFocused)
                 Setpoint = valveAdjustable.Setpoint ?? 0;
@@ -147,7 +149,14 @@ namespace DosingApp.Models.Screen
             get { return isCostOpenFocused; }
             set { SetProperty(ref isCostOpenFocused, value); }
         }
+
         // read values
+        public bool Open
+        {
+            get { return open; }
+            set { SetProperty(ref open, value); }
+        }
+
         public bool Faulty
         {
             get { return faulty; }

@@ -67,6 +67,7 @@
                         <Label 
                             Text="Насос"
                             FontSize="Medium"
+                            TextColor="{Binding Common.PumpCommand, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
                             VerticalOptions="Center"/>
                         <Button
                             Grid.Column="1"
@@ -140,6 +141,7 @@
                                 <Label
                                     Text="{Binding Name}"
                                     FontSize="Medium" 
+                                    TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
                                     VerticalOptions="Center"/>
                                 <Button
                                     Grid.Column="1"
@@ -173,7 +175,7 @@
                         <Label
                             Text="{Binding Collector1.ValveAdjustable.Name}"
                             FontSize="Medium"
-                            TextColor="{Binding Collector1.ValveAdjustable.Faulty, Converter={StaticResource ColorConverter}, ConverterParameter='Faulty'}"
+                            TextColor="{Binding Collector1.ValveAdjustable.Open, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
                             VerticalOptions="Center"
                             HorizontalOptions="StartAndExpand"/>
                         <Button
@@ -233,6 +235,7 @@
                                 <Label
                                     Text="{Binding Name}"
                                     FontSize="Medium" 
+                                    TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
                                     VerticalOptions="Center"/>
                                 <Button
                                     Grid.Column="1"
@@ -266,7 +269,7 @@
                         <Label
                             Text="{Binding Collector2.ValveAdjustable.Name}"
                             FontSize="Medium"
-                            TextColor="{Binding Collector2.ValveAdjustable.Faulty, Converter={StaticResource ColorConverter}, ConverterParameter='Faulty'}"
+                            TextColor="{Binding Collector2.ValveAdjustable.Open, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
                             VerticalOptions="Center"
                             HorizontalOptions="StartAndExpand"/>
                         <Button
@@ -323,6 +326,7 @@
                         <Label 
                             Text="Кл"
                             FontSize="Medium"
+                            TextColor="{Binding VolumeDos.Valve.Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
                             VerticalOptions="Center"/>
                         <Button
                             Grid.Column="1"

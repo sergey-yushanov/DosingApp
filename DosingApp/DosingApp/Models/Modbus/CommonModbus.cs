@@ -59,10 +59,10 @@ namespace DosingApp.Models.Modbus
 
         public enum StatusWord
         {
-            PUMP_COM = (ushort)256,
-            VLV_COM = (ushort)512,
-            COL_DRY_ON = (ushort)1024,
-            VDOS_DRY_ON = (ushort)2048
+            PUMP_COM = (ushort)8,
+            VLV_COM = (ushort)9,
+            COL_DRY_ON = (ushort)10,
+            VDOS_DRY_ON = (ushort)11
         }
 
         public enum Register : ushort
@@ -89,12 +89,12 @@ namespace DosingApp.Models.Modbus
             VDOS_DRY = 26
         }
 
-        private static ushort GetRegister(Register register)
+        public static ushort GetRegister(Register register)
         {
             return (ushort)(Registers.Common + register);
         }
 
-        private static ushort GetRegister32(Register32 register)
+        public static ushort GetRegister32(Register32 register)
         {
 
             return (ushort)(Registers.Common + register);

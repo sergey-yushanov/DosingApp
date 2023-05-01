@@ -15,8 +15,8 @@ namespace DosingApp.Models.Modbus
 
         public class Record
         {
-            public Register Register { get; set; }
-            public ushort ReadValue { get; set; }
+            public static Register Register { get; set; }
+            public static ushort Value { get; set; }
         }
 
         public static class Record32
@@ -53,13 +53,17 @@ namespace DosingApp.Models.Modbus
 
         public enum StatusWord
         {
-            VADJ_FAULTY = (ushort)1,
-            VLV_1_FAULTY = (ushort)2,
-            VLV_2_FAULTY = (ushort)4,
-            VLV_3_FAULTY = (ushort)8,
-            VLV_4_FAULTY = (ushort)16,
+            VADJ_OPN = (ushort)0,
+            VADJ_COM_OPN = (ushort)1,
+            VADJ_COM_CLS = (ushort)2,
+            VLV_1_COM = (ushort)3,
+            VLV_2_COM = (ushort)4,
+            VLV_3_COM = (ushort)5,
+            VLV_4_COM = (ushort)6,
             
-            DRY_ON = (ushort)32
+            VLV_1_DRY_RUN = (ushort)7,
+            VLV_2_DRY_RUN = (ushort)8,
+            VLV_3_DRY_RUN = (ushort)9
         }
 
         public enum Register
@@ -88,15 +92,15 @@ namespace DosingApp.Models.Modbus
             VLV_3_DOSE_VOL = (ushort)27
         }
 
-        private static ushort GetRegister(ushort number, Register register)
+        public static ushort GetRegister(ushort collectorNumber, Register register)
         {
-            return (ushort)(Registers.Collectors[number-1] + register);
+            return (ushort)(Registers.Collectors[collectorNumber - 1] + register);
         }
 
-        private static ushort GetRegister32(ushort number, Register32 register)
+        public static ushort GetRegister32(ushort collectorNumber, Register32 register)
         {
 
-            return (ushort)(Registers.Collectors[number-1] + register);
+            return (ushort)(Registers.Collectors[collectorNumber - 1] + register);
         }
 
         public static RegisterValue ValveAdjustableOpen(ushort collectorNumber)

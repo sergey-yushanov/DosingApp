@@ -21,7 +21,7 @@ namespace DosingApp.Services
     {
         #region Attributes
         private const byte slaveId = 1;
-        private const string url = "192.168.1.234";
+        private const string url = "192.168.3.5";
 
         private TcpClient tcpClient;
         private IModbusMaster modbusMaster;
@@ -190,7 +190,14 @@ namespace DosingApp.Services
 
         private void UpdateClientState()
         {
-            IsConnected = tcpClient.Connected;
+            if (tcpClient.Client != null)
+            {
+                IsConnected = tcpClient.Connected;
+            }
+            else
+            {
+                IsConnected = false;
+            }
         }
 
         public void WriteSingleRegister(RegisterValue registerValue)
@@ -219,21 +226,21 @@ namespace DosingApp.Services
             }
         }
 
-        public uint[] ReadRegisters32(int startAddress, int numberOfPoints)
-        {
-            ushort[] registers;
-            int numberOfFloats = numberOfPoints / 2;
-            uint[] registers32 = new uint[numberOfFloats];
+        //public uint[] ReadRegisters32(int startAddress, int numberOfPoints)
+        //{
+        //    ushort[] registers;
+        //    int numberOfFloats = numberOfPoints / 2;
+        //    uint[] registers32 = new uint[numberOfFloats];
 
-            registers = modbusMaster.ReadHoldingRegisters(slaveId, (ushort)startAddress, (ushort)numberOfPoints);
+        //    registers = modbusMaster.ReadHoldingRegisters(slaveId, (ushort)startAddress, (ushort)numberOfPoints);
 
-            for(int i = 0, j = 0; i < numberOfPoints; i += 2, j++)
-            {
-                registers32[j] = (uint)((registers[i] << 16) | registers[i + 1]);
-            }
+        //    for(int i = 0, j = 0; i < numberOfPoints; i += 2, j++)
+        //    {
+        //        registers32[j] = (uint)((registers[i] << 16) | registers[i + 1]);
+        //    }
 
-            return registers32;
-        }
+        //    return registers32;
+        //}
         #endregion Methods
     }
 }

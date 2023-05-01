@@ -33,6 +33,8 @@ namespace DosingApp.Models.Screen
         private bool isVolumeDosDryFocused;
         private bool isCollectorDryFocused;
 
+        private bool pumpCommand;
+
         public CommonScreen()
         {
             ValveAdjustable = new ValveAdjustableScreen() { Name = "РегКл" };
@@ -56,6 +58,11 @@ namespace DosingApp.Models.Screen
 
         public void Update(ushort[] registers)
         {
+            union_bit_field_s status = new union_bit_field_s();
+            status.w = registers[(int)CommonModbus.Register.SW];
+            PumpCommand = status.s[(int)CommonModbus.StatusWord.PUMP_COM];
+            IsVolumeDosDry = status.s[(int)CommonModbus.StatusWord.VDOS_DRY_ON];
+
             float flow = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_FLOW));
             float volume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_VOL));
             float pulsesPerLiter = (float)Flowmeter.PulsesPerLiter;
@@ -173,6 +180,12 @@ namespace DosingApp.Models.Screen
         {
             get { return isVolumeDosDryFocused; }
             set { SetProperty(ref isVolumeDosDryFocused, value); }
+        }
+
+        public bool PumpCommand
+        {
+            get { return pumpCommand; }
+            set { SetProperty(ref pumpCommand, value); }
         }
     }
 }

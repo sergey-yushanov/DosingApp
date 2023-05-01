@@ -26,16 +26,10 @@ namespace DosingApp.DataContext
         public DbSet<Transport> Transports { get; set; }
         public DbSet<TransportTank> TransportTanks { get; set; }
 
-        /*        protected override void OnModelCreating(ModelBuilder modelBuilder)
-                {
-                    modelBuilder.Entity<Crop>()
-                        .HasMany(c => c.Recipes)
-                        .WithOne(r => r.Crop)
-                        .OnDelete(DeleteBehavior.ClientSetNull);
-                        //.IsRequired(false);
-                }*/
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
 
-
+        //}
 
         public AppDbContext(string dbPath)
         {

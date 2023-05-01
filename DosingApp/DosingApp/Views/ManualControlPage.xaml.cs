@@ -29,7 +29,6 @@ namespace DosingApp.Views
 
         protected override bool OnBackButtonPressed()
         {
-            Console.WriteLine("OnBackButtonPressed");
             var manualControlViewModel = (ManualControlViewModel)BindingContext;
             manualControlViewModel.ModbusService.MasterDispose();
             TimerStop();

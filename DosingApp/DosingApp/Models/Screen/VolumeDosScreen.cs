@@ -39,6 +39,10 @@ namespace DosingApp.Models.Screen
 
         public void Update(ushort[] registers)
         {
+            union_bit_field_s status = new union_bit_field_s();
+            status.w = registers[(int)VolumeDosModbus.Register.SW];
+            Valve.Command = status.s[(int)VolumeDosModbus.StatusWord.VLV_COM];
+
             float flow = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.FLOW));
             float volume = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.VOL));
             float pulsesPerLiter = (float)Flowmeter.PulsesPerLiter;

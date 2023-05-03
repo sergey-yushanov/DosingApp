@@ -35,10 +35,10 @@ namespace DosingApp.Models.Screen
 
         private bool pumpCommand;
 
-        private bool loopActive;
-        private bool loopPause;
-        private bool loopRun;
-        private bool loopDone;
+        private bool isLoopActive;
+        private bool isLoopPause;
+        private bool isLoopRun;
+        private bool isLoopDone;
 
         public CommonScreen()
         {
@@ -67,6 +67,11 @@ namespace DosingApp.Models.Screen
             status.w = registers[(int)CommonModbus.Register.SW];
             PumpCommand = status.s[(int)CommonModbus.StatusWord.PUMP_COM];
             IsVolumeDosDry = status.s[(int)CommonModbus.StatusWord.VDOS_DRY_ON];
+            IsLoopActive = status.s[(int)CommonModbus.StatusWord.LOOP_ACTIVE];
+            IsLoopPause = status.s[(int)CommonModbus.StatusWord.LOOP_PAUSE];
+            IsLoopRun = status.s[(int)CommonModbus.StatusWord.LOOP_RUN];
+            IsLoopDone = status.s[(int)CommonModbus.StatusWord.LOOP_DONE];
+
 
             float flow = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_FLOW));
             float volume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_VOL));
@@ -195,28 +200,28 @@ namespace DosingApp.Models.Screen
             set { SetProperty(ref pumpCommand, value); }
         }
 
-        public bool LoopActive
+        public bool IsLoopActive
         {
-            get { return loopActive; }
-            set { SetProperty(ref loopActive, value); }
+            get { return isLoopActive; }
+            set { SetProperty(ref isLoopActive, value); }
         }
 
-        public bool LoopPause
+        public bool IsLoopPause
         {
-            get { return loopPause; }
-            set { SetProperty(ref loopPause, value); }
+            get { return isLoopPause; }
+            set { SetProperty(ref isLoopPause, value); }
         }
 
-        public bool LoopRun
+        public bool IsLoopRun
         {
-            get { return loopRun; }
-            set { SetProperty(ref loopRun, value); }
+            get { return isLoopRun; }
+            set { SetProperty(ref isLoopRun, value); }
         }
 
-        public bool LoopDone
+        public bool IsLoopDone
         {
-            get { return loopDone; }
-            set { SetProperty(ref loopDone, value); }
+            get { return isLoopDone; }
+            set { SetProperty(ref isLoopDone, value); }
         }
     }
 }

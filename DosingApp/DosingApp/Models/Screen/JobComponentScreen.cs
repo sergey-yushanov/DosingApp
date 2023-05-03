@@ -14,11 +14,18 @@ namespace DosingApp.Models.Screen
         private string dosedVolumeInfo;
         private string dosedVolumeErrorInfo;
 
+        private bool isDosedVolumeNull;
+        private bool isDosedVolumeNotNull;
+        private bool isDosedVolumeGood;
+        private bool isDosedVolumeNotGood;
+
         public double? DosedVolume
         {
             get { return dosedVolume; }
             set
             {
+                IsDosedVolumeNull = (value == 0);
+                IsDosedVolumeNotNull = (value != 0);
                 DosedVolumeInfo = String.Format("{0,12:N2} {1}", Convert.ToDouble(value), VolumeUnit);
                 SetProperty(ref dosedVolume, value);
             }
@@ -29,6 +36,8 @@ namespace DosingApp.Models.Screen
             get { return dosedVolumeError; }
             set 
             {
+                IsDosedVolumeGood = (float)Math.Abs((decimal)value) < 0.05;
+                IsDosedVolumeNotGood = (float)Math.Abs((decimal)value) >= 0.05 && (float)Math.Abs((decimal)value) < 1;
                 DosedVolumeErrorInfo = String.Format("{0,12:P2}", Convert.ToDouble(value));
                 SetProperty(ref dosedVolumeError, value); 
             }
@@ -44,6 +53,30 @@ namespace DosingApp.Models.Screen
         {
             get { return dosedVolumeErrorInfo; }
             set { SetProperty(ref dosedVolumeErrorInfo, value); }
+        }
+
+        public bool IsDosedVolumeNull
+        {
+            get { return isDosedVolumeNull; }
+            set { SetProperty(ref isDosedVolumeNull, value); }
+        }
+
+        public bool IsDosedVolumeNotNull
+        {
+            get { return isDosedVolumeNotNull; }
+            set { SetProperty(ref isDosedVolumeNotNull, value); }
+        }
+
+        public bool IsDosedVolumeGood
+        {
+            get { return isDosedVolumeGood; }
+            set { SetProperty(ref isDosedVolumeGood, value); }
+        }
+
+        public bool IsDosedVolumeNotGood
+        {
+            get { return isDosedVolumeNotGood; }
+            set { SetProperty(ref isDosedVolumeNotGood, value); }
         }
 
         public double? Volume { get; set; }

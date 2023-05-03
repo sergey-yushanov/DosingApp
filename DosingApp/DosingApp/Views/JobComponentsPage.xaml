@@ -10,6 +10,7 @@
         <x:Int32 x:Key="Dec2">2</x:Int32>
         <x:Int32 x:Key="Dec3">3</x:Int32>
         <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <Helpers:ColorConverter x:Key="ColorConverter"/>
     </ContentPage.Resources>
 
     <NavigationPage.TitleView>
@@ -53,12 +54,6 @@
                     ProgressColor="{Binding ProgressBarColor}"/>
             </StackLayout>
 
-            <Label
-                Text="{Binding TestRegister}"
-                FontSize="Medium"
-                FontAttributes="Bold"
-                HorizontalOptions="StartAndExpand"/>
-
             <StackLayout>
 
                 <ListView
@@ -75,7 +70,8 @@
                                         <Grid>
 
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="1*" />
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
@@ -84,56 +80,66 @@
                                                 <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
 
-                                            <StackLayout
-                                                Grid.Column="0"
-                                                Grid.Row="0"
-                                                Orientation="Horizontal">
-                                                <Label
-                                                    Text="{Binding Name}"
-                                                    FontSize="Medium"
-                                                    FontAttributes="Bold"
-                                                    HorizontalOptions="StartAndExpand"/>
-                                                <Label
-                                                    Text="{Binding VolumeInfo}"
-                                                    FontSize="Medium"
-                                                    FontAttributes="Bold"
-                                                    HorizontalOptions="End"/>
-                                            </StackLayout>
-
-                                            <StackLayout
-                                                Grid.Column="0"
-                                                Grid.Row="1"
-                                                Orientation="Horizontal">
-                                                <Label
-                                                    Text="{Binding ConsistencyInfo}"
-                                                    FontSize="Medium"
-                                                    HorizontalOptions="StartAndExpand"/>
-                                                <Label
-                                                    IsVisible="{Binding IsVisible}"
-                                                    Text="{Binding DosedVolumeInfo}"
-                                                    FontSize="Medium" 
-                                                    FontAttributes="Bold"
-                                                    HorizontalOptions="End"/>
-                                            </StackLayout>
-
-                                            <StackLayout
-                                                Grid.Column="0"
-                                                Grid.Row="2"
-                                                Orientation="Horizontal">
-                                                <Label
-                                                    Text="{Binding DispenserInfo}"
-                                                    FontSize="Medium"
-                                                    HorizontalOptions="StartAndExpand"/>
-                                                <Label
-                                                    IsVisible="{Binding IsVisible}"
-                                                    Text="{Binding DosedVolumeErrorInfo}"
-                                                    FontSize="Medium" 
-                                                    FontAttributes="Bold"
-                                                    HorizontalOptions="End"/>
-                                            </StackLayout>
-                                            
                                             <Label
-                                                Grid.Column="0"
+                                                IsVisible="{Binding IsDosedVolumeNull}"
+                                                Text="{Binding Name}"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"
+                                                HorizontalOptions="StartAndExpand"/>
+                                            <Label
+                                                Text="{Binding Name}"
+                                                IsVisible="{Binding IsDosedVolumeNotGood}"
+                                                TextColor="Orange"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"
+                                                HorizontalOptions="StartAndExpand"/>
+                                            <Label
+                                                Text="{Binding Name}"
+                                                IsVisible="{Binding IsDosedVolumeGood}"
+                                                TextColor="#00C000"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"
+                                                HorizontalOptions="StartAndExpand"/>
+                                            
+
+                                            <Label
+                                                Grid.Column="1"
+                                                Text="{Binding VolumeInfo}"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"
+                                                HorizontalOptions="End"/>
+
+                                            
+
+                                            <Label
+                                                Grid.Row="1"
+                                                Text="{Binding ConsistencyInfo}"
+                                                FontSize="Medium"
+                                                HorizontalOptions="StartAndExpand"/>
+                                            <Label
+                                                Grid.Column="1"
+                                                Grid.Row="1"
+                                                IsVisible="{Binding IsVisible}"
+                                                Text="{Binding DosedVolumeInfo}"
+                                                FontSize="Medium" 
+                                                FontAttributes="Bold"
+                                                HorizontalOptions="End"/>
+
+                                            <Label
+                                                Grid.Row="2"
+                                                Text="{Binding DispenserInfo}"
+                                                FontSize="Medium"
+                                                HorizontalOptions="StartAndExpand"/>
+                                            <Label
+                                                Grid.Column="1"
+                                                Grid.Row="2"
+                                                IsVisible="{Binding IsVisible}"
+                                                Text="{Binding DosedVolumeErrorInfo}"
+                                                FontSize="Medium" 
+                                                FontAttributes="Bold"
+                                                HorizontalOptions="End"/>
+
+                                            <Label
                                                 Grid.Row="3"
                                                 Text="{Binding VolumeRateInfo}" 
                                                 FontSize="Medium" />
@@ -153,6 +159,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -165,12 +172,17 @@
                     <Button 
                         Grid.Column="1"
                         Text="Пауза"
-                        IsVisible="False"
+                        IsEnabled="{Binding IsLoopPause}"
                         Command="{Binding PauseJobCommand}"/>
                     <Button 
                         Grid.Column="2"
+                        Text="Продолжить"
+                        IsEnabled="{Binding IsLoopCont}"
+                        Command="{Binding ContJobCommand}"/>
+                    <Button 
+                        Grid.Column="3"
                         Text="Выполнить"
-                        IsVisible="True"
+                        IsEnabled="{Binding IsLoopStart}"
                         Command="{Binding StartJobCommand}"/>
                 </Grid>
             </StackLayout>

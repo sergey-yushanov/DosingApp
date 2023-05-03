@@ -52,12 +52,19 @@ namespace DosingApp.ViewModels
         //private double dosedVolume;
         private bool isPause;
 
+        private bool isLoopPause;
+        private bool isLoopCont;
+        private bool isLoopStart;
+
+        private bool isLoopWasActive;
+
         //
         //private ushort testRegister;
 
         public ICommand StartJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }
         public ICommand PauseJobCommand { get; protected set; }
+        public ICommand ContJobCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
 
         //public WebSocketService WebSocketService { get; protected set; }
@@ -94,6 +101,7 @@ namespace DosingApp.ViewModels
             StartJobCommand = new Command(StartJob);
             StopJobCommand = new Command(StopJob);
             PauseJobCommand = new Command(PauseJob);
+            ContJobCommand = new Command(ContJob);
             BackCommand = new Command(Back);
 
             //WebSocketService = new WebSocketService();
@@ -120,6 +128,10 @@ namespace DosingApp.ViewModels
 
             IsExitJob = false;
             //ModbusService = new ModbusService();
+            UpdateJobComponents();
+
+            isLoopWasActive = false;
+
         }
         #endregion Constructor
 
@@ -187,6 +199,28 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isPause, value); }
         }
 
+        public bool IsLoopPause
+        {
+            get { return isLoopPause; }
+            set { SetProperty(ref isLoopPause, value); }
+        }
+
+        public bool IsLoopCont
+        {
+            get { return isLoopCont; }
+            set { SetProperty(ref isLoopCont, value); }
+        }
+
+        public bool IsLoopStart
+        {
+            get { return isLoopStart; }
+            set { SetProperty(ref isLoopStart, value); }
+        }
+
+        //public bool IsContinue
+        //{
+
+        //}
         //public ushort TestRegister
         //{
         //    get
@@ -314,6 +348,12 @@ namespace DosingApp.ViewModels
             //WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
             ModbusService.WriteSingleRegister(CommonModbus.LoopPause());
         }
+
+        private void ContJob()
+        {
+            //WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
+            ModbusService.WriteSingleRegister(CommonModbus.LoopContinue());
+        }
         #endregion Commands
 
         #region Methods
@@ -433,38 +473,21 @@ namespace DosingApp.ViewModels
         {
             ModbusService.MasterMessages();
 
-            //ushort[] registersCommon;
-            //registersCommon = ModbusService.ReadRegisters(Registers.Common, CommonModbus.numberOfPoints);
-
-
-            //CarrierDosedVolume
-            // = (ushort)CommonModbus.Register32.CAR_DOSE_VOL;
-
-            //var y = registersCommon[x];
-
-            //OnPropertyChanged(nameof(TestRegister));
-
-            //Console.WriteLine("UpdateJobComponents");
             JobScreen.Update(Common, Collector1, Collector2, VolumeDos);
-            //OnPropertyChanged(nameof(JobScreen));
 
-            //dosedVolume = 0;
+            IsLoopPause = !Common.IsLoopPause && Common.IsLoopActive;
+            IsLoopCont = Common.IsLoopPause && Common.IsLoopActive;
+            IsLoopStart = !Common.IsLoopActive && !isLoopWasActive;
 
-            //for (int i = 0; i < JobComponentScreens.Count; i++)
-            //{
-            //    JobComponentScreens[i].Update(Common, Collector);
-            //    dosedVolume += (double)JobComponentScreens[i].DosedVolume;
-            //}
+            OnPropertyChanged(nameof(IsLoopPause));
+            OnPropertyChanged(nameof(IsLoopCont));
+            OnPropertyChanged(nameof(IsLoopStart));
 
-            //ProgressBarValue = dosedVolume / requiredVolume;
+            if (Common.IsLoopActive)
+            {
+                isLoopWasActive = true;
+            }
 
-            //for (int i = 0; i < JobComponentScreens.Count; i++)
-            //{
-            //    Console.WriteLine(JobComponentScreens[i].DosedVolume);
-            //}
-            //Console.WriteLine("=========");
-
-            //OnPropertyChanged(nameof(JobComponentScreens));
         }
 
         //public void Update(CommonScreen common, CollectorScreen collector)

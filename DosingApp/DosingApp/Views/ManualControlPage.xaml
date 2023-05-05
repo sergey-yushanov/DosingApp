@@ -1,0 +1,669 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
+             x:Class="DosingApp.Views.ManualControlPage"
+             NavigationPage.HasBackButton="False"
+             x:Name="ManualControl">
+
+    <ContentPage.Resources>
+        <Helpers:DoubleConverter x:Key="DoubleConverter"/>
+        <x:Int32 x:Key="Dec2">2</x:Int32>
+        <x:Int32 x:Key="Dec3">3</x:Int32>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <Helpers:ColorConverter x:Key="ColorConverter"/>
+    </ContentPage.Resources>
+    
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label 
+                Text="Ручное управление"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="CenterAndExpand"
+                FontSize="20"
+                FontAttributes="Bold"
+                FontFamily="sans-serif-light"
+                TextColor="{StaticResource TitleColor}"/>
+            <Image
+                Source="wifi_on_48px"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="End"
+                IsVisible="{Binding ModbusService.IsConnected}"/>
+            <Image
+                Source="wifi_off_48px"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="End"
+                IsVisible="{Binding ModbusService.IsConnected, Converter={StaticResource InverseBoolConverter}}"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="{StaticResource PageMargin}">
+
+                <StackLayout>
+                    <Label 
+                        Text="Носитель смеси"
+                        HorizontalOptions="StartAndExpand"
+                        FontSize="Medium"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                </StackLayout>
+
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label 
+                            Text="Насос"
+                            FontSize="Medium"
+                            TextColor="{Binding Common.PumpCommand, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                            VerticalOptions="Center"/>
+                        <Button
+                            Grid.Column="1"
+                            Text="Пуск"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PumpStartCommand}"/>
+                        <Button
+                            Grid.Column="2"
+                            Text="Стоп"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PumpStopCommand}"/>
+
+                        <Label 
+                            Grid.Row="1"
+                            Text="Кл"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="Открыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierValveOpenCommand}"/>
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Text="Закрыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierValveCloseCommand}"/>
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            Text="{Binding CarrierInfo}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="5"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierResetCommand}"/>
+                    </Grid>
+                </StackLayout>
+
+                <BoxView 
+                        HeightRequest="1"
+                        Color="LightGray"
+                        Margin ="0, 0, 0, 0"/>
+
+                <StackLayout>
+                    <Label 
+                        Text="Коллекторный дозатор 1"
+                        HorizontalOptions="StartAndExpand"
+                        FontSize="Medium"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                </StackLayout>
+
+                <StackLayout BindableLayout.ItemsSource="{Binding Collector1.Valves}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="3*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="Medium" 
+                                    TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                    VerticalOptions="Center"/>
+                                <Button
+                                    Grid.Column="1"
+                                    Text="Открыть"
+                                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveOpenCommand}"
+                                    CommandParameter="{Binding .}"/>
+                                <Button
+                                    Grid.Column="2"
+                                    Text="Закрыть"
+                                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveCloseCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="{Binding Collector1.ValveAdjustable.Name}"
+                            FontSize="Medium"
+                            TextColor="{Binding Collector1.ValveAdjustable.Open, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Button
+                            Grid.Column="1"
+                            Text="Открыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveAdjustableOpenCommand}"
+                            CommandParameter="{Binding Collector1.ValveAdjustable}"/>
+                        <Button
+                            Grid.Column="2"
+                            Text="Закрыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveAdjustableCloseCommand}"
+                            CommandParameter="{Binding Collector1.ValveAdjustable}"/>
+
+                        <Label
+                            Grid.Column="4"
+                            Text="{Binding Collector1Info}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Column="5"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ResetCommand}"/>
+                    </Grid>
+                </StackLayout>
+
+                <BoxView 
+                   HeightRequest="1"
+                   Color="LightGray"
+                   Margin ="0, 0, 0, 0"/>
+
+
+                <StackLayout>
+                    <Label 
+                        Text="Коллекторный дозатор 2"
+                        HorizontalOptions="StartAndExpand"
+                        FontSize="Medium"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                </StackLayout>
+
+                <StackLayout BindableLayout.ItemsSource="{Binding Collector2.Valves}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="3*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="Medium" 
+                                    TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                    VerticalOptions="Center"/>
+                                <Button
+                                    Grid.Column="1"
+                                    Text="Открыть"
+                                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveOpenCommand}"
+                                    CommandParameter="{Binding .}"/>
+                                <Button
+                                    Grid.Column="2"
+                                    Text="Закрыть"
+                                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveCloseCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="{Binding Collector2.ValveAdjustable.Name}"
+                            FontSize="Medium"
+                            TextColor="{Binding Collector2.ValveAdjustable.Open, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Button
+                            Grid.Column="1"
+                            Text="Открыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveAdjustableOpenCommand}"
+                            CommandParameter="{Binding Collector2.ValveAdjustable}"/>
+                        <Button
+                            Grid.Column="2"
+                            Text="Закрыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveAdjustableCloseCommand}"
+                            CommandParameter="{Binding Collector2.ValveAdjustable}"/>
+
+                        <Label
+                            Grid.Column="4"
+                            Text="{Binding Collector2Info}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Column="5"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ResetCommand}"/>
+                    </Grid>
+                </StackLayout>
+
+                <BoxView 
+                   HeightRequest="1"
+                   Color="LightGray"
+                   Margin ="0, 0, 0, 0"/>
+
+                <StackLayout>
+                    <Label 
+                        Text="Объемный дозатор"
+                        HorizontalOptions="StartAndExpand"
+                        FontSize="Medium"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                </StackLayout>
+
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label 
+                            Text="Кл"
+                            FontSize="Medium"
+                            TextColor="{Binding VolumeDos.Valve.Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                            VerticalOptions="Center"/>
+                        <Button
+                            Grid.Column="1"
+                            Text="Открыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosValveOpenCommand}"/>
+                        <Button
+                            Grid.Column="2"
+                            Text="Закрыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosValveCloseCommand}"/>
+
+                        <Label
+                            Grid.Column="4"
+                            Text="{Binding VolumeDosInfo}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Column="5"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosResetCommand}"/>
+                    </Grid>
+                </StackLayout>
+                
+                
+                <!--<StackLayout>
+                    <Label 
+                        Text="Одиночный дозатор"
+                        HorizontalOptions="StartAndExpand"
+                        FontSize="Medium"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="Расходомер"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label
+                            Grid.Column="1"
+                            Text="Расход, л/мин"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label 
+                            Grid.Column="3"
+                            Text="Объем, л"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                                Text="{Binding SingleDos.ValveAdjustable.Name}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="StartAndExpand"/>
+                        <Label
+                                Grid.Column="1"
+                                Text="{Binding SingleDos.Flowmeter.Flow}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                        <Label
+                                Grid.Column="3"
+                                Text="{Binding SingleDos.Flowmeter.Volume}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                        <Button
+                                Grid.Column="4"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.SingleDosFlowmeterNullifyCommand}"
+                                CommandParameter="{Binding SingleDos.Flowmeter}"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                                Text="Рег. клапан"
+                                HorizontalOptions="StartAndExpand"
+                                TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label 
+                                Grid.Column="1"
+                                Text="Уставка, %"
+                                HorizontalOptions="StartAndExpand"
+                                TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label
+                                Grid.Column="2"
+                                Text="Открытие, %"
+                                HorizontalOptions="StartAndExpand"
+                                TextColor="{StaticResource LabelEntryColor}"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                                Text="{Binding SingleDos.ValveAdjustable.Name}"
+                                FontSize="Medium"
+                                TextColor="{Binding SingleDos.ValveAdjustable.Faulty, Converter={StaticResource ColorConverter}, ConverterParameter='Faulty'}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="StartAndExpand"/>
+                        <Entry
+                                Grid.Column="1"
+                                Text="{Binding SingleDos.ValveAdjustable.Setpoint, Converter={StaticResource DoubleConverter}}"
+                                FontSize="Medium"
+                                Keyboard="Numeric"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                HorizontalTextAlignment="End"
+                                IsFocused="{Binding SingleDos.ValveAdjustable.IsSetpointFocused}"
+                                ReturnCommand="{Binding Source={x:Reference ManualControl}, Path=BindingContext.SingleDosValveAdjustableSetpointCommand}"
+                                ReturnCommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                        <Label
+                                Grid.Column="3"
+                                Text="{Binding SingleDos.ValveAdjustable.Position}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                        <Button
+                                Grid.Column="5"
+                                Text="Открыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.SingleDosValveAdjustableOpenCommand}"
+                                CommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                        <Button
+                                Grid.Column="6"
+                                Text="Закрыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.SingleDosValveAdjustableCloseCommand}"
+                                CommandParameter="{Binding SingleDos.ValveAdjustable}"/>
+                    </Grid>
+                </StackLayout>
+
+                <BoxView 
+                   HeightRequest="1"
+                   Color="LightGray"
+                   Margin ="0, 0, 0, 0"/>
+
+                <StackLayout>
+                    <Label 
+                        Text="Носитель"
+                        HorizontalOptions="StartAndExpand"
+                        FontSize="Medium"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="Расходомер"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label
+                            Grid.Column="1"
+                            Text="Расход, л/мин"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label 
+                            Grid.Column="3"
+                            Text="Объем, л"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="M1"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Label
+                            Grid.Column="1"
+                            Text="{Binding Common.Flowmeter.Flow}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Label
+                            Grid.Column="3"
+                            Text="{Binding Common.Flowmeter.Volume}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Column="4"
+                            Text="Обнул"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.FlowmeterNullifyCommand}"
+                            CommandParameter="{Binding Common.Flowmeter}"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="Рег. клапан"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label 
+                            Grid.Column="1"
+                            Text="Уставка, %"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Label
+                            Grid.Column="2"
+                            Text="Открытие, %"
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="{Binding Common.ValveAdjustable.Name}"
+                            FontSize="Medium"
+                            TextColor="{Binding Common.ValveAdjustable.Faulty, Converter={StaticResource ColorConverter}, ConverterParameter='Faulty'}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Entry
+                            Grid.Column="1"
+                            Text="{Binding Common.ValveAdjustable.Setpoint, Converter={StaticResource DoubleConverter}}"
+                            FontSize="Medium"
+                            Keyboard="Numeric"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.ValveAdjustable.IsSetpointFocused}"
+                            ReturnCommand="{Binding Source={x:Reference ManualControl}, Path=BindingContext.ValveAdjustableSetpointCommand}"
+                            ReturnCommandParameter="{Binding Common.ValveAdjustable}"/>
+                        <Label
+                            Grid.Column="3"
+                            Text="{Binding Common.ValveAdjustable.Position}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                        <Button
+                            Grid.Column="5"
+                            Text="Открыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.ValveAdjustableOpenCommand}"
+                            CommandParameter="{Binding Common.ValveAdjustable}"/>
+                        <Button
+                            Grid.Column="6"
+                            Text="Закрыть"
+                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.ValveAdjustableCloseCommand}"
+                            CommandParameter="{Binding Common.ValveAdjustable}"/>
+                    </Grid>
+                </StackLayout>-->
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

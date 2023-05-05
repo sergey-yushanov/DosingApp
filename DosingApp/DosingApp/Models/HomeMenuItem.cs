@@ -21,6 +21,7 @@ namespace DosingApp.Models
         Fields,
         Users,
         Mixers,
+        ManualControl,
         MixerControl,
         Login
     }
@@ -32,6 +33,7 @@ namespace DosingApp.Models
         public static string AdditionalParams = "Дополнительные параметры";
         public static string AdminParams = "Инженерное меню";
         public static string LoginMenu = "Авторизация";
+        public static string Control = "Управление";
     }
 
     public class HomeMenuItem

@@ -14,36 +14,37 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class MixerControlPage : ContentPage
+    public partial class ManualControlPage : ContentPage
     {
         private CancellationTokenSource cancellation;
 
-        public MixerControlPage()
+        public ManualControlPage()
         {
             InitializeComponent();
-            BindingContext = new MixerControlViewModel();
+            BindingContext = new ManualControlViewModel();
 
             this.cancellation = new CancellationTokenSource();
-            TimerStart((MixerControlViewModel)BindingContext);
+            TimerStart((ManualControlViewModel)BindingContext);
         }
 
         protected override bool OnBackButtonPressed()
         {
-            var mixerControlViewModel = (MixerControlViewModel)BindingContext;
-            mixerControlViewModel.ModbusService.MasterDispose();
+            var manualControlViewModel = (ManualControlViewModel)BindingContext;
+            manualControlViewModel.ModbusService.MasterDispose();
             TimerStop();
             return base.OnBackButtonPressed();
         }
 
         //protected override void OnDisappearing()
         //{
-        //    var mixerControlViewModel = (MixerControlViewModel)BindingContext;
-        //    mixerControlViewModel.ModbusService.MasterDispose();
+        //    Console.WriteLine("OnBackButtonPressed");
+        //    var manualControlViewModel = (ManualControlViewModel)BindingContext;
+        //    manualControlViewModel.ModbusService.MasterDispose();
         //    TimerStop();
         //    base.OnDisappearing();
         //}
 
-        public void TimerStart(MixerControlViewModel viewModel)
+        public void TimerStart(ManualControlViewModel viewModel)
         {
             CancellationTokenSource cts = this.cancellation; // safe copy
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>

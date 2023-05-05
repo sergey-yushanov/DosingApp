@@ -12,6 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20230430172545_TestMigrationField.cs" />
+    <Compile Remove="Migrations\20230430172545_TestMigrationField.Designer.cs" />
+    <Compile Remove="Migrations\20230430173135_AnotherTestMigrationField.cs" />
+    <Compile Remove="Migrations\20230430173135_AnotherTestMigrationField.Designer.cs" />
+    <Compile Remove="Migrations\20230430204523_DeleteTestMigrationField.cs" />
+    <Compile Remove="Migrations\20230430204523_DeleteTestMigrationField.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.1.1" />
     <PackageReference Include="FileHelpers" Version="3.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
@@ -19,6 +28,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NModbus" Version="3.0.78" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
     <PackageReference Include="System.Net.WebSockets.WebSocketProtocol" Version="5.0.0" />
     <PackageReference Include="Websocket.Client" Version="4.3.32" />
@@ -61,6 +71,9 @@
     </Compile>
     <Compile Update="Views\JobComponentsPage.xaml.cs">
       <DependentUpon>JobComponentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ManualControlPage.xaml.cs">
+      <DependentUpon>ManualControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MixerControlPage.xaml.cs">
       <DependentUpon>MixerControlPage.xaml</DependentUpon>

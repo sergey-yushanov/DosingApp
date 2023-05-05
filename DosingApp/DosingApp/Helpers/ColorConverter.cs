@@ -16,7 +16,7 @@ namespace DosingApp.Helpers
                 switch (color)
                 {
                     case "Work":
-                        return Application.Current.Resources["GreenColor"];
+                        return Application.Current.Resources["GreenLightColor"];
                     case "Faulty":
                         return Application.Current.Resources["AlertColor"];
                     case "Orange":

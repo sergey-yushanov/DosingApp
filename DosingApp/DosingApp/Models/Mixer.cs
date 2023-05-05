@@ -7,6 +7,7 @@ namespace DosingApp.Models
     public static class DispenserSuffix
     {
         public const string Collector = "Кол";
+        public const string Volume = "ОД";
         public const string Single = "ОД";
         public const string ThreeWay = "ТХК";
         public const string Carrier = "Носитель";
@@ -29,7 +30,8 @@ namespace DosingApp.Models
         {
             var dispensers = new List<string>();
             dispensers.AddRange(GetCollectorDispensers());
-            dispensers.AddRange(GetSingleDispensers());
+            //dispensers.AddRange(GetSingleDispensers());
+            dispensers.AddRange(GetVolumeDispensers());
             dispensers.AddRange(GetThreeWayDispensers());
             return dispensers;
         }
@@ -40,7 +42,7 @@ namespace DosingApp.Models
             if (Collector != null)
             {
                 for (int c = 1; c <= Collector; c++)
-                for (int v = 1; v <= 4; v++) // в коллекторе 4 клапана
+                for (int v = 1; v <= 3; v++) // в коллекторе 3 клапана
                 {
                     dispensers.Add(c.ToString() + DispenserSuffix.Collector + v.ToString());
                 }
@@ -56,6 +58,19 @@ namespace DosingApp.Models
                 for (int s = 1; s <= Single; s++)
                 {
                     dispensers.Add(DispenserSuffix.Single + s.ToString());
+                }
+            }
+            return dispensers;
+        }
+
+        public List<string> GetVolumeDispensers()
+        {
+            var dispensers = new List<string>();
+            if (Single != null)
+            {
+                for (int s = 1; s <= Single; s++)
+                {
+                    dispensers.Add(DispenserSuffix.Volume + s.ToString());
                 }
             }
             return dispensers;

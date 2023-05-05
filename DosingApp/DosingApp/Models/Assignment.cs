@@ -81,7 +81,10 @@ namespace DosingApp.Models
         public int? FieldId { get; set; }
         public virtual Field Field { get; set; }
 
+        public string Place { get; set; }
+
         public double? VolumeRate { get; set; }
+        //public double? Volume { get; set; }
 
         public double? Size { get; set; }
         public string Unit { get; set; }

@@ -13,6 +13,7 @@ namespace DosingApp.Models.WebSocket
         public bool? CommandOpen { get; set; }
         public bool? CommandClose { get; set; }
         // properties
+        public bool? Open { get; set; }
         public bool? Faulty { get; set; }
         public double? Setpoint { get; set; }
         public double? Position { get; set; }

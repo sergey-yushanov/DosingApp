@@ -13,6 +13,7 @@ namespace DosingApp.DataContext
         public AppDbContext CreateDbContext(string[] args)
         {
             return new AppDbContext(args[0]);
+            //return new AppDbContext();
         }
     }
 }

@@ -23,8 +23,8 @@ namespace DosingApp.ViewModels
         public LoginViewModel()
         {
             App.ActiveUser = null;
-            Username = "admin";
-            Password = "admin";
+            //Username = "admin";
+            //Password = "admin";
             SignInCommand = new Command(SignIn);
         }
         #endregion Constructor

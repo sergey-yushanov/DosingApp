@@ -22,6 +22,13 @@ namespace DosingApp.Models.Screen
                 PulsesPerLiter = flowmeter.PulsesPerLiter ?? 0;
         }
 
+        public void Update(float flow, float volume, float pulsesPerLiter)
+        {
+            Flow = flow;
+            Volume = volume;
+            PulsesPerLiter = pulsesPerLiter;
+        }
+
         //public void InitNew(Flowmeter flowmeter, bool showSettings)
         //{
         //    if (showSettings)

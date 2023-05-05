@@ -42,20 +42,20 @@
                         Keyboard="Numeric"/>
 
                     <Label 
-                        Text="Количество ОД"
+                        Text="Количество объемных дозаторов"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
-                        Placeholder="Введите количество ОД" 
-                        Text="{Binding Single}" 
+                        Placeholder="Введите количество объемных дозаторов"
+                        Text="{Binding Volume}"
                         Keyboard="Numeric"/>
 
-                    <Label 
+                    <!--<Label 
                         Text="Количество 3-х ходовых клапанов"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите количество 3-х ход. клапанов" 
                         Text="{Binding ThreeWay}" 
-                        Keyboard="Numeric"/>
+                        Keyboard="Numeric"/>-->
 
                 </StackLayout>
                 <StackLayout>

@@ -58,9 +58,9 @@ namespace DosingApp.ViewModels
             JobViewModel jobViewModel = jobInstance as JobViewModel;
             if (jobViewModel.Job != null && jobViewModel.IsValid)
             {
-                if (jobViewModel.Job.PartyVolume == null)
+                if (jobViewModel.Job.AssignmentSize == null)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте размер партии", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Не задан размер партии смеси", "Ok");
                     return;
                 }
                 using (AppDbContext db = App.GetContext())
@@ -126,8 +126,19 @@ namespace DosingApp.ViewModels
             }));
 
             var carrierVolume = GetCarrierVolume(job, jobComponents);
-            var carrierVolumeRate = GetCarrierVolumeRate(carrierVolume, job.PartyVolume, job.VolumeRate);
             var recipeCarrier = LoadRecipeCarrier(job);
+
+            double? tmpVolume;
+            if (job.PartyVolume == null)
+            {
+                tmpVolume = job.AssignmentSize;
+            }
+            else
+            {
+                tmpVolume = job.PartyVolume;
+            }
+            var carrierVolumeRate = GetCarrierVolumeRate(carrierVolume, tmpVolume, job.VolumeRate);
+
 
             jobComponents.Insert(0, new JobComponent()
             {
@@ -148,9 +159,20 @@ namespace DosingApp.ViewModels
 
         private double? GetVolume(RecipeComponent recipeComponent, Job job)
         {
+            double? tmpVolume;
+            if (job.PartyVolume == null)
+            {
+                tmpVolume = job.AssignmentSize;
+            }
+            else
+            {
+                tmpVolume = job.PartyVolume;
+            }
+
             if (job.VolumeRate != 0.0)
             {
-                double? doubleValue = job.PartyVolume * recipeComponent.VolumeRate / job.VolumeRate;
+                double? doubleValue = tmpVolume * recipeComponent.VolumeRate / job.VolumeRate;
+
                 if (String.Equals(recipeComponent.VolumeRateUnit, VolumeRateUnit.Dry))
                 {
                     doubleValue = recipeComponent.Component.Density != 0 ? doubleValue / recipeComponent.Component.Density : doubleValue;
@@ -166,10 +188,20 @@ namespace DosingApp.ViewModels
 
         private double? GetCarrierVolume(Job job, List<JobComponent> jobComponents)
         {
+            double? tmpVolume;
+            if (job.PartyVolume == null)
+            {
+                tmpVolume = job.AssignmentSize;
+            }
+            else
+            {
+                tmpVolume = job.PartyVolume;
+            }
+
             double? jobComponentsVolume = 0.0;
             jobComponents.ForEach(jc => jobComponentsVolume += jc.Volume);
             
-            double? doubleValue = job.PartyVolume - jobComponentsVolume;
+            double? doubleValue = tmpVolume - jobComponentsVolume;
             var decimalValue = (decimal)doubleValue;
             return (double)Math.Round(decimalValue, 2);
         }

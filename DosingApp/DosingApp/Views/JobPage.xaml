@@ -47,7 +47,7 @@
                         FontSize="Medium"
                         Padding="0,10"/>
 
-                    <Label
+                    <!--<Label
                         Text="Откуда носитель смеси" 
                         TextColor="{StaticResource LabelEntryColor}"
                         IsVisible="{Binding SourceTypeVisibility}"/>
@@ -138,17 +138,17 @@
                         Text="{Binding AgrYear.Name}"
                         FontSize="Medium"
                         Padding="0,10"
-                        IsVisible="{Binding AgrYearVisibility}"/>
+                        IsVisible="{Binding AgrYearVisibility}"/>-->
 
                     <Label 
                         Text="Место обработки СЗР"
                         TextColor="{StaticResource LabelEntryColor}"
-                        IsVisible="{Binding FieldVisibility}"/>
+                        IsVisible="{Binding PlaceVisibility}"/>
                     <Label
-                        Text="{Binding Field.Name}"
+                        Text="{Binding Place}"
                         FontSize="Medium"
                         Padding="0,10"
-                        IsVisible="{Binding FieldVisibility}"/>
+                        IsVisible="{Binding PlaceVisibility}"/>
 
                     <Label 
                         Text="Норма вылива, л/га" 
@@ -159,25 +159,18 @@
                         Padding="0,10"/>
 
                     <Label 
-                        Text="{Binding SizeInfoLabel}" 
-                        TextColor="{StaticResource LabelEntryColor}"
-                        IsVisible="{Binding SizeInfoVisibility}"/>
+                        Text="Размер партии смеси согласно задания, л" 
+                        TextColor="{StaticResource LabelEntryColor}"/>
                     <Label
-                        Text="{Binding SizeInfo}"
+                        Text="{Binding AssignmentSize, Converter={StaticResource DoubleConverter}}"
                         FontSize="Medium"
-                        Padding="0,10"
-                        IsVisible="{Binding SizeInfoVisibility}"/>
-                    <Label
-                        Text="{Binding PartyCountInfo}"
-                        FontSize="Medium"
-                        Padding="0,10"
-                        IsVisible="{Binding SizeInfoVisibility}"/>
-                    
+                        Padding="0,10"/>
+
                     <Label 
-                        Text="Размер партии смеси, л"
+                        Text="Иной размер партии смеси (корректировка), л"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry
-                        Placeholder="Введите размер партии"
+                        Placeholder="При необходимости укажите новый размер партии смеси"
                         Text="{Binding PartyVolume, Converter={StaticResource DoubleConverter}}" 
                         Keyboard="Numeric"/>
 

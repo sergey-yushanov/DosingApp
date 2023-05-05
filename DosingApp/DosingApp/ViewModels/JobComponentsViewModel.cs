@@ -2,6 +2,7 @@
 using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Models.Files;
+using DosingApp.Models.Modbus;
 using DosingApp.Models.Screen;
 using DosingApp.Models.WebSocket;
 using DosingApp.Services;
@@ -15,6 +16,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -38,29 +41,50 @@ namespace DosingApp.ViewModels
         //private ObservableCollection<JobComponent> jobComponentsDosed;
         //private ObservableCollection<JobComponent> jobComponentsError;
         private CommonLoop commonLoop;
-        private CollectorLoop collectorLoop;
-        private SingleDosLoop singleDosLoop;
+        private static int nCollectors = 2;
+        private static int nDoseValves = 3;
+        private ObservableCollection<CollectorLoop> collectorsLoop;
+
+        //private SingleDosLoop singleDosLoop;
+        private VolumeDosLoop volumeDosLoop;
         //private double progressBarValue;
         //private double requiredVolume;
         //private double dosedVolume;
         private bool isPause;
 
+        private bool isLoopPause;
+        private bool isLoopCont;
+        private bool isLoopStart;
+
+        private bool isLoopWasActive;
+
         //
+        //private ushort testRegister;
 
         public ICommand StartJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }
         public ICommand PauseJobCommand { get; protected set; }
+        public ICommand ContJobCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
 
-        public WebSocketService WebSocketService { get; protected set; }
+        //public WebSocketService WebSocketService { get; protected set; }
+        public ModbusService ModbusService { get; protected set; }
+
+        public bool IsExitJob { get; set; }
+        public bool IsNotInitializedLoop { get; set; }
         #endregion Attributes
 
         #region Constructor
         public JobComponentsViewModel(Job job, List<JobComponent> jobComponents)
         {
             Job = job;
-
             JobScreen = new JobScreen(jobComponents);
+
+            CollectorsLoop = new ObservableCollection<CollectorLoop>();
+            for (int i = 0; i < nCollectors; i++)
+            {
+                CollectorsLoop.Add(new CollectorLoop(i));
+            }
 
             //JobComponents = new ObservableCollection<JobComponent>(jobComponents);
 
@@ -77,14 +101,37 @@ namespace DosingApp.ViewModels
             StartJobCommand = new Command(StartJob);
             StopJobCommand = new Command(StopJob);
             PauseJobCommand = new Command(PauseJob);
+            ContJobCommand = new Command(ContJob);
             BackCommand = new Command(Back);
 
-            WebSocketService = new WebSocketService();
-            if (WebSocketService.Mixer != null)
+            //WebSocketService = new WebSocketService();
+            //if (WebSocketService.Mixer != null)
+            //{
+            //MakeRequirements(jobComponents);
+            //WebSocketSendRequirements();
+            //ModbusSendRequirements();
+            //}
+
+            ModbusService = new ModbusService();
+            IsNotInitializedLoop = false;
+            //if (!ModbusService.IsConnected)
+            //{
+            //    IsNotInitializedLoop = true;
+            //}
+
+            if (ModbusService.Mixer != null)
             {
+                ModbusService.WriteSingleRegister(CommonModbus.LoopClear());
                 MakeRequirements(jobComponents);
-                WebSocketSendRequirements();
+                ModbusSendRequirements();
             }
+
+            IsExitJob = false;
+            //ModbusService = new ModbusService();
+            UpdateJobComponents();
+
+            isLoopWasActive = false;
+
         }
         #endregion Constructor
 
@@ -152,21 +199,98 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isPause, value); }
         }
 
-        public CollectorScreen Collector
+        public bool IsLoopPause
         {
-            get 
-            {
-                //UpdateJobComponents();
-                return WebSocketService.Collector; 
-            }
+            get { return isLoopPause; }
+            set { SetProperty(ref isLoopPause, value); }
         }
 
-        public SingleDosScreen SingleDos
+        public bool IsLoopCont
+        {
+            get { return isLoopCont; }
+            set { SetProperty(ref isLoopCont, value); }
+        }
+
+        public bool IsLoopStart
+        {
+            get { return isLoopStart; }
+            set { SetProperty(ref isLoopStart, value); }
+        }
+
+        //public bool IsContinue
+        //{
+
+        //}
+        //public ushort TestRegister
+        //{
+        //    get
+        //    {
+        //        return ModbusService.TestRegister;
+        //    }
+        //}
+
+        //public CollectorScreen Collector1
+        //{
+        //    get
+        //    {
+        //        //UpdateJobComponents();
+        //        return ModbusService.Collector1;
+        //        //return WebSocketService.Collector;
+        //    }
+        //}
+
+
+        //public CollectorScreen Collector2
+        //{
+        //    get
+        //    {
+        //        //UpdateJobComponents();
+        //        return ModbusService.Collector2;
+        //        //return WebSocketService.Collector;
+        //    }
+        //}
+
+        //public SingleDosScreen SingleDos
+        //{
+        //    get
+        //    {
+        //        //UpdateJobComponents();
+        //        return ModbusService.SingleDos;
+        //        //return WebSocketService.SingleDos;
+        //    }
+        //}
+
+        public ObservableCollection<CollectorLoop> CollectorsLoop
+        {
+            get { return collectorsLoop; }
+            set { SetProperty(ref collectorsLoop, value); }
+        }
+
+        public CollectorScreen Collector1
         {
             get
             {
                 //UpdateJobComponents();
-                return WebSocketService.SingleDos;
+                return ModbusService.Collector1;
+            }
+        }
+
+        public CollectorScreen Collector2
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.Collector2;
+            }
+        }
+
+        public VolumeDosScreen VolumeDos
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.VolumeDos;
+                //return WebSocketService.SingleDos;
             }
         }
 
@@ -175,7 +299,8 @@ namespace DosingApp.ViewModels
             get 
             {
                 //UpdateJobComponents();
-                return WebSocketService.Common; 
+                return ModbusService.Common;
+                //return WebSocketService.Common; 
             }
         }
         #endregion Properties
@@ -201,31 +326,45 @@ namespace DosingApp.ViewModels
 
         private void StartJob()
         {
-            WebSocketService.CommonLoopMessage(new CommonLoop { CommandStart = true });
+            //WebSocketService.CommonLoopMessage(new CommonLoop { CommandStart = true });
+            ModbusSendRequirements();
+            Thread.Sleep(1000);
+            ModbusService.WriteSingleRegister(CommonModbus.LoopStart());
         }
 
         private async void StopJob()
         {
             if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Если идет дозация, то она будет завершена. Выйти?", "Да", "Нет"))
             {
-                WebSocketService.CommonLoopMessage(new CommonLoop { CommandStop = true });
+                ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
+                ModbusService.MasterDispose();
+                IsExitJob = true;
                 Back3Pages();
             }
         }
 
         private void PauseJob()
         {
-            WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
+            //WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
+            ModbusService.WriteSingleRegister(CommonModbus.LoopPause());
+        }
+
+        private void ContJob()
+        {
+            //WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
+            ModbusService.WriteSingleRegister(CommonModbus.LoopContinue());
         }
         #endregion Commands
 
         #region Methods
         public void MakeRequirements(List<JobComponent> jobComponents)
         {
-            var valveNums = new List<int>();
-            var requiredVolumes = new List<double>();
+            //var valveNums = new List<int>();
+            //var requiredVolumes = new List<double>();
+            
             double carrierRequiredVolume = 0;
-            double singleRequiredVolume = 0;
+            //double singleRequiredVolume = 0;
+            double volumeDosRequiredVolume = 0;
 
             foreach (var jobComponent in jobComponents)
             {
@@ -242,23 +381,35 @@ namespace DosingApp.ViewModels
 
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
                 {
-                    valveNums.Add(jobComponent.GetDispenserNumber());
-                    requiredVolumes.Add((double)jobComponent.Volume);
+                    //valveNums.Add(jobComponent.GetDispenserNumber());
+                    //requiredVolumes.Add((double)jobComponent.Volume);
+
+                    int collectorIndex = (int)Char.GetNumericValue(jobComponent.Dispenser[0]) - 1;
+                    CollectorsLoop[collectorIndex].ValveNums.Add(jobComponent.GetDispenserNumber());
+                    CollectorsLoop[collectorIndex].RequiredVolumes.Add((double)jobComponent.Volume);
+                    
                     continue;
                 }
 
+
+                //if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
+                //{
+                //    singleRequiredVolume = (double)jobComponent.Volume;
+                //    continue;
+                //}
+
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
                 {
-                    singleRequiredVolume = (double)jobComponent.Volume;
+                    volumeDosRequiredVolume = (double)jobComponent.Volume;
                     continue;
                 }
             }
 
-            collectorLoop = new CollectorLoop
-            {
-                ValveNums = valveNums,
-                RequiredVolumes = requiredVolumes
-            };
+            //collectorLoop = new CollectorLoop
+            //{
+            //    ValveNums = valveNums,
+            //    RequiredVolumes = requiredVolumes
+            //};
 
             commonLoop = new CommonLoop
             {
@@ -266,49 +417,84 @@ namespace DosingApp.ViewModels
                 CarrierReserve = (double)Job.Recipe.CarrierReserve
             };
 
-            singleDosLoop = new SingleDosLoop
+            //singleDosLoop = new SingleDosLoop
+            //{
+            //    RequiredVolume = singleRequiredVolume
+            //};
+
+            volumeDosLoop = new VolumeDosLoop
             {
-                RequiredVolume = singleRequiredVolume
+                RequiredVolume = volumeDosRequiredVolume
             };
         }
 
         public void WebSocketSendRequirements()
-        {
+        {            
             //WebSocketService.CollectorLoopMessage(1, collectorLoop);
             //WebSocketService.SingleLoopMessage(1, singleDosLoop);
             //WebSocketService.CommonLoopMessage(commonLoop);
-            WebSocketService.AllLoopMessage(commonLoop, collectorLoop, singleDosLoop);
+
+
+            //WebSocketService.AllLoopMessage(commonLoop, collectorLoop, singleDosLoop);
+        }
+
+        public void ModbusSendRequirements()
+        {
+            for (int i = 0; i < nCollectors; i++)
+            {
+                bool[] usedValves = new bool[nDoseValves];
+                ushort collectorNumber = (ushort)(i + 1);
+                for (int j = 0; j < CollectorsLoop[i].ValveNums.Count; j++)
+                {
+                    ushort order = (ushort)(j + 1);
+                    ushort valveNum = (ushort)CollectorsLoop[i].ValveNums[j];
+                    ModbusService.WriteSingleRegister(CollectorModbus.ValveOrder(collectorNumber, valveNum, order));
+                    ModbusService.WriteSingleRegister32(CollectorModbus.VolumeRequired(collectorNumber, valveNum, (float)CollectorsLoop[i].RequiredVolumes[j]));
+                    usedValves[valveNum - 1] = true;
+                }
+
+                for (int j = 0; j < nDoseValves; j++)
+                {
+                    if (!usedValves[j])
+                    {
+                        ModbusService.WriteSingleRegister(CollectorModbus.ValveOrder(collectorNumber, (ushort)(j + 1), 0));
+                        ModbusService.WriteSingleRegister32(CollectorModbus.VolumeRequired(collectorNumber, (ushort)(j + 1), 0.0f));
+                    }
+                }
+            }
+
+            ModbusService.WriteSingleRegister32(VolumeDosModbus.VolumeRequired(1, (float)volumeDosLoop.RequiredVolume));
+
+            ModbusService.WriteSingleRegister32(CommonModbus.VolumeRequired((float)commonLoop.CarrierRequiredVolume));
+            ModbusService.WriteSingleRegister32(CommonModbus.Reserve((float)commonLoop.CarrierReserve));
         }
 
         public void UpdateJobComponents()
         {
-            JobScreen.Update(Common, Collector, SingleDos);
-            //OnPropertyChanged(nameof(JobScreen));
+            ModbusService.MasterMessages();
 
-            //dosedVolume = 0;
+            JobScreen.Update(Common, Collector1, Collector2, VolumeDos);
 
-            //for (int i = 0; i < JobComponentScreens.Count; i++)
-            //{
-            //    JobComponentScreens[i].Update(Common, Collector);
-            //    dosedVolume += (double)JobComponentScreens[i].DosedVolume;
-            //}
+            IsLoopPause = !Common.IsLoopPause && Common.IsLoopActive;
+            IsLoopCont = Common.IsLoopPause && Common.IsLoopActive;
+            IsLoopStart = !Common.IsLoopActive && !isLoopWasActive;
 
-            //ProgressBarValue = dosedVolume / requiredVolume;
+            OnPropertyChanged(nameof(IsLoopPause));
+            OnPropertyChanged(nameof(IsLoopCont));
+            OnPropertyChanged(nameof(IsLoopStart));
 
-            //for (int i = 0; i < JobComponentScreens.Count; i++)
-            //{
-            //    Console.WriteLine(JobComponentScreens[i].DosedVolume);
-            //}
-            //Console.WriteLine("=========");
+            if (Common.IsLoopActive)
+            {
+                isLoopWasActive = true;
+            }
 
-            //OnPropertyChanged(nameof(JobComponentScreens));
         }
 
         //public void Update(CommonScreen common, CollectorScreen collector)
         //{
         //    Console.WriteLine(common.CarrierDosedVolume);
         //    Console.WriteLine(Dispenser);
-            
+
 
         //    if (Dispenser == DispenserSuffix.Dry)
         //        return;
@@ -328,6 +514,18 @@ namespace DosingApp.ViewModels
                         var recipeComponentsDb = db.RecipeComponents.Where(rc => rc.RecipeId == Job.RecipeId);
                     }
                 }*/
+
+
+        public void ExitJob()
+        {
+            Application.Current.MainPage.DisplayAlert("Предупреждение", "Отсутствует связь с ПЛК, вы будете перенаправлены на главную страницу", "Ok");
+            {
+                ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
+                ModbusService.MasterDispose();
+                IsExitJob = true;
+                Back3Pages();
+            }
+        }
         #endregion Methods
 
     }

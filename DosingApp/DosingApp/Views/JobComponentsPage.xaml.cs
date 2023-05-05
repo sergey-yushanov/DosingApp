@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -29,27 +29,47 @@ namespace DosingApp.Views
             TimerStart();
         }
 
-        protected override void OnDisappearing()
+        protected override bool OnBackButtonPressed()
         {
-            var jobComponentsViewModel = (JobComponentsViewModel)BindingContext;
-            jobComponentsViewModel.WebSocketService.WebsocketClientExit();
-            TimerStop();
-            base.OnDisappearing();
+            //Task.Run(() => ViewModel.DeviceButtonStopJobAsync()).Wait();
+            //if (ViewModel.IsExitJob)
+            //{
+            //    Console.WriteLine("Is Exit Job");
+            //    TimerStop();
+            //}
+            return true;
         }
+
+
+        //protected override void OnDisappearing()
+        //{
+        //    Console.WriteLine("OnDisappearing");
+        //    var jobComponentsViewModel = (JobComponentsViewModel)BindingContext;
+        //    //jobComponentsViewModel.WebSocketService.WebsocketClientExit();
+        //    jobComponentsViewModel.ModbusService.MasterDispose();
+        //    TimerStop();
+        //    base.OnDisappearing();
+        //}
 
         public void TimerStart()
         {
+            Console.WriteLine("Timer Start");
             CancellationTokenSource cts = this.cancellation; // safe copy
             Device.StartTimer(TimeSpan.FromSeconds(1), () => 
             {
                 if (cts.IsCancellationRequested) return false;
-                Device.BeginInvokeOnMainThread(() => ViewModel.UpdateJobComponents());
+                Device.BeginInvokeOnMainThread(() => {
+                    ViewModel.UpdateJobComponents();
+                    //if (ViewModel.IsNotInitializedLoop) ViewModel.ExitJob();
+                    if (ViewModel.IsExitJob) TimerStop();
+                });
                 return true;
             });
         }
 
         public void TimerStop()
         {
+            Console.WriteLine("Timer Stop");
             Interlocked.Exchange(ref this.cancellation, new CancellationTokenSource()).Cancel();
         }
     }

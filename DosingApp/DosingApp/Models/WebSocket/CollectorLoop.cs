@@ -29,5 +29,15 @@ namespace DosingApp.Models.WebSocket
         public double? Setpoint1 { get; set; }
         public double? Setpoint2 { get; set; }
         public double? Setpoint3 { get; set; }
+
+        public int Number { get; set; }
+
+        public CollectorLoop(int number)
+        {
+            Number = number;
+            ValveNums = new List<int>();
+            RequiredVolumes = new List<double>();
+            DosedVolumes = new List<double>(3);
+        }
     }
 }

@@ -3,6 +3,7 @@ using DosingApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
+using DosingApp.Models.Modbus;
 
 namespace DosingApp.Models.Screen
 {
@@ -102,6 +103,36 @@ namespace DosingApp.Models.Screen
                 Setpoint1 = collector.Loop.Setpoint1 ?? 0;
             if (!IsSetpoint2Focused)
                 Setpoint2 = collector.Loop.Setpoint2 ?? 0;
+        }
+
+        public void Update(ushort[] registers)
+        {
+            union_bit_field_s status = new union_bit_field_s();
+            status.w = registers[(int)CollectorModbus.Register.SW];
+            ValveAdjustable.Open = status.s[(int)CollectorModbus.StatusWord.VADJ_OPN];
+            Valves[3].Command = status.s[(int)CollectorModbus.StatusWord.VLV_1_COM];
+            Valves[2].Command = status.s[(int)CollectorModbus.StatusWord.VLV_2_COM];
+            Valves[1].Command = status.s[(int)CollectorModbus.StatusWord.VLV_3_COM];
+            Valves[0].Command = status.s[(int)CollectorModbus.StatusWord.VLV_4_COM];
+
+            float setPoint = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VADJ_SP));
+            float position = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VADJ_POS));
+            ValveAdjustable.Update(setPoint, position);
+
+            float flow = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.FLOW));
+            float volume = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VOL));
+            float pulsesPerLiter = (float)Flowmeter.PulsesPerLiter;
+            if (!Flowmeter.IsPulsesPerLiterFocused)
+                pulsesPerLiter = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VOL_RATIO));
+            Flowmeter.Update(flow, volume, pulsesPerLiter);
+
+            DosedVolumes[0] = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VLV_1_DOSE_VOL));
+            DosedVolumes[1] = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VLV_2_DOSE_VOL));
+            DosedVolumes[2] = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VLV_3_DOSE_VOL));
+
+            RequiredVolumes[0] = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VLV_1_REQ_VOL));
+            RequiredVolumes[1] = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VLV_2_REQ_VOL));
+            RequiredVolumes[2] = CollectorModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CollectorModbus.Register32.VLV_3_REQ_VOL));
         }
 
         public int GetValvesNum()

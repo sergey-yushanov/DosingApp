@@ -25,6 +25,7 @@ namespace DosingApp.ViewModels
         private ObservableCollection<Applicator> applicators;
         private ObservableCollection<AgrYear> agrYears;
         private ObservableCollection<Field> fields;
+        private string place;
 
         private ObservableCollection<FacilityTank> sourceFacilityTanks;
         private ObservableCollection<FacilityTank> destFacilityTanks;
@@ -38,6 +39,7 @@ namespace DosingApp.ViewModels
         private bool destTypeVisibility;
         private bool agrYearVisibility;
         private bool fieldVisibility;
+        private bool placeVisibility;
         private bool sizeInfoVisibility;
         #endregion Attributes
 
@@ -530,6 +532,21 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref fieldVisibility, value); }
         }
 
+        public string Place
+        {
+            get 
+            {
+                PlaceVisibility = Job.Place != null;
+                return Job.Place; 
+            }
+        }
+
+        public bool PlaceVisibility
+        {
+            get { return placeVisibility; }
+            set { SetProperty(ref placeVisibility, value); }
+        }
+
         public ObservableCollection<Field> Fields
         {
             get { return fields; }
@@ -571,6 +588,19 @@ namespace DosingApp.ViewModels
                 {
                     Job.AssignmentRemainSize = value;
                     OnPropertyChanged(nameof(AssignmentRemainSize));
+                }
+            }
+        }
+
+        public double? PartySize
+        {
+            get { return Job.PartySize; }
+            set
+            {
+                if (Job.PartySize != value)
+                {
+                    Job.PartySize = value;
+                    OnPropertyChanged(nameof(PartySize));
                 }
             }
         }
@@ -663,26 +693,32 @@ namespace DosingApp.ViewModels
             Job.AssignmentRemainSize = Job.AssignmentSize;
             Job.Unit = Job.Assignment.Unit;
 
-            SizeInfoVisibility = Job.AssignmentSize != null;
+            // Size и Volume в Сделать смесь становятся одним и тем же
+            // Связано это с отказом задания в других ед. измерения, отличных от литров
+            //Job.PartySize = Job.AssignmentSize;
+            //Job.PartyVolume = Job.AssignmentSize;
+            Job.PartyVolume = null;
+
+            //SizeInfoVisibility = Job.AssignmentSize != null;
 
             LoadItems();
             InitSelectedItems();
 
-            switch (DestType)
-            {
-                case SourceDestType.Facility:
-                    Job.PartyVolume = DestFacilityTank?.Volume;
-                    break;
-                case SourceDestType.Transport:
-                    Job.PartyVolume = DestTransportTank?.Volume;
-                    break;
-                case SourceDestType.Applicator:
-                    Job.PartyVolume = DestApplicatorTank?.Volume;
-                    break;
-            }
+            //switch (DestType)
+            //{
+            //    case SourceDestType.Facility:
+            //        Job.PartyVolume = DestFacilityTank?.Volume;
+            //        break;
+            //    case SourceDestType.Transport:
+            //        Job.PartyVolume = DestTransportTank?.Volume;
+            //        break;
+            //    case SourceDestType.Applicator:
+            //        Job.PartyVolume = DestApplicatorTank?.Volume;
+            //        break;
+            //}
 
-            Job.PartySize = GetPartySquare();  // посчитаем площадь, на которую хватает
-            Job.PartyCount = GetPartyCount();
+            //Job.PartySize = GetPartySquare();  // посчитаем площадь, на которую хватает
+            //Job.PartyCount = GetPartyCount();
         }
 
         public void CalculateVolume()
@@ -781,7 +817,16 @@ namespace DosingApp.ViewModels
 
         public double? GetPartySquare()
         {
-            return (Job.VolumeRate != 0 && Job.PartyVolume != null && Job.VolumeRate != null) ? (Job.PartyVolume / Job.VolumeRate) : 0.0;
+            double? tmpVolume;
+            if (Job.PartyVolume == null)
+            {
+                tmpVolume = Job.AssignmentSize;
+            }
+            else
+            {
+                tmpVolume = Job.PartyVolume;
+            }
+            return (Job.VolumeRate != 0 && tmpVolume != null && Job.VolumeRate != null) ? (tmpVolume / Job.VolumeRate) : 0.0;
         }
 
         private int? GetPartyCount()

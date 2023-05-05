@@ -1,6 +1,7 @@
 ﻿using DosingApp.Models.WebSocket;
 using DosingApp.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -13,11 +14,18 @@ namespace DosingApp.Models.Screen
         private string dosedVolumeInfo;
         private string dosedVolumeErrorInfo;
 
+        private bool isDosedVolumeNull;
+        private bool isDosedVolumeNotNull;
+        private bool isDosedVolumeGood;
+        private bool isDosedVolumeNotGood;
+
         public double? DosedVolume
         {
             get { return dosedVolume; }
             set
             {
+                IsDosedVolumeNull = (value == 0);
+                IsDosedVolumeNotNull = (value != 0);
                 DosedVolumeInfo = String.Format("{0,12:N2} {1}", Convert.ToDouble(value), VolumeUnit);
                 SetProperty(ref dosedVolume, value);
             }
@@ -28,6 +36,8 @@ namespace DosingApp.Models.Screen
             get { return dosedVolumeError; }
             set 
             {
+                IsDosedVolumeGood = (float)Math.Abs((decimal)value) < 0.05;
+                IsDosedVolumeNotGood = (float)Math.Abs((decimal)value) >= 0.05 && (float)Math.Abs((decimal)value) < 1;
                 DosedVolumeErrorInfo = String.Format("{0,12:P2}", Convert.ToDouble(value));
                 SetProperty(ref dosedVolumeError, value); 
             }
@@ -43,6 +53,30 @@ namespace DosingApp.Models.Screen
         {
             get { return dosedVolumeErrorInfo; }
             set { SetProperty(ref dosedVolumeErrorInfo, value); }
+        }
+
+        public bool IsDosedVolumeNull
+        {
+            get { return isDosedVolumeNull; }
+            set { SetProperty(ref isDosedVolumeNull, value); }
+        }
+
+        public bool IsDosedVolumeNotNull
+        {
+            get { return isDosedVolumeNotNull; }
+            set { SetProperty(ref isDosedVolumeNotNull, value); }
+        }
+
+        public bool IsDosedVolumeGood
+        {
+            get { return isDosedVolumeGood; }
+            set { SetProperty(ref isDosedVolumeGood, value); }
+        }
+
+        public bool IsDosedVolumeNotGood
+        {
+            get { return isDosedVolumeNotGood; }
+            set { SetProperty(ref isDosedVolumeNotGood, value); }
         }
 
         public double? Volume { get; set; }
@@ -109,6 +143,33 @@ namespace DosingApp.Models.Screen
             if (Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
             {
                 DosedVolume = singleDos.DosedVolume;
+            }
+
+            DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);
+        }
+
+        public void Update(CommonScreen common, List<CollectorScreen> collectors, VolumeDosScreen volumeDos)
+        {
+            if (Dispenser == DispenserSuffix.Dry)
+            {
+                DosedVolume = 0;
+                return;
+            }
+
+            if (Dispenser == DispenserSuffix.Carrier)
+            {
+                DosedVolume = (double?)common.CarrierDosedVolume;
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
+            {
+                int collectorIndex = (int)Char.GetNumericValue(Dispenser[0]) - 1;
+                DosedVolume = collectors[collectorIndex].DosedVolumes[GetDispenserNumber() - 1];
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
+            {
+                DosedVolume = volumeDos.DosedVolume;
             }
 
             DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);

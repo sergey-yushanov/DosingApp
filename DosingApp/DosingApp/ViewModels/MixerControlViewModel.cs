@@ -73,6 +73,7 @@ namespace DosingApp.ViewModels
         public ICommand CollectorFineK3Command { get; protected set; }
         public ICommand CollectorFineSetPointCommand { get; protected set; }
         public ICommand VolumeDosFineK4Command { get; protected set; }
+        public ICommand CollectorFillReqVolCommand { get; protected set; }
 
         public ICommand CollectorDryCommand { get; protected set; }
         public ICommand VolumeDosDryCommand { get; protected set; }
@@ -101,6 +102,8 @@ namespace DosingApp.ViewModels
                 CollectorFineSetPointCommand = new Command(CollectorFineSetPoint);
 
                 VolumeDosFineK4Command = new Command(VolumeDosFineK4);
+
+                CollectorFillReqVolCommand = new Command(CollectorFillReqVol);
 
                 CollectorDryCommand = new Command(CollectorDry);
                 VolumeDosDryCommand = new Command(VolumeDosDry);
@@ -285,6 +288,12 @@ namespace DosingApp.ViewModels
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
             ModbusService.WriteSingleRegister32(CommonModbus.VolumeDosFineK4((float)commonScreen.VolumeDosFineK4));
+        }
+
+        private void CollectorFillReqVol(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFillReqVol((float)commonScreen.CollectorFillReqVol));
         }
 
         private void CollectorDry(object commonInstance)

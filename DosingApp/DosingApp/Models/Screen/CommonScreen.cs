@@ -18,7 +18,8 @@ namespace DosingApp.Models.Screen
         private double collectorFineK3;
         private double collectorFineSetPoint;
         private double volumeDosFineK4;
-        
+        private double collectorFillReqVol;
+
         private double collectorDry;
 
         private bool isVolumeDosDry;
@@ -29,7 +30,9 @@ namespace DosingApp.Models.Screen
         private bool isCollectorFineK3Focused;
         private bool isCollectorFineSetPointFocused;
         private bool isVolumeDosFineK4Focused;
-        
+        private bool isCollectorFillReqVolFocused;
+
+
         private bool isVolumeDosDryFocused;
         private bool isCollectorDryFocused;
 
@@ -93,6 +96,8 @@ namespace DosingApp.Models.Screen
                 CollectorFineSetPoint = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_SP));
             if (!IsVolumeDosFineK4Focused)
                 VolumeDosFineK4 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_FINE_K4));
+            if (!IsCollectorFillReqVolFocused)
+                CollectorFillReqVol = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FILL_REQ_VOL));
 
             if (!IsVolumeDosDryFocused)
                 VolumeDosDry = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_DRY));
@@ -132,6 +137,12 @@ namespace DosingApp.Models.Screen
         {
             get { return volumeDosFineK4; }
             set { SetProperty(ref volumeDosFineK4, value); }
+        }
+
+        public double CollectorFillReqVol
+        {
+            get { return collectorFillReqVol; }
+            set { SetProperty(ref collectorFillReqVol, value); }
         }
 
         public double CollectorDry
@@ -174,6 +185,12 @@ namespace DosingApp.Models.Screen
         {
             get { return isVolumeDosFineK4Focused; }
             set { SetProperty(ref isVolumeDosFineK4Focused, value); }
+        }
+
+        public bool IsCollectorFillReqVolFocused
+        {
+            get { return isCollectorFillReqVolFocused; }
+            set { SetProperty(ref isCollectorFillReqVolFocused, value); }
         }
 
         public bool IsCollectorDryFocused

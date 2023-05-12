@@ -217,6 +217,22 @@
                             ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineSetPointCommand}"
                             ReturnCommandParameter="{Binding Common}"/>
 
+                        <Label 
+                            Grid.Row="4"
+                            Text="Объем для наполнения коллектора, л"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Entry
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Text="{Binding Common.CollectorFillReqVol, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFillReqVolFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFillReqVolCommand}"
+                            ReturnCommandParameter="{Binding Common}"/>
+
                         <!--<Label 
                             Grid.Row="4"
                             Text="Дозация досуха"

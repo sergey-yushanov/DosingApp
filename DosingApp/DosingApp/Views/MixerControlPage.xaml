@@ -127,9 +127,9 @@
                 </StackLayout>
 
                 <BoxView 
-                        HeightRequest="1"
-                        Color="LightGray"
-                        Margin ="0, 0, 0, 0"/>
+                    HeightRequest="1"
+                    Color="LightGray"
+                    Margin ="0, 0, 0, 0"/>
 
 
                 <StackLayout>
@@ -144,87 +144,18 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="12*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
 
                         <Label 
-                            Text="К1, грубо при полном открытии"
-                            FontSize="Medium"
-                            VerticalOptions="Center"/>
-                        <Entry
-                            Grid.Column="2"
-                            Text="{Binding Common.CollectorFineK1, Converter={StaticResource DoubleConverter}}"
-                            Keyboard="Numeric"
-                            HorizontalOptions="FillAndExpand"
-                            HorizontalTextAlignment="End"
-                            IsFocused="{Binding Common.IsCollectorFineK1Focused}"
-                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK1Command}"
-                            ReturnCommandParameter="{Binding Common}"/>
-
-                        <Label 
-                            Grid.Row="1"
-                            Text="К2, грубо при неполном открытии"
-                            FontSize="Medium"
-                            VerticalOptions="Center"/>
-                        <Entry
-                            Grid.Row="1"
-                            Grid.Column="2"
-                            Text="{Binding Common.CollectorFineK2, Converter={StaticResource DoubleConverter}}"
-                            Keyboard="Numeric"
-                            HorizontalOptions="FillAndExpand"
-                            HorizontalTextAlignment="End"
-                            IsFocused="{Binding Common.IsCollectorFineK2Focused}"
-                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK2Command}"
-                            ReturnCommandParameter="{Binding Common}"/>
-
-                        <Label 
-                            Grid.Row="2"
-                            Text="К3, точно при заданном открытии"
-                            FontSize="Medium"
-                            VerticalOptions="Center"/>
-                        <Entry
-                            Grid.Row="2"
-                            Grid.Column="2"
-                            Text="{Binding Common.CollectorFineK3, Converter={StaticResource DoubleConverter}}"
-                            Keyboard="Numeric"
-                            HorizontalOptions="FillAndExpand"
-                            HorizontalTextAlignment="End"
-                            IsFocused="{Binding Common.IsCollectorFineK3Focused}"
-                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK3Command}"
-                            ReturnCommandParameter="{Binding Common}"/>
-
-                        <Label 
-                            Grid.Row="3"
-                            Text="Открытие клапана для точной дозации, %"
-                            FontSize="Medium"
-                            VerticalOptions="Center"/>
-                        <Entry
-                            Grid.Row="3"
-                            Grid.Column="2"
-                            Text="{Binding Common.CollectorFineSetPoint, Converter={StaticResource DoubleConverter}}"
-                            Keyboard="Numeric"
-                            HorizontalOptions="FillAndExpand"
-                            HorizontalTextAlignment="End"
-                            IsFocused="{Binding Common.IsCollectorFineSetPointFocused}"
-                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineSetPointCommand}"
-                            ReturnCommandParameter="{Binding Common}"/>
-
-                        <Label 
-                            Grid.Row="4"
                             Text="Объем для наполнения коллектора, л"
                             FontSize="Medium"
                             VerticalOptions="Center"/>
                         <Entry
-                            Grid.Row="4"
-                            Grid.Column="2"
+                            Grid.Column="1"
                             Text="{Binding Common.CollectorFillReqVol, Converter={StaticResource DoubleConverter}}"
                             Keyboard="Numeric"
                             HorizontalOptions="FillAndExpand"
@@ -232,6 +163,241 @@
                             IsFocused="{Binding Common.IsCollectorFillReqVolFocused}"
                             ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFillReqVolCommand}"
                             ReturnCommandParameter="{Binding Common}"/>
+                    </Grid>
+                </StackLayout>
+
+                <BoxView 
+                    HeightRequest="1"
+                    Color="LightGray"
+                    Margin ="0, 0, 0, 0"/>
+
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label 
+                            Text="Применение K, л"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+
+                        <Label 
+                            Grid.Column="1"
+                            Text="0 &lt; X &lt;="
+                            TextColor="{StaticResource LabelEntryColor}"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            VerticalOptions="Center"/>
+                        
+                        <Entry
+                            Grid.Column="2"
+                            Text="{Binding Common.CollectorFineVol_1_2, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineVol_1_2Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineVol_1_2Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+
+                        <Label 
+                            Grid.Column="3"
+                            Text="&lt; X &lt;="
+                            TextColor="{StaticResource LabelEntryColor}"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"/>
+                        
+                        <Entry
+                            Grid.Column="4"
+                            Text="{Binding Common.CollectorFineVol_2_3, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineVol_2_3Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineVol_2_3Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+
+                        <Label 
+                            Grid.Column="5"
+                            Text="&lt; X"
+                            TextColor="{StaticResource LabelEntryColor}"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"/>
+                    </Grid>
+                </StackLayout>
+
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label 
+                            Text="К1 (закрытие клапана)"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Entry
+                            Grid.Column="1"
+                            Text="{Binding Common.CollectorFineK11, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineK11Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK11Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        <Entry
+                            Grid.Column="2"
+                            Text="{Binding Common.CollectorFineK21, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineK21Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK21Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        <Entry
+                            Grid.Column="3"
+                            Text="{Binding Common.CollectorFineK31, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineK31Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK31Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        
+
+                        <Label 
+                            Grid.Row="1"
+                            Text="К2 (неполное открытие)"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding Common.CollectorFineK12, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineK12Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK12Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Text="{Binding Common.CollectorFineK22, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineK22Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK22Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Text="{Binding Common.CollectorFineK32, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineK32Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK32Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+
+                        <Label 
+                            Grid.Row="2"
+                            Text="К3 (тонкая настройка)"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding Common.CollectorFineK13, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineK13Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK13Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Text="{Binding Common.CollectorFineK23, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineK23Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK23Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            Text="{Binding Common.CollectorFineK33, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineK33Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineK33Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+
+                        <Label 
+                            Grid.Row="3"
+                            Text="Тонкая настройка, %"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Entry
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Text="{Binding Common.CollectorFineSetPoint1, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineSetPoint1Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineSetPoint1Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        <Entry
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Text="{Binding Common.CollectorFineSetPoint2, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineSetPoint2Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineSetPoint2Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        <Entry
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            Text="{Binding Common.CollectorFineSetPoint3, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCollectorFineSetPoint3Focused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CollectorFineSetPoint3Command}"
+                            ReturnCommandParameter="{Binding Common}"/>
+                        
+
+                        
 
                         <!--<Label 
                             Grid.Row="4"
@@ -258,9 +424,9 @@
                 </StackLayout>
 
                 <BoxView 
-                        HeightRequest="1"
-                        Color="LightGray"
-                        Margin ="0, 0, 0, 0"/>
+                    HeightRequest="1"
+                    Color="LightGray"
+                    Margin ="0, 0, 0, 0"/>
 
 
                 <StackLayout>
@@ -336,9 +502,9 @@
                 </StackLayout>
 
                 <BoxView 
-                        HeightRequest="1"
-                        Color="LightGray"
-                        Margin ="0, 0, 0, 0"/>
+                    HeightRequest="1"
+                    Color="LightGray"
+                    Margin ="0, 0, 0, 0"/>
                 
             </StackLayout>
         </ScrollView>

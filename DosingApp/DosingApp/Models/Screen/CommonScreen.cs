@@ -13,10 +13,21 @@ namespace DosingApp.Models.Screen
         public double? CarrierRequiredVolume { get; set; }
         public double? CarrierDosedVolume { get; set; }
 
-        private double collectorFineK1;
-        private double collectorFineK2;
-        private double collectorFineK3;
-        private double collectorFineSetPoint;
+        private double collectorFineK11;
+        private double collectorFineK12;
+        private double collectorFineK13;
+        private double collectorFineSetPoint1;
+        private double collectorFineK21;
+        private double collectorFineK22;
+        private double collectorFineK23;
+        private double collectorFineSetPoint2;
+        private double collectorFineK31;
+        private double collectorFineK32;
+        private double collectorFineK33;
+        private double collectorFineSetPoint3;
+        private double collectorFineVol_1_2;
+        private double collectorFineVol_2_3;
+
         private double volumeDosFineK4;
         private double collectorFillReqVol;
 
@@ -25,13 +36,23 @@ namespace DosingApp.Models.Screen
         private bool isVolumeDosDry;
         private double volumeDosDry;
 
-        private bool isCollectorFineK1Focused;
-        private bool isCollectorFineK2Focused;
-        private bool isCollectorFineK3Focused;
-        private bool isCollectorFineSetPointFocused;
+        private bool isCollectorFineK11Focused;
+        private bool isCollectorFineK12Focused;
+        private bool isCollectorFineK13Focused;
+        private bool isCollectorFineSetPoint1Focused;
+        private bool isCollectorFineK21Focused;
+        private bool isCollectorFineK22Focused;
+        private bool isCollectorFineK23Focused;
+        private bool isCollectorFineSetPoint2Focused;
+        private bool isCollectorFineK31Focused;
+        private bool isCollectorFineK32Focused;
+        private bool isCollectorFineK33Focused;
+        private bool isCollectorFineSetPoint3Focused;
+        private bool isCollectorFineVol_1_2Focused;
+        private bool isCollectorFineVol_2_3Focused;
+
         private bool isVolumeDosFineK4Focused;
         private bool isCollectorFillReqVolFocused;
-
 
         private bool isVolumeDosDryFocused;
         private bool isCollectorDryFocused;
@@ -86,16 +107,41 @@ namespace DosingApp.Models.Screen
             CarrierDosedVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_DOSE_VOL));
             CarrierRequiredVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_REQ_VOL));
 
-            if (!IsCollectorFineK1Focused)
-                CollectorFineK1 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K1));
-            if (!IsCollectorFineK2Focused)
-                CollectorFineK2 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K2));
-            if (!IsCollectorFineK3Focused)
-                CollectorFineK3 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K3));
-            if (!IsCollectorFineSetPointFocused)
-                CollectorFineSetPoint = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_SP));
+            if (!IsCollectorFineK11Focused)
+                CollectorFineK11 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K11));
+            if (!IsCollectorFineK12Focused)
+                CollectorFineK12 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K12));
+            if (!IsCollectorFineK13Focused)
+                CollectorFineK13 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K13));
+            if (!IsCollectorFineSetPoint1Focused)
+                CollectorFineSetPoint1 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_SP1));
+
+            if (!IsCollectorFineK21Focused)
+                CollectorFineK21 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K21));
+            if (!IsCollectorFineK22Focused)
+                CollectorFineK22 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K22));
+            if (!IsCollectorFineK23Focused)
+                CollectorFineK23 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K23));
+            if (!IsCollectorFineSetPoint2Focused)
+                CollectorFineSetPoint2 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_SP2));
+
+            if (!IsCollectorFineK31Focused)
+                CollectorFineK31 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K31));
+            if (!IsCollectorFineK32Focused)
+                CollectorFineK32 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K32));
+            if (!IsCollectorFineK33Focused)
+                CollectorFineK33 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K33));
+            if (!IsCollectorFineSetPoint3Focused)
+                CollectorFineSetPoint3 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_SP3));
+
+            if (!IsCollectorFineVol_1_2Focused)
+                CollectorFineVol_1_2 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_VOL_1_2));
+            if (!IsCollectorFineVol_2_3Focused)
+                CollectorFineVol_2_3 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_VOL_2_3));
+
             if (!IsVolumeDosFineK4Focused)
                 VolumeDosFineK4 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_FINE_K4));
+
             if (!IsCollectorFillReqVolFocused)
                 CollectorFillReqVol = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FILL_REQ_VOL));
 
@@ -109,28 +155,28 @@ namespace DosingApp.Models.Screen
         //    Flowmeter.InitNew(common.Flowmeter, showSettings);
         //}
 
-        public double CollectorFineK1
+        public double CollectorFineK11
         {
-            get { return collectorFineK1; }
-            set { SetProperty(ref collectorFineK1, value); }
+            get { return collectorFineK11; }
+            set { SetProperty(ref collectorFineK11, value); }
         }
 
-        public double CollectorFineK2
+        public double CollectorFineK12
         {
-            get { return collectorFineK2; }
-            set { SetProperty(ref collectorFineK2, value); }
+            get { return collectorFineK12; }
+            set { SetProperty(ref collectorFineK12, value); }
         }
 
-        public double CollectorFineK3
+        public double CollectorFineK13
         {
-            get { return collectorFineK3; }
-            set { SetProperty(ref collectorFineK3, value); }
+            get { return collectorFineK13; }
+            set { SetProperty(ref collectorFineK13, value); }
         }
 
-        public double CollectorFineSetPoint
+        public double CollectorFineSetPoint1
         {
-            get { return collectorFineSetPoint; }
-            set { SetProperty(ref collectorFineSetPoint, value); }
+            get { return collectorFineSetPoint1; }
+            set { SetProperty(ref collectorFineSetPoint1, value); }
         }
 
         public double VolumeDosFineK4
@@ -157,28 +203,148 @@ namespace DosingApp.Models.Screen
             set { SetProperty(ref volumeDosDry, value); }
         }
 
-        public bool IsCollectorFineK1Focused
+        public double CollectorFineK21
         {
-            get { return isCollectorFineK1Focused; }
-            set { SetProperty(ref isCollectorFineK1Focused, value); }
+            get { return collectorFineK21; }
+            set { SetProperty(ref collectorFineK21, value); }
         }
 
-        public bool IsCollectorFineK2Focused
+        public double CollectorFineK22
         {
-            get { return isCollectorFineK2Focused; }
-            set { SetProperty(ref isCollectorFineK2Focused, value); }
+            get { return collectorFineK22; }
+            set { SetProperty(ref collectorFineK22, value); }
         }
 
-        public bool IsCollectorFineK3Focused
+        public double CollectorFineK23
         {
-            get { return isCollectorFineK3Focused; }
-            set { SetProperty(ref isCollectorFineK3Focused, value); }
+            get { return collectorFineK23; }
+            set { SetProperty(ref collectorFineK23, value); }
         }
 
-        public bool IsCollectorFineSetPointFocused
+        public double CollectorFineSetPoint2
         {
-            get { return isCollectorFineSetPointFocused; }
-            set { SetProperty(ref isCollectorFineSetPointFocused, value); }
+            get { return collectorFineSetPoint2; }
+            set { SetProperty(ref collectorFineSetPoint2, value); }
+        }
+
+        public double CollectorFineK31
+        {
+            get { return collectorFineK31; }
+            set { SetProperty(ref collectorFineK31, value); }
+        }
+
+        public double CollectorFineK32
+        {
+            get { return collectorFineK32; }
+            set { SetProperty(ref collectorFineK32, value); }
+        }
+
+        public double CollectorFineK33
+        {
+            get { return collectorFineK33; }
+            set { SetProperty(ref collectorFineK33, value); }
+        }
+
+        public double CollectorFineSetPoint3
+        {
+            get { return collectorFineSetPoint3; }
+            set { SetProperty(ref collectorFineSetPoint3, value); }
+        }
+
+        public double CollectorFineVol_1_2
+        {
+            get { return collectorFineVol_1_2; }
+            set { SetProperty(ref collectorFineVol_1_2, value); }
+        }
+
+        public double CollectorFineVol_2_3
+        {
+            get { return collectorFineVol_2_3; }
+            set { SetProperty(ref collectorFineVol_2_3, value); }
+        }
+
+        public bool IsCollectorFineK11Focused
+        {
+            get { return isCollectorFineK11Focused; }
+            set { SetProperty(ref isCollectorFineK11Focused, value); }
+        }
+
+        public bool IsCollectorFineK12Focused
+        {
+            get { return isCollectorFineK12Focused; }
+            set { SetProperty(ref isCollectorFineK12Focused, value); }
+        }
+
+        public bool IsCollectorFineK13Focused
+        {
+            get { return isCollectorFineK13Focused; }
+            set { SetProperty(ref isCollectorFineK13Focused, value); }
+        }
+
+        public bool IsCollectorFineSetPoint1Focused
+        {
+            get { return isCollectorFineSetPoint1Focused; }
+            set { SetProperty(ref isCollectorFineSetPoint1Focused, value); }
+        }
+
+        public bool IsCollectorFineK21Focused
+        {
+            get { return isCollectorFineK21Focused; }
+            set { SetProperty(ref isCollectorFineK21Focused, value); }
+        }
+
+        public bool IsCollectorFineK22Focused
+        {
+            get { return isCollectorFineK22Focused; }
+            set { SetProperty(ref isCollectorFineK22Focused, value); }
+        }
+
+        public bool IsCollectorFineK23Focused
+        {
+            get { return isCollectorFineK23Focused; }
+            set { SetProperty(ref isCollectorFineK23Focused, value); }
+        }
+
+        public bool IsCollectorFineSetPoint2Focused
+        {
+            get { return isCollectorFineSetPoint2Focused; }
+            set { SetProperty(ref isCollectorFineSetPoint2Focused, value); }
+        }
+
+        public bool IsCollectorFineK31Focused
+        {
+            get { return isCollectorFineK31Focused; }
+            set { SetProperty(ref isCollectorFineK31Focused, value); }
+        }
+
+        public bool IsCollectorFineK32Focused
+        {
+            get { return isCollectorFineK32Focused; }
+            set { SetProperty(ref isCollectorFineK32Focused, value); }
+        }
+
+        public bool IsCollectorFineK33Focused
+        {
+            get { return isCollectorFineK33Focused; }
+            set { SetProperty(ref isCollectorFineK33Focused, value); }
+        }
+
+        public bool IsCollectorFineSetPoint3Focused
+        {
+            get { return isCollectorFineSetPoint3Focused; }
+            set { SetProperty(ref isCollectorFineSetPoint3Focused, value); }
+        }
+
+        public bool IsCollectorFineVol_1_2Focused
+        {
+            get { return isCollectorFineVol_1_2Focused; }
+            set { SetProperty(ref isCollectorFineVol_1_2Focused, value); }
+        }
+
+        public bool IsCollectorFineVol_2_3Focused
+        {
+            get { return isCollectorFineVol_2_3Focused; }
+            set { SetProperty(ref isCollectorFineVol_2_3Focused, value); }
         }
 
         public bool IsVolumeDosFineK4Focused

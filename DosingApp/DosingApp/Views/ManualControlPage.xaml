@@ -115,11 +115,29 @@
                         Margin ="0, 0, 0, 0"/>
 
                 <StackLayout>
-                    <Label 
-                        Text="Коллекторный дозатор 1"
-                        HorizontalOptions="StartAndExpand"
-                        FontSize="Medium"
-                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                            Text="Коллекторный дозатор 1"
+                            HorizontalOptions="StartAndExpand"
+                            FontSize="Medium"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+
+                        <Label
+                            Grid.Column="2"
+                            Text="{Binding Collector1FlowInfo}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                    </Grid>
                 </StackLayout>
 
                 <StackLayout BindableLayout.ItemsSource="{Binding Collector1.Valves}">
@@ -209,11 +227,29 @@
 
 
                 <StackLayout>
-                    <Label 
-                        Text="Коллекторный дозатор 2"
-                        HorizontalOptions="StartAndExpand"
-                        FontSize="Medium"
-                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                            Text="Коллекторный дозатор 2"
+                            HorizontalOptions="StartAndExpand"
+                            FontSize="Medium"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+
+                        <Label
+                            Grid.Column="2"
+                            Text="{Binding Collector2FlowInfo}"
+                            FontSize="Medium"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"/>
+                    </Grid>
                 </StackLayout>
 
                 <StackLayout BindableLayout.ItemsSource="{Binding Collector2.Valves}">

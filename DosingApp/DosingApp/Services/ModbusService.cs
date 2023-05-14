@@ -21,7 +21,7 @@ namespace DosingApp.Services
     {
         #region Attributes
         private const byte slaveId = 1;
-        private const string url = "192.168.1.222";
+        private const string url = "192.168.3.5";
 
         private TcpClient tcpClient;
         private IModbusMaster modbusMaster;

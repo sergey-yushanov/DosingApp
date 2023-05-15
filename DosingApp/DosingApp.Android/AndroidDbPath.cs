@@ -10,7 +10,7 @@ namespace DosingApp.Droid
     {
         public string GetDatabasePath(string filename)
         {
-            return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), filename);
+            return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder. .Personal), filename);
         }
     }
 }

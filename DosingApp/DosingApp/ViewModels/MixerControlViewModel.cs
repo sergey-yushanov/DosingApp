@@ -68,11 +68,26 @@ namespace DosingApp.ViewModels
         public ICommand Collector2PulsesPerLiterCommand { get; protected set; }
         public ICommand VolumeDosPulsesPerLiterCommand { get; protected set; }
 
-        public ICommand CollectorFineK1Command { get; protected set; }
-        public ICommand CollectorFineK2Command { get; protected set; }
-        public ICommand CollectorFineK3Command { get; protected set; }
-        public ICommand CollectorFineSetPointCommand { get; protected set; }
+        public ICommand CollectorFineK11Command { get; protected set; }
+        public ICommand CollectorFineK12Command { get; protected set; }
+        public ICommand CollectorFineK13Command { get; protected set; }
+        public ICommand CollectorFineSetPoint1Command { get; protected set; }
+
+        public ICommand CollectorFineK21Command { get; protected set; }
+        public ICommand CollectorFineK22Command { get; protected set; }
+        public ICommand CollectorFineK23Command { get; protected set; }
+        public ICommand CollectorFineSetPoint2Command { get; protected set; }
+
+        public ICommand CollectorFineK31Command { get; protected set; }
+        public ICommand CollectorFineK32Command { get; protected set; }
+        public ICommand CollectorFineK33Command { get; protected set; }
+        public ICommand CollectorFineSetPoint3Command { get; protected set; }
+
+        public ICommand CollectorFineVol_1_2Command { get; protected set; }
+        public ICommand CollectorFineVol_2_3Command { get; protected set; }
+
         public ICommand VolumeDosFineK4Command { get; protected set; }
+        public ICommand CollectorFillReqVolCommand { get; protected set; }
 
         public ICommand CollectorDryCommand { get; protected set; }
         public ICommand VolumeDosDryCommand { get; protected set; }
@@ -95,12 +110,27 @@ namespace DosingApp.ViewModels
                 Collector2PulsesPerLiterCommand = new Command(Collector2PulsesPerLiter);
                 VolumeDosPulsesPerLiterCommand = new Command(VolumeDosPulsesPerLiter);
 
-                CollectorFineK1Command = new Command(CollectorFineK1);
-                CollectorFineK2Command = new Command(CollectorFineK2);
-                CollectorFineK3Command = new Command(CollectorFineK3);
-                CollectorFineSetPointCommand = new Command(CollectorFineSetPoint);
+                CollectorFineK11Command = new Command(CollectorFineK11);
+                CollectorFineK12Command = new Command(CollectorFineK12);
+                CollectorFineK13Command = new Command(CollectorFineK13);
+                CollectorFineSetPoint1Command = new Command(CollectorFineSetPoint1);
+
+                CollectorFineK21Command = new Command(CollectorFineK21);
+                CollectorFineK22Command = new Command(CollectorFineK22);
+                CollectorFineK23Command = new Command(CollectorFineK23);
+                CollectorFineSetPoint2Command = new Command(CollectorFineSetPoint2);
+
+                CollectorFineK31Command = new Command(CollectorFineK31);
+                CollectorFineK32Command = new Command(CollectorFineK32);
+                CollectorFineK33Command = new Command(CollectorFineK33);
+                CollectorFineSetPoint3Command = new Command(CollectorFineSetPoint3);
+
+                CollectorFineVol_1_2Command = new Command(CollectorFineVol_1_2);
+                CollectorFineVol_2_3Command = new Command(CollectorFineVol_2_3);
 
                 VolumeDosFineK4Command = new Command(VolumeDosFineK4);
+
+                CollectorFillReqVolCommand = new Command(CollectorFillReqVol);
 
                 CollectorDryCommand = new Command(CollectorDry);
                 VolumeDosDryCommand = new Command(VolumeDosDry);
@@ -257,34 +287,100 @@ namespace DosingApp.ViewModels
             ModbusService.WriteSingleRegister32(VolumeDosModbus.VolumeRatio(1, (float)flowmeterScreen.PulsesPerLiter));
         }
 
-        private void CollectorFineK1(object commonInstance)
+        private void CollectorFineK11(object commonInstance)
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
-            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK1((float)commonScreen.CollectorFineK1));
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK11((float)commonScreen.CollectorFineK11));
         }
 
-        private void CollectorFineK2(object commonInstance)
+        private void CollectorFineK12(object commonInstance)
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
-            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK2((float)commonScreen.CollectorFineK2));
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK12((float)commonScreen.CollectorFineK12));
         }
 
-        private void CollectorFineK3(object commonInstance)
+        private void CollectorFineK13(object commonInstance)
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
-            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK3((float)commonScreen.CollectorFineK3));
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK13((float)commonScreen.CollectorFineK13));
         }
 
-        private void CollectorFineSetPoint(object commonInstance)
+        private void CollectorFineSetPoint1(object commonInstance)
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
-            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineSetPoint((float)commonScreen.CollectorFineSetPoint));
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineSetPoint1((float)commonScreen.CollectorFineSetPoint1));
+        }
+
+        private void CollectorFineK21(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK21((float)commonScreen.CollectorFineK21));
+        }
+
+        private void CollectorFineK22(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK22((float)commonScreen.CollectorFineK22));
+        }
+
+        private void CollectorFineK23(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK23((float)commonScreen.CollectorFineK23));
+        }
+
+        private void CollectorFineSetPoint2(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineSetPoint2((float)commonScreen.CollectorFineSetPoint2));
+        }
+
+        private void CollectorFineK31(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK31((float)commonScreen.CollectorFineK31));
+        }
+
+        private void CollectorFineK32(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK32((float)commonScreen.CollectorFineK32));
+        }
+
+        private void CollectorFineK33(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineK33((float)commonScreen.CollectorFineK33));
+        }
+
+        private void CollectorFineSetPoint3(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineSetPoint3((float)commonScreen.CollectorFineSetPoint3));
+        }
+
+        private void CollectorFineVol_1_2(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineVol_1_2((float)commonScreen.CollectorFineVol_1_2));
+        }
+
+        private void CollectorFineVol_2_3(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFineVol_2_3((float)commonScreen.CollectorFineVol_2_3));
         }
 
         private void VolumeDosFineK4(object commonInstance)
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
             ModbusService.WriteSingleRegister32(CommonModbus.VolumeDosFineK4((float)commonScreen.VolumeDosFineK4));
+        }
+
+        private void CollectorFillReqVol(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.CollectorFillReqVol((float)commonScreen.CollectorFillReqVol));
         }
 
         private void CollectorDry(object commonInstance)

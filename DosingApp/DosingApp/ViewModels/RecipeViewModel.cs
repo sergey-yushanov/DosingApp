@@ -366,12 +366,14 @@ namespace DosingApp.ViewModels
         public void UpOrderComponent(RecipeComponent recipeComponent)
         {
             var currentOrder = recipeComponent.Order;
+            var recipeId = recipeComponent.RecipeId;
+
             if (currentOrder > 1)
             {
                 var newOrder = currentOrder - 1;
                 using (AppDbContext db = App.GetContext())
                 {
-                    var currentRecipeComponent = db.RecipeComponents.FirstOrDefault(rc => rc.Order == newOrder);
+                    var currentRecipeComponent = db.RecipeComponents.FirstOrDefault(rc => rc.Order == newOrder && rc.RecipeId == recipeId);
                     if (currentRecipeComponent != null)
                     {
                         currentRecipeComponent.Order = currentOrder;
@@ -390,12 +392,14 @@ namespace DosingApp.ViewModels
         public void DownOrderComponent(RecipeComponent recipeComponent)
         {
             var currentOrder = recipeComponent.Order;
+            var recipeId = recipeComponent.RecipeId;
+
             if (currentOrder < RecipeComponents.Count())
             {
                 var newOrder = currentOrder + 1;
                 using (AppDbContext db = App.GetContext())
                 {
-                    var currentRecipeComponent = db.RecipeComponents.FirstOrDefault(rc => rc.Order == newOrder);
+                    var currentRecipeComponent = db.RecipeComponents.FirstOrDefault(rc => rc.Order == newOrder && rc.RecipeId == recipeId);
                     if (currentRecipeComponent != null)
                     {
                         currentRecipeComponent.Order = currentOrder;

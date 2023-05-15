@@ -59,7 +59,9 @@ namespace DosingApp.ViewModels
 
         private string carrierInfo;
         private string collector1Info;
+        private string collector1FlowInfo;
         private string collector2Info;
+        private string collector2FlowInfo;
         private string volumeDosInfo;
         #endregion Attributes
 
@@ -152,6 +154,18 @@ namespace DosingApp.ViewModels
         {
             get { return collector2Info; }
             set { SetProperty(ref collector2Info, value); }
+        }
+
+        public string Collector1FlowInfo
+        {
+            get { return collector1FlowInfo; }
+            set { SetProperty(ref collector1FlowInfo, value); }
+        }
+
+        public string Collector2FlowInfo
+        {
+            get { return collector2FlowInfo; }
+            set { SetProperty(ref collector2FlowInfo, value); }
         }
 
         public string VolumeDosInfo
@@ -335,10 +349,12 @@ namespace DosingApp.ViewModels
         {
             ModbusService.MasterMessages();
 
-            CarrierInfo = Common.Flowmeter.Volume.ToString("N2") + " л  ";
-            Collector1Info = Collector1.Flowmeter.Volume.ToString("N2") + " л  ";
-            Collector2Info = Collector2.Flowmeter.Volume.ToString("N2") + " л  ";
-            VolumeDosInfo = VolumeDos.Flowmeter.Volume.ToString("N2") + " л  ";
+            CarrierInfo = Common.Flowmeter.Volume.ToString("N2") + " л   ";
+            Collector1Info = Collector1.Flowmeter.Volume.ToString("N2") + " л   ";
+            Collector1FlowInfo = Collector1.Flowmeter.Flow.ToString("N2") + " л/мин ";
+            Collector2Info = Collector2.Flowmeter.Volume.ToString("N2") + " л   ";
+            Collector2FlowInfo = Collector2.Flowmeter.Flow.ToString("N2") + " л/мин ";
+            VolumeDosInfo = VolumeDos.Flowmeter.Volume.ToString("N2") + " л   ";
         }
         #endregion Methods
     }

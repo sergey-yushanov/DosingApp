@@ -9,7 +9,7 @@ namespace DosingApp.Models.Modbus
 {
     public static class CommonModbus
     {
-        public static ushort numberOfPoints = 28;
+        public static ushort numberOfPoints = 50;
         public static ushort numberOfFloats = 11;
         public static ushort floatOffset = 2;
 
@@ -83,14 +83,28 @@ namespace DosingApp.Models.Modbus
             CAR_REQ_VOL = 8,
             CAR_DOSE_VOL = 10,
             CAR_RES_PCT = 12,
-            COL_FINE_K1 = 14,
-            COL_FINE_K2 = 16,
-            COL_FINE_K3 = 18,
-            COL_FINE_SP = 20,
+            COL_FINE_K11 = 14,
+            COL_FINE_K12 = 16,
+            COL_FINE_K13 = 18,
+            COL_FINE_SP1 = 20,
             VDOS_FINE_K4 = 22,
 
             COL_DRY = 24,
-            VDOS_DRY = 26
+            VDOS_DRY = 26,
+            COL_FILL_REQ_VOL = 28,
+
+            COL_FINE_K21 = 30,
+            COL_FINE_K22 = 32,
+            COL_FINE_K23 = 34,
+            COL_FINE_SP2 = 36,
+
+            COL_FINE_K31 = 38,
+            COL_FINE_K32 = 40,
+            COL_FINE_K33 = 42,
+            COL_FINE_SP3 = 44,
+
+            COL_FINE_VOL_1_2 = 46,
+            COL_FINE_VOL_2_3 = 48
         }
 
         public static ushort GetRegister(Register register)
@@ -197,24 +211,24 @@ namespace DosingApp.Models.Modbus
             return new RegisterValue32() { Register = GetRegister32(Register32.CAR_RES_PCT), Value = Record32.Value(reserve) };
         }
 
-        public static RegisterValue32 CollectorFineK1(float k)
+        public static RegisterValue32 CollectorFineK11(float k)
         {
-            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K1), Value = Record32.Value(k) };
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K11), Value = Record32.Value(k) };
         }
 
-        public static RegisterValue32 CollectorFineK2(float k)
+        public static RegisterValue32 CollectorFineK12(float k)
         {
-            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K2), Value = Record32.Value(k) };
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K12), Value = Record32.Value(k) };
         }
 
-        public static RegisterValue32 CollectorFineK3(float k)
+        public static RegisterValue32 CollectorFineK13(float k)
         {
-            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K3), Value = Record32.Value(k) };
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K13), Value = Record32.Value(k) };
         }
 
-        public static RegisterValue32 CollectorFineSetPoint(float setPoint)
+        public static RegisterValue32 CollectorFineSetPoint1(float setPoint)
         {
-            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_SP), Value = Record32.Value(setPoint) };
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_SP1), Value = Record32.Value(setPoint) };
         }
 
         public static RegisterValue32 VolumeDosFineK4(float k)
@@ -230,6 +244,61 @@ namespace DosingApp.Models.Modbus
         public static RegisterValue32 VolumeDosDry(float k)
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.VDOS_DRY), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFillReqVol(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FILL_REQ_VOL), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineK21(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K21), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineK22(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K22), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineK23(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K23), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineSetPoint2(float setPoint)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_SP2), Value = Record32.Value(setPoint) };
+        }
+
+        public static RegisterValue32 CollectorFineK31(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K31), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineK32(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K32), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineK33(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_K33), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineSetPoint3(float setPoint)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_SP3), Value = Record32.Value(setPoint) };
+        }
+
+        public static RegisterValue32 CollectorFineVol_1_2(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_VOL_1_2), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 CollectorFineVol_2_3(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_VOL_2_3), Value = Record32.Value(k) };
         }
     }
 }

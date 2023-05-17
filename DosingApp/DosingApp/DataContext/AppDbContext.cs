@@ -28,7 +28,7 @@ namespace DosingApp.DataContext
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
-
+        //    //modelBuilder.Entity<Manufacturer>().ToTable("Manufacturers", t => t.ExcludeFromMigrations());
         //}
 
         public AppDbContext(string dbPath)

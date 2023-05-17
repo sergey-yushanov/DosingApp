@@ -32,6 +32,7 @@ namespace DosingApp.Droid.Helpers
         /// <param name="uri">File's uri</param>
         /// <param name="context">Current context</param>
         /// <returns>Actual path</returns>
+        [Obsolete]
         public static string GetActualPathForFile(global::Android.Net.Uri uri, Context context)
         {
             bool isKitKat = Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat;

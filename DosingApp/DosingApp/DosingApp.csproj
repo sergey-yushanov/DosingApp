@@ -12,12 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20230430172545_TestMigrationField.cs" />
-    <Compile Remove="Migrations\20230430172545_TestMigrationField.Designer.cs" />
-    <Compile Remove="Migrations\20230430173135_AnotherTestMigrationField.cs" />
-    <Compile Remove="Migrations\20230430173135_AnotherTestMigrationField.Designer.cs" />
-    <Compile Remove="Migrations\20230430204523_DeleteTestMigrationField.cs" />
-    <Compile Remove="Migrations\20230430204523_DeleteTestMigrationField.Designer.cs" />
+    <Compile Remove="Migrations\20230516172557_InitialCreate.cs" />
+    <Compile Remove="Migrations\20230516172557_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20230516174137_AddCompanyName.cs" />
+    <Compile Remove="Migrations\20230516174137_AddCompanyName.Designer.cs" />
+    <Compile Remove="Migrations\20230516174405_AddTestField.cs" />
+    <Compile Remove="Migrations\20230516174405_AddTestField.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +29,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NModbus" Version="3.0.78" />
+    <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.12" />
     <PackageReference Include="System.Net.WebSockets.WebSocketProtocol" Version="5.0.0" />
     <PackageReference Include="Websocket.Client" Version="4.3.32" />

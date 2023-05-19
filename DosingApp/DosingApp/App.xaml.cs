@@ -45,7 +45,7 @@ namespace DosingApp
             //string logPath = DependencyService.Get<ILogPath>().GetActualPath();
             
             Logger = new LogUtils(FolderPath);
-            Logger.Log("============= Start App =============");
+            Logger.Log("Start App");
 
             //bool exists = GetContext().Database.IsSqlite();
 

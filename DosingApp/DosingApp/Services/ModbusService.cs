@@ -154,6 +154,7 @@ namespace DosingApp.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"TCP Client connect attempt false");
+                Console.WriteLine(ex);
             }
             UpdateClientState();
             Console.WriteLine($"TCP Client connected = {IsConnected}");
@@ -222,6 +223,7 @@ namespace DosingApp.Services
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return new ushort[numberOfPoints];
             }
         }

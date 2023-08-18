@@ -113,6 +113,7 @@ namespace DosingApp
             catch (Exception ex)
             {
                 Console.WriteLine("Permissions went wrong");
+                Console.WriteLine(ex);
             }
         }
 

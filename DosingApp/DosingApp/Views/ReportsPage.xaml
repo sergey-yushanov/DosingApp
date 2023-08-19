@@ -2,7 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.ReportsPage"
+             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              Title="Отчетность">
+
+    <ContentPage.Resources>
+        <Helpers:TimeConverter x:Key="TimeConverter"/>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
             <StackLayout>
@@ -30,7 +36,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label
-                                    Text="Время" 
+                                    Text="Время"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                                 <Label
                                     Grid.Column="1"
@@ -51,7 +57,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Label
-                                            Text="{Binding ReportDateTime}" 
+                                            Text="{Binding ReportDateTime, Converter={StaticResource TimeConverter}}" 
                                             FontSize="Medium" 
                                             VerticalOptions="Center"/>
                                         <Label

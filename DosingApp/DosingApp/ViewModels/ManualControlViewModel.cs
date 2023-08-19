@@ -27,6 +27,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         public ModbusService ModbusService { get; protected set; }
         private string title;
+        private bool isContentVisible;
 
         // commands
         public ICommand AckCommand { get; protected set; }
@@ -72,8 +73,6 @@ namespace DosingApp.ViewModels
 
             if (ModbusService.Mixer != null)
             {
-                Title = (ModbusService.Mixer != null) ? "Ручное управление" : "Не задана активная установка";
-
                 PumpStartCommand = new Command(PumpStart);
                 PumpStopCommand = new Command(PumpStop);
 
@@ -102,6 +101,10 @@ namespace DosingApp.ViewModels
                 Collector2ResetCommand = new Command(Collector2Reset);
                 VolumeDosResetCommand = new Command(VolumeDosReset);
             }
+
+            Title = (ModbusService.Mixer != null) ? "Ручное управление" : "Не задана активная установка";
+
+            IsContentVisible = ModbusService.IsConnected;
         }
         #endregion Constructor
 
@@ -110,6 +113,12 @@ namespace DosingApp.ViewModels
         {
             get { return title; }
             set { SetProperty(ref title, value); }
+        }
+
+        public bool IsContentVisible
+        {
+            get { return isContentVisible; }
+            set { SetProperty(ref isContentVisible, value); }
         }
 
         public CollectorScreen Collector1

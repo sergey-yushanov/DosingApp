@@ -25,7 +25,7 @@ namespace DosingApp.ViewModels
         #region Attributes
         private ObservableCollection<Report> reports;
         private Report selectedReport;
-        private DateTime selectedDate;
+        private DateTime? selectedDate;
 
         public ICommand BackCommand { get; protected set; }
         #endregion Attributes
@@ -51,7 +51,7 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref selectedReport, value); }
         }
 
-        public DateTime SelectedDate
+        public DateTime? SelectedDate
         {
             get { return selectedDate; }
             set
@@ -80,8 +80,12 @@ namespace DosingApp.ViewModels
         {
             using (AppDbContext db = App.GetContext())
             {
-                var reportsDB = db.Reports.Where(r => r.ReportDateTime.Date == SelectedDate.Date).ToList();
-                Reports = new ObservableCollection<Report>(reportsDB.OrderBy(r => r.ReportDateTime));
+                if (SelectedDate.HasValue)
+                {
+                    Console.WriteLine(SelectedDate.Value.ToString("D"));
+                    //var reportsDB = db.Reports.Where(r => r.ReportDateTime.Date == SelectedDate.Value).ToList();
+                    //Reports = new ObservableCollection<Report>(reportsDB.OrderBy(r => r.ReportDateTime));
+                }
             }
         }
         #endregion Methods

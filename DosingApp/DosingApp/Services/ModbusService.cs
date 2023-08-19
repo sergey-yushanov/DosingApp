@@ -38,6 +38,7 @@ namespace DosingApp.Services
         #region Constructor
         public ModbusService()
         {
+            IsConnected = false;
             GetActiveMixer();
             if (Mixer != null)
             {
@@ -147,15 +148,32 @@ namespace DosingApp.Services
             if (IsConnected)
                 return;
 
+            //try
+            //{
+            //    tcpClient.Connect(url, 502);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"TCP Client connect attempt false");
+            //    Console.WriteLine(ex.Message);
+            //}
+
             try
             {
-                tcpClient.Connect(url, 502);
+                if (tcpClient.ConnectAsync(url, 502).Wait(TimeSpan.FromSeconds(2)))
+                {
+                    Console.WriteLine($"TCP Client connect attempt ok");
+                }
+                else
+                {
+                    Console.WriteLine($"TCP Client connect attempt false");
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"TCP Client connect attempt false");
-                Console.WriteLine(ex);
+                Console.WriteLine(ex.Message);
             }
+
             UpdateClientState();
             Console.WriteLine($"TCP Client connected = {IsConnected}");
         }
@@ -183,6 +201,9 @@ namespace DosingApp.Services
             //UpdateClientState();
             MasterConnect();
 
+            if (!IsConnected)
+                return;
+
             Common.Update(ReadRegisters(Registers.Common, CommonModbus.numberOfPoints));
             Collector1.Update(ReadRegisters(Registers.Collectors[0], CollectorModbus.numberOfPoints));
             Collector2.Update(ReadRegisters(Registers.Collectors[1], CollectorModbus.numberOfPoints));
@@ -191,9 +212,9 @@ namespace DosingApp.Services
 
         private void UpdateClientState()
         {
-            if (tcpClient.Client != null)
+            if (tcpClient != null)
             {
-                IsConnected = tcpClient.Connected;
+                IsConnected = (tcpClient.Client != null) ? tcpClient.Connected : false;
             }
             else
             {

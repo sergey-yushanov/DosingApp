@@ -8,7 +8,7 @@
             <StackLayout>
                 <DatePicker
                     Format="D"
-                    DateSelected="{Binding SelectedDate}" />
+                    Date="{Binding SelectedDate}" />
             </StackLayout>
 
             <StackLayout>

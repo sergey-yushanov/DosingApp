@@ -17,7 +17,7 @@
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
             <Label 
-                Text="Ручное управление"
+                Text="{Binding Title}"
                 HorizontalOptions="StartAndExpand"
                 VerticalOptions="CenterAndExpand"
                 FontSize="20"
@@ -38,7 +38,9 @@
     </NavigationPage.TitleView>
 
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView
+            IsVisible="{Binding IsContentVisible}">
+
             <StackLayout Margin="{StaticResource PageMargin}">
 
                 <StackLayout>

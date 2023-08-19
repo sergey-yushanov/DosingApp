@@ -71,7 +71,7 @@ namespace DosingApp.ViewModels
                 if (SelectedDate.HasValue)
                 {
                     var reportsDB = db.Reports.Where(r => r.ReportDateTime.Date == SelectedDate.Value).ToList();
-                    Reports = new ObservableCollection<Report>(reportsDB.OrderBy(r => r.ReportDateTime));
+                    Reports = new ObservableCollection<Report>(reportsDB.OrderByDescending(r => r.ReportDateTime));
                 }
             }
         }

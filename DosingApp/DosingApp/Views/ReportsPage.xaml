@@ -24,7 +24,8 @@
                 <ListView
                     x:Name="reportsList"
                     ItemsSource="{Binding Reports}"
-                    SelectedItem="{Binding SelectedReport, Mode=TwoWay}">
+                    SelectedItem="{Binding SelectedReport, Mode=TwoWay}"
+                    SelectionMode="None">
 
                     <ListView.Header>
                         <StackLayout Padding="0,10">

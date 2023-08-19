@@ -35,6 +35,9 @@ namespace DosingApp.ViewModels
                 case MenuItemType.Jobs:
                     Application.Current.MainPage.Navigation.PushAsync(new JobsPage());
                     break;
+                //case MenuItemType.Reports:
+                //    Application.Current.MainPage.Navigation.PushAsync(new ReportsPage());
+                //    break;
                 case MenuItemType.Assignments:
                     Application.Current.MainPage.Navigation.PushAsync(new AssignmentsPage());
                     break;

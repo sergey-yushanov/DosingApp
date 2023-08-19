@@ -92,6 +92,9 @@
     <Compile Update="Views\JobsPage.xaml.cs">
       <DependentUpon>JobsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\ReportsPage.xaml.cs">
+      <DependentUpon>ReportsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\RecipeComponentPage.xaml.cs">
       <DependentUpon>RecipeComponentPage.xaml</DependentUpon>
     </Compile>

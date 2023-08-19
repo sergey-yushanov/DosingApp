@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DosingApp.Views.ReportsPage"
+             Title="Отчетность">
+    <ContentPage.Content>
+        <StackLayout Margin="{StaticResource PageMargin}">
+            <StackLayout>
+                <DatePicker
+                    Format="D"
+                    DateSelected="{Binding SelectedDate}" />
+            </StackLayout>
+
+            <StackLayout>
+                <ListView
+                    x:Name="reportsList"
+                    ItemsSource="{Binding Reports}"
+                    SelectedItem="{Binding SelectedReport, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="10*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                                Text="{Binding ReportDateTime.Time}" 
+                                                FontSize="Medium" 
+                                                VerticalOptions="Center"/>
+                                        <Label
+                                                Grid.Column="1"
+                                                Text="{Binding Name}" 
+                                                FontSize="Medium" 
+                                                VerticalOptions="Center"/>
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

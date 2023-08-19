@@ -26,6 +26,8 @@ namespace DosingApp.DataContext
         public DbSet<Transport> Transports { get; set; }
         public DbSet<TransportTank> TransportTanks { get; set; }
 
+        public DbSet<Report> Reports { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    //modelBuilder.Entity<Manufacturer>().ToTable("Manufacturers", t => t.ExcludeFromMigrations());

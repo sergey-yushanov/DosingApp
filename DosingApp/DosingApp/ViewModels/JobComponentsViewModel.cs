@@ -56,10 +56,10 @@ namespace DosingApp.ViewModels
         private bool isLoopCont;
         private bool isLoopStart;
 
-        private bool isLoopWasActive;
+        private bool isLoopDone;
+        private bool isLoopReported;
 
-        //
-        //private ushort testRegister;
+        private bool isLoopWasActive;
 
         public ICommand StartJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }
@@ -77,6 +77,9 @@ namespace DosingApp.ViewModels
         #region Constructor
         public JobComponentsViewModel(Job job, List<JobComponent> jobComponents)
         {
+            isLoopDone = false;
+            isLoopReported = false;
+
             Job = job;
             JobScreen = new JobScreen(jobComponents);
 
@@ -131,7 +134,6 @@ namespace DosingApp.ViewModels
             UpdateJobComponents();
 
             isLoopWasActive = false;
-
         }
         #endregion Constructor
 
@@ -215,6 +217,12 @@ namespace DosingApp.ViewModels
         {
             get { return isLoopStart; }
             set { SetProperty(ref isLoopStart, value); }
+        }
+
+        public bool IsLoopDone
+        {
+            get { return isLoopDone; }
+            set { SetProperty(ref isLoopDone, value); }
         }
 
         //public bool IsContinue
@@ -478,6 +486,8 @@ namespace DosingApp.ViewModels
             IsLoopPause = !Common.IsLoopPause && Common.IsLoopActive;
             IsLoopCont = Common.IsLoopPause && Common.IsLoopActive;
             IsLoopStart = !Common.IsLoopActive && !isLoopWasActive;
+            
+            isLoopDone = Common.IsLoopDone;
 
             OnPropertyChanged(nameof(IsLoopPause));
             OnPropertyChanged(nameof(IsLoopCont));
@@ -488,6 +498,10 @@ namespace DosingApp.ViewModels
                 isLoopWasActive = true;
             }
 
+            if (isLoopDone && !isLoopReported)
+            {
+                SaveReport();
+            }
         }
 
         //public void Update(CommonScreen common, CollectorScreen collector)
@@ -526,7 +540,34 @@ namespace DosingApp.ViewModels
                 Back3Pages();
             }
         }
-        #endregion Methods
 
+        public void SaveReport()
+        {
+            Report report = new Report {
+                Name = Job.Name,
+                ReportDateTime = DateTime.Now
+            };
+
+            List<ReportComponent> reportComponents = new List<ReportComponent>();
+            foreach (var jobComponentScreen in JobScreen.JobComponentScreens)
+            {
+                reportComponents.Add(new ReportComponent {
+                    Report = report,
+                    Name = jobComponentScreen.Name,
+                    RequiredVolume = jobComponentScreen.Volume,
+                    DosedVolume = jobComponentScreen.DosedVolume
+                });
+            }
+
+            using (AppDbContext db = App.GetContext())
+            {
+                db.Reports.Add(report);
+                db.ReportComponents.AddRange(reportComponents);
+                db.SaveChanges();
+            }
+
+            isLoopReported = true;
+        }
+        #endregion Methods
     }
 }

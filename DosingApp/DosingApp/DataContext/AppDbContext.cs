@@ -27,6 +27,7 @@ namespace DosingApp.DataContext
         public DbSet<TransportTank> TransportTanks { get; set; }
 
         public DbSet<Report> Reports { get; set; }
+        public DbSet<ReportComponent> ReportComponents { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

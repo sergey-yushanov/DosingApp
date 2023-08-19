@@ -6,6 +6,9 @@
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
             <StackLayout>
+                <Label
+                    Text="Выберите дату"
+                    TextColor="{StaticResource LabelEntryColor}"/>
                 <DatePicker
                     Format="D"
                     Date="{Binding SelectedDate}" />
@@ -16,6 +19,27 @@
                     x:Name="reportsList"
                     ItemsSource="{Binding Reports}"
                     SelectedItem="{Binding SelectedReport, Mode=TwoWay}">
+
+                    <ListView.Header>
+                        <StackLayout Padding="0,10">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="10*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Text="Время" 
+                                    TextColor="{StaticResource LabelEntryColor}"/>
+                                <Label
+                                    Grid.Column="1"
+                                    Text="Рецепт"
+                                    TextColor="{StaticResource LabelEntryColor}"/>
+                            </Grid>
+                        </StackLayout>
+                    </ListView.Header>
+                    
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -27,14 +51,14 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Label
-                                                Text="{Binding ReportDateTime.Time}" 
-                                                FontSize="Medium" 
-                                                VerticalOptions="Center"/>
+                                            Text="{Binding ReportDateTime.Time}" 
+                                            FontSize="Medium" 
+                                            VerticalOptions="Center"/>
                                         <Label
-                                                Grid.Column="1"
-                                                Text="{Binding Name}" 
-                                                FontSize="Medium" 
-                                                VerticalOptions="Center"/>
+                                            Grid.Column="1"
+                                            Text="{Binding Name}" 
+                                            FontSize="Medium" 
+                                            VerticalOptions="Center"/>
                                     </Grid>
                                 </ViewCell.View>
                             </ViewCell>

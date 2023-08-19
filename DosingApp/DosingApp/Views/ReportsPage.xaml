@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DosingApp.Views.ReportsPage"
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
+             x:Name="Reports"
              Title="Отчетность">
 
     <ContentPage.Resources>
@@ -33,7 +34,8 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="10*" />
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="2*" />
                                 </Grid.ColumnDefinitions>
 
                                 <Label
@@ -42,6 +44,10 @@
                                 <Label
                                     Grid.Column="1"
                                     Text="Рецепт"
+                                    TextColor="{StaticResource LabelEntryColor}"/>
+                                <Label
+                                    Grid.Column="2"
+                                    Text="Печать"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                             </Grid>
                         </StackLayout>
@@ -54,7 +60,8 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="2*" />
-                                            <ColumnDefinition Width="10*" />
+                                            <ColumnDefinition Width="8*" />
+                                            <ColumnDefinition Width="2*" />
                                         </Grid.ColumnDefinitions>
 
                                         <Label
@@ -63,9 +70,14 @@
                                             VerticalOptions="Center"/>
                                         <Label
                                             Grid.Column="1"
-                                            Text="{Binding Name}" 
+                                            Text="{Binding Name}"
                                             FontSize="Medium" 
                                             VerticalOptions="Center"/>
+                                        <Button
+                                            Grid.Column="2"
+                                            ImageSource="print.png"
+                                            Command="{Binding Source={x:Reference Reports}, Path=BindingContext.PrintReportCommand}"
+                                            CommandParameter="{Binding .}"/>
                                     </Grid>
                                 </ViewCell.View>
                             </ViewCell>

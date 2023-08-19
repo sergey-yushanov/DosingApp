@@ -26,12 +26,15 @@ namespace DosingApp.ViewModels
         private ObservableCollection<Report> reports;
         private Report selectedReport;
         private DateTime? selectedDate;
+
+        public ICommand PrintReportCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
         public ReportsViewModel()
         {
             SelectedDate = DateTime.Now.Date;
+            PrintReportCommand = new Command(PrintReport);
         }
         #endregion Constructor
 
@@ -60,7 +63,14 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
-
+        private async void PrintReport(object reportInstance)
+        {
+            Report report = reportInstance as Report;
+            if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Выбранный отчет от " + report.ReportDateTime.ToString("f") + " будет отправлен на печать. Распечатать?", "Да", "Нет"))
+            {
+                // печать отчета
+            }
+        }
         #endregion Commands
 
         #region Methods

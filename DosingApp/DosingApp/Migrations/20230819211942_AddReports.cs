@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DosingApp.Migrations
 {
-    public partial class AddReportModels : Migration
+    public partial class AddReports : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,7 +23,7 @@ namespace DosingApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReportComponent",
+                name: "ReportComponents",
                 columns: table => new
                 {
                     ReportComponentId = table.Column<int>(nullable: false)
@@ -36,9 +36,9 @@ namespace DosingApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReportComponent", x => x.ReportComponentId);
+                    table.PrimaryKey("PK_ReportComponents", x => x.ReportComponentId);
                     table.ForeignKey(
-                        name: "FK_ReportComponent_Reports_ReportId",
+                        name: "FK_ReportComponents_Reports_ReportId",
                         column: x => x.ReportId,
                         principalTable: "Reports",
                         principalColumn: "ReportId",
@@ -46,15 +46,15 @@ namespace DosingApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReportComponent_ReportId",
-                table: "ReportComponent",
+                name: "IX_ReportComponents_ReportId",
+                table: "ReportComponents",
                 column: "ReportId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ReportComponent");
+                name: "ReportComponents");
 
             migrationBuilder.DropTable(
                 name: "Reports");

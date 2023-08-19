@@ -51,7 +51,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Label
-                                            Text="{Binding ReportDateTime.Time}" 
+                                            Text="{Binding ReportDateTime}" 
                                             FontSize="Medium" 
                                             VerticalOptions="Center"/>
                                         <Label

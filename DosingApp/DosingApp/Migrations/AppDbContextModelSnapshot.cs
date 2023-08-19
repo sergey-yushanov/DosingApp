@@ -662,7 +662,7 @@ namespace DosingApp.Migrations
 
                     b.HasIndex("ReportId");
 
-                    b.ToTable("ReportComponent");
+                    b.ToTable("ReportComponents");
                 });
 
             modelBuilder.Entity("DosingApp.Models.Transport", b =>

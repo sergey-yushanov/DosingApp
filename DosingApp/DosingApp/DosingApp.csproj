@@ -18,6 +18,10 @@
     <Compile Remove="Migrations\20230516174137_AddCompanyName.Designer.cs" />
     <Compile Remove="Migrations\20230516174405_AddTestField.cs" />
     <Compile Remove="Migrations\20230516174405_AddTestField.Designer.cs" />
+    <Compile Remove="Migrations\20230819182824_AddReportModels.cs" />
+    <Compile Remove="Migrations\20230819182824_AddReportModels.Designer.cs" />
+    <Compile Remove="Migrations\20230819211258_AddReportComponentsModels.cs" />
+    <Compile Remove="Migrations\20230819211258_AddReportComponentsModels.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DosingApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230819182824_AddReportModels")]
-    partial class AddReportModels
+    [Migration("20230819211942_AddReports")]
+    partial class AddReports
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -664,7 +664,7 @@ namespace DosingApp.Migrations
 
                     b.HasIndex("ReportId");
 
-                    b.ToTable("ReportComponent");
+                    b.ToTable("ReportComponents");
                 });
 
             modelBuilder.Entity("DosingApp.Models.Transport", b =>

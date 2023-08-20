@@ -14,9 +14,11 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using static DosingApp.Services.ExcelService;
 
 namespace DosingApp.ViewModels
 {
@@ -28,6 +30,8 @@ namespace DosingApp.ViewModels
         private DateTime? selectedDate;
 
         public ICommand PrintReportCommand { get; protected set; }
+
+        public ExcelService ExcelService { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -35,6 +39,8 @@ namespace DosingApp.ViewModels
         {
             SelectedDate = DateTime.Now.Date;
             PrintReportCommand = new Command(PrintReport);
+
+            ExcelService = new ExcelService();
         }
         #endregion Constructor
 
@@ -68,7 +74,11 @@ namespace DosingApp.ViewModels
             Report report = reportInstance as Report;
             if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Выбранный отчет от " + report.ReportDateTime.ToString("f") + " будет отправлен на печать. Распечатать?", "Да", "Нет"))
             {
+                // заполняем файл Excel данными
+                ExportToExcel(report);
+
                 // печать отчета
+
             }
         }
         #endregion Commands
@@ -84,6 +94,41 @@ namespace DosingApp.ViewModels
                     Reports = new ObservableCollection<Report>(reportsDB.OrderByDescending(r => r.ReportDateTime));
                 }
             }
+        }
+
+        public List<ReportComponent> LoadReportComponents(int reportId)
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                return db.ReportComponents.Where(r => r.ReportId == reportId).ToList();
+            }
+        }
+
+        public void ExportToExcel(Report report)
+        {
+            // загружаем данные
+            List<ExcelCell> excelCells = new List<ExcelCell>();
+
+            ExcelCell excelCellNumber = new ExcelCell { ColumnName = "G", RowIndex = 5, Text = report.ReportId.ToString() };
+            ExcelCell excelCellDate = new ExcelCell { ColumnName = "A", RowIndex = 11, Text = report.ReportDateTime.Date.ToString("dd.MM.yyyy") };
+
+            uint rowIndexOffset = 19;
+            uint i = 0;
+            foreach (ReportComponent reportComponent in LoadReportComponents(report.ReportId))
+            {
+                excelCells.Add(new ExcelCell { ColumnName = "C", RowIndex = rowIndexOffset + i, Text = reportComponent.Name });
+                excelCells.Add(new ExcelCell { ColumnName = "F", RowIndex = rowIndexOffset + i, Text = "л" });
+                excelCells.Add(new ExcelCell { ColumnName = "G", RowIndex = rowIndexOffset + i, Text = ((double)reportComponent.DosedVolume).ToString("N2") });
+                excelCells.Add(new ExcelCell { ColumnName = "H", RowIndex = rowIndexOffset + i, Text = ((double)reportComponent.DosedVolume).ToString("N2") });
+
+                i++;
+            }
+
+            excelCells.Add(excelCellNumber);
+            excelCells.Add(excelCellDate);
+
+            string filePath = App.GetReportFilePath();
+            ExcelService.InsertDataIntoCells(filePath, "Лист1", excelCells);
         }
         #endregion Methods
 

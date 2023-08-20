@@ -24,6 +24,9 @@ namespace DosingApp
         public const string DBFILENAME = "dosingapp.db";
         public const string USERDBFILENAME = "dosinguser.db";
 
+        public const string SOURCEREPORTFILENAME = "Требование-накладная М-11 (шаблон).xlsx";
+        public const string DESTREPORTFILENAME = "Требование-накладная М-11.xlsx";
+
         public static string FolderPath { get; set; }
 
         public static User ActiveUser { get; set; }
@@ -115,6 +118,18 @@ namespace DosingApp
                 Console.WriteLine("Permissions went wrong");
                 Console.WriteLine(ex);
             }
+        }
+
+        public static string GetReportFilePath()
+        {
+            // делаем копию накладной, добавляем префикс в наименование
+            string sourceFilePath = Path.Combine(FolderPath, SOURCEREPORTFILENAME);
+            string destFilePath = Path.Combine(FolderPath, DESTREPORTFILENAME);
+
+            File.Delete(destFilePath);
+            File.Copy(sourceFilePath, destFilePath);
+
+            return destFilePath;
         }
 
         // Получение контекста БД при запуске приложения

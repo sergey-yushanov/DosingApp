@@ -28,8 +28,7 @@
     <PackageReference Include="CsvHelper" Version="27.1.1" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="FileHelpers" Version="3.5.0" />
-    <PackageReference Include="FreeSpire.PDF" Version="8.6.0" />
-    <PackageReference Include="FreeSpire.XLS" Version="12.7.0" />
+    <PackageReference Include="FreeSpire.Office" Version="8.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.16" />

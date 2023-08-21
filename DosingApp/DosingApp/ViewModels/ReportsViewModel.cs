@@ -71,26 +71,26 @@ namespace DosingApp.ViewModels
         private async void PrintReport(object reportInstance)
         {
             Report report = reportInstance as Report;
-            //if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Выбранный отчет от " + report.ReportDateTime.ToString("f") + " будет отправлен на печать. Распечатать?", "Да", "Нет"))
-            //{
-                // заполняем файл Excel данными
-                ExportToExcel(report);
 
-                // преобразуем в pdf
-                string filePath = App.GetReportFilePath(false);
-                string printFilePath = Path.Combine(App.FolderPath, App.PDFREPORTFILENAME);
-                ExcelService.ConvertExcelToPdf(filePath, printFilePath);
+            // заполняем файл Excel данными
+            ExportToExcel(report);
 
-                //await Application.Current.MainPage.Navigation.PushAsync(new GoogleDriveViewerPage(printFilePath));
-                //await Application.Current.MainPage.Navigation.PushAsync(new PdfJsPage(printFilePath));
+            // преобразуем в pdf
+            string filePath = App.GetReportFilePath(false);
+            string printFilePath = Path.Combine(App.FolderPath, App.PDFREPORTFILENAME);
+            string fontsFolder = Path.Combine(App.FolderPath, "Fonts");
 
-                var pdfDocEntity = new PdfDocEntity
-                {
-                    FileName = "Требование-накладная М-11.pdf",
-                    Url = printFilePath
-                };
-                await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(pdfDocEntity));
-            //}
+            ExcelService.ConvertExcelToPdf(filePath, printFilePath, fontsFolder);
+
+            //await Application.Current.MainPage.Navigation.PushAsync(new GoogleDriveViewerPage(printFilePath));
+            //await Application.Current.MainPage.Navigation.PushAsync(new PdfJsPage(printFilePath));
+
+            var pdfDocEntity = new PdfDocEntity
+            {
+                FileName = "Требование-накладная М-11.pdf",
+                Url = printFilePath
+            };
+            await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(pdfDocEntity));
         }
         #endregion Commands
 

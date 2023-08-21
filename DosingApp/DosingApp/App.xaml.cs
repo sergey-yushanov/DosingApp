@@ -24,9 +24,9 @@ namespace DosingApp
         public const string DBFILENAME = "dosingapp.db";
         public const string USERDBFILENAME = "dosinguser.db";
 
-        public const string SOURCEREPORTFILENAME = "Требование-накладная М-11 (шаблон).xlsx";
-        public const string DESTREPORTFILENAME = "Требование-накладная М-11.xlsx";
-        public const string PDFREPORTFILENAME = "Требование-накладная М-11.pdf";
+        public const string SOURCEREPORTFILENAME = "Reports/Требование-накладная М-11 (шаблон).xlsx";
+        public const string DESTREPORTFILENAME = "Reports/Требование-накладная М-11.xlsx";
+        public const string PDFREPORTFILENAME = "Reports/Требование-накладная М-11.pdf";
 
         public static string FolderPath { get; set; }
 
@@ -48,7 +48,7 @@ namespace DosingApp
 
             //string logPath = DependencyService.Get<ILogPath>().GetActualPath();
             
-            Logger = new LogUtils(FolderPath);
+            Logger = new LogUtils(FolderPath + "/Logs");
             Logger.Log("Start App");
 
             //bool exists = GetContext().Database.IsSqlite();

@@ -237,10 +237,11 @@ namespace DosingApp.Services
             }
         }
 
-        public void ConvertExcelToPdf(string excelFile, string pdfFile)
+        public void ConvertExcelToPdf(string excelFile, string pdfFile, string fontsFolder)
         {
             Spire.Xls.Workbook workbook = new Spire.Xls.Workbook();
-            workbook.LoadFromFile(excelFile, Spire.Xls.ExcelVersion.Version2016);
+            workbook.LoadFromFile(excelFile, Spire.Xls.ExcelVersion.Version2010);
+            workbook.CustomFontFileDirectory = new string[] { fontsFolder };
             workbook.SaveToFile(pdfFile, Spire.Xls.FileFormat.PDF);
         }
     }

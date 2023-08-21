@@ -48,7 +48,7 @@
                                     TextColor="{StaticResource LabelEntryColor}"/>
                                 <Label
                                     Grid.Column="2"
-                                    Text="Задание"
+                                    Text="Название задания"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                                 <Label
                                     Grid.Column="3"

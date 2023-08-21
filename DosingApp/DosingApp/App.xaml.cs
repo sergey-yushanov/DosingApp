@@ -26,6 +26,7 @@ namespace DosingApp
 
         public const string SOURCEREPORTFILENAME = "Требование-накладная М-11 (шаблон).xlsx";
         public const string DESTREPORTFILENAME = "Требование-накладная М-11.xlsx";
+        public const string PDFREPORTFILENAME = "Требование-накладная М-11.pdf";
 
         public static string FolderPath { get; set; }
 
@@ -120,14 +121,16 @@ namespace DosingApp
             }
         }
 
-        public static string GetReportFilePath()
+        public static string GetReportFilePath(bool cleanFile)
         {
-            // делаем копию накладной, добавляем префикс в наименование
-            string sourceFilePath = Path.Combine(FolderPath, SOURCEREPORTFILENAME);
             string destFilePath = Path.Combine(FolderPath, DESTREPORTFILENAME);
 
-            File.Delete(destFilePath);
-            File.Copy(sourceFilePath, destFilePath);
+            if (cleanFile)
+            {
+                string sourceFilePath = Path.Combine(FolderPath, SOURCEREPORTFILENAME);
+                File.Delete(destFilePath);
+                File.Copy(sourceFilePath, destFilePath);
+            }
 
             return destFilePath;
         }

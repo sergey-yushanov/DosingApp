@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using static DosingApp.Services.ExcelService;
 
 namespace DosingApp.ViewModels
 {
@@ -72,14 +71,26 @@ namespace DosingApp.ViewModels
         private async void PrintReport(object reportInstance)
         {
             Report report = reportInstance as Report;
-            if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Выбранный отчет от " + report.ReportDateTime.ToString("f") + " будет отправлен на печать. Распечатать?", "Да", "Нет"))
-            {
+            //if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Выбранный отчет от " + report.ReportDateTime.ToString("f") + " будет отправлен на печать. Распечатать?", "Да", "Нет"))
+            //{
                 // заполняем файл Excel данными
                 ExportToExcel(report);
 
-                // печать отчета
+                // преобразуем в pdf
+                string filePath = App.GetReportFilePath(false);
+                string printFilePath = Path.Combine(App.FolderPath, App.PDFREPORTFILENAME);
+                ExcelService.ConvertExcelToPdf(filePath, printFilePath);
 
-            }
+                //await Application.Current.MainPage.Navigation.PushAsync(new GoogleDriveViewerPage(printFilePath));
+                //await Application.Current.MainPage.Navigation.PushAsync(new PdfJsPage(printFilePath));
+
+                var pdfDocEntity = new PdfDocEntity
+                {
+                    FileName = "Требование-накладная М-11.pdf",
+                    Url = printFilePath
+                };
+                await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(pdfDocEntity));
+            //}
         }
         #endregion Commands
 
@@ -127,7 +138,7 @@ namespace DosingApp.ViewModels
             excelCells.Add(excelCellNumber);
             excelCells.Add(excelCellDate);
 
-            string filePath = App.GetReportFilePath();
+            string filePath = App.GetReportFilePath(true);
             ExcelService.InsertDataIntoCells(filePath, "Лист1", excelCells);
         }
         #endregion Methods

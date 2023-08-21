@@ -8,19 +8,19 @@ using System.Text;
 
 namespace DosingApp.Services
 {
+    public class ExcelCell
+    {
+        public string ColumnName { get; set; }
+        public uint RowIndex { get; set; }
+        public string Text { get; set; }
+    }
+
     public class ExcelService
     {
         public class ExcelStructure
         {
             public List<string> Headers { get; set; } = new List<string>();
             public List<List<string>> Values { get; set; } = new List<List<string>>();
-        }
-
-        public class ExcelCell
-        {
-            public string ColumnName { get; set; }
-            public uint RowIndex { get; set; }
-            public string Text { get; set; }
         }
 
         private Cell ConstructCell(string value, CellValues dataTypes) =>
@@ -235,6 +235,13 @@ namespace DosingApp.Services
                 worksheet.Save();
                 return newCell;
             }
+        }
+
+        public void ConvertExcelToPdf(string excelFile, string pdfFile)
+        {
+            Spire.Xls.Workbook workbook = new Spire.Xls.Workbook();
+            workbook.LoadFromFile(excelFile, Spire.Xls.ExcelVersion.Version2016);
+            workbook.SaveToFile(pdfFile, Spire.Xls.FileFormat.PDF);
         }
     }
 }

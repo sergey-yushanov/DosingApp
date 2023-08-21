@@ -30,7 +30,7 @@ namespace DosingApp.ViewModels
         //private OutgoingMessage outgoingMessage;
         //private String incomingMessageText;
         //private String outgoingMessageText;
-        private bool isConnected;
+        //private bool isConnected;
 
         //private bool isFirstMessage;
 

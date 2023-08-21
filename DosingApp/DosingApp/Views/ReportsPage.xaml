@@ -4,7 +4,7 @@
              x:Class="DosingApp.Views.ReportsPage"
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Name="Reports"
-             Title="Отчетность">
+             Title="Выполненные задания">
 
     <ContentPage.Resources>
         <Helpers:TimeConverter x:Key="TimeConverter"/>
@@ -33,21 +33,26 @@
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="8*" />
-                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition Width="12*" />
+                                    <ColumnDefinition Width="4*" />
                                 </Grid.ColumnDefinitions>
 
                                 <Label
-                                    Text="Время"
+                                    Text="#"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                                 <Label
                                     Grid.Column="1"
-                                    Text="Рецепт"
+                                    Text="Время"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                                 <Label
                                     Grid.Column="2"
-                                    Text="Печать"
+                                    Text="Задание"
+                                    TextColor="{StaticResource LabelEntryColor}"/>
+                                <Label
+                                    Grid.Column="3"
+                                    Text=" Накладная"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                             </Grid>
                         </StackLayout>
@@ -59,22 +64,28 @@
                                 <ViewCell.View>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*" />
-                                            <ColumnDefinition Width="8*" />
-                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="3*" />
+                                            <ColumnDefinition Width="4*" />
+                                            <ColumnDefinition Width="12*" />
+                                            <ColumnDefinition Width="4*" />
                                         </Grid.ColumnDefinitions>
 
                                         <Label
+                                            Text="{Binding ReportId}"
+                                            FontSize="Medium"
+                                            VerticalOptions="Center"/>
+                                        <Label
+                                            Grid.Column="1"
                                             Text="{Binding ReportDateTime, Converter={StaticResource TimeConverter}}" 
                                             FontSize="Medium" 
                                             VerticalOptions="Center"/>
                                         <Label
-                                            Grid.Column="1"
+                                            Grid.Column="2"
                                             Text="{Binding Name}"
                                             FontSize="Medium" 
                                             VerticalOptions="Center"/>
                                         <Button
-                                            Grid.Column="2"
+                                            Grid.Column="3"
                                             ImageSource="print.png"
                                             Command="{Binding Source={x:Reference Reports}, Path=BindingContext.PrintReportCommand}"
                                             CommandParameter="{Binding .}"/>

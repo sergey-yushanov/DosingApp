@@ -12,13 +12,13 @@ namespace DosingApp.Views
 {
     public partial class PdfDocumentView : ContentPage
     {
-        private readonly PdfDocEntity _pdfDocEntity;
+        private readonly string filePath;
 
-        public PdfDocumentView(PdfDocEntity pdfDocEntity)
+        public PdfDocumentView(string title, string filePath)
         {
             InitializeComponent();
-            Title = pdfDocEntity.FileName;
-            _pdfDocEntity = pdfDocEntity;
+            labelTitle.Text = title;
+            this.filePath = filePath;
         }
 
         protected override void OnAppearing()
@@ -27,14 +27,7 @@ namespace DosingApp.Views
 
             SetBusyIndicator(true);
 
-            //if (await FileManager.ExistsAsync(_pdfDocEntity.FileName) == false)
-            //{
-            //    await FileManager.DownloadDocumentsAsync(_pdfDocEntity);
-            //}
-
-            //PdfDocView.Uri = FileManager.GetFilePathFromRoot(_pdfDocEntity.FileName);
-
-            PdfDocView.Uri = _pdfDocEntity.Url;
+            PdfDocView.Uri = filePath;
 
             SetBusyIndicator(false);
         }

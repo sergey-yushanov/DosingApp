@@ -1,8 +1,10 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DosingApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -235,6 +237,44 @@ namespace DosingApp.Services
                 worksheet.Save();
                 return newCell;
             }
+        }
+
+        public string ReportPrepareToPrint(Report report, List<ReportComponent> reportComponents)
+        {
+            string excelFilePath = App.GetReportFilePath(false);
+            string pdfFilePath = Path.Combine(App.FolderPath, App.PDFREPORTFILENAME);
+            string fontsFolder = Path.Combine(App.FolderPath, "Fonts");
+
+            ReportToExcel(report, reportComponents);
+            ConvertExcelToPdf(excelFilePath, pdfFilePath, fontsFolder);
+
+            return pdfFilePath;
+        }
+
+        public void ReportToExcel(Report report, List<ReportComponent> reportComponents)
+        {
+            List<ExcelCell> excelCells = new List<ExcelCell>();
+
+            ExcelCell excelCellNumber = new ExcelCell { ColumnName = "G", RowIndex = 5, Text = report.ReportId.ToString() };
+            ExcelCell excelCellDate = new ExcelCell { ColumnName = "A", RowIndex = 11, Text = report.ReportDateTime.Date.ToString("dd.MM.yyyy") };
+
+            uint rowIndexOffset = 19;
+            uint i = 0;
+            foreach (ReportComponent reportComponent in reportComponents)
+            {
+                excelCells.Add(new ExcelCell { ColumnName = "C", RowIndex = rowIndexOffset + i, Text = reportComponent.Name });
+                excelCells.Add(new ExcelCell { ColumnName = "F", RowIndex = rowIndexOffset + i, Text = "л" });
+                excelCells.Add(new ExcelCell { ColumnName = "G", RowIndex = rowIndexOffset + i, Text = ((double)reportComponent.DosedVolume).ToString("N2") });
+                excelCells.Add(new ExcelCell { ColumnName = "H", RowIndex = rowIndexOffset + i, Text = ((double)reportComponent.DosedVolume).ToString("N2") });
+
+                i++;
+            }
+
+            excelCells.Add(excelCellNumber);
+            excelCells.Add(excelCellDate);
+
+            string filePath = App.GetReportFilePath(true);
+            InsertDataIntoCells(filePath, "Лист1", excelCells);
         }
 
         public void ConvertExcelToPdf(string excelFile, string pdfFile, string fontsFolder)

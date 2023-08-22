@@ -9,7 +9,7 @@
     <ContentPage.Resources>
         <Helpers:TimeConverter x:Key="TimeConverter"/>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <StackLayout Margin="{StaticResource PageMargin}">
             <StackLayout>

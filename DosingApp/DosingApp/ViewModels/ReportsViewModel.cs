@@ -71,26 +71,9 @@ namespace DosingApp.ViewModels
         private async void PrintReport(object reportInstance)
         {
             Report report = reportInstance as Report;
-
-            // заполняем файл Excel данными
-            ExportToExcel(report);
-
-            // преобразуем в pdf
-            string filePath = App.GetReportFilePath(false);
-            string printFilePath = Path.Combine(App.FolderPath, App.PDFREPORTFILENAME);
-            string fontsFolder = Path.Combine(App.FolderPath, "Fonts");
-
-            ExcelService.ConvertExcelToPdf(filePath, printFilePath, fontsFolder);
-
-            //await Application.Current.MainPage.Navigation.PushAsync(new GoogleDriveViewerPage(printFilePath));
-            //await Application.Current.MainPage.Navigation.PushAsync(new PdfJsPage(printFilePath));
-
-            var pdfDocEntity = new PdfDocEntity
-            {
-                FileName = "Требование-накладная М-11.pdf",
-                Url = printFilePath
-            };
-            await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(pdfDocEntity));
+            string pdfFilePath = ExcelService.ReportPrepareToPrint(report, LoadReportComponents(report));
+            string title = "Требование-накладная № " + report.ReportId.ToString() + "\n" + report.ReportDateTime.ToString("dd.MM.yyyy HH:mm");
+            await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(title, pdfFilePath));
         }
         #endregion Commands
 
@@ -107,39 +90,12 @@ namespace DosingApp.ViewModels
             }
         }
 
-        public List<ReportComponent> LoadReportComponents(int reportId)
+        public List<ReportComponent> LoadReportComponents(Report report)
         {
             using (AppDbContext db = App.GetContext())
             {
-                return db.ReportComponents.Where(r => r.ReportId == reportId).ToList();
+                return db.ReportComponents.Where(r => r.ReportId == report.ReportId).ToList();
             }
-        }
-
-        public void ExportToExcel(Report report)
-        {
-            // загружаем данные
-            List<ExcelCell> excelCells = new List<ExcelCell>();
-
-            ExcelCell excelCellNumber = new ExcelCell { ColumnName = "G", RowIndex = 5, Text = report.ReportId.ToString() };
-            ExcelCell excelCellDate = new ExcelCell { ColumnName = "A", RowIndex = 11, Text = report.ReportDateTime.Date.ToString("dd.MM.yyyy") };
-
-            uint rowIndexOffset = 19;
-            uint i = 0;
-            foreach (ReportComponent reportComponent in LoadReportComponents(report.ReportId))
-            {
-                excelCells.Add(new ExcelCell { ColumnName = "C", RowIndex = rowIndexOffset + i, Text = reportComponent.Name });
-                excelCells.Add(new ExcelCell { ColumnName = "F", RowIndex = rowIndexOffset + i, Text = "л" });
-                excelCells.Add(new ExcelCell { ColumnName = "G", RowIndex = rowIndexOffset + i, Text = ((double)reportComponent.DosedVolume).ToString("N2") });
-                excelCells.Add(new ExcelCell { ColumnName = "H", RowIndex = rowIndexOffset + i, Text = ((double)reportComponent.DosedVolume).ToString("N2") });
-
-                i++;
-            }
-
-            excelCells.Add(excelCellNumber);
-            excelCells.Add(excelCellDate);
-
-            string filePath = App.GetReportFilePath(true);
-            ExcelService.InsertDataIntoCells(filePath, "Лист1", excelCells);
         }
         #endregion Methods
 

@@ -239,10 +239,15 @@ namespace DosingApp.Services
             }
         }
 
+        public void CreateReport(Report report, List<ReportComponent> reportComponents)
+        {
+
+        }
+
         public string InvoicePrepareToPrint(Report report, List<ReportComponent> reportComponents)
         {
-            string excelFilePath = App.GetReportFilePath(false);
-            string pdfFilePath = Path.Combine(App.FolderPath, App.PDFREPORTFILENAME);
+            string excelFilePath = App.GetInvoiceFilePath(false);
+            string pdfFilePath = Path.Combine(App.FolderPath, App.PDFINVOICEFILENAME);
             string fontsFolder = Path.Combine(App.FolderPath, "Fonts");
 
             InvoiceToExcel(report, reportComponents);
@@ -273,7 +278,7 @@ namespace DosingApp.Services
             excelCells.Add(excelCellNumber);
             excelCells.Add(excelCellDate);
 
-            string filePath = App.GetReportFilePath(true);
+            string filePath = App.GetInvoiceFilePath(true);
             InsertDataIntoCells(filePath, "Лист1", excelCells);
         }
 

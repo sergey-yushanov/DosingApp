@@ -24,11 +24,12 @@ namespace DosingApp
         public const string DBFILENAME = "dosingapp.db";
         public const string USERDBFILENAME = "dosinguser.db";
 
-        public const string SOURCEREPORTFILENAME = "Reports/Требование-накладная М-11 (шаблон).xlsx";
-        public const string DESTREPORTFILENAME = "Reports/Требование-накладная М-11.xlsx";
-        public const string PDFREPORTFILENAME = "Reports/Требование-накладная М-11.pdf";
+        public const string SOURCEINVOICEFILENAME = "Invoices/Требование-накладная М-11 (шаблон).xlsx";
+        public const string DESTINVOICEFILENAME = "Invoices/Требование-накладная М-11.xlsx";
+        public const string PDFINVOICEFILENAME = "Invoices/Требование-накладная М-11.pdf";
 
         public static string FolderPath { get; set; }
+        public static string ReportsFolderPath { get; set; }
 
         public static User ActiveUser { get; set; }
 
@@ -41,13 +42,14 @@ namespace DosingApp
             Task.Run(async () => await GetPermissionsAsync()).Wait();
 
             FolderPath = DependencyService.Get<IAccessFolder>().GetFolderPath("MixApp");
+            ReportsFolderPath = DependencyService.Get<IAccessFolder>().GetFolderPath("MixApp - Reports");
 
             //string text = "yyy";
             //byte[] data = Encoding.ASCII.GetBytes(text);
             //File.WriteAllBytes(filePath, data);
 
             //string logPath = DependencyService.Get<ILogPath>().GetActualPath();
-            
+
             Logger = new LogUtils(FolderPath + "/Logs");
             Logger.Log("Start App");
 
@@ -121,13 +123,13 @@ namespace DosingApp
             }
         }
 
-        public static string GetReportFilePath(bool cleanFile)
+        public static string GetInvoiceFilePath(bool cleanFile)
         {
-            string destFilePath = Path.Combine(FolderPath, DESTREPORTFILENAME);
+            string destFilePath = Path.Combine(FolderPath, DESTINVOICEFILENAME);
 
             if (cleanFile)
             {
-                string sourceFilePath = Path.Combine(FolderPath, SOURCEREPORTFILENAME);
+                string sourceFilePath = Path.Combine(FolderPath, SOURCEINVOICEFILENAME);
                 File.Delete(destFilePath);
                 File.Copy(sourceFilePath, destFilePath);
             }

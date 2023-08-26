@@ -4,7 +4,7 @@
              x:Class="DosingApp.Views.RequirementInvoicesPage"
              xmlns:Helpers="clr-namespace:DosingApp.Helpers"
              x:Name="Reports"
-             Title="Выполненные задания">
+             Title="Накладные">
 
     <ContentPage.Resources>
         <Helpers:TimeConverter x:Key="TimeConverter"/>
@@ -52,7 +52,7 @@
                                     TextColor="{StaticResource LabelEntryColor}"/>
                                 <Label
                                     Grid.Column="3"
-                                    Text=" Накладная"
+                                    Text=" На печать"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                             </Grid>
                         </StackLayout>
@@ -81,7 +81,7 @@
                                             VerticalOptions="Center"/>
                                         <Label
                                             Grid.Column="2"
-                                            Text="{Binding Name}"
+                                            Text="{Binding AssignmentName}"
                                             FontSize="Medium" 
                                             VerticalOptions="Center"/>
                                         <Button

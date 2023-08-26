@@ -20,12 +20,5 @@ namespace DosingApp.Views
             InitializeComponent();
             BindingContext = new ReportsViewModel();
         }
-
-        protected override void OnAppearing()
-        {
-            var reportsViewModel = (ReportsViewModel)BindingContext;
-            reportsViewModel.LoadReports();
-            base.OnAppearing();
-        }
     }
 }

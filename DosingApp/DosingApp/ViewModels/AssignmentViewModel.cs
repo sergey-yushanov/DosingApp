@@ -529,8 +529,15 @@ namespace DosingApp.ViewModels
 
         public string Place
         {
-            get { return place; }
-            set { SetProperty(ref place, value); }
+            get { return Assignment.Place; }
+            set
+            {
+                if (Assignment.Place != value)
+                {
+                    Assignment.Place = value;
+                    OnPropertyChanged(nameof(Place));
+                }
+            }
         }
 
         public double? VolumeRate

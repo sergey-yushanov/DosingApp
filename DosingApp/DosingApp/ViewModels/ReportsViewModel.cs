@@ -24,11 +24,10 @@ namespace DosingApp.ViewModels
     public class ReportsViewModel : BaseViewModel
     {
         #region Attributes
-        private ObservableCollection<Report> reports;
-        private Report selectedReport;
-        private DateTime? selectedDate;
+        private DateTime? fromDate;
+        private DateTime? toDate;
 
-        public ICommand PrintReportCommand { get; protected set; }
+        public ICommand CreateReportCommand { get; protected set; }
 
         public ExcelService ExcelService { get; protected set; }
         #endregion Attributes
@@ -36,58 +35,62 @@ namespace DosingApp.ViewModels
         #region Constructor
         public ReportsViewModel()
         {
-            SelectedDate = DateTime.Now.Date;
-            PrintReportCommand = new Command(PrintReport);
+            FromDate = DateTime.Now.Date;
+            ToDate = DateTime.Now.Date;
+            CreateReportCommand = new Command(CreateReport);
 
             ExcelService = new ExcelService();
         }
         #endregion Constructor
 
         #region Properties
-        public ObservableCollection<Report> Reports
+        public DateTime? FromDate
         {
-            get { return reports; }
-            set { SetProperty(ref reports, value); }
+            get { return fromDate; }
+            set { SetProperty(ref fromDate, value); }
         }
 
-        public Report SelectedReport
+        public DateTime? ToDate
         {
-            get { return selectedReport; }
-            set { SetProperty(ref selectedReport, value); }
-        }
-
-        public DateTime? SelectedDate
-        {
-            get { return selectedDate; }
-            set
-            {
-                SetProperty(ref selectedDate, value);
-                LoadReports();
-            }
+            get { return toDate; }
+            set { SetProperty(ref toDate, value); }
         }
         #endregion Properties
 
         #region Commands
-        private async void PrintReport(object reportInstance)
+        private void CreateReport()
         {
-            Report report = reportInstance as Report;
-            //string pdfFilePath = ExcelService.ReportPrepareToPrint(report, LoadReportComponents(report));
-            string title = "Требование-накладная № " + report.ReportId.ToString() + "\n" + report.ReportDateTime.ToString("dd.MM.yyyy HH:mm");
-            //await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(title, pdfFilePath));
+            if (FromDate.HasValue && ToDate.HasValue)
+            {
+                string datesString = ((DateTime)FromDate).ToString("dd.MM.yyyy HH:mm:ss") + " - " + ((DateTime)ToDate).AddDays(1).AddSeconds(-1).ToString("dd.MM.yyyy HH:mm:ss");
+                string reportPath = Path.Combine(App.ReportsFolderPath, "Отчет за период " + datesString + ".xlsx");
+                ExcelService.GenerateExcel(reportPath, "Отчет");
+
+                foreach (Report report in GetReports())
+                {
+                    LoadReportComponents(report);
+                }
+
+                //string pdfFilePath = ExcelService.ReportPrepareToPrint(report, LoadReportComponents(report));
+                //string title = "Требование-накладная № " + report.ReportId.ToString() + "\n" + report.ReportDateTime.ToString("dd.MM.yyyy HH:mm");
+                //await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(title, pdfFilePath));
+            }
         }
         #endregion Commands
 
         #region Methods
-        public void LoadReports()
+        public List<Report> GetReports()
         {
+            List<Report> reportsDb = new List<Report>();
+
             using (AppDbContext db = App.GetContext())
             {
-                if (SelectedDate.HasValue)
+                if (FromDate.HasValue && ToDate.HasValue)
                 {
-                    var reportsDB = db.Reports.Where(r => r.ReportDateTime.Date == SelectedDate.Value).ToList();
-                    Reports = new ObservableCollection<Report>(reportsDB.OrderByDescending(r => r.ReportDateTime));
+                    reportsDb = db.Reports.Where(r => r.ReportDateTime.Date >= FromDate.Value && r.ReportDateTime.Date < ToDate.Value.AddDays(1)).ToList();
                 }
             }
+            return reportsDb.OrderByDescending(r => r.ReportDateTime).ToList();
         }
 
         public List<ReportComponent> LoadReportComponents(Report report)

@@ -544,8 +544,12 @@ namespace DosingApp.ViewModels
         public void SaveReport()
         {
             Report report = new Report {
-                Name = Job.Name,
-                ReportDateTime = DateTime.Now
+                ReportDateTime = DateTime.Now,
+
+                AssignmentName = Job.Name,
+                AssignmentPlace = Job.Assignment.Place,
+                AssignmentNote = Job.Assignment.Note,
+                RecipeName = Job.Recipe.Name
             };
 
             List<ReportComponent> reportComponents = new List<ReportComponent>();
@@ -555,7 +559,8 @@ namespace DosingApp.ViewModels
                     Report = report,
                     Name = jobComponentScreen.Name,
                     RequiredVolume = jobComponentScreen.Volume,
-                    DosedVolume = jobComponentScreen.DosedVolume
+                    DosedVolume = jobComponentScreen.DosedVolume,
+                    Dispenser = jobComponentScreen.Dispenser
                 });
             }
 

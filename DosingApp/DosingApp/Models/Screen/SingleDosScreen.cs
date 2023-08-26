@@ -3,6 +3,7 @@ using DosingApp.ViewModels;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
+using DosingApp.Models.Modbus;
 
 namespace DosingApp.Models.Screen
 {
@@ -34,6 +35,27 @@ namespace DosingApp.Models.Screen
 
             DosedVolume = singleDos.Loop.DosedVolume;
             RequiredVolume = singleDos.Loop.RequiredVolume;
+        }
+
+        public void Update(ushort[] registers)
+        {
+            union_bit_field_s status = new union_bit_field_s();
+            status.w = registers[(int)SingleDosModbus.Register.SW];
+            ValveAdjustable.Open = status.s[(int)SingleDosModbus.StatusWord.VADJ_OPN];
+
+            float setPoint = SingleDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)SingleDosModbus.Register32.VADJ_SP));
+            float position = SingleDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)SingleDosModbus.Register32.VADJ_POS));
+            ValveAdjustable.Update(setPoint, position);
+
+            float flow = SingleDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)SingleDosModbus.Register32.FLOW));
+            float volume = SingleDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)SingleDosModbus.Register32.VOL));
+            float pulsesPerLiter = (float)Flowmeter.PulsesPerLiter;
+            if (!Flowmeter.IsPulsesPerLiterFocused)
+                pulsesPerLiter = SingleDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)SingleDosModbus.Register32.VOL_RATIO));
+            Flowmeter.Update(flow, volume, pulsesPerLiter);
+
+            DosedVolume = SingleDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)SingleDosModbus.Register32.DOSE_VOL));
+            RequiredVolume = SingleDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)SingleDosModbus.Register32.REQ_VOL));
         }
 
         //public void InitNew(Collector collector, bool showSettings)

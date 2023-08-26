@@ -31,7 +31,7 @@ namespace DosingApp.Services
         private CommonScreen common;
         private CollectorScreen collector1;
         private CollectorScreen collector2;
-        //private SingleDosScreen singleDos;
+        private SingleDosScreen singleDos;
         private VolumeDosScreen volumeDos;
         #endregion Attributes
 

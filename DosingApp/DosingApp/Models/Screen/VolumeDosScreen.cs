@@ -19,14 +19,14 @@ namespace DosingApp.Models.Screen
         public VolumeDosScreen(int number)
         {
             this.Number = number;
-            Valve = new ValveScreen() { Name = this.Number.ToString() + "ОД" };
+            Valve = new ValveScreen() { Name = this.Number.ToString() + "ОбД" };
             Flowmeter = new FlowmeterScreen();
 
             RequiredVolume = 0;
             DosedVolume = 0;
         }
 
-        public string Name { get { return "Объемный дозатор " + Number.ToString() + " (ОД " + Number.ToString() + ")"; } }
+        public string Name { get { return "Объемный дозатор " + Number.ToString() + " (ОбД " + Number.ToString() + ")"; } }
 
         public void Update(VolumeDos volumeDos, bool showSettings)
         {

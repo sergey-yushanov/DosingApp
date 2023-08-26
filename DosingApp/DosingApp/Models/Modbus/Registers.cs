@@ -10,6 +10,7 @@ namespace DosingApp.Models.Modbus
         public const ushort Common = 16500;
         public static ushort[] Collectors = { 16600, 16700 };
         public static ushort[] VolumeDoses = { 16800 };
+        public static ushort[] SingleDoses = { 16900 };
     }
 
     public class RegisterValue

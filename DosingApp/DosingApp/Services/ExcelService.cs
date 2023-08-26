@@ -239,19 +239,19 @@ namespace DosingApp.Services
             }
         }
 
-        public string ReportPrepareToPrint(Report report, List<ReportComponent> reportComponents)
+        public string InvoicePrepareToPrint(Report report, List<ReportComponent> reportComponents)
         {
             string excelFilePath = App.GetReportFilePath(false);
             string pdfFilePath = Path.Combine(App.FolderPath, App.PDFREPORTFILENAME);
             string fontsFolder = Path.Combine(App.FolderPath, "Fonts");
 
-            ReportToExcel(report, reportComponents);
+            InvoiceToExcel(report, reportComponents);
             ConvertExcelToPdf(excelFilePath, pdfFilePath, fontsFolder);
 
             return pdfFilePath;
         }
 
-        public void ReportToExcel(Report report, List<ReportComponent> reportComponents)
+        public void InvoiceToExcel(Report report, List<ReportComponent> reportComponents)
         {
             List<ExcelCell> excelCells = new List<ExcelCell>();
 

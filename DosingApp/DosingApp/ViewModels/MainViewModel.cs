@@ -88,6 +88,7 @@ namespace DosingApp.ViewModels
             {
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Jobs, Group = MenuItemGroup.MainMenu, Title = "Сделать смесь" });
                 this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Reports, Group = MenuItemGroup.MainMenu, Title = "Отчетность" });
+                this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.RequirementInvoices, Group = MenuItemGroup.MainMenu, Title = "Накладные" });
             }
 
             if (AccessMainParams)

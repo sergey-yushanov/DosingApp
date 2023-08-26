@@ -21,23 +21,23 @@ using Xamarin.Forms;
 
 namespace DosingApp.ViewModels
 {
-    public class ReportsViewModel : BaseViewModel
+    public class RequirementInvoicesViewModel : BaseViewModel
     {
         #region Attributes
         private ObservableCollection<Report> reports;
         private Report selectedReport;
         private DateTime? selectedDate;
 
-        public ICommand PrintReportCommand { get; protected set; }
+        public ICommand PrintInvoiceCommand { get; protected set; }
 
         public ExcelService ExcelService { get; protected set; }
         #endregion Attributes
 
         #region Constructor
-        public ReportsViewModel()
+        public RequirementInvoicesViewModel()
         {
             SelectedDate = DateTime.Now.Date;
-            PrintReportCommand = new Command(PrintReport);
+            PrintInvoiceCommand = new Command(PrintInvoice);
 
             ExcelService = new ExcelService();
         }
@@ -68,12 +68,12 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
-        private async void PrintReport(object reportInstance)
+        private async void PrintInvoice(object reportInstance)
         {
             Report report = reportInstance as Report;
-            //string pdfFilePath = ExcelService.ReportPrepareToPrint(report, LoadReportComponents(report));
+            string pdfFilePath = ExcelService.InvoicePrepareToPrint(report, LoadReportComponents(report));
             string title = "Требование-накладная № " + report.ReportId.ToString() + "\n" + report.ReportDateTime.ToString("dd.MM.yyyy HH:mm");
-            //await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(title, pdfFilePath));
+            await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(title, pdfFilePath));
         }
         #endregion Commands
 

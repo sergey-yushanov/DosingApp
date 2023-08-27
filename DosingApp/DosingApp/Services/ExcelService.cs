@@ -248,7 +248,9 @@ namespace DosingApp.Services
         {
             string excelFilePath = App.GetInvoiceFilePath(false);
             string pdfFilePath = Path.Combine(App.FolderPath, App.PDFINVOICEFILENAME);
-            string fontsFolder = Path.Combine(App.FolderPath, "Fonts");
+            //string fontsFolder = Path.Combine(App.FolderPath, "Fonts");
+
+            string fontsFolder = "Resources\\Fonts";
 
             InvoiceToExcel(report, reportComponents);
             ConvertExcelToPdf(excelFilePath, pdfFilePath, fontsFolder);

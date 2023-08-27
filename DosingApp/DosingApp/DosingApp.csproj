@@ -27,6 +27,40 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\arial.ttf" />
+    <None Remove="Resources\Fonts\arialbd.ttf" />
+    <None Remove="Resources\Fonts\arialbi.ttf" />
+    <None Remove="Resources\Fonts\ariali.ttf" />
+    <None Remove="Resources\Fonts\ARIALN.TTF" />
+    <None Remove="Resources\Fonts\ARIALNB.TTF" />
+    <None Remove="Resources\Fonts\ARIALNBI.TTF" />
+    <None Remove="Resources\Fonts\ARIALNI.TTF" />
+    <None Remove="Resources\Fonts\ariblk.ttf" />
+    <None Remove="Resources\Fonts\times.ttf" />
+    <None Remove="Resources\Fonts\timesbd.ttf" />
+    <None Remove="Resources\Fonts\timesbi.ttf" />
+    <None Remove="Resources\Fonts\timesi.ttf" />
+    <None Remove="Resources\Invoices\Требование-накладная М-11 %28шаблон%29.xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\arial.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\arialbd.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\arialbi.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\ariali.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\ARIALN.TTF" />
+    <EmbeddedResource Include="Resources\Fonts\ARIALNB.TTF" />
+    <EmbeddedResource Include="Resources\Fonts\ARIALNBI.TTF" />
+    <EmbeddedResource Include="Resources\Fonts\ARIALNI.TTF" />
+    <EmbeddedResource Include="Resources\Fonts\ariblk.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\times.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\timesbd.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\timesbi.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\timesi.ttf" />
+    <EmbeddedResource Include="Resources\Invoices\Требование-накладная М-11 (шаблон).xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.1.1" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="FileHelpers" Version="3.5.0" />
@@ -74,10 +108,6 @@
     <EmbeddedResource Update="Views\UsersPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
 
   <ItemGroup>

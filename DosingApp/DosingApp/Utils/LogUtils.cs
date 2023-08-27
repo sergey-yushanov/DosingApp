@@ -9,14 +9,20 @@ namespace DosingApp.Utils
 {
     public class LogUtils
     {
-        string logFilePath = string.Empty;
+        string logsFilePath = string.Empty;
 
-        public LogUtils(string path)
+        public LogUtils(string folderPath, string logsFolder)
         {
-            logFilePath = Path.Combine(path, "log.txt");
-            if (!File.Exists(logFilePath))
+            string logsFolderPath = Path.Combine(folderPath, logsFolder);
+            if (!File.Exists(logsFolderPath))
             {
-                using (StreamWriter writer = new StreamWriter(logFilePath, true))
+                Directory.CreateDirectory(logsFolderPath);
+            }
+
+            logsFilePath = Path.Combine(logsFolderPath, "log.txt");
+            if (!File.Exists(logsFilePath))
+            {
+                using (StreamWriter writer = new StreamWriter(logsFilePath, true))
                 {
                     writer.WriteLine("Starting logging at " + DateTime.Now.ToString());
                 }
@@ -25,7 +31,7 @@ namespace DosingApp.Utils
 
         public void Log(string message)
         {
-            using (StreamWriter writer = new StreamWriter(logFilePath, true))
+            using (StreamWriter writer = new StreamWriter(logsFilePath, true))
             {
                 writer.WriteLine(DateTime.Now.ToString() + " : " + message);
             }

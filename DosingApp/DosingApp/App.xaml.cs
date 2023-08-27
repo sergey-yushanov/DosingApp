@@ -11,6 +11,7 @@ using Rg.Plugins.Popup.Extensions;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,9 +25,14 @@ namespace DosingApp
         public const string DBFILENAME = "dosingapp.db";
         public const string USERDBFILENAME = "dosinguser.db";
 
-        public const string SOURCEINVOICEFILENAME = "Invoices/Требование-накладная М-11 (шаблон).xlsx";
-        public const string DESTINVOICEFILENAME = "Invoices/Требование-накладная М-11.xlsx";
-        public const string PDFINVOICEFILENAME = "Invoices/Требование-накладная М-11.pdf";
+        public const string fontsFolder = "Fonts";
+        public const string logsFolder = "Logs";
+        public const string invoicesFolder = "Invoices";
+        public const string reportsFolder = "Reports";
+
+        public const string SOURCEINVOICEFILENAME = "Требование-накладная М-11 (шаблон).xlsx";
+        public const string DESTINVOICEFILENAME = "Требование-накладная М-11.xlsx";
+        public const string PDFINVOICEFILENAME = "Требование-накладная М-11.pdf";
 
         public static string FolderPath { get; set; }
         public static string ReportsFolderPath { get; set; }
@@ -42,23 +48,14 @@ namespace DosingApp
             Task.Run(async () => await GetPermissionsAsync()).Wait();
 
             FolderPath = DependencyService.Get<IAccessFolder>().GetFolderPath("MixApp");
-            ReportsFolderPath = DependencyService.Get<IAccessFolder>().GetFolderPath("MixApp - Reports");
+            //ReportsFolderPath = DependencyService.Get<IAccessFolder>().GetFolderPath("MixApp - Reports");
 
-            //string text = "yyy";
-            //byte[] data = Encoding.ASCII.GetBytes(text);
-            //File.WriteAllBytes(filePath, data);
-
-            //string logPath = DependencyService.Get<ILogPath>().GetActualPath();
-
-            Logger = new LogUtils(FolderPath + "/Logs");
+            Logger = new LogUtils(FolderPath, logsFolder);
             Logger.Log("Start App");
 
-            //bool exists = GetContext().Database.IsSqlite();
+            CopyFonts();
 
-
-            //GetContext().Database.EnsureDeleted();
-            //var appliedMigration = GetContext().Database.GetAppliedMigrations();
-            //var definedMigration = GetContext().Database.GetMigrations();
+            //GetInvoiceFilePath(true);
 
             var lastAppliedMigration = GetContext().Database.GetAppliedMigrations().LastOrDefault();
             var lastDefinedMigration = GetContext().Database.GetMigrations().LastOrDefault();
@@ -75,9 +72,6 @@ namespace DosingApp
 
             GetContext().Database.Migrate();
 
-            //GetContext().Database.EnsureDeleted();
-            //GetContext().Database.EnsureCreated();
-
             //GetUserContext().Database.Migrate();
             //GetUserContext().Database.EnsureDeleted();
             GetUserContext().Database.EnsureCreated();
@@ -90,6 +84,40 @@ namespace DosingApp
 
             // show login page on app start
             MainPage.Navigation.PushPopupAsync(new LoginPage(new LoginViewModel() { MainViewModel = mainViewModel }));
+        }
+
+        public void CopyFonts()
+        {
+            string fontsFolderPath = Path.Combine(FolderPath, fontsFolder);
+            if (!File.Exists(fontsFolderPath))
+            {
+                Directory.CreateDirectory(fontsFolderPath);
+            }
+
+            // получаем текущую сборку
+            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly;
+            // берем из нее ресурс и создаем из него поток
+            foreach(string resourceName in assembly.GetManifestResourceNames())
+            {
+                string prefix = "DosingApp.Resources.Fonts.";
+                if (resourceName.StartsWith(prefix))
+                {
+                    string fileName = resourceName.Replace(prefix, "");
+                    string destFilePath = Path.Combine(fontsFolderPath, fileName);
+
+                    if (!File.Exists(destFilePath))
+                    {
+                        using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                        {
+                            using (FileStream fs = new FileStream(destFilePath, FileMode.OpenOrCreate))
+                            {
+                                stream.CopyTo(fs);  // копируем файл в нужное нам место
+                                fs.Flush();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public async Task GetPermissionsAsync()
@@ -125,13 +153,29 @@ namespace DosingApp
 
         public static string GetInvoiceFilePath(bool cleanFile)
         {
-            string destFilePath = Path.Combine(FolderPath, DESTINVOICEFILENAME);
+            string invoicesFolderPath = Path.Combine(FolderPath, invoicesFolder);
+            if (!File.Exists(invoicesFolderPath))
+            {
+                Directory.CreateDirectory(invoicesFolderPath);
+            }
+
+            string destFilePath = Path.Combine(invoicesFolderPath, DESTINVOICEFILENAME);
 
             if (cleanFile)
             {
-                string sourceFilePath = Path.Combine(FolderPath, SOURCEINVOICEFILENAME);
                 File.Delete(destFilePath);
-                File.Copy(sourceFilePath, destFilePath);
+
+                // получаем текущую сборку
+                var assembly = IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly;
+                // берем из нее ресурс и создаем из него поток
+                using (Stream stream = assembly.GetManifestResourceStream($"DosingApp.Resources.Invoices.{SOURCEINVOICEFILENAME}"))
+                {
+                    using (FileStream fs = new FileStream(destFilePath, FileMode.OpenOrCreate))
+                    {
+                        stream.CopyTo(fs);  // копируем файл в нужное нам место
+                        fs.Flush();
+                    }
+                }
             }
 
             return destFilePath;

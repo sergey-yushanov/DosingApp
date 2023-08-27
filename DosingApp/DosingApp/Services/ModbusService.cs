@@ -21,7 +21,8 @@ namespace DosingApp.Services
     {
         #region Attributes
         private const byte slaveId = 1;
-        private const string url = "192.168.3.5";
+        private const string defaultUrl = "192.168.3.5";
+        private string url;
 
         private TcpClient tcpClient;
         private IModbusMaster modbusMaster;
@@ -42,6 +43,7 @@ namespace DosingApp.Services
             GetActiveMixer();
             if (Mixer != null)
             {
+                url = (Mixer.Url != null) ? Mixer.Url: defaultUrl;
                 CreateMixerControl(Mixer);
                 MasterCreate();
             }

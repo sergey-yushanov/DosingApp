@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace DosingApp.Models
@@ -24,7 +25,7 @@ namespace DosingApp.Models
         public int? ThreeWay { get; set; }
 
         public bool IsUsedMixer { get; set; }
-        //public string UUID { get; set; }
+        public string Url { get; set; }
 
         public List<string> GetDispensers()
         {
@@ -32,7 +33,7 @@ namespace DosingApp.Models
             dispensers.AddRange(GetCollectorDispensers());
             //dispensers.AddRange(GetSingleDispensers());
             dispensers.AddRange(GetVolumeDispensers());
-            dispensers.AddRange(GetThreeWayDispensers());
+            //dispensers.AddRange(GetThreeWayDispensers());
             return dispensers;
         }
 
@@ -76,18 +77,18 @@ namespace DosingApp.Models
             return dispensers;
         }
 
-        public List<string> GetThreeWayDispensers()
-        {
-            var dispensers = new List<string>();
-            if (ThreeWay != null)
-            {
-                for (int t = 1; t <= ThreeWay; t++)
-                {
-                    dispensers.Add(t.ToString() + DispenserSuffix.ThreeWay + "1"); // у клапана 2 хода
-                    dispensers.Add(t.ToString() + DispenserSuffix.ThreeWay + "2");
-                }
-            }
-            return dispensers;
-        }
+        //public List<string> GetThreeWayDispensers()
+        //{
+        //    var dispensers = new List<string>();
+        //    if (ThreeWay != null)
+        //    {
+        //        for (int t = 1; t <= ThreeWay; t++)
+        //        {
+        //            dispensers.Add(t.ToString() + DispenserSuffix.ThreeWay + "1"); // у клапана 2 хода
+        //            dispensers.Add(t.ToString() + DispenserSuffix.ThreeWay + "2");
+        //        }
+        //    }
+        //    return dispensers;
+        //}
     }
 }

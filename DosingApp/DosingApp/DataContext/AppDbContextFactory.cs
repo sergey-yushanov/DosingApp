@@ -12,10 +12,10 @@ namespace DosingApp.DataContext
     {
         public AppDbContext CreateDbContext(string[] args)
         {
-            return new AppDbContext(args[0]);
+            //return new AppDbContext(args[0]);
 
             // Don't use this for production. This is only for creating migrations.
-            //return new AppDbContext();
+            return new AppDbContext();
         }
     }
 }

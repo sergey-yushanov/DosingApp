@@ -22,6 +22,8 @@
     <Compile Remove="Migrations\20230819182824_AddReportModels.Designer.cs" />
     <Compile Remove="Migrations\20230819211258_AddReportComponentsModels.cs" />
     <Compile Remove="Migrations\20230819211258_AddReportComponentsModels.Designer.cs" />
+    <Compile Remove="Migrations\20230827141019_AddUrlProperty.cs" />
+    <Compile Remove="Migrations\20230827141019_AddUrlProperty.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

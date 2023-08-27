@@ -63,8 +63,8 @@ namespace DosingApp.ViewModels
             if (FromDate.HasValue && ToDate.HasValue)
             {
                 string datesString = ((DateTime)FromDate).ToString("dd.MM.yyyy HH:mm:ss") + " - " + ((DateTime)ToDate).AddDays(1).AddSeconds(-1).ToString("dd.MM.yyyy HH:mm:ss");
-                string reportPath = Path.Combine(App.ReportsFolderPath, "Отчет за период " + datesString + ".xlsx");
-                ExcelService.GenerateExcel(reportPath, "Отчет");
+                string reportPath = Path.Combine(App.ReportsFolderPath, "Отчёт за период " + datesString + ".xlsx");
+                ExcelService.GenerateExcel(reportPath, "Отчёт");
 
                 foreach (Report report in GetReports())
                 {

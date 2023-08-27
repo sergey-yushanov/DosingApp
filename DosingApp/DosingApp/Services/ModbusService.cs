@@ -72,11 +72,11 @@ namespace DosingApp.Services
             set { SetProperty(ref collector2, value); }
         }
 
-        //public SingleDosScreen SingleDos
-        //{
-        //    get { return singleDos; }
-        //    set { SetProperty(ref singleDos, value); }
-        //}
+        public SingleDosScreen SingleDos
+        {
+            get { return singleDos; }
+            set { SetProperty(ref singleDos, value); }
+        }
 
         public VolumeDosScreen VolumeDos
         {
@@ -126,16 +126,6 @@ namespace DosingApp.Services
         {
             tcpClient = new TcpClient();
             MasterConnect();
-            //try
-            //{
-            //    tcpClient.Connect(url, 502);
-            //}
-            //catch (Exception ex)
-            //{
-            //    //return;
-            //}
-            //UpdateClientState();
-            //Console.WriteLine($"TCP Client connected = {IsConnected}");
 
             var factory = new ModbusFactory();
             modbusMaster = factory.CreateMaster(tcpClient);
@@ -147,16 +137,6 @@ namespace DosingApp.Services
 
             if (IsConnected)
                 return;
-
-            //try
-            //{
-            //    tcpClient.Connect(url, 502);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine($"TCP Client connect attempt false");
-            //    Console.WriteLine(ex.Message);
-            //}
 
             try
             {
@@ -183,14 +163,11 @@ namespace DosingApp.Services
             if (modbusMaster != null)
             {
                 modbusMaster.Dispose();
-                //modbusMaster = null;
             }
 
             if (tcpClient != null)
             {
-                //tcpClient.GetStream().Close();
                 tcpClient.Close();
-                //tcpClient = null;
             }
             UpdateClientState();
             Console.WriteLine($"TCP Client connected = {IsConnected}");
@@ -198,7 +175,6 @@ namespace DosingApp.Services
 
         public void MasterMessages()
         {
-            //UpdateClientState();
             MasterConnect();
 
             if (!IsConnected)
@@ -248,22 +224,6 @@ namespace DosingApp.Services
                 return new ushort[numberOfPoints];
             }
         }
-
-        //public uint[] ReadRegisters32(int startAddress, int numberOfPoints)
-        //{
-        //    ushort[] registers;
-        //    int numberOfFloats = numberOfPoints / 2;
-        //    uint[] registers32 = new uint[numberOfFloats];
-
-        //    registers = modbusMaster.ReadHoldingRegisters(slaveId, (ushort)startAddress, (ushort)numberOfPoints);
-
-        //    for(int i = 0, j = 0; i < numberOfPoints; i += 2, j++)
-        //    {
-        //        registers32[j] = (uint)((registers[i] << 16) | registers[i + 1]);
-        //    }
-
-        //    return registers32;
-        //}
         #endregion Methods
     }
 }

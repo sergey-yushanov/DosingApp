@@ -258,6 +258,7 @@ namespace DosingApp.Droid.Helpers
             catch (Java.IO.IOException ignored)
             {
                 // nothing we can do
+                
             }
             finally
             {

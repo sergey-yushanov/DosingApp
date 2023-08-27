@@ -17,7 +17,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using WebView = Xamarin.Forms.WebView;
 
+#pragma warning disable CS0612 // Type or member is obsolete
 [assembly: ExportRenderer(typeof(PdfView), typeof(PdfViewRenderer))]
+#pragma warning restore CS0612 // Type or member is obsolete
 namespace DosingApp.Droid.CustomRenderer
 {
     [Obsolete]

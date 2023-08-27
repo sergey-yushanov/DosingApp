@@ -89,7 +89,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Content\02ef4d1926f84d399a5fbc75ed71c5ab.pdf" />
     <AndroidAsset Include="Assets\pdfjs\build\pdf.js.map" />
     <AndroidAsset Include="Assets\pdfjs\build\pdf.sandbox.js.map" />
     <AndroidAsset Include="Assets\pdfjs\build\pdf.worker.js.map" />
@@ -497,7 +496,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\print.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Assets\Content\" />
+  </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\pdfjs\build\pdf.js" />
   </ItemGroup>

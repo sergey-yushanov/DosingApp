@@ -440,18 +440,35 @@
                 <StackLayout>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="12*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
 
+                        <Label
+                            Text="Объём дозы носителя для начала дозации, л"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Entry
+                            Grid.Column="1"
+                            Text="{Binding Common.VolumeDosDelayVolume, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsVolumeDosDelayVolumeFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.VolumeDosDelayVolumeCommand}"
+                            ReturnCommandParameter="{Binding Common}"/>
+
                         <Label 
+                            Grid.Row="1"
                             Text="К4, объём дозы для закрытия клапана"
                             FontSize="Medium"
                             VerticalOptions="Center"/>
                         <Entry
+                            Grid.Row="1"
                             Grid.Column="1"
                             Text="{Binding Common.VolumeDosFineK4, Converter={StaticResource DoubleConverter}}"
                             Keyboard="Numeric"

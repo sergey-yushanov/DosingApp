@@ -10,7 +10,7 @@ namespace DosingApp.Models.Modbus
     public static class CollectorModbus
     {
         public static ushort numberOfPoints = 29;
-        public static ushort numberOfFloats = 11;
+        //public static ushort numberOfFloats = 11;
         public static ushort floatOffset = 7;
 
         public class Record

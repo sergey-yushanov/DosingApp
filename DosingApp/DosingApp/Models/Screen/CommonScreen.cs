@@ -29,6 +29,7 @@ namespace DosingApp.Models.Screen
         private double collectorFineVol_2_3;
 
         private double volumeDosFineK4;
+        private double volumeDosDelayVolume;
         private double collectorFillReqVol;
 
         private double collectorDry;
@@ -52,6 +53,7 @@ namespace DosingApp.Models.Screen
         private bool isCollectorFineVol_2_3Focused;
 
         private bool isVolumeDosFineK4Focused;
+        private bool isVolumeDosDelayVolumeFocused;
         private bool isCollectorFillReqVolFocused;
 
         private bool isVolumeDosDryFocused;
@@ -141,6 +143,8 @@ namespace DosingApp.Models.Screen
 
             if (!IsVolumeDosFineK4Focused)
                 VolumeDosFineK4 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_FINE_K4));
+            if (!IsVolumeDosDelayVolumeFocused)
+                volumeDosDelayVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_DELAY_VOL));
 
             if (!IsCollectorFillReqVolFocused)
                 CollectorFillReqVol = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FILL_REQ_VOL));
@@ -183,6 +187,12 @@ namespace DosingApp.Models.Screen
         {
             get { return volumeDosFineK4; }
             set { SetProperty(ref volumeDosFineK4, value); }
+        }
+
+        public double VolumeDosDelayVolume
+        {
+            get { return volumeDosDelayVolume; }
+            set { SetProperty(ref volumeDosDelayVolume, value); }
         }
 
         public double CollectorFillReqVol
@@ -351,6 +361,12 @@ namespace DosingApp.Models.Screen
         {
             get { return isVolumeDosFineK4Focused; }
             set { SetProperty(ref isVolumeDosFineK4Focused, value); }
+        }
+
+        public bool IsVolumeDosDelayVolumeFocused
+        {
+            get { return isVolumeDosDelayVolumeFocused; }
+            set { SetProperty(ref isVolumeDosDelayVolumeFocused, value); }
         }
 
         public bool IsCollectorFillReqVolFocused

@@ -8,6 +8,7 @@
 
     <ContentPage.Resources>
         <Helpers:TimeConverter x:Key="TimeConverter"/>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
     </ContentPage.Resources>
 
     <ContentPage.Content>
@@ -29,7 +30,7 @@
                         Date="{Binding FromDate}" />
                     <Label 
                         Grid.Column="1"
-                        Text="--"
+                        Text="-"
                         FontSize="Medium"
                         VerticalOptions="Center"
                         HorizontalOptions="Center"/>
@@ -40,7 +41,8 @@
                 </Grid>
 
                 <Button 
-                    Text="Сформировать" 
+                    Text="{Binding ReportReadyText}"
+                    IsEnabled="{Binding IsReportReady, Converter={StaticResource InverseBoolConverter}}"
                     Command="{Binding CreateReportCommand}" 
                     CommandParameter="{Binding}" />
             </StackLayout>

@@ -28,6 +28,9 @@ namespace DosingApp.ViewModels
         private DateTime? fromDate;
         private DateTime? toDate;
 
+        private bool isReportReady;
+        private string reportReadyText;
+
         public ICommand CreateReportCommand { get; protected set; }
 
         public ExcelService ExcelService { get; protected set; }
@@ -41,6 +44,8 @@ namespace DosingApp.ViewModels
             CreateReportCommand = new Command(CreateReport);
 
             ExcelService = new ExcelService();
+
+            IsReportReady = false;
         }
         #endregion Constructor
 
@@ -48,13 +53,37 @@ namespace DosingApp.ViewModels
         public DateTime? FromDate
         {
             get { return fromDate; }
-            set { SetProperty(ref fromDate, value); }
+            set 
+            {
+                SetProperty(ref fromDate, value);
+                IsReportReady = false;
+            }
         }
 
         public DateTime? ToDate
         {
             get { return toDate; }
-            set { SetProperty(ref toDate, value); }
+            set
+            { 
+                SetProperty(ref toDate, value);
+                IsReportReady = false;
+            }
+        }
+
+        public bool IsReportReady
+        {
+            get { return isReportReady; }
+            set 
+            {
+                SetProperty(ref isReportReady, value);
+                ReportReadyText = value ? "Отчёт готов" : "Сформировать";
+            }
+        }
+
+        public string ReportReadyText
+        {
+            get { return reportReadyText; }
+            set { SetProperty(ref reportReadyText, value); }
         }
         #endregion Properties
 
@@ -126,6 +155,8 @@ namespace DosingApp.ViewModels
 
                 ExcelStructure excelStructure = new ExcelStructure() { Headers = new List<string>(), Values = values };
                 ExcelService.InsertDataIntoSheet(reportPath, sheetName, excelStructure, 0);
+
+                IsReportReady = true;
             }
         }
         #endregion Commands

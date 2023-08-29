@@ -421,7 +421,7 @@ namespace DosingApp.ViewModels
                 //    continue;
                 //}
 
-                if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
+                if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
                 {
                     volumeDosRequiredVolume = (double)jobComponent.Volume;
                     continue;

@@ -70,13 +70,13 @@ namespace DosingApp.ViewModels
 
         public int? Volume
         {
-            get { return Mixer.Single; }
+            get { return Mixer.Volume; }
             set
             {
-                if (Mixer.Single != value)
+                if (Mixer.Volume != value)
                 {
-                    Mixer.Single = value;
-                    OnPropertyChanged(nameof(Single));
+                    Mixer.Volume = value;
+                    OnPropertyChanged(nameof(Volume));
                 }
             }
         }

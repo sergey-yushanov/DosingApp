@@ -19,14 +19,14 @@ namespace DosingApp.Models.Screen
         public SingleDosScreen(int number)
         {
             this.Number = number;
-            ValveAdjustable = new ValveAdjustableScreen() { Name = this.Number.ToString() + "ОД" };
+            ValveAdjustable = new ValveAdjustableScreen() { Name = this.Number.ToString() + DispenserSuffix.Single };
             Flowmeter = new FlowmeterScreen();
 
             RequiredVolume = 0;
             DosedVolume = 0;
         }
 
-        public string Name { get { return "Одиночный дозатор " + Number.ToString() + " (ОД " + Number.ToString() + ")"; } }
+        public string Name { get { return "Одиночный дозатор " + Number.ToString() + " (" + DispenserSuffix.Single + Number.ToString() + ")"; } }
 
         public void Update(SingleDos singleDos, bool showSettings)
         {

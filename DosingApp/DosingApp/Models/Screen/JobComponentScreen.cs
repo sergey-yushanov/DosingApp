@@ -167,7 +167,7 @@ namespace DosingApp.Models.Screen
                 DosedVolume = collectors[collectorIndex].DosedVolumes[GetDispenserNumber() - 1];
             }
 
-            if (Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
+            if (Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
             {
                 DosedVolume = volumeDos.DosedVolume;
             }
@@ -175,15 +175,15 @@ namespace DosingApp.Models.Screen
             DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);
         }
 
-        public int GetCollectorNumber()
-        {
-            return 1;
-        }
+        //public int GetCollectorNumber()
+        //{
+        //    return 1;
+        //}
 
-        public int GetSingleNumber()
-        {
-            return 1;
-        }
+        //public int GetSingleNumber()
+        //{
+        //    return 1;
+        //}
 
         public int GetDispenserNumber()
         {

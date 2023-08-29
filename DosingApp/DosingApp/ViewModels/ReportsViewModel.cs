@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using static DosingApp.Services.ExcelService;
 
 namespace DosingApp.ViewModels
 {
@@ -62,18 +63,69 @@ namespace DosingApp.ViewModels
         {
             if (FromDate.HasValue && ToDate.HasValue)
             {
-                string datesString = ((DateTime)FromDate).ToString("dd.MM.yyyy HH:mm:ss") + " - " + ((DateTime)ToDate).AddDays(1).AddSeconds(-1).ToString("dd.MM.yyyy HH:mm:ss");
-                string reportPath = Path.Combine(App.ReportsFolderPath, "Отчёт за период " + datesString + ".xlsx");
-                ExcelService.GenerateExcel(reportPath, "Отчёт");
+                string datesString = ((DateTime)FromDate).ToString("ddMMyyyy") + "_" + ((DateTime)ToDate).ToString("ddMMyyyy");
+                string reportPath = Path.Combine(App.ReportsFolderPath, "СЗР-Mix__" + datesString + ".xlsx");
+                string sheetName = "Отчёт";
+                ExcelService.GenerateExcelFromTemplate(reportPath);
 
-                foreach (Report report in GetReports())
+                List<ExcelCell> excelCells = new List<ExcelCell>() {
+                    new ExcelCell {
+                        ColumnName = "E",
+                        RowIndex = 4,
+                        Text = ((DateTime)FromDate).ToString("dd.MM.yyyy HH:mm:ss") + " - " + ((DateTime)ToDate).AddDays(1).AddSeconds(-1).ToString("dd.MM.yyyy HH:mm:ss") }
+                };
+                ExcelService.InsertDataIntoCells(reportPath, sheetName, excelCells);
+
+                int columnsNum = 11;
+                List<List<string>> values = new List<List<string>>();
+                int indexReport = 1;
+                foreach (Report report in GetReports().OrderBy(r => r.ReportDateTime).ToList())
                 {
-                    LoadReportComponents(report);
+                    var reportComponents = LoadReportComponents(report);
+                    string[,] row = new string[reportComponents.Count + 1, columnsNum];
+
+                    row[0, 0] = indexReport.ToString();
+                    row[0, 1] = report.ReportDateTime.ToString("dd.MM.yyyy");
+                    row[0, 2] = report.ReportDateTime.ToString("HH:mm");
+                    row[0, 3] = report.AssignmentName;
+                    row[0, 4] = report.RecipeName;
+                    row[0, 8] = report.AssignmentPlace;
+                    row[0, 9] = report.AssignmentNote;
+                    row[0, 10] = report.OperatorName;
+
+                    double totalRequiredVolume = 0;
+                    double totalDosedVolume = 0;
+                    int indexComponent = 0;
+                    foreach (ReportComponent reportComponent in reportComponents)
+                    {
+                        row[indexComponent, 5] = reportComponent.Name;
+                        row[indexComponent, 6] = ((double)reportComponent.RequiredVolume).ToString("N2");
+                        row[indexComponent, 7] = ((double)reportComponent.DosedVolume).ToString("N2");
+
+                        totalRequiredVolume += (double)reportComponent.RequiredVolume;
+                        totalDosedVolume += (double)reportComponent.DosedVolume;
+                        
+                        indexComponent++;
+                    }
+
+                    row[indexComponent, 5] = "Объем партии";
+                    row[indexComponent, 6] = totalRequiredVolume.ToString("N2");
+                    row[indexComponent, 7] = totalDosedVolume.ToString("N2");
+
+                    for (int i = 0; i < row.GetLength(0); i++)
+                    {
+                        List<string> partyValues = new List<string>() { "" };
+                        for (int j = 0; j < row.GetLength(1); j++)
+                        {
+                            partyValues.Add(row[i, j]);
+                        }
+                        values.Add(partyValues);
+                    }
+                    indexReport++;
                 }
 
-                //string pdfFilePath = ExcelService.ReportPrepareToPrint(report, LoadReportComponents(report));
-                //string title = "Требование-накладная № " + report.ReportId.ToString() + "\n" + report.ReportDateTime.ToString("dd.MM.yyyy HH:mm");
-                //await Application.Current.MainPage.Navigation.PushAsync(new PdfDocumentView(title, pdfFilePath));
+                ExcelStructure excelStructure = new ExcelStructure() { Headers = new List<string>(), Values = values };
+                ExcelService.InsertDataIntoSheet(reportPath, sheetName, excelStructure, 0);
             }
         }
         #endregion Commands

@@ -18,6 +18,9 @@ namespace DosingApp.Models
 
         public string RecipeName { get; set; }
 
+        public string OperatorName { get; set; }
+        public string DriverName { get; set; }
+
         public ICollection<ReportComponent> ReportComponents { get; set; }
     }
 }

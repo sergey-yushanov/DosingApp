@@ -549,7 +549,8 @@ namespace DosingApp.ViewModels
                 AssignmentName = Job.Name,
                 AssignmentPlace = Job.Assignment.Place,
                 AssignmentNote = Job.Assignment.Note,
-                RecipeName = Job.Recipe.Name
+                RecipeName = Job.Recipe.Name,
+                OperatorName = App.ActiveUser.DisplayName
             };
 
             List<ReportComponent> reportComponents = new List<ReportComponent>();

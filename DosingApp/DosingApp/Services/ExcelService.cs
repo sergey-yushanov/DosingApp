@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace DosingApp.Services
@@ -63,7 +64,26 @@ namespace DosingApp.Services
             return filePath;
         }
 
-        public void InsertDataIntoSheet(string fileName, string sheetName, ExcelStructure data)
+        public string GenerateExcelFromTemplate(string filePath)
+        {
+            File.Delete(filePath);
+
+            // получаем текущую сборку
+            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly;
+            // берем из нее ресурс и создаем из него поток
+            using (Stream stream = assembly.GetManifestResourceStream($"DosingApp.Resources.Reports.{App.SOURCEREPORTFILENAME}"))
+            {
+                using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
+                {
+                    stream.CopyTo(fs);  // копируем файл в нужное нам место
+                    fs.Flush();
+                }
+            }
+
+            return filePath;
+        }
+
+        public void InsertDataIntoSheet(string fileName, string sheetName, ExcelStructure data, int rowOffsetCount)
         {
             Environment.SetEnvironmentVariable("MONO_URI_DOTNETRELATIVEORABSOLUTE", "true");
 
@@ -77,11 +97,25 @@ namespace DosingApp.Services
                 var part = wbPart.WorksheetParts.First();
                 var sheetData = part.Worksheet.Elements<SheetData>().First();
 
-                var row = sheetData.AppendChild(new Row());
-
-                foreach (var header in data.Headers)
+                for (int i = 0; i < rowOffsetCount; i++)
                 {
-                    row.Append(ConstructCell(header, CellValues.String));
+                    sheetData.AppendChild(new Row());
+                }
+
+                if (data.Headers.Count > 0)
+                {
+                    var row = sheetData.AppendChild(new Row());
+                    foreach (var header in data.Headers)
+                    {
+                        // this line is important to your question
+                        CellFormat cellFormat5 = new CellFormat()
+                        {
+                            BorderId = (UInt32Value)11U,
+                            ApplyBorder = true
+                        };
+
+                        row.Append(ConstructCell(header, CellValues.String));
+                    }
                 }
 
                 foreach (var value in data.Values)
@@ -247,10 +281,8 @@ namespace DosingApp.Services
         public string InvoicePrepareToPrint(Report report, List<ReportComponent> reportComponents)
         {
             string excelFilePath = App.GetInvoiceFilePath(false);
-            string pdfFilePath = Path.Combine(App.FolderPath, App.PDFINVOICEFILENAME);
-            //string fontsFolder = Path.Combine(App.FolderPath, "Fonts");
-
-            string fontsFolder = "Resources\\Fonts";
+            string pdfFilePath = Path.Combine(Path.Combine(App.FolderPath, App.InvoicesFolder), App.PDFINVOICEFILENAME);
+            string fontsFolder = Path.Combine(App.FolderPath, App.FontsFolder);
 
             InvoiceToExcel(report, reportComponents);
             ConvertExcelToPdf(excelFilePath, pdfFilePath, fontsFolder);

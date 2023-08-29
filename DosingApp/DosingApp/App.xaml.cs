@@ -25,14 +25,16 @@ namespace DosingApp
         public const string DBFILENAME = "dosingapp.db";
         public const string USERDBFILENAME = "dosinguser.db";
 
-        public const string fontsFolder = "Fonts";
-        public const string logsFolder = "Logs";
-        public const string invoicesFolder = "Invoices";
-        public const string reportsFolder = "Reports";
+        public const string FontsFolder = "Fonts";
+        public const string LogsFolder = "Logs";
+        public const string InvoicesFolder = "Invoices";
+        public const string ReportsFolder = "Reports";
 
         public const string SOURCEINVOICEFILENAME = "Требование-накладная М-11 (шаблон).xlsx";
         public const string DESTINVOICEFILENAME = "Требование-накладная М-11.xlsx";
         public const string PDFINVOICEFILENAME = "Требование-накладная М-11.pdf";
+
+        public const string SOURCEREPORTFILENAME = "Отчетность v.4.xlsx";
 
         public static string FolderPath { get; set; }
         public static string ReportsFolderPath { get; set; }
@@ -48,14 +50,15 @@ namespace DosingApp
             Task.Run(async () => await GetPermissionsAsync()).Wait();
 
             FolderPath = DependencyService.Get<IAccessFolder>().GetFolderPath("MixApp");
-            //ReportsFolderPath = DependencyService.Get<IAccessFolder>().GetFolderPath("MixApp - Reports");
+            ReportsFolderPath = DependencyService.Get<IAccessFolder>().GetFolderPath(ReportsFolder);
 
-            Logger = new LogUtils(FolderPath, logsFolder);
+            Logger = new LogUtils(FolderPath, LogsFolder);
             Logger.Log("Start App");
 
             CopyFonts();
 
-            //GetInvoiceFilePath(true);
+            //ExcelService excelService = new ExcelService();
+            //excelService.GenerateExcel(Path.Combine(ReportsFolderPath, "test.xlsx"), "testSheet");
 
             var lastAppliedMigration = GetContext().Database.GetAppliedMigrations().LastOrDefault();
             var lastDefinedMigration = GetContext().Database.GetMigrations().LastOrDefault();
@@ -88,7 +91,7 @@ namespace DosingApp
 
         public void CopyFonts()
         {
-            string fontsFolderPath = Path.Combine(FolderPath, fontsFolder);
+            string fontsFolderPath = Path.Combine(FolderPath, FontsFolder);
             if (!File.Exists(fontsFolderPath))
             {
                 Directory.CreateDirectory(fontsFolderPath);
@@ -153,7 +156,7 @@ namespace DosingApp
 
         public static string GetInvoiceFilePath(bool cleanFile)
         {
-            string invoicesFolderPath = Path.Combine(FolderPath, invoicesFolder);
+            string invoicesFolderPath = Path.Combine(FolderPath, InvoicesFolder);
             if (!File.Exists(invoicesFolderPath))
             {
                 Directory.CreateDirectory(invoicesFolderPath);

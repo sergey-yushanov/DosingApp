@@ -52,7 +52,7 @@ namespace DosingApp.ViewModels
         //private double dosedVolume;
         private bool isPause;
 
-        private bool isLoopPause;
+        private bool isLoopNotPause;
         private bool isLoopCont;
         private bool isLoopStart;
 
@@ -60,6 +60,9 @@ namespace DosingApp.ViewModels
         private bool isLoopReported;
 
         private bool isLoopWasActive;
+
+        private string statusText;
+        private Color statusColor;
 
         public ICommand StartJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }
@@ -77,7 +80,7 @@ namespace DosingApp.ViewModels
         #region Constructor
         public JobComponentsViewModel(Job job, List<JobComponent> jobComponents)
         {
-            isLoopDone = false;
+            IsLoopDone = false;
             isLoopReported = false;
 
             Job = job;
@@ -201,10 +204,10 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isPause, value); }
         }
 
-        public bool IsLoopPause
+        public bool IsLoopNotPause
         {
-            get { return isLoopPause; }
-            set { SetProperty(ref isLoopPause, value); }
+            get { return isLoopNotPause; }
+            set { SetProperty(ref isLoopNotPause, value); }
         }
 
         public bool IsLoopCont
@@ -223,6 +226,18 @@ namespace DosingApp.ViewModels
         {
             get { return isLoopDone; }
             set { SetProperty(ref isLoopDone, value); }
+        }
+
+        public string StatusText
+        {
+            get { return statusText; }
+            set { SetProperty(ref statusText, value); }
+        }
+
+        public Color StatusColor
+        {
+            get { return statusColor; }
+            set { SetProperty(ref statusColor, value); }
         }
 
         //public bool IsContinue
@@ -483,25 +498,31 @@ namespace DosingApp.ViewModels
 
             JobScreen.Update(Common, Collector1, Collector2, VolumeDos);
 
-            IsLoopPause = !Common.IsLoopPause && Common.IsLoopActive;
+            IsLoopNotPause = !Common.IsLoopPause && Common.IsLoopActive;
             IsLoopCont = Common.IsLoopPause && Common.IsLoopActive;
             IsLoopStart = !Common.IsLoopActive && !isLoopWasActive;
-            
-            isLoopDone = Common.IsLoopDone;
 
-            OnPropertyChanged(nameof(IsLoopPause));
+            IsLoopDone = Common.IsLoopDone;
+
+            OnPropertyChanged(nameof(IsLoopNotPause));
             OnPropertyChanged(nameof(IsLoopCont));
             OnPropertyChanged(nameof(IsLoopStart));
+            OnPropertyChanged(nameof(IsLoopDone));
 
             if (Common.IsLoopActive)
             {
                 isLoopWasActive = true;
             }
 
-            if (isLoopDone && !isLoopReported)
+            if (IsLoopDone && !isLoopReported)
             {
                 SaveReport();
             }
+
+            if (IsLoopStart) { StatusText = "Ожидание запуска дозации"; StatusColor = Color.Gray; }
+            else if (IsLoopDone) { StatusText = "Дозация завершена"; StatusColor = Color.FromHex("#00C000"); }
+            else if (Common.IsLoopPause) { StatusText = "Дозация приостановлена"; StatusColor = StatusColor = Color.Gray; }
+            else { StatusText = "Идёт дозация"; StatusColor = Color.Orange; }
         }
 
         //public void Update(CommonScreen common, CollectorScreen collector)

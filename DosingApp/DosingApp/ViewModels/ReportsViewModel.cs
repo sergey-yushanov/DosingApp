@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DosingApp.DataContext;
 using DosingApp.Models;
 using DosingApp.Models.Files;
@@ -107,11 +108,13 @@ namespace DosingApp.ViewModels
 
                 int columnsNum = 11;
                 List<List<string>> values = new List<List<string>>();
+                List<List<CellValues>> valuesDataType = new List<List<CellValues>>();
                 int indexReport = 1;
                 foreach (Report report in GetReports().OrderBy(r => r.ReportDateTime).ToList())
                 {
                     var reportComponents = LoadReportComponents(report);
                     string[,] row = new string[reportComponents.Count + 1, columnsNum];
+                    CellValues[,] rowDataType = new CellValues[reportComponents.Count + 1, columnsNum];
 
                     row[0, 0] = indexReport.ToString();
                     row[0, 1] = report.ReportDateTime.ToString("dd.MM.yyyy");
@@ -122,6 +125,15 @@ namespace DosingApp.ViewModels
                     row[0, 9] = report.AssignmentNote;
                     row[0, 10] = report.OperatorName;
 
+                    rowDataType[0, 0] = CellValues.String;
+                    rowDataType[0, 1] = CellValues.String;
+                    rowDataType[0, 2] = CellValues.String;
+                    rowDataType[0, 3] = CellValues.String;
+                    rowDataType[0, 4] = CellValues.String;
+                    rowDataType[0, 8] = CellValues.String;
+                    rowDataType[0, 9] = CellValues.String;
+                    rowDataType[0, 10] = CellValues.String;
+
                     double totalRequiredVolume = 0;
                     double totalDosedVolume = 0;
                     int indexComponent = 0;
@@ -130,6 +142,10 @@ namespace DosingApp.ViewModels
                         row[indexComponent, 5] = reportComponent.Name;
                         row[indexComponent, 6] = ((double)reportComponent.RequiredVolume).ToString("N2");
                         row[indexComponent, 7] = ((double)reportComponent.DosedVolume).ToString("N2");
+
+                        rowDataType[indexComponent, 5] = CellValues.String;
+                        rowDataType[indexComponent, 6] = CellValues.Number;
+                        rowDataType[indexComponent, 7] = CellValues.Number;
 
                         totalRequiredVolume += (double)reportComponent.RequiredVolume;
                         totalDosedVolume += (double)reportComponent.DosedVolume;
@@ -141,19 +157,26 @@ namespace DosingApp.ViewModels
                     row[indexComponent, 6] = totalRequiredVolume.ToString("N2");
                     row[indexComponent, 7] = totalDosedVolume.ToString("N2");
 
+                    rowDataType[indexComponent, 5] = CellValues.String;
+                    rowDataType[indexComponent, 6] = CellValues.Number;
+                    rowDataType[indexComponent, 7] = CellValues.Number;
+
                     for (int i = 0; i < row.GetLength(0); i++)
                     {
                         List<string> partyValues = new List<string>() { "" };
+                        List<CellValues> partyValuesDataType = new List<CellValues>() { CellValues.String };
                         for (int j = 0; j < row.GetLength(1); j++)
                         {
                             partyValues.Add(row[i, j]);
+                            partyValuesDataType.Add(rowDataType[i, j]);
                         }
                         values.Add(partyValues);
+                        valuesDataType.Add(partyValuesDataType);
                     }
                     indexReport++;
                 }
 
-                ExcelStructure excelStructure = new ExcelStructure() { Headers = new List<string>(), Values = values };
+                ExcelStructure excelStructure = new ExcelStructure() { Headers = new List<string>(), Values = values, DataTypes = valuesDataType };
                 ExcelService.InsertDataIntoSheet(reportPath, sheetName, excelStructure, 0);
 
                 IsReportReady = true;

@@ -24,9 +24,17 @@ namespace DosingApp.Services
         {
             public List<string> Headers { get; set; } = new List<string>();
             public List<List<string>> Values { get; set; } = new List<List<string>>();
+            public List<List<CellValues>> DataTypes { get; set; } = new List<List<CellValues>>();
         }
 
         private Cell ConstructCell(string value, CellValues dataTypes) =>
+            new Cell()
+            {
+                CellValue = new CellValue(value),
+                DataType = new EnumValue<CellValues>(dataTypes)
+            };
+
+        private Cell ConstructCell(double value, CellValues dataTypes) =>
             new Cell()
             {
                 CellValue = new CellValue(value),
@@ -107,25 +115,29 @@ namespace DosingApp.Services
                     var row = sheetData.AppendChild(new Row());
                     foreach (var header in data.Headers)
                     {
-                        // this line is important to your question
-                        CellFormat cellFormat5 = new CellFormat()
-                        {
-                            BorderId = (UInt32Value)11U,
-                            ApplyBorder = true
-                        };
-
                         row.Append(ConstructCell(header, CellValues.String));
                     }
                 }
 
+                int di = 0;
                 foreach (var value in data.Values)
                 {
+                    int dj = 0;
                     var dataRow = sheetData.AppendChild(new Row());
-
                     foreach (var dataElement in value)
                     {
-                        dataRow.Append(ConstructCell(dataElement, CellValues.String));
+                        CellValues dataType = (dataElement == null) ? CellValues.String : data.DataTypes[di][dj];
+                        if (dataType == CellValues.Number)
+                        {
+                            dataRow.Append(ConstructCell(double.Parse(dataElement), dataType));
+                        }
+                        else
+                        {
+                            dataRow.Append(ConstructCell(dataElement, dataType));
+                        }                        
+                        dj++;
                     }
+                    di++;
                 }
                 wbPart.Workbook.Save();
             }

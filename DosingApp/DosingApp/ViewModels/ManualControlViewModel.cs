@@ -106,7 +106,7 @@ namespace DosingApp.ViewModels
 
                 IsCollector1Visible = (ModbusService.Mixer.Collector == 1) || (ModbusService.Mixer.Collector == 2);
                 IsCollector2Visible = ModbusService.Mixer.Collector == 2;
-                IsVolumeDosVisible = ModbusService.Mixer.Single == 1;
+                IsVolumeDosVisible = ModbusService.Mixer.Volume == 1;
             }
 
             Title = (ModbusService.Mixer != null) ? "Ручное управление" : "Не задана активная установка";

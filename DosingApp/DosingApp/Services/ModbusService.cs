@@ -203,15 +203,29 @@ namespace DosingApp.Services
         public void WriteSingleRegister(RegisterValue registerValue)
         {
             if (!IsConnected) return;
-            modbusMaster.WriteSingleRegister(slaveId, registerValue.Register, registerValue.Value);
-            Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister\tHR_{registerValue.Register} = {registerValue.Value}");
+            try
+            {
+                modbusMaster.WriteSingleRegister(slaveId, registerValue.Register, registerValue.Value);
+                Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister\tHR_{registerValue.Register} = {registerValue.Value}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void WriteSingleRegister32(RegisterValue32 registerValue)
         {
             if (!IsConnected) return;
-            modbusMaster.WriteSingleRegister32(slaveId, registerValue.Register, registerValue.Value);
-            Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister32\tHR_{registerValue.Register} = {registerValue.Value}");
+            try
+            {
+                modbusMaster.WriteSingleRegister32(slaveId, registerValue.Register, registerValue.Value);
+                Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister32\tHR_{registerValue.Register} = {registerValue.Value}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public ushort[] ReadRegisters(ushort startAddress, ushort numberOfPoints)
@@ -222,7 +236,7 @@ namespace DosingApp.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine(ex.Message);
                 return new ushort[numberOfPoints];
             }
         }

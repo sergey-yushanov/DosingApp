@@ -144,7 +144,7 @@ namespace DosingApp.Models.Screen
             if (!IsVolumeDosFineK4Focused)
                 VolumeDosFineK4 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_FINE_K4));
             if (!IsVolumeDosDelayVolumeFocused)
-                volumeDosDelayVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_DELAY_VOL));
+                VolumeDosDelayVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_DELAY_VOL));
 
             if (!IsCollectorFillReqVolFocused)
                 CollectorFillReqVol = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FILL_REQ_VOL));

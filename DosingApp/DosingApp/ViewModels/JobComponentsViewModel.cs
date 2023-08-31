@@ -502,7 +502,7 @@ namespace DosingApp.ViewModels
             IsLoopCont = Common.IsLoopPause && Common.IsLoopActive;
             IsLoopStart = !Common.IsLoopActive && !isLoopWasActive;
 
-            IsLoopDone = Common.IsLoopDone;
+            IsLoopDone = Common.IsLoopDone && isLoopWasActive;
 
             OnPropertyChanged(nameof(IsLoopNotPause));
             OnPropertyChanged(nameof(IsLoopCont));

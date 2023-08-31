@@ -143,6 +143,53 @@ namespace DosingApp.Services
             }
         }
 
+        public void MergeCellsInReport(string fileName, string sheetName, List<int> mergeCellsCounts, int rowOffsetIndex)
+        {
+            Environment.SetEnvironmentVariable("MONO_URI_DOTNETRELATIVEORABSOLUTE", "true");
+
+            using (var document = SpreadsheetDocument.Open(fileName, true))
+            {
+                var wbPart = document.WorkbookPart;
+                var sheets = wbPart.Workbook.GetFirstChild<Sheets>().
+                             Elements<Sheet>().FirstOrDefault().
+                             Name = sheetName;
+
+                var part = wbPart.WorksheetParts.First();
+                var sheetData = part.Worksheet.Elements<SheetData>().First();
+
+                //create a MergeCells class to hold each MergeCell
+                MergeCells mergeCells = new MergeCells();
+                int cellsCountOffset = rowOffsetIndex;
+                List<string> mergeColumnNames = new List<string>() { "B", "C", "D", "E", "F", "J", "K", "L" };
+                foreach (int cellsCount in mergeCellsCounts)
+                {
+                    string firstRowIndex = cellsCountOffset.ToString();
+                    string lastRowIndex = (cellsCountOffset + cellsCount - 1).ToString();
+                    foreach(string mergeColumnName in mergeColumnNames)
+                    {
+                        mergeCells.Append(new MergeCell() { Reference = new StringValue(mergeColumnName + firstRowIndex + ":" + mergeColumnName + lastRowIndex) });
+                    }
+                    
+                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("C7:C9") });
+                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("D7:D9") });
+                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("E7:E9") });
+                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("F7:F9") });
+                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("J7:J9") });
+                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("K7:K9") });
+                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("L7:L9") });
+
+                    cellsCountOffset += cellsCount;
+                }
+
+                // Add a WorkbookPart to the document.
+                part.Worksheet.InsertAfter(mergeCells, part.Worksheet.Elements<SheetData>().First());
+
+                //sheetData .Cells[rowIndex, 22].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+                wbPart.Workbook.Save();
+            }
+        }
+
         public void InsertDataIntoCells(string fileName, string sheetName, List<ExcelCell> excelCells)
         {
             Environment.SetEnvironmentVariable("MONO_URI_DOTNETRELATIVEORABSOLUTE", "true");

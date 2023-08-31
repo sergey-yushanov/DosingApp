@@ -107,6 +107,7 @@ namespace DosingApp.ViewModels
                 ExcelService.InsertDataIntoCells(reportPath, sheetName, excelCells);
 
                 int columnsNum = 11;
+                List<int> mergeCellsCounts = new List<int>();
                 List<List<string>> values = new List<List<string>>();
                 List<List<CellValues>> valuesDataType = new List<List<CellValues>>();
                 int indexReport = 1;
@@ -173,11 +174,14 @@ namespace DosingApp.ViewModels
                         values.Add(partyValues);
                         valuesDataType.Add(partyValuesDataType);
                     }
+
+                    mergeCellsCounts.Add(reportComponents.Count + 1);
                     indexReport++;
                 }
 
                 ExcelStructure excelStructure = new ExcelStructure() { Headers = new List<string>(), Values = values, DataTypes = valuesDataType };
                 ExcelService.InsertDataIntoSheet(reportPath, sheetName, excelStructure, 0);
+                ExcelService.MergeCellsInReport(reportPath, sheetName, mergeCellsCounts, 7);
 
                 IsReportReady = true;
             }

@@ -117,23 +117,26 @@ namespace DosingApp.ViewModels
                     string[,] row = new string[reportComponents.Count + 1, columnsNum];
                     CellValues[,] rowDataType = new CellValues[reportComponents.Count + 1, columnsNum];
 
-                    row[0, 0] = indexReport.ToString();
-                    row[0, 1] = report.ReportDateTime.ToString("dd.MM.yyyy");
-                    row[0, 2] = report.ReportDateTime.ToString("HH:mm");
-                    row[0, 3] = report.AssignmentName;
-                    row[0, 4] = report.RecipeName;
-                    row[0, 8] = report.AssignmentPlace;
-                    row[0, 9] = report.AssignmentNote;
-                    row[0, 10] = report.OperatorName;
+                    for (int i = 0; i <= reportComponents.Count; i++)
+                    {
+                        row[i, 0] = indexReport.ToString();
+                        row[i, 1] = report.ReportDateTime.ToString("dd.MM.yyyy");
+                        row[i, 2] = report.ReportDateTime.ToString("HH:mm");
+                        row[i, 3] = report.AssignmentName;
+                        row[i, 4] = report.RecipeName;
+                        row[i, 8] = report.AssignmentPlace;
+                        row[i, 9] = report.AssignmentNote;
+                        row[i, 10] = report.OperatorName;
 
-                    rowDataType[0, 0] = CellValues.String;
-                    rowDataType[0, 1] = CellValues.String;
-                    rowDataType[0, 2] = CellValues.String;
-                    rowDataType[0, 3] = CellValues.String;
-                    rowDataType[0, 4] = CellValues.String;
-                    rowDataType[0, 8] = CellValues.String;
-                    rowDataType[0, 9] = CellValues.String;
-                    rowDataType[0, 10] = CellValues.String;
+                        rowDataType[i, 0] = CellValues.String;
+                        rowDataType[i, 1] = CellValues.String;
+                        rowDataType[i, 2] = CellValues.String;
+                        rowDataType[i, 3] = CellValues.String;
+                        rowDataType[i, 4] = CellValues.String;
+                        rowDataType[i, 8] = CellValues.String;
+                        rowDataType[i, 9] = CellValues.String;
+                        rowDataType[i, 10] = CellValues.String;
+                    }
 
                     double totalRequiredVolume = 0;
                     double totalDosedVolume = 0;

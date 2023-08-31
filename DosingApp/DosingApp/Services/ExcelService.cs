@@ -105,6 +105,11 @@ namespace DosingApp.Services
                 var part = wbPart.WorksheetParts.First();
                 var sheetData = part.Worksheet.Elements<SheetData>().First();
 
+                // Add Stylesheet.
+                //WorkbookStylesPart wbStylesPart = WorkbookPart.AddNewPart<WorkbookStylesPart>();
+                //WorkbookStylesPart.Stylesheet = GetStylesheet();
+                //WorkbookStylesPart.Stylesheet.Save();
+
                 for (int i = 0; i < rowOffsetCount; i++)
                 {
                     sheetData.AppendChild(new Row());
@@ -157,7 +162,6 @@ namespace DosingApp.Services
                 var part = wbPart.WorksheetParts.First();
                 var sheetData = part.Worksheet.Elements<SheetData>().First();
 
-                //create a MergeCells class to hold each MergeCell
                 MergeCells mergeCells = new MergeCells();
                 int cellsCountOffset = rowOffsetIndex;
                 List<string> mergeColumnNames = new List<string>() { "B", "C", "D", "E", "F", "J", "K", "L" };
@@ -169,25 +173,117 @@ namespace DosingApp.Services
                     {
                         mergeCells.Append(new MergeCell() { Reference = new StringValue(mergeColumnName + firstRowIndex + ":" + mergeColumnName + lastRowIndex) });
                     }
-                    
-                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("C7:C9") });
-                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("D7:D9") });
-                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("E7:E9") });
-                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("F7:F9") });
-                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("J7:J9") });
-                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("K7:K9") });
-                    //mergeCells.Append(new MergeCell() { Reference = new StringValue("L7:L9") });
-
                     cellsCountOffset += cellsCount;
                 }
 
-                // Add a WorkbookPart to the document.
                 part.Worksheet.InsertAfter(mergeCells, part.Worksheet.Elements<SheetData>().First());
-
-                //sheetData .Cells[rowIndex, 22].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
 
                 wbPart.Workbook.Save();
             }
+        }
+
+        private static Stylesheet GetStylesheet()
+        {
+            var StyleSheet = new Stylesheet();
+
+            // Create "fonts" node.
+            Fonts fonts = new Fonts();
+            fonts.Append(new Font()
+            {
+                FontName = new FontName() { Val = "Calibri" },
+                FontSize = new FontSize() { Val = 12 },
+                FontFamilyNumbering = new FontFamilyNumbering() { Val = 2 },
+            });
+            fonts.Count = (uint)fonts.ChildElements.Count;
+
+            // Create "fills" node.
+            Fills fills = new Fills();
+            fills.Append(new Fill()
+            {
+                PatternFill = new PatternFill() { PatternType = PatternValues.None }
+            });
+            fills.Append(new Fill()
+            {
+                PatternFill = new PatternFill() { PatternType = PatternValues.Gray125 }
+            });
+            fills.Count = (uint)fills.ChildElements.Count;
+
+            // Create "borders" node.
+            Borders borders = new Borders();
+            borders.Append(new Border()
+            {
+                LeftBorder = new LeftBorder(),
+                RightBorder = new RightBorder(),
+                TopBorder = new TopBorder(),
+                BottomBorder = new BottomBorder(),
+                DiagonalBorder = new DiagonalBorder()
+            });
+            borders.Append(new Border()
+            {
+                LeftBorder = new LeftBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                RightBorder = new RightBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                TopBorder = new TopBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                BottomBorder = new BottomBorder(new Color() { Auto = true }) { Style = BorderStyleValues.Thin },
+                DiagonalBorder = new DiagonalBorder()
+            });
+            borders.Count = (uint)borders.ChildElements.Count;
+
+            // Create "cellStyleXfs" node.
+            CellStyleFormats cellStyleFormats = new CellStyleFormats();
+            cellStyleFormats.Append(new CellFormat()
+            {
+                FontId = 0,
+                FillId = 0,
+                BorderId = 0
+            });
+            cellStyleFormats.Count = (uint)cellStyleFormats.ChildElements.Count;
+
+            // Create "cellXfs" node.
+            CellFormats cellFormats = new CellFormats();
+            // A default style that works for everything but DateTime
+            cellFormats.Append(new CellFormat()
+            {
+                FillId = 0,
+                FontId = 0,
+                BorderId = 0
+            });
+            // A style that apply alignment
+            cellFormats.Append(new CellFormat()
+            {
+                FillId = 0,
+                FontId = 0,
+                Alignment = new Alignment() { Horizontal = HorizontalAlignmentValues.Left, Vertical = VerticalAlignmentValues.Top },
+                ApplyAlignment = true
+            });
+            // A style that apply border
+            cellFormats.Append(new CellFormat()
+            {
+                FillId = 0,
+                FontId = 0,
+                BorderId = 1,
+                ApplyBorder = true
+            });
+            cellFormats.Count = (uint)cellFormats.ChildElements.Count;
+
+            // Create "cellStyles" node.
+            CellStyles cellStyles = new CellStyles();
+            cellStyles.Append(new CellStyle()
+            {
+                Name = "Normal",
+                FormatId = 0,
+                BuiltinId = 0
+            });
+            cellStyles.Count = (uint)cellStyles.ChildElements.Count;
+
+            // Append all nodes in order.
+            StyleSheet.Append(fonts);
+            StyleSheet.Append(fills);
+            StyleSheet.Append(borders);
+            StyleSheet.Append(cellStyleFormats);
+            StyleSheet.Append(cellFormats);
+            StyleSheet.Append(cellStyles);
+
+            return StyleSheet;
         }
 
         public void InsertDataIntoCells(string fileName, string sheetName, List<ExcelCell> excelCells)

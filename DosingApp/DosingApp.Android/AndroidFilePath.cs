@@ -8,6 +8,7 @@ namespace DosingApp.Droid
 {
     public class AndroidFilePath : IActualPath
     {
+        [System.Obsolete]
         public string GetActualPathFromUri(string uriString)
         {
             Context context = Android.App.Application.Context;

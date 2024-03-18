@@ -27,6 +27,10 @@ namespace DosingApp.ViewModels
         #region Attributes
         public ModbusService ModbusService { get; protected set; }
         private string title;
+        private bool isContentVisible;
+        private bool isCollector1Visible;
+        private bool isCollector2Visible;
+        private bool isVolumeDosVisible;
 
         // commands
         public ICommand AckCommand { get; protected set; }
@@ -72,8 +76,6 @@ namespace DosingApp.ViewModels
 
             if (ModbusService.Mixer != null)
             {
-                Title = (ModbusService.Mixer != null) ? "Ручное управление" : "Не задана активная установка";
-
                 PumpStartCommand = new Command(PumpStart);
                 PumpStopCommand = new Command(PumpStop);
 
@@ -101,7 +103,15 @@ namespace DosingApp.ViewModels
                 Collector1ResetCommand = new Command(Collector1Reset);
                 Collector2ResetCommand = new Command(Collector2Reset);
                 VolumeDosResetCommand = new Command(VolumeDosReset);
+
+                IsCollector1Visible = (ModbusService.Mixer.Collector == 1) || (ModbusService.Mixer.Collector == 2);
+                IsCollector2Visible = ModbusService.Mixer.Collector == 2;
+                IsVolumeDosVisible = ModbusService.Mixer.Volume == 1;
             }
+
+            Title = (ModbusService.Mixer != null) ? "Ручное управление" : "Не задана активная установка";
+
+            IsContentVisible = ModbusService.IsConnected;
         }
         #endregion Constructor
 
@@ -110,6 +120,30 @@ namespace DosingApp.ViewModels
         {
             get { return title; }
             set { SetProperty(ref title, value); }
+        }
+
+        public bool IsContentVisible
+        {
+            get { return isContentVisible; }
+            set { SetProperty(ref isContentVisible, value); }
+        }
+
+        public bool IsCollector1Visible
+        {
+            get { return isCollector1Visible; }
+            set { SetProperty(ref isCollector1Visible, value); }
+        }
+
+        public bool IsCollector2Visible
+        {
+            get { return isCollector2Visible; }
+            set { SetProperty(ref isCollector2Visible, value); }
+        }
+
+        public bool IsVolumeDosVisible
+        {
+            get { return isVolumeDosVisible; }
+            set { SetProperty(ref isVolumeDosVisible, value); }
         }
 
         public CollectorScreen Collector1

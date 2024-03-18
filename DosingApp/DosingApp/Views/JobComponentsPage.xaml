@@ -41,6 +41,15 @@
             Margin="{StaticResource PageMargin}">
 
             <StackLayout>
+                <Label
+                    Text="{Binding StatusText}"
+                    TextColor="{Binding StatusColor}"
+                    FontSize="Medium"
+                    FontAttributes="Bold"
+                    HorizontalOptions="StartAndExpand"/>
+            </StackLayout>
+
+            <StackLayout Padding="0,5">
                 <ActivityIndicator 
                     IsRunning="{Binding IsRunning}"
                     IsVisible="{Binding IsRunning}"
@@ -172,7 +181,7 @@
                     <Button 
                         Grid.Column="1"
                         Text="Пауза"
-                        IsEnabled="{Binding IsLoopPause}"
+                        IsEnabled="{Binding IsLoopNotPause}"
                         Command="{Binding PauseJobCommand}"/>
                     <Button 
                         Grid.Column="2"

@@ -527,6 +527,12 @@ namespace DosingApp.Migrations
                     b.Property<int?>("ThreeWay")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Volume")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("MixerId");
 
                     b.ToTable("Mixers");
@@ -615,6 +621,69 @@ namespace DosingApp.Migrations
                     b.HasIndex("RecipeId");
 
                     b.ToTable("RecipeComponents");
+                });
+
+            modelBuilder.Entity("DosingApp.Models.Report", b =>
+                {
+                    b.Property<int>("ReportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AssignmentName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AssignmentNote")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AssignmentPlace")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DriverName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OperatorName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecipeName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ReportDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ReportId");
+
+                    b.ToTable("Reports");
+                });
+
+            modelBuilder.Entity("DosingApp.Models.ReportComponent", b =>
+                {
+                    b.Property<int>("ReportComponentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Dispenser")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("DosedVolume")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReportId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double?>("RequiredVolume")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("ReportComponentId");
+
+                    b.HasIndex("ReportId");
+
+                    b.ToTable("ReportComponents");
                 });
 
             modelBuilder.Entity("DosingApp.Models.Transport", b =>
@@ -842,6 +911,13 @@ namespace DosingApp.Migrations
                     b.HasOne("DosingApp.Models.Recipe", "Recipe")
                         .WithMany("RecipeComponents")
                         .HasForeignKey("RecipeId");
+                });
+
+            modelBuilder.Entity("DosingApp.Models.ReportComponent", b =>
+                {
+                    b.HasOne("DosingApp.Models.Report", "Report")
+                        .WithMany("ReportComponents")
+                        .HasForeignKey("ReportId");
                 });
 
             modelBuilder.Entity("DosingApp.Models.TransportTank", b =>

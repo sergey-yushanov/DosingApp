@@ -9,8 +9,8 @@ namespace DosingApp.Models.Modbus
 {
     public static class CommonModbus
     {
-        public static ushort numberOfPoints = 50;
-        public static ushort numberOfFloats = 11;
+        public static ushort numberOfPoints = 52;
+        //public static ushort numberOfFloats = 12;
         public static ushort floatOffset = 2;
 
         public class Record
@@ -104,7 +104,9 @@ namespace DosingApp.Models.Modbus
             COL_FINE_SP3 = 44,
 
             COL_FINE_VOL_1_2 = 46,
-            COL_FINE_VOL_2_3 = 48
+            COL_FINE_VOL_2_3 = 48,
+
+            VDOS_DELAY_VOL = 50
         }
 
         public static ushort GetRegister(Register register)
@@ -299,6 +301,11 @@ namespace DosingApp.Models.Modbus
         public static RegisterValue32 CollectorFineVol_2_3(float k)
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.COL_FINE_VOL_2_3), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 VolumeDosDelayVolume(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.VDOS_DELAY_VOL), Value = Record32.Value(k) };
         }
     }
 }

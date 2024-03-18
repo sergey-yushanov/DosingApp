@@ -8,14 +8,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Websocket.Client;
-using DosingApp.Models.WebSocket;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using DosingApp.Models.Screen;
 using DosingApp.ViewModels;
 using DosingApp.Models;
 using DosingApp.DataContext;
 using System.Collections.ObjectModel;
+using DosingApp.Models.WebSocket;
+using System.Collections.Generic;
 
 namespace DosingApp.Services
 {

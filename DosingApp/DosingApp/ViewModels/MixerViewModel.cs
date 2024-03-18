@@ -70,29 +70,42 @@ namespace DosingApp.ViewModels
 
         public int? Volume
         {
-            get { return Mixer.Single; }
+            get { return Mixer.Volume; }
             set
             {
-                if (Mixer.Single != value)
+                if (Mixer.Volume != value)
                 {
-                    Mixer.Single = value;
-                    OnPropertyChanged(nameof(Single));
+                    Mixer.Volume = value;
+                    OnPropertyChanged(nameof(Volume));
                 }
             }
         }
 
-        public int? ThreeWay
+        public string Url
         {
-            get { return Mixer.ThreeWay; }
+            get { return Mixer.Url; }
             set
             {
-                if (Mixer.ThreeWay != value)
+                if (Mixer.Url != value)
                 {
-                    Mixer.ThreeWay = value;
-                    OnPropertyChanged(nameof(ThreeWay));
+                    Mixer.Url = value;
+                    OnPropertyChanged(nameof(Url));
                 }
             }
         }
+
+        //public int? ThreeWay
+        //{
+        //    get { return Mixer.ThreeWay; }
+        //    set
+        //    {
+        //        if (Mixer.ThreeWay != value)
+        //        {
+        //            Mixer.ThreeWay = value;
+        //            OnPropertyChanged(nameof(ThreeWay));
+        //        }
+        //    }
+        //}
 
         public bool IsUsedMixer
         {

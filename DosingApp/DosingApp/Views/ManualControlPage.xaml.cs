@@ -46,6 +46,11 @@ namespace DosingApp.Views
 
         public void TimerStart(ManualControlViewModel viewModel)
         {
+            if (viewModel.ModbusService.Mixer == null)
+            {
+                return;
+            }
+
             CancellationTokenSource cts = this.cancellation; // safe copy
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {

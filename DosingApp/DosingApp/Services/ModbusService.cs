@@ -21,7 +21,8 @@ namespace DosingApp.Services
     {
         #region Attributes
         private const byte slaveId = 1;
-        private const string url = "192.168.3.5";
+        private const string defaultUrl = "192.168.3.5";
+        private string url;
 
         private TcpClient tcpClient;
         private IModbusMaster modbusMaster;
@@ -31,16 +32,18 @@ namespace DosingApp.Services
         private CommonScreen common;
         private CollectorScreen collector1;
         private CollectorScreen collector2;
-        //private SingleDosScreen singleDos;
+        private SingleDosScreen singleDos;
         private VolumeDosScreen volumeDos;
         #endregion Attributes
 
         #region Constructor
         public ModbusService()
         {
+            IsConnected = false;
             GetActiveMixer();
             if (Mixer != null)
             {
+                url = (Mixer.Url != null) ? Mixer.Url: defaultUrl;
                 CreateMixerControl(Mixer);
                 MasterCreate();
             }
@@ -71,11 +74,11 @@ namespace DosingApp.Services
             set { SetProperty(ref collector2, value); }
         }
 
-        //public SingleDosScreen SingleDos
-        //{
-        //    get { return singleDos; }
-        //    set { SetProperty(ref singleDos, value); }
-        //}
+        public SingleDosScreen SingleDos
+        {
+            get { return singleDos; }
+            set { SetProperty(ref singleDos, value); }
+        }
 
         public VolumeDosScreen VolumeDos
         {
@@ -125,16 +128,6 @@ namespace DosingApp.Services
         {
             tcpClient = new TcpClient();
             MasterConnect();
-            //try
-            //{
-            //    tcpClient.Connect(url, 502);
-            //}
-            //catch (Exception ex)
-            //{
-            //    //return;
-            //}
-            //UpdateClientState();
-            //Console.WriteLine($"TCP Client connected = {IsConnected}");
 
             var factory = new ModbusFactory();
             modbusMaster = factory.CreateMaster(tcpClient);
@@ -149,12 +142,20 @@ namespace DosingApp.Services
 
             try
             {
-                tcpClient.Connect(url, 502);
+                if (tcpClient.ConnectAsync(url, 502).Wait(TimeSpan.FromSeconds(2)))
+                {
+                    Console.WriteLine($"TCP Client connect attempt ok");
+                }
+                else
+                {
+                    Console.WriteLine($"TCP Client connect attempt false");
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"TCP Client connect attempt false");
+                Console.WriteLine(ex.Message);
             }
+
             UpdateClientState();
             Console.WriteLine($"TCP Client connected = {IsConnected}");
         }
@@ -164,14 +165,11 @@ namespace DosingApp.Services
             if (modbusMaster != null)
             {
                 modbusMaster.Dispose();
-                //modbusMaster = null;
             }
 
             if (tcpClient != null)
             {
-                //tcpClient.GetStream().Close();
                 tcpClient.Close();
-                //tcpClient = null;
             }
             UpdateClientState();
             Console.WriteLine($"TCP Client connected = {IsConnected}");
@@ -179,8 +177,10 @@ namespace DosingApp.Services
 
         public void MasterMessages()
         {
-            //UpdateClientState();
             MasterConnect();
+
+            if (!IsConnected)
+                return;
 
             Common.Update(ReadRegisters(Registers.Common, CommonModbus.numberOfPoints));
             Collector1.Update(ReadRegisters(Registers.Collectors[0], CollectorModbus.numberOfPoints));
@@ -190,9 +190,9 @@ namespace DosingApp.Services
 
         private void UpdateClientState()
         {
-            if (tcpClient.Client != null)
+            if (tcpClient != null)
             {
-                IsConnected = tcpClient.Connected;
+                IsConnected = (tcpClient.Client != null) ? tcpClient.Connected : false;
             }
             else
             {
@@ -203,15 +203,29 @@ namespace DosingApp.Services
         public void WriteSingleRegister(RegisterValue registerValue)
         {
             if (!IsConnected) return;
-            modbusMaster.WriteSingleRegister(slaveId, registerValue.Register, registerValue.Value);
-            Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister\tHR_{registerValue.Register} = {registerValue.Value}");
+            try
+            {
+                modbusMaster.WriteSingleRegister(slaveId, registerValue.Register, registerValue.Value);
+                Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister\tHR_{registerValue.Register} = {registerValue.Value}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void WriteSingleRegister32(RegisterValue32 registerValue)
         {
             if (!IsConnected) return;
-            modbusMaster.WriteSingleRegister32(slaveId, registerValue.Register, registerValue.Value);
-            Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister32\tHR_{registerValue.Register} = {registerValue.Value}");
+            try
+            {
+                modbusMaster.WriteSingleRegister32(slaveId, registerValue.Register, registerValue.Value);
+                Console.WriteLine($"{DateTime.Now}\tWriteSingleRegister32\tHR_{registerValue.Register} = {registerValue.Value}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public ushort[] ReadRegisters(ushort startAddress, ushort numberOfPoints)
@@ -222,25 +236,10 @@ namespace DosingApp.Services
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return new ushort[numberOfPoints];
             }
         }
-
-        //public uint[] ReadRegisters32(int startAddress, int numberOfPoints)
-        //{
-        //    ushort[] registers;
-        //    int numberOfFloats = numberOfPoints / 2;
-        //    uint[] registers32 = new uint[numberOfFloats];
-
-        //    registers = modbusMaster.ReadHoldingRegisters(slaveId, (ushort)startAddress, (ushort)numberOfPoints);
-
-        //    for(int i = 0, j = 0; i < numberOfPoints; i += 2, j++)
-        //    {
-        //        registers32[j] = (uint)((registers[i] << 16) | registers[i + 1]);
-        //    }
-
-        //    return registers32;
-        //}
         #endregion Methods
     }
 }

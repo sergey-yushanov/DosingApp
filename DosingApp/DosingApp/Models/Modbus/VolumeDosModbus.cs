@@ -10,7 +10,7 @@ namespace DosingApp.Models.Modbus
     public static class VolumeDosModbus
     {
         public static ushort numberOfPoints = 12;
-        public static ushort numberOfFloats = 5;
+        //public static ushort numberOfFloats = 5;
         public static ushort floatOffset = 2;
 
         public class Record

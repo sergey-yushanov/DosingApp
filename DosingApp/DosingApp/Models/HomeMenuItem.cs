@@ -9,6 +9,7 @@ namespace DosingApp.Models
     {
         Jobs,
         Reports,
+        RequirementInvoices,
         Assignments,
         Recipes,
         Components,

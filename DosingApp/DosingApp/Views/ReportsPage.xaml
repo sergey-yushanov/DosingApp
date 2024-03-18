@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DosingApp.Views.ReportsPage"
+             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
+             x:Name="Reports"
+             Title="Формирование отчета">
+
+    <ContentPage.Resources>
+        <Helpers:TimeConverter x:Key="TimeConverter"/>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout Margin="{StaticResource PageMargin}">
+            <StackLayout>
+                <Label
+                    Text="Выберите период формирования отчета"
+                    TextColor="{StaticResource LabelEntryColor}"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="5*" />
+                    </Grid.ColumnDefinitions>
+
+                    <DatePicker
+                        Format="D"
+                        Date="{Binding FromDate}" />
+                    <Label 
+                        Grid.Column="1"
+                        Text="-"
+                        FontSize="Medium"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"/>
+                    <DatePicker
+                        Grid.Column="2"
+                        Format="D"
+                        Date="{Binding ToDate}" />
+                </Grid>
+
+                <Button 
+                    Text="{Binding ReportReadyText}"
+                    IsEnabled="{Binding IsReportReady, Converter={StaticResource InverseBoolConverter}}"
+                    Command="{Binding CreateReportCommand}" 
+                    CommandParameter="{Binding}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

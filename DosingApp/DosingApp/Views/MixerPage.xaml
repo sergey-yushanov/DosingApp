@@ -49,6 +49,14 @@
                         Text="{Binding Volume}"
                         Keyboard="Numeric"/>
 
+                    <Label 
+                        Text="Url"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry 
+                        Placeholder="Введите адрес или оставьте поле пустым"
+                        Text="{Binding Url}"
+                        Keyboard="Url"/>
+
                     <!--<Label 
                         Text="Количество 3-х ходовых клапанов"
                         TextColor="{StaticResource LabelEntryColor}"/>

@@ -30,10 +30,14 @@ namespace DosingApp.Services
 
         private Mixer mixer;
         private CommonScreen common;
-        private CollectorScreen collector1;
-        private CollectorScreen collector2;
+        
+        private List<CollectorScreen> collectors;
+        //private CollectorScreen collector1;
+        //private CollectorScreen collector2;
+
         private SingleDosScreen singleDos;
         private VolumeDosScreen volumeDos;
+        private PowderDosScreen powderDos;
         #endregion Attributes
 
         #region Constructor
@@ -62,17 +66,23 @@ namespace DosingApp.Services
             set { SetProperty(ref mixer, value); }
         }
 
-        public CollectorScreen Collector1
+        public List<CollectorScreen> Collectors
         {
-            get { return collector1; }
-            set { SetProperty(ref collector1, value); }
+            get { return collectors; }
+            set { SetProperty(ref collectors, value); }
         }
 
-        public CollectorScreen Collector2
-        {
-            get { return collector2; }
-            set { SetProperty(ref collector2, value); }
-        }
+        //public CollectorScreen Collector1
+        //{
+        //    get { return collector1; }
+        //    set { SetProperty(ref collector1, value); }
+        //}
+
+        //public CollectorScreen Collector2
+        //{
+        //    get { return collector2; }
+        //    set { SetProperty(ref collector2, value); }
+        //}
 
         public SingleDosScreen SingleDos
         {
@@ -84,6 +94,12 @@ namespace DosingApp.Services
         {
             get { return volumeDos; }
             set { SetProperty(ref volumeDos, value); }
+        }
+
+        public PowderDosScreen PowderDos
+        {
+            get { return powderDos; }
+            set { SetProperty(ref powderDos, value); }
         }
 
         public CommonScreen Common
@@ -119,9 +135,15 @@ namespace DosingApp.Services
             //Console.WriteLine(Collectors[0].Valves.Count);
 
             Common = new CommonScreen();
-            Collector1 = new CollectorScreen(1);
-            Collector2 = new CollectorScreen(2);
+            Collectors = new List<CollectorScreen>();
+            for (int i = 1; i <= (int)Mixer.MaxCollectors; i++)
+            {
+                Collectors.Add(new CollectorScreen(i));
+            }
+            //Collector1 = new CollectorScreen(1);
+            //Collector2 = new CollectorScreen(2);
             VolumeDos = new VolumeDosScreen(1);
+            PowderDos = new PowderDosScreen(1);
         }
 
         public void MasterCreate()
@@ -183,9 +205,14 @@ namespace DosingApp.Services
                 return;
 
             Common.Update(ReadRegisters(Registers.Common, CommonModbus.numberOfPoints));
-            Collector1.Update(ReadRegisters(Registers.Collectors[0], CollectorModbus.numberOfPoints));
-            Collector2.Update(ReadRegisters(Registers.Collectors[1], CollectorModbus.numberOfPoints));
+            for (int i = 0; i < Mixer.Collector; i++)
+            {
+                Collectors[i].Update(ReadRegisters(Registers.Collectors[i], CollectorModbus.numberOfPoints));
+            }
+            //Collector1.Update(ReadRegisters(Registers.Collectors[0], CollectorModbus.numberOfPoints));
+            //Collector2.Update(ReadRegisters(Registers.Collectors[1], CollectorModbus.numberOfPoints));
             VolumeDos.Update(ReadRegisters(Registers.VolumeDoses[0], VolumeDosModbus.numberOfPoints));
+            PowderDos.Update(ReadRegisters(Registers.PowderDoses[0], PowderDosModbus.numberOfPoints));
         }
 
         private void UpdateClientState()

@@ -66,7 +66,10 @@ namespace DosingApp.ViewModels
         public ICommand CarrierPulsesPerLiterCommand { get; protected set; }
         public ICommand Collector1PulsesPerLiterCommand { get; protected set; }
         public ICommand Collector2PulsesPerLiterCommand { get; protected set; }
+        public ICommand Collector3PulsesPerLiterCommand { get; protected set; }
+        public ICommand Collector4PulsesPerLiterCommand { get; protected set; }
         public ICommand VolumeDosPulsesPerLiterCommand { get; protected set; }
+        public ICommand PowderDosPulsesPerLiterCommand { get; protected set; }
 
         public ICommand CollectorFineK11Command { get; protected set; }
         public ICommand CollectorFineK12Command { get; protected set; }
@@ -88,14 +91,21 @@ namespace DosingApp.ViewModels
 
         public ICommand VolumeDosFineK4Command { get; protected set; }
         public ICommand CollectorFillReqVolCommand { get; protected set; }
+        public ICommand PowderDosFineK5Command { get; protected set; }
 
         public ICommand CollectorDryCommand { get; protected set; }
         public ICommand VolumeDosDryCommand { get; protected set; }
+        public ICommand PowderDosDryCommand { get; protected set; }
 
         public ICommand VolumeDosDryEnableCommand { get; protected set; }
         public ICommand VolumeDosDryDisableCommand { get; protected set; }
 
         public ICommand VolumeDosDelayVolumeCommand { get; protected set; }
+
+        public ICommand PowderDosDryEnableCommand { get; protected set; }
+        public ICommand PowderDosDryDisableCommand { get; protected set; }
+
+        public ICommand PowderDosDelayVolumeCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -110,7 +120,10 @@ namespace DosingApp.ViewModels
                 CarrierPulsesPerLiterCommand = new Command(CarrierPulsesPerLiter);
                 Collector1PulsesPerLiterCommand = new Command(Collector1PulsesPerLiter);
                 Collector2PulsesPerLiterCommand = new Command(Collector2PulsesPerLiter);
+                Collector3PulsesPerLiterCommand = new Command(Collector3PulsesPerLiter);
+                Collector4PulsesPerLiterCommand = new Command(Collector4PulsesPerLiter);
                 VolumeDosPulsesPerLiterCommand = new Command(VolumeDosPulsesPerLiter);
+                PowderDosPulsesPerLiterCommand = new Command(PowderDosPulsesPerLiter);
 
                 CollectorFineK11Command = new Command(CollectorFineK11);
                 CollectorFineK12Command = new Command(CollectorFineK12);
@@ -131,16 +144,23 @@ namespace DosingApp.ViewModels
                 CollectorFineVol_2_3Command = new Command(CollectorFineVol_2_3);
 
                 VolumeDosFineK4Command = new Command(VolumeDosFineK4);
+                PowderDosFineK5Command = new Command(PowderDosFineK5);
 
                 CollectorFillReqVolCommand = new Command(CollectorFillReqVol);
 
                 CollectorDryCommand = new Command(CollectorDry);
                 VolumeDosDryCommand = new Command(VolumeDosDry);
+                PowderDosDryCommand = new Command(PowderDosDry);
 
                 VolumeDosDryEnableCommand = new Command(VolumeDosDryEnable);
                 VolumeDosDryDisableCommand = new Command(VolumeDosDryDisable);
 
                 VolumeDosDelayVolumeCommand = new Command(VolumeDosDelayVolume);
+
+                PowderDosDryEnableCommand = new Command(PowderDosDryEnable);
+                PowderDosDryDisableCommand = new Command(PowderDosDryDisable);
+
+                PowderDosDelayVolumeCommand = new Command(PowderDosDelayVolume);
             }
         }
         #endregion Constructor
@@ -154,12 +174,22 @@ namespace DosingApp.ViewModels
 
         public CollectorScreen Collector1
         {
-            get { return ModbusService.Collector1; }
+            get { return ModbusService.Collectors[0]; }
         }
 
         public CollectorScreen Collector2
         {
-            get { return ModbusService.Collector2; }
+            get { return ModbusService.Collectors[1]; }
+        }
+
+        public CollectorScreen Collector3
+        {
+            get { return ModbusService.Collectors[2]; }
+        }
+
+        public CollectorScreen Collector4
+        {
+            get { return ModbusService.Collectors[3]; }
         }
 
         public CommonScreen Common
@@ -175,6 +205,11 @@ namespace DosingApp.ViewModels
         public VolumeDosScreen VolumeDos
         {
             get { return ModbusService.VolumeDos; }
+        }
+
+        public PowderDosScreen PowderDos
+        {
+            get { return ModbusService.PowderDos; }
         }
 
         //public int CollectorNumber
@@ -285,10 +320,28 @@ namespace DosingApp.ViewModels
             ModbusService.WriteSingleRegister32(CollectorModbus.VolumeRatio(2, (float)flowmeterScreen.PulsesPerLiter));
         }
 
+        private void Collector3PulsesPerLiter(object flowmeterInstance)
+        {
+            FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
+            ModbusService.WriteSingleRegister32(CollectorModbus.VolumeRatio(3, (float)flowmeterScreen.PulsesPerLiter));
+        }
+
+        private void Collector4PulsesPerLiter(object flowmeterInstance)
+        {
+            FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
+            ModbusService.WriteSingleRegister32(CollectorModbus.VolumeRatio(4, (float)flowmeterScreen.PulsesPerLiter));
+        }
+
         private void VolumeDosPulsesPerLiter(object flowmeterInstance)
         {
             FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
             ModbusService.WriteSingleRegister32(VolumeDosModbus.VolumeRatio(1, (float)flowmeterScreen.PulsesPerLiter));
+        }
+
+        private void PowderDosPulsesPerLiter(object flowmeterInstance)
+        {
+            FlowmeterScreen flowmeterScreen = flowmeterInstance as FlowmeterScreen;
+            ModbusService.WriteSingleRegister32(PowderDosModbus.VolumeRatio(1, (float)flowmeterScreen.PulsesPerLiter));
         }
 
         private void CollectorFineK11(object commonInstance)
@@ -381,6 +434,12 @@ namespace DosingApp.ViewModels
             ModbusService.WriteSingleRegister32(CommonModbus.VolumeDosFineK4((float)commonScreen.VolumeDosFineK4));
         }
 
+        private void PowderDosFineK5(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.PowderDosFineK5((float)commonScreen.PowderDosFineK5));
+        }
+
         private void CollectorFillReqVol(object commonInstance)
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
@@ -413,6 +472,28 @@ namespace DosingApp.ViewModels
         {
             CommonScreen commonScreen = commonInstance as CommonScreen;
             ModbusService.WriteSingleRegister32(CommonModbus.VolumeDosDelayVolume((float)commonScreen.VolumeDosDelayVolume));
+        }
+
+        private void PowderDosDry(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.PowderDosDry((float)commonScreen.PowderDosDry));
+        }
+
+        private void PowderDosDryEnable(object commonInstance)
+        {
+            ModbusService.WriteSingleRegister(CommonModbus.PowderDosDryEnable());
+        }
+
+        private void PowderDosDryDisable(object commonInstance)
+        {
+            ModbusService.WriteSingleRegister(CommonModbus.PowderDosDryDisable());
+        }
+
+        private void PowderDosDelayVolume(object commonInstance)
+        {
+            CommonScreen commonScreen = commonInstance as CommonScreen;
+            ModbusService.WriteSingleRegister32(CommonModbus.PowderDosDelayVolume((float)commonScreen.PowderDosDelayVolume));
         }
         #endregion Commands
 

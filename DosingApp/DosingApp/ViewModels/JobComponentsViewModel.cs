@@ -41,12 +41,13 @@ namespace DosingApp.ViewModels
         //private ObservableCollection<JobComponent> jobComponentsDosed;
         //private ObservableCollection<JobComponent> jobComponentsError;
         private CommonLoop commonLoop;
-        private static int nCollectors = 2;
+        private static int nCollectors = Mixer.MaxCollectors;
         private static int nDoseValves = 3;
         private ObservableCollection<CollectorLoop> collectorsLoop;
 
         //private SingleDosLoop singleDosLoop;
         private VolumeDosLoop volumeDosLoop;
+        private PowderDosLoop powderDosLoop;
         //private double progressBarValue;
         //private double requiredVolume;
         //private double dosedVolume;
@@ -294,7 +295,7 @@ namespace DosingApp.ViewModels
             get
             {
                 //UpdateJobComponents();
-                return ModbusService.Collector1;
+                return ModbusService.Collectors[0];
             }
         }
 
@@ -303,7 +304,25 @@ namespace DosingApp.ViewModels
             get
             {
                 //UpdateJobComponents();
-                return ModbusService.Collector2;
+                return ModbusService.Collectors[1];
+            }
+        }
+
+        public CollectorScreen Collector3
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.Collectors[2];
+            }
+        }
+
+        public CollectorScreen Collector4
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.Collectors[3];
             }
         }
 
@@ -314,6 +333,15 @@ namespace DosingApp.ViewModels
                 //UpdateJobComponents();
                 return ModbusService.VolumeDos;
                 //return WebSocketService.SingleDos;
+            }
+        }
+
+        public PowderDosScreen PowderDos
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.PowderDos;
             }
         }
 
@@ -388,6 +416,7 @@ namespace DosingApp.ViewModels
             double carrierRequiredVolume = 0;
             //double singleRequiredVolume = 0;
             double volumeDosRequiredVolume = 0;
+            double powderDosRequiredVolume = 0;
 
             foreach (var jobComponent in jobComponents)
             {
@@ -426,6 +455,12 @@ namespace DosingApp.ViewModels
                     volumeDosRequiredVolume = (double)jobComponent.Volume;
                     continue;
                 }
+
+                if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Powder) >= 0)
+                {
+                    powderDosRequiredVolume = (double)jobComponent.Volume;
+                    continue;
+                }
             }
 
             //collectorLoop = new CollectorLoop
@@ -448,6 +483,11 @@ namespace DosingApp.ViewModels
             volumeDosLoop = new VolumeDosLoop
             {
                 RequiredVolume = volumeDosRequiredVolume
+            };
+
+            powderDosLoop = new PowderDosLoop
+            {
+                RequiredVolume = powderDosRequiredVolume
             };
         }
 
@@ -487,6 +527,7 @@ namespace DosingApp.ViewModels
             }
 
             ModbusService.WriteSingleRegister32(VolumeDosModbus.VolumeRequired(1, (float)volumeDosLoop.RequiredVolume));
+            ModbusService.WriteSingleRegister32(PowderDosModbus.VolumeRequired(1, (float)powderDosLoop.RequiredVolume));
 
             ModbusService.WriteSingleRegister32(CommonModbus.VolumeRequired((float)commonLoop.CarrierRequiredVolume));
             ModbusService.WriteSingleRegister32(CommonModbus.Reserve((float)commonLoop.CarrierReserve));
@@ -496,7 +537,7 @@ namespace DosingApp.ViewModels
         {
             ModbusService.MasterMessages();
 
-            JobScreen.Update(Common, Collector1, Collector2, VolumeDos);
+            JobScreen.Update(Common, Collector1, Collector2, Collector3, Collector4, VolumeDos, PowderDos);
 
             IsLoopNotPause = !Common.IsLoopPause && Common.IsLoopActive;
             IsLoopCont = Common.IsLoopPause && Common.IsLoopActive;

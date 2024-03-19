@@ -8,9 +8,10 @@ namespace DosingApp.Models.Modbus
     public static class Registers
     {
         public const ushort Common = 16500;
-        public static ushort[] Collectors = { 16600, 16700 };
+        public static ushort[] Collectors = { 16600, 16700, 17100, 17200 };
         public static ushort[] VolumeDoses = { 16800 };
         public static ushort[] SingleDoses = { 16900 };
+        public static ushort[] PowderDoses = { 17000 };
     }
 
     public class RegisterValue

@@ -71,17 +71,26 @@ namespace DosingApp.Models.Screen
             //OnPropertyChanged(nameof(JobComponentScreens));
         }
 
-        public void Update(CommonScreen commonScreen, CollectorScreen collectorScreen1, CollectorScreen collectorScreen2, VolumeDosScreen volumeDosScreen)
+        public void Update(
+            CommonScreen commonScreen,
+            CollectorScreen collectorScreen1,
+            CollectorScreen collectorScreen2,
+            CollectorScreen collectorScreen3,
+            CollectorScreen collectorScreen4,
+            VolumeDosScreen volumeDosScreen,
+            PowderDosScreen powderDosScreen )
         {
             DosedVolume = 0;
 
             List<CollectorScreen> collectors = new List<CollectorScreen>();
             collectors.Add(collectorScreen1);
             collectors.Add(collectorScreen2);
+            collectors.Add(collectorScreen3);
+            collectors.Add(collectorScreen4);
 
             for (int i = 0; i < JobComponentScreens.Count; i++)
             {
-                JobComponentScreens[i].Update(commonScreen, collectors, volumeDosScreen);
+                JobComponentScreens[i].Update(commonScreen, collectors, volumeDosScreen, powderDosScreen);
                 DosedVolume += (double?)JobComponentScreens[i].DosedVolume;
 
                 //Console.Write(JobComponentScreens[i].Dispenser + ": ");

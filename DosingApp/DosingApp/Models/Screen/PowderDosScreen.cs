@@ -16,6 +16,8 @@ namespace DosingApp.Models.Screen
         public double? RequiredVolume { get; set; }
         public double? DosedVolume { get; set; }
 
+        private bool pumpCommand;
+
         public PowderDosScreen(int number)
         {
             this.Number = number;
@@ -28,36 +30,38 @@ namespace DosingApp.Models.Screen
 
         public string Name { get { return "Порошковый дозатор " + Number.ToString() + " (" + DispenserSuffix.Powder + Number.ToString() + ")"; } }
 
-        public void Update(VolumeDos volumeDos, bool showSettings)
+        public void Update(PowderDos powderDos, bool showSettings)
         {
-            Valve.Update(volumeDos.Valve);
-            Flowmeter.Update(volumeDos.Flowmeter, showSettings);
+            Valve.Update(powderDos.Valve);
+            Flowmeter.Update(powderDos.Flowmeter, showSettings);
 
-            DosedVolume = volumeDos.Loop.DosedVolume;
-            RequiredVolume = volumeDos.Loop.RequiredVolume;
+            DosedVolume = powderDos.Loop.DosedVolume;
+            RequiredVolume = powderDos.Loop.RequiredVolume;
         }
 
         public void Update(ushort[] registers)
         {
             union_bit_field_s status = new union_bit_field_s();
-            status.w = registers[(int)VolumeDosModbus.Register.SW];
-            Valve.Command = status.s[(int)VolumeDosModbus.StatusWord.VLV_COM];
+            status.w = registers[(int)PowderDosModbus.Register.SW];
+            PumpCommand = status.s[(int)PowderDosModbus.StatusWord.PUMP_COM];
+            Valve.Command = status.s[(int)PowderDosModbus.StatusWord.VLV_COM];
 
-            float flow = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.FLOW));
-            float volume = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.VOL));
+            float flow = PowderDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)PowderDosModbus.Register32.FLOW));
+            float volume = PowderDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)PowderDosModbus.Register32.VOL));
             float pulsesPerLiter = (float)Flowmeter.PulsesPerLiter;
             if (!Flowmeter.IsPulsesPerLiterFocused)
-                pulsesPerLiter = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.VOL_RATIO));
+                pulsesPerLiter = PowderDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)PowderDosModbus.Register32.VOL_RATIO));
             Flowmeter.Update(flow, volume, pulsesPerLiter);
 
-            DosedVolume = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.DOSE_VOL));
-            RequiredVolume = VolumeDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)VolumeDosModbus.Register32.REQ_VOL));
+            DosedVolume = PowderDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)PowderDosModbus.Register32.DOSE_VOL));
+            RequiredVolume = PowderDosModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)PowderDosModbus.Register32.REQ_VOL));
         }
 
-        //public void InitNew(Collector collector, bool showSettings)
-        //{
-        //    ValveAdjustable.InitNew(collector.ValveAdjustable, showSettings);
-        //    Flowmeter.InitNew(collector.Flowmeter, showSettings);
-        //}
+
+        public bool PumpCommand
+        {
+            get { return pumpCommand; }
+            set { SetProperty(ref pumpCommand, value); }
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace DosingApp.Models.Modbus
 {
     public static class CommonModbus
     {
-        public static ushort numberOfPoints = 52;
+        public static ushort numberOfPoints = 58;
         //public static ushort numberOfFloats = 12;
         public static ushort floatOffset = 2;
 
@@ -42,8 +42,10 @@ namespace DosingApp.Models.Modbus
             LOOP_MAN_CLEAR = (ushort)16,
             LOOP_MAN_PASS = (ushort)32,
 
-            COL_DRY_ENABLE = (ushort)64,
-            COL_DRY_DISABLE = (ushort)128,
+            //COL_DRY_ENABLE = (ushort)64,
+            //COL_DRY_DISABLE = (ushort)128,
+            PDOS_DRY_ENABLE = (ushort)64,
+            PDOS_DRY_DISABLE = (ushort)128,
 
             PUMP_MAN_START = (ushort)256,
             PUMP_MAN_STOP = (ushort)512,
@@ -57,11 +59,11 @@ namespace DosingApp.Models.Modbus
             ACK = (ushort)32768
         }
 
-        public enum ControlWord2 : ushort
-        {
-            PDOS_DRY_ENABLE = (ushort)1,
-            PDOS_DRY_DISABLE = (ushort)2
-        }
+        //public enum ControlWord2 : ushort
+        //{
+        //    PDOS_DRY_ENABLE = (ushort)1,
+        //    PDOS_DRY_DISABLE = (ushort)2
+        //}
 
         public enum StatusWord
         {
@@ -80,7 +82,7 @@ namespace DosingApp.Models.Modbus
         {
             CW = (ushort)0,
             SW = (ushort)1,
-            CW_2 = (ushort)90,
+            //CW_2 = (ushort)90,
         }
 
         public enum Register32 : ushort
@@ -118,7 +120,7 @@ namespace DosingApp.Models.Modbus
 
             PDOS_FINE_K5 = 52,
             PDOS_DELAY_VOL = 54,
-            PDOS_DRY = 56,
+            PDOS_DRY = 56
         }
 
         public static ushort GetRegister(Register register)
@@ -204,12 +206,12 @@ namespace DosingApp.Models.Modbus
 
         public static RegisterValue PowderDosDryEnable()
         {
-            return new RegisterValue() { Register = GetRegister(Register.CW_2), Value = (ushort)ControlWord2.PDOS_DRY_ENABLE };
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.PDOS_DRY_ENABLE };
         }
 
         public static RegisterValue PowderDosDryDisable()
         {
-            return new RegisterValue() { Register = GetRegister(Register.CW_2), Value = (ushort)ControlWord2.PDOS_DRY_DISABLE };
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.PDOS_DRY_DISABLE };
         }
 
         public static RegisterValue32 VolumeRatio(float volumeRatio)

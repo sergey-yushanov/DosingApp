@@ -30,8 +30,10 @@ namespace DosingApp.Models
         public bool IsUsedMixer { get; set; }
         public string Url { get; set; }
 
-        // ограничение по количеству коллекторов
+        // ограничение по количеству дозаторов
         public const int MaxCollectors = 4;
+        public const int MaxVolumes = 1;
+        public const int MaxPowders = 1;
 
         public List<string> GetDispensers()
         {

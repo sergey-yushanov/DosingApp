@@ -37,13 +37,16 @@ namespace DosingApp.Models.Modbus
         {
             VLV_MAN_OPN = (ushort)1,
             VLV_MAN_CLS = (ushort)2,
-            VOL_RST = (ushort)4
+            VOL_RST = (ushort)4,
+            PUMP_MAN_START = (ushort)8,
+            PUMP_MAN_STOP = (ushort)16
         }
 
         public enum StatusWord
         {
             VLV_COM = (ushort)0,
-            DRY_RUN = (ushort)1
+            DRY_RUN = (ushort)1,
+            PUMP_COM = (ushort)2
         }
 
         public enum Register
@@ -63,38 +66,48 @@ namespace DosingApp.Models.Modbus
 
         private static ushort GetRegister(ushort number, Register register)
         {
-            return (ushort)(Registers.VolumeDoses[number-1] + register);
+            return (ushort)(Registers.PowderDoses[number-1] + register);
         }
 
         private static ushort GetRegister32(ushort number, Register32 register)
         {
 
-            return (ushort)(Registers.VolumeDoses[number-1] + register);
+            return (ushort)(Registers.PowderDoses[number-1] + register);
         }
 
-        public static RegisterValue ValveOpen(ushort volumeDosNumber)
+        public static RegisterValue ValveOpen(ushort powderDosNumber)
         {
-            return new RegisterValue() { Register = GetRegister(volumeDosNumber, Register.CW), Value = (ushort)ControlWord.VLV_MAN_OPN };
+            return new RegisterValue() { Register = GetRegister(powderDosNumber, Register.CW), Value = (ushort)ControlWord.VLV_MAN_OPN };
         }
 
-        public static RegisterValue ValveClose(ushort volumeDosNumber)
+        public static RegisterValue ValveClose(ushort powderDosNumber)
         {
-            return new RegisterValue() { Register = GetRegister(volumeDosNumber, Register.CW), Value = (ushort)ControlWord.VLV_MAN_CLS };
+            return new RegisterValue() { Register = GetRegister(powderDosNumber, Register.CW), Value = (ushort)ControlWord.VLV_MAN_CLS };
         }
 
-        public static RegisterValue VolumeReset(ushort volumeDosNumber)
+        public static RegisterValue VolumeReset(ushort powderDosNumber)
         {
-            return new RegisterValue() { Register = GetRegister(volumeDosNumber, Register.CW), Value = (ushort)ControlWord.VOL_RST };
+            return new RegisterValue() { Register = GetRegister(powderDosNumber, Register.CW), Value = (ushort)ControlWord.VOL_RST };
         }
 
-        public static RegisterValue32 VolumeRatio(ushort volumeDosNumber, float volumeRatio)
+        public static RegisterValue PumpStart(ushort powderDosNumber)
         {
-            return new RegisterValue32() { Register = GetRegister32(volumeDosNumber, Register32.VOL_RATIO), Value = Record32.Value(volumeRatio) };
+            return new RegisterValue() { Register = GetRegister(powderDosNumber, Register.CW), Value = (ushort)ControlWord.PUMP_MAN_START };
         }
 
-        public static RegisterValue32 VolumeRequired(ushort volumeDosNumber, float volumeRequired)
+        public static RegisterValue PumpStop(ushort powderDosNumber)
         {
-            return new RegisterValue32() { Register = GetRegister32(volumeDosNumber, Register32.REQ_VOL), Value = Record32.Value(volumeRequired) };
+            return new RegisterValue() { Register = GetRegister(powderDosNumber, Register.CW), Value = (ushort)ControlWord.PUMP_MAN_STOP };
+        }
+
+        public static RegisterValue32 VolumeRatio(ushort powderDosNumber, float volumeRatio)
+        {
+            return new RegisterValue32() { Register = GetRegister32(powderDosNumber, Register32.VOL_RATIO), Value = Record32.Value(volumeRatio) };
+        }
+
+        public static RegisterValue32 VolumeRequired(ushort powderDosNumber, float volumeRequired)
+        {
+            return new RegisterValue32() { Register = GetRegister32(powderDosNumber, Register32.REQ_VOL), Value = Record32.Value(volumeRequired) };
         }
     }
 }

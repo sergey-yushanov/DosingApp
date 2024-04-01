@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:Helpers="clr-namespace:DosingApp.Helpers"
-             x:Class="DosingApp.Views.ManualControlPage"
-             NavigationPage.HasBackButton="False"
-             x:Name="ManualControl">
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:Helpers="clr-namespace:DosingApp.Helpers"
+            x:Class="DosingApp.Views.ManualControlPage"
+            NavigationPage.HasBackButton="False"
+            x:Name="ManualControl">
 
-    <ContentPage.Resources>
+    <TabbedPage.Resources>
         <Helpers:DoubleConverter x:Key="DoubleConverter"/>
         <x:Int32 x:Key="Dec2">2</x:Int32>
         <x:Int32 x:Key="Dec3">3</x:Int32>
         <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
         <Helpers:ColorConverter x:Key="ColorConverter"/>
-    </ContentPage.Resources>
+    </TabbedPage.Resources>
     
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
@@ -37,370 +37,566 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
-    <ContentPage.Content>
-        <ScrollView
-            IsVisible="{Binding IsContentVisible}">
+    <TabbedPage.Children>
 
-            <StackLayout Margin="{StaticResource PageMargin}">
+        <ContentPage Title="Носитель + ПД1 + ОбД1">
+            <ScrollView
+                IsVisible="{Binding IsContentVisible}">
 
-                <StackLayout>
-                    <Label 
-                        Text="Носитель смеси"
-                        HorizontalOptions="StartAndExpand"
-                        FontSize="Medium"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                </StackLayout>
+                <StackLayout Margin="{StaticResource PageMargin}">
 
-                <StackLayout>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
-                        </Grid.ColumnDefinitions>
-
+                    <StackLayout>
                         <Label 
-                            Text="Насос"
+                            Text="Носитель смеси"
+                            HorizontalOptions="StartAndExpand"
                             FontSize="Medium"
-                            TextColor="{Binding Common.PumpCommand, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
-                            VerticalOptions="Center"/>
-                        <Button
-                            Grid.Column="1"
-                            Text="Пуск"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PumpStartCommand}"/>
-                        <Button
-                            Grid.Column="2"
-                            Text="Стоп"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PumpStopCommand}"/>
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                    </StackLayout>
 
-                        <Label 
-                            Grid.Row="1"
-                            Text="Кл"
-                            FontSize="Medium"
-                            VerticalOptions="Center"/>
-                        <Button
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Text="Открыть"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierValveOpenCommand}"/>
-                        <Button
-                            Grid.Row="1"
-                            Grid.Column="2"
-                            Text="Закрыть"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierValveCloseCommand}"/>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
 
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="4"
-                            Text="{Binding CarrierInfo}"
-                            FontSize="Medium"
-                            VerticalOptions="Center"
-                            HorizontalOptions="EndAndExpand"/>
-                        <Button
-                            Grid.Row="1"
-                            Grid.Column="5"
-                            Text="Обнул"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierResetCommand}"/>
-                    </Grid>
-                </StackLayout>
+                            <Label 
+                                Text="Насос"
+                                FontSize="Medium"
+                                TextColor="{Binding Common.PumpCommand, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                VerticalOptions="Center"/>
+                            <Button
+                                Grid.Column="1"
+                                Text="Пуск"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PumpStartCommand}"/>
+                            <Button
+                                Grid.Column="2"
+                                Text="Стоп"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PumpStopCommand}"/>
 
-                <BoxView 
+                            <Label 
+                                Grid.Row="1"
+                                Text="Кл"
+                                FontSize="Medium"
+                                VerticalOptions="Center"/>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="Открыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierValveOpenCommand}"/>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Text="Закрыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierValveCloseCommand}"/>
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Text="{Binding CarrierInfo}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="5"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierResetCommand}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView 
                         HeightRequest="1"
                         Color="LightGray"
                         Margin ="0, 0, 0, 0"/>
 
-                <StackLayout
-                    IsVisible="{Binding IsCollector1Visible}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="8*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="4*" />
-                            <ColumnDefinition Width="2*" />
-                        </Grid.ColumnDefinitions>
+
+                    <StackLayout
+                        IsVisible="{Binding IsPowderDosVisible}">
                         <Label 
-                            Text="Коллекторный дозатор 1"
+                            Text="Порошковый дозатор"
                             HorizontalOptions="StartAndExpand"
                             FontSize="Medium"
                             TextColor="{StaticResource LabelEntryColor}"/>
+                    </StackLayout>
 
-                        <Label
-                            Grid.Column="2"
-                            Text="{Binding Collector1FlowInfo}"
-                            FontSize="Medium"
-                            VerticalOptions="Center"
-                            HorizontalOptions="EndAndExpand"/>
-                    </Grid>
-                </StackLayout>
-
-                <StackLayout
-                    IsVisible="{Binding IsCollector1Visible}"
-                    BindableLayout.ItemsSource="{Binding Collector1.Valves}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="3*" />
-                                </Grid.ColumnDefinitions>
-
-                                <Label
-                                    Text="{Binding Name}"
-                                    FontSize="Medium" 
-                                    TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
-                                    VerticalOptions="Center"/>
-                                <Button
-                                    Grid.Column="1"
-                                    Text="Открыть"
-                                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveOpenCommand}"
-                                    CommandParameter="{Binding .}"/>
-                                <Button
-                                    Grid.Column="2"
-                                    Text="Закрыть"
-                                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveCloseCommand}"
-                                    CommandParameter="{Binding .}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </StackLayout>
-
-                <StackLayout
-                    IsVisible="{Binding IsCollector1Visible}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Label
-                            Text="{Binding Collector1.ValveAdjustable.Name}"
-                            FontSize="Medium"
-                            TextColor="{Binding Collector1.ValveAdjustable.Open, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
-                            VerticalOptions="Center"
-                            HorizontalOptions="StartAndExpand"/>
-                        <Button
-                            Grid.Column="1"
-                            Text="Открыть"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveAdjustableOpenCommand}"
-                            CommandParameter="{Binding Collector1.ValveAdjustable}"/>
-                        <Button
-                            Grid.Column="2"
-                            Text="Закрыть"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveAdjustableCloseCommand}"
-                            CommandParameter="{Binding Collector1.ValveAdjustable}"/>
-
-                        <Label
-                            Grid.Column="4"
-                            Text="{Binding Collector1Info}"
-                            FontSize="Medium"
-                            VerticalOptions="Center"
-                            HorizontalOptions="EndAndExpand"/>
-                        <Button
-                            Grid.Column="5"
-                            Text="Обнул"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ResetCommand}"/>
-                    </Grid>
-                </StackLayout>
-
-                <BoxView
-                    IsVisible="{Binding IsCollector1Visible}"
-                    HeightRequest="1"
-                    Color="LightGray"
-                    Margin ="0, 0, 0, 0"/>
+                    <StackLayout
+                        IsVisible="{Binding IsPowderDosVisible}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
 
 
-                <StackLayout
-                    IsVisible="{Binding IsCollector2Visible}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="8*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="4*" />
-                            <ColumnDefinition Width="2*" />
-                        </Grid.ColumnDefinitions>
+                            <Label 
+                                Text="Насос"
+                                FontSize="Medium"
+                                TextColor="{Binding PowderDos.PumpCommand, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                VerticalOptions="Center"/>
+                            <Button
+                                Grid.Column="1"
+                                Text="Пуск"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PowderDosPumpStartCommand}"/>
+                            <Button
+                                Grid.Column="2"
+                                Text="Стоп"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PowderDosPumpStopCommand}"/>
+                            
+                            
+                            <Label 
+                                Grid.Row="1"
+                                Text="Кл"
+                                FontSize="Medium"
+                                TextColor="{Binding PowderDos.Valve.Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                VerticalOptions="Center"/>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="Открыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PowderDosValveOpenCommand}"/>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Text="Закрыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PowderDosValveCloseCommand}"/>
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Text="{Binding PowderDosInfo}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="5"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PowderDosResetCommand}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView
+                        IsVisible="{Binding IsPowderDosVisible}"
+                        HeightRequest="1"
+                        Color="LightGray"
+                        Margin ="0, 0, 0, 0"/>
+
+
+
+                    <StackLayout
+                        IsVisible="{Binding IsVolumeDosVisible}">
                         <Label 
-                            Text="Коллекторный дозатор 2"
+                            Text="Объемный дозатор"
                             HorizontalOptions="StartAndExpand"
                             FontSize="Medium"
                             TextColor="{StaticResource LabelEntryColor}"/>
+                    </StackLayout>
 
-                        <Label
-                            Grid.Column="2"
-                            Text="{Binding Collector2FlowInfo}"
-                            FontSize="Medium"
-                            VerticalOptions="Center"
-                            HorizontalOptions="EndAndExpand"/>
-                    </Grid>
+                    <StackLayout
+                        IsVisible="{Binding IsVolumeDosVisible}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label 
+                                Text="Кл"
+                                FontSize="Medium"
+                                TextColor="{Binding VolumeDos.Valve.Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                VerticalOptions="Center"/>
+                            <Button
+                                Grid.Column="1"
+                                Text="Открыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosValveOpenCommand}"/>
+                            <Button
+                                Grid.Column="2"
+                                Text="Закрыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosValveCloseCommand}"/>
+
+                            <Label
+                                Grid.Column="4"
+                                Text="{Binding VolumeDosInfo}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Column="5"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosResetCommand}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView
+                        IsVisible="{Binding IsVolumeDosVisible}"
+                        HeightRequest="1"
+                        Color="LightGray"
+                        Margin ="0, 0, 0, 0"/>
+                    
+
                 </StackLayout>
+            </ScrollView>
+        </ContentPage>
 
-                <StackLayout
-                    IsVisible="{Binding IsCollector2Visible}"
-                    BindableLayout.ItemsSource="{Binding Collector2.Valves}">
 
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="3*" />
-                                </Grid.ColumnDefinitions>
+        <ContentPage Title="КД1 + КД2">
+            <ScrollView
+                IsVisible="{Binding IsContentVisible}">
 
-                                <Label
-                                    Text="{Binding Name}"
-                                    FontSize="Medium" 
-                                    TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
-                                    VerticalOptions="Center"/>
-                                <Button
-                                    Grid.Column="1"
-                                    Text="Открыть"
-                                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveOpenCommand}"
-                                    CommandParameter="{Binding .}"/>
-                                <Button
-                                    Grid.Column="2"
-                                    Text="Закрыть"
-                                    Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveCloseCommand}"
-                                    CommandParameter="{Binding .}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </StackLayout>
+                <StackLayout Margin="{StaticResource PageMargin}">
 
-                <StackLayout
-                    IsVisible="{Binding IsCollector2Visible}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
-                        </Grid.ColumnDefinitions>
 
-                        <Label
-                            Text="{Binding Collector2.ValveAdjustable.Name}"
-                            FontSize="Medium"
-                            TextColor="{Binding Collector2.ValveAdjustable.Open, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
-                            VerticalOptions="Center"
-                            HorizontalOptions="StartAndExpand"/>
-                        <Button
-                            Grid.Column="1"
-                            Text="Открыть"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveAdjustableOpenCommand}"
-                            CommandParameter="{Binding Collector2.ValveAdjustable}"/>
-                        <Button
-                            Grid.Column="2"
-                            Text="Закрыть"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveAdjustableCloseCommand}"
-                            CommandParameter="{Binding Collector2.ValveAdjustable}"/>
-
-                        <Label
-                            Grid.Column="4"
-                            Text="{Binding Collector2Info}"
-                            FontSize="Medium"
-                            VerticalOptions="Center"
-                            HorizontalOptions="EndAndExpand"/>
-                        <Button
-                            Grid.Column="5"
-                            Text="Обнул"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ResetCommand}"/>
-                    </Grid>
-                </StackLayout>
-
-                <BoxView 
-                    IsVisible="{Binding IsCollector2Visible}"
-                    HeightRequest="1"
-                    Color="LightGray"
-                    Margin ="0, 0, 0, 0"/>
-
-                <StackLayout
-                    IsVisible="{Binding IsVolumeDosVisible}">
-                    <Label 
-                        Text="Объемный дозатор"
-                        HorizontalOptions="StartAndExpand"
-                        FontSize="Medium"
-                        TextColor="{StaticResource LabelEntryColor}"/>
-                </StackLayout>
-
-                <StackLayout
-                    IsVisible="{Binding IsVolumeDosVisible}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="3*" />
-                        </Grid.ColumnDefinitions>
-
+                    <StackLayout
+                        IsVisible="{Binding IsCollector12Visible}">
                         <Label 
-                            Text="Кл"
+                            Text="Носитель смеси"
+                            HorizontalOptions="StartAndExpand"
                             FontSize="Medium"
-                            TextColor="{Binding VolumeDos.Valve.Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
-                            VerticalOptions="Center"/>
-                        <Button
-                            Grid.Column="1"
-                            Text="Открыть"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosValveOpenCommand}"/>
-                        <Button
-                            Grid.Column="2"
-                            Text="Закрыть"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosValveCloseCommand}"/>
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                    </StackLayout>
 
-                        <Label
-                            Grid.Column="4"
-                            Text="{Binding VolumeDosInfo}"
-                            FontSize="Medium"
-                            VerticalOptions="Center"
-                            HorizontalOptions="EndAndExpand"/>
-                        <Button
-                            Grid.Column="5"
-                            Text="Обнул"
-                            Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.VolumeDosResetCommand}"/>
-                    </Grid>
+                    <StackLayout
+                        IsVisible="{Binding IsCollector12Visible}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label 
+                                Text="Насос"
+                                FontSize="Medium"
+                                TextColor="{Binding Common.PumpCommand, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                VerticalOptions="Center"/>
+                            <Button
+                                Grid.Column="1"
+                                Text="Пуск"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PumpStartCommand}"/>
+                            <Button
+                                Grid.Column="2"
+                                Text="Стоп"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.PumpStopCommand}"/>
+
+                            <Label 
+                                Grid.Row="1"
+                                Text="Кл"
+                                FontSize="Medium"
+                                VerticalOptions="Center"/>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="Открыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierValveOpenCommand}"/>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Text="Закрыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierValveCloseCommand}"/>
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Text="{Binding CarrierInfo}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="5"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.CarrierResetCommand}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView 
+                        IsVisible="{Binding IsCollector12Visible}"
+                        HeightRequest="1"
+                        Color="LightGray"
+                        Margin ="0, 0, 0, 0"/>
+
+
+                    <StackLayout
+                        IsVisible="{Binding IsCollector1Visible}">
+                        
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Label 
+                                Text="Коллекторный дозатор 1"
+                                HorizontalOptions="StartAndExpand"
+                                FontSize="Medium"
+                                TextColor="{StaticResource LabelEntryColor}"/>
+
+                            <Label
+                                Grid.Column="2"
+                                Text="{Binding Collector1FlowInfo}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <StackLayout
+                        IsVisible="{Binding IsCollector1Visible}"
+                        BindableLayout.ItemsSource="{Binding Collector1.Valves}">
+                        
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Text="{Binding Name}"
+                                        FontSize="Medium" 
+                                        TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                        VerticalOptions="Center"/>
+                                    <Button
+                                        Grid.Column="1"
+                                        Text="Открыть"
+                                        Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveOpenCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                    <Button
+                                        Grid.Column="2"
+                                        Text="Закрыть"
+                                        Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveCloseCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+
+                    <StackLayout
+                        IsVisible="{Binding IsCollector1Visible}">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Text="{Binding Collector1.ValveAdjustable.Name}"
+                                FontSize="Medium"
+                                TextColor="{Binding Collector1.ValveAdjustable.Open, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="StartAndExpand"/>
+                            <Button
+                                Grid.Column="1"
+                                Text="Открыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveAdjustableOpenCommand}"
+                                CommandParameter="{Binding Collector1.ValveAdjustable}"/>
+                            <Button
+                                Grid.Column="2"
+                                Text="Закрыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveAdjustableCloseCommand}"
+                                CommandParameter="{Binding Collector1.ValveAdjustable}"/>
+
+                            <Label
+                                Grid.Column="4"
+                                Text="{Binding Collector1Info}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Column="5"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ResetCommand}"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <BoxView
+                        IsVisible="{Binding IsCollector1Visible}"
+                        HeightRequest="1"
+                        Color="LightGray"
+                        Margin ="0, 0, 0, 0"/>
+
+
+                    <StackLayout
+                            IsVisible="{Binding IsCollector2Visible}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Label 
+                                Text="Коллекторный дозатор 2"
+                                HorizontalOptions="StartAndExpand"
+                                FontSize="Medium"
+                                TextColor="{StaticResource LabelEntryColor}"/>
+
+                            <Label
+                                Grid.Column="2"
+                                Text="{Binding Collector2FlowInfo}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                        </Grid>
+                    </StackLayout>
+
+                    <StackLayout
+                        IsVisible="{Binding IsCollector2Visible}"
+                        BindableLayout.ItemsSource="{Binding Collector2.Valves}">
+
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="3*" />
+                                        <ColumnDefinition Width="3*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Text="{Binding Name}"
+                                        FontSize="Medium" 
+                                        TextColor="{Binding Command, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                        VerticalOptions="Center"/>
+                                    <Button
+                                        Grid.Column="1"
+                                        Text="Открыть"
+                                        Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveOpenCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                    <Button
+                                        Grid.Column="2"
+                                        Text="Закрыть"
+                                        Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveCloseCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+
+                    <StackLayout
+                        IsVisible="{Binding IsCollector2Visible}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Text="{Binding Collector2.ValveAdjustable.Name}"
+                                FontSize="Medium"
+                                TextColor="{Binding Collector2.ValveAdjustable.Open, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="StartAndExpand"/>
+                            <Button
+                                Grid.Column="1"
+                                Text="Открыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveAdjustableOpenCommand}"
+                                CommandParameter="{Binding Collector2.ValveAdjustable}"/>
+                            <Button
+                                Grid.Column="2"
+                                Text="Закрыть"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveAdjustableCloseCommand}"
+                                CommandParameter="{Binding Collector2.ValveAdjustable}"/>
+
+                            <Label
+                                Grid.Column="4"
+                                Text="{Binding Collector2Info}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Column="5"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ResetCommand}"/>
+                        </Grid>
+
+                    </StackLayout>
+
+                    <BoxView 
+                        IsVisible="{Binding IsCollector2Visible}"
+                        HeightRequest="1"
+                        Color="LightGray"
+                        Margin ="0, 0, 0, 0"/>
+
+
                 </StackLayout>
-            </StackLayout>
-        </ScrollView>
-    </ContentPage.Content>
-</ContentPage>
+            </ScrollView>
+        </ContentPage>
+
+        <ContentPage Title="КД3 + КД4">
+            <ScrollView
+                IsVisible="{Binding IsContentVisible}">
+
+                <StackLayout Margin="{StaticResource PageMargin}">
+                
+                </StackLayout>
+            </ScrollView>
+        </ContentPage>
+    </TabbedPage.Children>
+</TabbedPage>

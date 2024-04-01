@@ -204,12 +204,12 @@ namespace DosingApp.ViewModels
 
         public VolumeDosScreen VolumeDos
         {
-            get { return ModbusService.VolumeDos; }
+            get { return ModbusService.VolumeDoses[0]; }
         }
 
         public PowderDosScreen PowderDos
         {
-            get { return ModbusService.PowderDos; }
+            get { return ModbusService.PowderDoses[0]; }
         }
 
         //public int CollectorNumber

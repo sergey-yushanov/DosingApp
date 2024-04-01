@@ -331,7 +331,7 @@ namespace DosingApp.ViewModels
             get
             {
                 //UpdateJobComponents();
-                return ModbusService.VolumeDos;
+                return ModbusService.VolumeDoses[0];
                 //return WebSocketService.SingleDos;
             }
         }
@@ -341,7 +341,7 @@ namespace DosingApp.ViewModels
             get
             {
                 //UpdateJobComponents();
-                return ModbusService.PowderDos;
+                return ModbusService.PowderDoses[0];
             }
         }
 

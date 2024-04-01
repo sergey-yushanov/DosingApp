@@ -32,6 +32,8 @@ namespace DosingApp.ViewModels
         private bool isCollector2Visible;
         private bool isCollector3Visible;
         private bool isCollector4Visible;
+        private bool isCollector12Visible;
+        private bool isCollector34Visible;
         private bool isVolumeDosVisible;
         private bool isPowderDosVisible;
 
@@ -73,6 +75,8 @@ namespace DosingApp.ViewModels
 
         public ICommand PowderDosValveOpenCommand { get; protected set; }
         public ICommand PowderDosValveCloseCommand { get; protected set; }
+        public ICommand PowderDosPumpStartCommand { get; protected set; }
+        public ICommand PowderDosPumpStopCommand { get; protected set; }
 
         public ICommand CarrierResetCommand { get; protected set; }
         public ICommand Collector1ResetCommand { get; protected set; }
@@ -139,6 +143,8 @@ namespace DosingApp.ViewModels
 
                 PowderDosValveOpenCommand = new Command(PowderDosValveOpen);
                 PowderDosValveCloseCommand = new Command(PowderDosValveClose);
+                PowderDosPumpStartCommand = new Command(PowderDosPumpStart);
+                PowderDosPumpStopCommand = new Command(PowderDosPumpStop);
 
                 CarrierResetCommand = new Command(CarrierReset);
                 Collector1ResetCommand = new Command(Collector1Reset);
@@ -152,6 +158,9 @@ namespace DosingApp.ViewModels
                 IsCollector2Visible = ModbusService.Mixer.Collector == 2;
                 IsCollector3Visible = (ModbusService.Mixer.Collector == 3) || (ModbusService.Mixer.Collector == 4);
                 IsCollector4Visible = ModbusService.Mixer.Collector == 4;
+                IsCollector12Visible = IsCollector1Visible || IsCollector2Visible;
+                IsCollector34Visible = IsCollector3Visible || IsCollector4Visible;
+
                 IsVolumeDosVisible = ModbusService.Mixer.Volume == 1;
                 IsPowderDosVisible = ModbusService.Mixer.Powder == 1;
             }
@@ -199,6 +208,18 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref isCollector4Visible, value); }
         }
 
+        public bool IsCollector12Visible
+        {
+            get { return isCollector12Visible; }
+            set { SetProperty(ref isCollector12Visible, value); }
+        }
+
+        public bool IsCollector34Visible
+        {
+            get { return isCollector34Visible; }
+            set { SetProperty(ref isCollector34Visible, value); }
+        }
+
         public bool IsVolumeDosVisible
         {
             get { return isVolumeDosVisible; }
@@ -243,12 +264,12 @@ namespace DosingApp.ViewModels
 
         public VolumeDosScreen VolumeDos
         {
-            get { return ModbusService.VolumeDos; }
+            get { return ModbusService.VolumeDoses[0]; }
         }
 
         public PowderDosScreen PowderDos
         {
-            get { return ModbusService.PowderDos; }
+            get { return ModbusService.PowderDoses[0]; }
         }
 
 
@@ -523,6 +544,16 @@ namespace DosingApp.ViewModels
         private void PowderDosValveClose()
         {
             ModbusService.WriteSingleRegister(PowderDosModbus.ValveClose(1));
+        }
+
+        private void PowderDosPumpStart()
+        {
+            ModbusService.WriteSingleRegister(PowderDosModbus.PumpStart(1));
+        }
+
+        private void PowderDosPumpStop()
+        {
+            ModbusService.WriteSingleRegister(PowderDosModbus.PumpStop(1));
         }
 
         private void CarrierReset()

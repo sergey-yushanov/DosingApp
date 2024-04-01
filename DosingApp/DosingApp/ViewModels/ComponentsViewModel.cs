@@ -218,6 +218,16 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
+                    List<RecipeComponent> recipeComponents = db.RecipeComponents.Where(rc => rc.ComponentId == componentViewModel.Component.ComponentId).ToList();
+                    if (recipeComponents.Count > 0)
+                    {
+                        var recipeIds = recipeComponents.Select(rc => rc.RecipeId).ToList();
+                        var recipes = db.Recipes.Where(r => recipeIds.Contains(r.RecipeId)).ToList();
+                        string recipesNames = string.Join("\n", recipes.Select(r => r.Name));
+                        Application.Current.MainPage.DisplayAlert("Предупреждение", "Невозможно удалить компонент пока он используется в следующих рецептах:\n\n" + recipesNames, "Ok");
+                        return;
+                    }
+
                     db.Components.Remove(componentViewModel.Component);
                     db.SaveChanges();
                 }

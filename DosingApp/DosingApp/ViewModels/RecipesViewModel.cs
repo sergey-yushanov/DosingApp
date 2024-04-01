@@ -82,6 +82,14 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
+                    List<Assignment> assignments = db.Assignments.Where(a => a.RecipeId == recipeViewModel.Recipe.RecipeId).ToList();
+                    if (assignments.Count > 0)
+                    {
+                        string assignmentsNames = string.Join("\n", assignments.Select(a => a.Name));
+                        Application.Current.MainPage.DisplayAlert("Предупреждение", "Невозможно удалить рецепт пока он используется в следующих заданиях:\n\n" + assignmentsNames, "Ok");
+                        return;
+                    }
+
                     db.RecipeComponents.RemoveRange(recipeViewModel.RecipeComponents);
                     db.Recipes.Remove(recipeViewModel.Recipe);
                     db.SaveChanges();

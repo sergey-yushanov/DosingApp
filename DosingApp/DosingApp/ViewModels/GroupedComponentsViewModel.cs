@@ -24,6 +24,8 @@ namespace DosingApp.ViewModels
         public ICommand DeleteManufacturerCommand { get; protected set; }
         public ICommand SaveManufacturerCommand { get; protected set; }
 
+        public ICommand EditManufacturerCommand { get; protected set; }
+
         public bool IsEditMode { get; protected set; }
         RecipeViewModel RecipeViewModel;
         RecipeComponentViewModel RecipeComponentViewModel;
@@ -40,6 +42,8 @@ namespace DosingApp.ViewModels
             CreateManufacturerCommand = new Command(CreateManufacturer);
             DeleteManufacturerCommand = new Command(DeleteManufacturer);
             SaveManufacturerCommand = new Command(SaveManufacturer);
+
+            EditManufacturerCommand = new Command(EditManufacturer);
         }
         #endregion Constructor
 
@@ -59,7 +63,10 @@ namespace DosingApp.ViewModels
                 {
                     if (!String.Equals(value.Name, Water.Name))
                     {
-                        ComponentsViewModel tempComponentsViewModel = new ComponentsViewModel(value, IsEditMode, RecipeViewModel, RecipeComponentViewModel);
+                        ComponentsViewModel tempComponentsViewModel = new ComponentsViewModel(value, IsEditMode, RecipeViewModel, RecipeComponentViewModel)
+                        {
+                            GroupedComponentsViewModel = this
+                        };
                         selectedManufacturer = null;
                         OnPropertyChanged(nameof(SelectedManufacturer));
                         Application.Current.MainPage.Navigation.PushAsync(new ComponentsPage(tempComponentsViewModel));
@@ -94,21 +101,30 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
+        private void Back2Pages()
+        {
+            Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+            Application.Current.MainPage.Navigation.PopAsync();
+        }
+
         private void CreateManufacturer()
         {
             Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(new ManufacturerViewModel(new Manufacturer()) { GroupedComponentsViewModel = this }));
         }
 
-        private void DeleteManufacturer(object manufacturerInstance)
+        private async void DeleteManufacturer(object manufacturerInstance)
         {
             ManufacturerViewModel manufacturerViewModel = manufacturerInstance as ManufacturerViewModel;
             if (manufacturerViewModel.Manufacturer != null && manufacturerViewModel.Manufacturer.ManufacturerId != 0)
             {
-                using (AppDbContext db = App.GetContext())
+                if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Вы хотите удалить каталог вместе со всеми его компонентами?", "Да", "Нет"))
                 {
-                    db.Components.RemoveRange(manufacturerViewModel.Components);
-                    db.Manufacturers.Remove(manufacturerViewModel.Manufacturer);
-                    db.SaveChanges();
+                    using (AppDbContext db = App.GetContext())
+                    {
+                        db.Components.RemoveRange(manufacturerViewModel.Components);
+                        db.Manufacturers.Remove(manufacturerViewModel.Manufacturer);
+                        db.SaveChanges();
+                    }
                 }
             }
             Back();
@@ -139,6 +155,17 @@ namespace DosingApp.ViewModels
                 }
             }
             Back();
+        }
+
+        private void EditManufacturer(object manufacturerInstance)
+        {
+            Manufacturer manufacturer = manufacturerInstance as Manufacturer;
+            if (manufacturer != null && manufacturer.ManufacturerId != 0)
+            {
+                ManufacturerViewModel manufacturerViewModel = new ManufacturerViewModel(manufacturer) { GroupedComponentsViewModel = this };
+                Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+                Application.Current.MainPage.Navigation.PushAsync(new ManufacturerPage(manufacturerViewModel));
+            }
         }
         #endregion Commands
 

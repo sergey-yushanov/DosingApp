@@ -12,7 +12,7 @@
                         Text="Название"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
-                        Placeholder="Введите название производителя" 
+                        Placeholder="Введите название каталога (производителя)" 
                         Text="{Binding Name}"
                         Keyboard="Chat"/>
                 </StackLayout>
@@ -29,7 +29,7 @@
                         <Button 
                             Grid.Column="1" 
                             Text="Удалить" 
-                            Command="{Binding GroupedComponentsViewModel.DeleteCommand}" 
+                            Command="{Binding GroupedComponentsViewModel.DeleteManufacturerCommand}" 
                             CommandParameter="{Binding}" />
                     </Grid>
                 </StackLayout>

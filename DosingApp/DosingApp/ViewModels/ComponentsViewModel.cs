@@ -39,6 +39,7 @@ namespace DosingApp.ViewModels
         public bool IsEditMode { get; protected set; }
         RecipeViewModel RecipeViewModel;
         RecipeComponentViewModel RecipeComponentViewModel;
+        GroupedComponentsViewModel groupedComponentsViewModel;
         #endregion Attributes
 
         #region Constructor
@@ -61,6 +62,12 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public GroupedComponentsViewModel GroupedComponentsViewModel
+        {
+            get { return groupedComponentsViewModel; }
+            set { SetProperty(ref groupedComponentsViewModel, value); }
+        }
+
         public ObservableCollection<Component> Components
         {
             get { return components; }
@@ -261,6 +268,8 @@ namespace DosingApp.ViewModels
             }
             Back();
         }
+
+        
         #endregion Commands
 
         #region Methods

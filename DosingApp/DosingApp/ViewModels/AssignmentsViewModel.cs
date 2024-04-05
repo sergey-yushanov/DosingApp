@@ -75,6 +75,13 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
+                    var jobs = db.Jobs.Where(j => j.AssignmentId == assignmentViewModel.Assignment.AssignmentId).ToList();
+                    if (jobs.Count > 0)
+                    {
+                        Application.Current.MainPage.DisplayAlert("Предупреждение", "Невозможно удалить выполненное задание", "Ok");
+                        return;
+                    }
+    
                     db.Assignments.Remove(assignmentViewModel.Assignment);
                     db.SaveChanges();
                 }

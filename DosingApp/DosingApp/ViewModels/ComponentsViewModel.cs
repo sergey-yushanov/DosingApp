@@ -37,9 +37,9 @@ namespace DosingApp.ViewModels
         public ICommand LoadFileCommand { get; protected set; }
 
         public bool IsEditMode { get; protected set; }
-        RecipeViewModel RecipeViewModel;
-        RecipeComponentViewModel RecipeComponentViewModel;
-        GroupedComponentsViewModel groupedComponentsViewModel;
+        public RecipeViewModel RecipeViewModel;
+        public RecipeComponentViewModel RecipeComponentViewModel;
+        public GroupedComponentsViewModel groupedComponentsViewModel;
         #endregion Attributes
 
         #region Constructor
@@ -232,14 +232,14 @@ namespace DosingApp.ViewModels
 
                     if (jobComponents.Count > 0)
                     {
-                        message = message + ", так как он использовался в выполненных заданиях";
+                        message += ", так как он использовался в выполненных заданиях";
                     }
                     else if (recipeComponents.Count > 0)
                     {
                         var recipeIds = recipeComponents.Select(rc => rc.RecipeId).ToList();
                         var recipes = db.Recipes.Where(r => recipeIds.Contains(r.RecipeId)).ToList();
                         string recipesNames = string.Join("\n", recipes.Select(r => "- " + r.Name));
-                        message = message + " пока он используется в следующих рецептах:\n\n" + recipesNames;
+                        message += " пока он используется в следующих рецептах:\n\n" + recipesNames;
                     }
 
                     if (recipeComponents.Count > 0 || jobComponents.Count > 0)

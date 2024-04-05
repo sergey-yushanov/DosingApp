@@ -41,8 +41,8 @@ namespace DosingApp.ViewModels
         //private ObservableCollection<JobComponent> jobComponentsDosed;
         //private ObservableCollection<JobComponent> jobComponentsError;
         private CommonLoop commonLoop;
-        private static int nCollectors = Mixer.MaxCollectors;
-        private static int nDoseValves = 3;
+        private static readonly int nCollectors = Mixer.MaxCollectors;
+        private static readonly int nDoseValves = 3;
         private ObservableCollection<CollectorLoop> collectorsLoop;
 
         //private SingleDosLoop singleDosLoop;
@@ -362,11 +362,11 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void Back2Pages()
-        {
-            Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
-            Application.Current.MainPage.Navigation.PopAsync();
-        }
+        //private void Back2Pages()
+        //{
+        //    Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+        //    Application.Current.MainPage.Navigation.PopAsync();
+        //}
 
         private void Back3Pages()
         {

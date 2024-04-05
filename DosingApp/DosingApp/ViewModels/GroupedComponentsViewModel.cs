@@ -119,28 +119,24 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
-                    string message = "Невозможно удалить каталог";
                     var componentIds = manufacturerViewModel.Components.Select(c => c.ComponentId).ToList();
                     var recipeComponents = db.RecipeComponents.Where(rc => componentIds.Contains((int)rc.ComponentId)).ToList();
-                    var jobComponents = db.JobComponents.Where(jc => componentIds.Contains((int)jc.ComponentId)).ToList();
-
-                    if (jobComponents.Count > 0)
-                    {
-                        message = message + ", так как компоненты из него использовались в выполненных заданиях";
-                    }
-                    else if (recipeComponents.Count > 0)
+                    
+                    if (recipeComponents.Count > 0)
                     {
                         var recipeIds = recipeComponents.Select(rc => rc.RecipeId).Distinct().ToList();
                         var recipes = db.Recipes.Where(r => recipeIds.Contains(r.RecipeId)).ToList();
                         string recipesNames = string.Join("\n", recipes.Select(r => "- " + r.Name));
-                        message = message + " пока компоненты из него используются в следующих рецептах:\n\n" + recipesNames;
-                    }
-
-                    if (recipeComponents.Count > 0 || jobComponents.Count > 0)
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Предупреждение", message, "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Предупреждение", "Невозможно удалить каталог пока компоненты из него используются в следующих рецептах:\n\n" + recipesNames, "Ok");
                         return;
                     }
+
+                    var jobComponents = db.JobComponents.Where(jc => componentIds.Contains((int)jc.ComponentId)).ToList();
+                    var jobIds = jobComponents.Select(jc => jc.JobId).Distinct().ToList();
+                    var jobs = db.Jobs.Where(j => jobIds.Contains(j.JobId)).ToList();
+                    db.JobComponents.RemoveRange(jobComponents);
+                    db.Jobs.RemoveRange(jobs);
+                    db.SaveChanges();
                 }
 
                 if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Вы хотите удалить каталог вместе со всеми его компонентами?", "Да", "Нет"))

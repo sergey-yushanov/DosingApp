@@ -90,8 +90,15 @@ namespace DosingApp.ViewModels
                         return;
                     }
 
+                    var componentIds = recipeViewModel.RecipeComponents.Select(rc => rc.ComponentId).ToList();
+                    var jobs = db.Jobs.Where(j => j.RecipeId == recipeViewModel.Recipe.RecipeId).Distinct().ToList();
+                    var jobsIds = jobs.Select(j => j.JobId).ToList();
+                    var jobComponents = db.JobComponents.Where(jc => jobsIds.Contains((int)jc.JobId)).ToList();
+                    db.JobComponents.RemoveRange(jobComponents);
+                    db.Jobs.RemoveRange(jobs);
                     db.RecipeComponents.RemoveRange(recipeViewModel.RecipeComponents);
                     db.Recipes.Remove(recipeViewModel.Recipe);
+
                     db.SaveChanges();
                 }
             }

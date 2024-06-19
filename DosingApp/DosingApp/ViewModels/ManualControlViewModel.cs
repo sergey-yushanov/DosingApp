@@ -48,24 +48,28 @@ namespace DosingApp.ViewModels
 
         public ICommand Collector1ValveAdjustableOpenCommand { get; protected set; }
         public ICommand Collector1ValveAdjustableCloseCommand { get; protected set; }
+        public ICommand Collector1ValveAdjustableSetpointCommand { get; protected set; }
 
         public ICommand Collector1ValveOpenCommand { get; protected set; }
         public ICommand Collector1ValveCloseCommand { get; protected set; }
 
         public ICommand Collector2ValveAdjustableOpenCommand { get; protected set; }
         public ICommand Collector2ValveAdjustableCloseCommand { get; protected set; }
+        public ICommand Collector2ValveAdjustableSetpointCommand { get; protected set; }
 
         public ICommand Collector2ValveOpenCommand { get; protected set; }
         public ICommand Collector2ValveCloseCommand { get; protected set; }
 
         public ICommand Collector3ValveAdjustableOpenCommand { get; protected set; }
         public ICommand Collector3ValveAdjustableCloseCommand { get; protected set; }
+        public ICommand Collector3ValveAdjustableSetpointCommand { get; protected set; }
 
         public ICommand Collector3ValveOpenCommand { get; protected set; }
         public ICommand Collector3ValveCloseCommand { get; protected set; }
 
         public ICommand Collector4ValveAdjustableOpenCommand { get; protected set; }
         public ICommand Collector4ValveAdjustableCloseCommand { get; protected set; }
+        public ICommand Collector4ValveAdjustableSetpointCommand { get; protected set; }
 
         public ICommand Collector4ValveOpenCommand { get; protected set; }
         public ICommand Collector4ValveCloseCommand { get; protected set; }
@@ -116,24 +120,28 @@ namespace DosingApp.ViewModels
 
                 Collector1ValveAdjustableOpenCommand = new Command(Collector1ValveAdjustableOpen);
                 Collector1ValveAdjustableCloseCommand = new Command(Collector1ValveAdjustableClose);
+                Collector1ValveAdjustableSetpointCommand = new Command(Collector1ValveAdjustableSetpoint);
 
                 Collector1ValveOpenCommand = new Command(Collector1ValveOpen);
                 Collector1ValveCloseCommand = new Command(Collector1ValveClose);
 
                 Collector2ValveAdjustableOpenCommand = new Command(Collector2ValveAdjustableOpen);
                 Collector2ValveAdjustableCloseCommand = new Command(Collector2ValveAdjustableClose);
+                Collector2ValveAdjustableSetpointCommand = new Command(Collector2ValveAdjustableSetpoint);
 
                 Collector2ValveOpenCommand = new Command(Collector2ValveOpen);
                 Collector2ValveCloseCommand = new Command(Collector2ValveClose);
 
                 Collector3ValveAdjustableOpenCommand = new Command(Collector3ValveAdjustableOpen);
                 Collector3ValveAdjustableCloseCommand = new Command(Collector3ValveAdjustableClose);
+                Collector3ValveAdjustableSetpointCommand = new Command(Collector3ValveAdjustableSetpoint);
 
                 Collector3ValveOpenCommand = new Command(Collector3ValveOpen);
                 Collector3ValveCloseCommand = new Command(Collector3ValveClose);
 
                 Collector4ValveAdjustableOpenCommand = new Command(Collector4ValveAdjustableOpen);
                 Collector4ValveAdjustableCloseCommand = new Command(Collector4ValveAdjustableClose);
+                Collector4ValveAdjustableSetpointCommand = new Command(Collector4ValveAdjustableSetpoint);
 
                 Collector4ValveOpenCommand = new Command(Collector4ValveOpen);
                 Collector4ValveCloseCommand = new Command(Collector4ValveClose);
@@ -442,6 +450,12 @@ namespace DosingApp.ViewModels
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableClose(1));
         }
 
+        private void Collector1ValveAdjustableSetpoint(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            ModbusService.WriteSingleRegister32(CollectorModbus.ValveAdjustableSetpoint(1, (float)valveAdjustableScreen.Setpoint));
+        }
+
         private void Collector1ValveOpen(object valveInstance)
         {
             ValveScreen valveScreen = valveInstance as ValveScreen;
@@ -464,6 +478,12 @@ namespace DosingApp.ViewModels
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableClose(2));
+        }
+
+        private void Collector2ValveAdjustableSetpoint(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            ModbusService.WriteSingleRegister32(CollectorModbus.ValveAdjustableSetpoint(2, (float)valveAdjustableScreen.Setpoint));
         }
 
         private void Collector2ValveOpen(object valveInstance)
@@ -490,6 +510,12 @@ namespace DosingApp.ViewModels
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableClose(3));
         }
 
+        private void Collector3ValveAdjustableSetpoint(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            ModbusService.WriteSingleRegister32(CollectorModbus.ValveAdjustableSetpoint(3, (float)valveAdjustableScreen.Setpoint));
+        }
+
         private void Collector3ValveOpen(object valveInstance)
         {
             ValveScreen valveScreen = valveInstance as ValveScreen;
@@ -512,6 +538,12 @@ namespace DosingApp.ViewModels
         {
             ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableClose(4));
+        }
+
+        private void Collector4ValveAdjustableSetpoint(object valveAdjustableInstance)
+        {
+            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
+            ModbusService.WriteSingleRegister32(CollectorModbus.ValveAdjustableSetpoint(4, (float)valveAdjustableScreen.Setpoint));
         }
 
         private void Collector4ValveOpen(object valveInstance)

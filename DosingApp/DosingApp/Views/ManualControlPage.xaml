@@ -354,13 +354,16 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="8*" />
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="4*" />
                                 <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="5*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
+
                             <Label 
-                                Text="Коллекторный дозатор 1"
+                                Text="КД1"
                                 HorizontalOptions="StartAndExpand"
                                 FontSize="Medium"
                                 TextColor="{StaticResource LabelEntryColor}"/>
@@ -371,6 +374,17 @@
                                 FontSize="Medium"
                                 VerticalOptions="Center"
                                 HorizontalOptions="EndAndExpand"/>
+
+                            <Label
+                                Grid.Column="4"
+                                Text="{Binding Collector1Info}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Column="5"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ResetCommand}"/>
                         </Grid>
                     </StackLayout>
 
@@ -445,17 +459,22 @@
                                 Text="Закрыть"
                                 Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveAdjustableCloseCommand}"
                                 CommandParameter="{Binding Collector1.ValveAdjustable}"/>
-
-                            <Label
+                            <Entry
                                 Grid.Column="4"
-                                Text="{Binding Collector1Info}"
+                                Text="{Binding Collector1.ValveAdjustable.Setpoint, Converter={StaticResource DoubleConverter}}"
+                                Keyboard="Numeric"
+                                HorizontalOptions="FillAndExpand"
+                                HorizontalTextAlignment="End"
+                                IsFocused="{Binding Collector1.ValveAdjustable.IsSetpointFocused}"
+                                ReturnCommand="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ValveAdjustableSetpointCommand}"
+                                ReturnCommandParameter="{Binding Collector1.ValveAdjustable}"/>
+                            <Label
+                                Grid.Column="5"
+                                Text="%"
                                 FontSize="Medium"
                                 VerticalOptions="Center"
-                                HorizontalOptions="EndAndExpand"/>
-                            <Button
-                                Grid.Column="5"
-                                Text="Обнул"
-                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector1ResetCommand}"/>
+                                HorizontalOptions="StartAndExpand"/>
+
                         </Grid>
                     </StackLayout>
 
@@ -473,13 +492,15 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="8*" />
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="4*" />
                                 <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="5*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
                             <Label 
-                                Text="Коллекторный дозатор 2"
+                                Text="КД2"
                                 HorizontalOptions="StartAndExpand"
                                 FontSize="Medium"
                                 TextColor="{StaticResource LabelEntryColor}"/>
@@ -490,6 +511,17 @@
                                 FontSize="Medium"
                                 VerticalOptions="Center"
                                 HorizontalOptions="EndAndExpand"/>
+
+                            <Label
+                                Grid.Column="4"
+                                Text="{Binding Collector2Info}"
+                                FontSize="Medium"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"/>
+                            <Button
+                                Grid.Column="5"
+                                Text="Обнул"
+                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ResetCommand}"/>
                         </Grid>
                     </StackLayout>
 
@@ -564,16 +596,21 @@
                                 Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveAdjustableCloseCommand}"
                                 CommandParameter="{Binding Collector2.ValveAdjustable}"/>
 
-                            <Label
+                            <Entry
                                 Grid.Column="4"
-                                Text="{Binding Collector2Info}"
+                                Text="{Binding Collector2.ValveAdjustable.Setpoint, Converter={StaticResource DoubleConverter}}"
+                                Keyboard="Numeric"
+                                HorizontalOptions="FillAndExpand"
+                                HorizontalTextAlignment="End"
+                                IsFocused="{Binding Collector2.ValveAdjustable.IsSetpointFocused}"
+                                ReturnCommand="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ValveAdjustableSetpointCommand}"
+                                ReturnCommandParameter="{Binding Collector2.ValveAdjustable}"/>
+                            <Label
+                                Grid.Column="5"
+                                Text="%"
                                 FontSize="Medium"
                                 VerticalOptions="Center"
-                                HorizontalOptions="EndAndExpand"/>
-                            <Button
-                                Grid.Column="5"
-                                Text="Обнул"
-                                Command="{Binding Source={x:Reference ManualControl}, Path=BindingContext.Collector2ResetCommand}"/>
+                                HorizontalOptions="StartAndExpand"/>
                         </Grid>
 
                     </StackLayout>

@@ -388,6 +388,10 @@ namespace DosingApp.ViewModels
             if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Если идет дозация, то она будет завершена. Выйти?", "Да", "Нет"))
             {
                 ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
+                if (!isLoopReported)
+                {
+                    SaveReport();
+                }
                 ModbusService.MasterDispose();
                 IsExitJob = true;
                 Back3Pages();
@@ -597,6 +601,10 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.DisplayAlert("Предупреждение", "Отсутствует связь с ПЛК, вы будете перенаправлены на главную страницу", "Ok");
             {
                 ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
+                if (!isLoopReported)
+                {
+                    SaveReport();
+                }
                 ModbusService.MasterDispose();
                 IsExitJob = true;
                 Back3Pages();
@@ -607,7 +615,7 @@ namespace DosingApp.ViewModels
         {
             Report report = new Report {
                 ReportDateTime = DateTime.Now,
-
+                IsCompleted = IsLoopDone,
                 AssignmentName = Job.Name,
                 AssignmentPlace = Job.Assignment.Place,
                 AssignmentNote = Job.Assignment.Note,

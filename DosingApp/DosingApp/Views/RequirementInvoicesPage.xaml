@@ -8,6 +8,7 @@
 
     <ContentPage.Resources>
         <Helpers:TimeConverter x:Key="TimeConverter"/>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
     </ContentPage.Resources>
 
     <ContentPage.Content>
@@ -34,7 +35,8 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="12*" />
                                     <ColumnDefinition Width="4*" />
                                 </Grid.ColumnDefinitions>
@@ -47,11 +49,11 @@
                                     Text="Время"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                                 <Label
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Text="Название задания"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                                 <Label
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     Text=" На печать"
                                     TextColor="{StaticResource LabelEntryColor}"/>
                             </Grid>
@@ -65,7 +67,8 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*" />
-                                            <ColumnDefinition Width="4*" />
+                                            <ColumnDefinition Width="3*" />
+                                            <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="12*" />
                                             <ColumnDefinition Width="4*" />
                                         </Grid.ColumnDefinitions>
@@ -81,11 +84,18 @@
                                             VerticalOptions="Center"/>
                                         <Label
                                             Grid.Column="2"
+                                            IsVisible="{Binding IsCompleted, Converter={StaticResource InverseBoolConverter}}"
+                                            Text="!"
+                                            TextColor="{StaticResource AlertColor}"
+                                            FontSize="Medium" 
+                                            VerticalOptions="Center"/>
+                                        <Label
+                                            Grid.Column="3"
                                             Text="{Binding AssignmentName}"
                                             FontSize="Medium" 
                                             VerticalOptions="Center"/>
                                         <Button
-                                            Grid.Column="3"
+                                            Grid.Column="4"
                                             ImageSource="print.png"
                                             Command="{Binding Source={x:Reference Reports}, Path=BindingContext.PrintInvoiceCommand}"
                                             CommandParameter="{Binding .}"/>

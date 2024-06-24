@@ -14,7 +14,7 @@ using Xamarin.Forms.Xaml;
 
 namespace DosingApp.Views
 {
-    public partial class ManualControlPage : ContentPage
+    public partial class ManualControlPage : TabbedPage
     {
         private CancellationTokenSource cancellation;
 

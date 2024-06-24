@@ -160,6 +160,9 @@ namespace DosingApp.Models.Modbus
 
         public static RegisterValue32 ValveAdjustableSetpoint(ushort collectorNumber, float setPoint)
         {
+            setPoint = setPoint > 100 ? 100 : setPoint;
+            setPoint = setPoint < 0 ? 0 : setPoint;
+
             return new RegisterValue32() { Register = GetRegister32(collectorNumber, Register32.VADJ_SP), Value = Record32.Value(setPoint) };
         }
 

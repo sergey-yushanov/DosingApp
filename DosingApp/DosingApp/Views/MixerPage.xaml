@@ -50,6 +50,14 @@
                         Keyboard="Numeric"/>
 
                     <Label 
+                        Text="Количество порошковых дозаторов"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <Entry 
+                        Placeholder="Введите количество порошковых дозаторов"
+                        Text="{Binding Powder}"
+                        Keyboard="Numeric"/>
+
+                    <Label 
                         Text="Url"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 

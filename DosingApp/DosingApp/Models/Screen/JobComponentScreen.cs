@@ -148,7 +148,7 @@ namespace DosingApp.Models.Screen
             DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);
         }
 
-        public void Update(CommonScreen common, List<CollectorScreen> collectors, VolumeDosScreen volumeDos)
+        public void Update(CommonScreen common, List<CollectorScreen> collectors, VolumeDosScreen volumeDos, PowderDosScreen powderDos)
         {
             if (Dispenser == DispenserSuffix.Dry)
             {
@@ -170,6 +170,11 @@ namespace DosingApp.Models.Screen
             if (Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
             {
                 DosedVolume = volumeDos.DosedVolume;
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Powder) >= 0)
+            {
+                DosedVolume = powderDos.DosedVolume;
             }
 
             DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);

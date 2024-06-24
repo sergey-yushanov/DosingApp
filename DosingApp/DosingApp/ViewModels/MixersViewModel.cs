@@ -101,6 +101,7 @@ namespace DosingApp.ViewModels
                             {
                                 usedMixer.IsUsedMixer = false;
                                 db.Mixers.Update(usedMixer);
+                                db.SaveChanges();
                             }
                             else
                             {
@@ -108,7 +109,10 @@ namespace DosingApp.ViewModels
                             }
                         }
                     }
+                }
 
+                using (AppDbContext db = App.GetContext())
+                {
                     if (mixerViewModel.Mixer.MixerId == 0)
                     {
                         db.Entry(mixerViewModel.Mixer).State = EntityState.Added;

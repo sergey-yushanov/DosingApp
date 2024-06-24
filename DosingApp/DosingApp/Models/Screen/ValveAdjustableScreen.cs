@@ -1,5 +1,6 @@
 ﻿using DosingApp.Models.WebSocket;
 using DosingApp.ViewModels;
+using System;
 
 namespace DosingApp.Models.Screen
 {
@@ -75,7 +76,8 @@ namespace DosingApp.Models.Screen
 
         public void Update(float setPoint, float position)
         {
-            Setpoint = setPoint;
+            if (!IsSetpointFocused)
+                Setpoint = setPoint;
             Position = position;
         }
 

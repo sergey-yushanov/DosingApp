@@ -41,12 +41,13 @@ namespace DosingApp.ViewModels
         //private ObservableCollection<JobComponent> jobComponentsDosed;
         //private ObservableCollection<JobComponent> jobComponentsError;
         private CommonLoop commonLoop;
-        private static int nCollectors = 2;
-        private static int nDoseValves = 3;
+        private static readonly int nCollectors = Mixer.MaxCollectors;
+        private static readonly int nDoseValves = 3;
         private ObservableCollection<CollectorLoop> collectorsLoop;
 
         //private SingleDosLoop singleDosLoop;
         private VolumeDosLoop volumeDosLoop;
+        private PowderDosLoop powderDosLoop;
         //private double progressBarValue;
         //private double requiredVolume;
         //private double dosedVolume;
@@ -294,7 +295,7 @@ namespace DosingApp.ViewModels
             get
             {
                 //UpdateJobComponents();
-                return ModbusService.Collector1;
+                return ModbusService.Collectors[0];
             }
         }
 
@@ -303,7 +304,25 @@ namespace DosingApp.ViewModels
             get
             {
                 //UpdateJobComponents();
-                return ModbusService.Collector2;
+                return ModbusService.Collectors[1];
+            }
+        }
+
+        public CollectorScreen Collector3
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.Collectors[2];
+            }
+        }
+
+        public CollectorScreen Collector4
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.Collectors[3];
             }
         }
 
@@ -312,8 +331,17 @@ namespace DosingApp.ViewModels
             get
             {
                 //UpdateJobComponents();
-                return ModbusService.VolumeDos;
+                return ModbusService.VolumeDoses[0];
                 //return WebSocketService.SingleDos;
+            }
+        }
+
+        public PowderDosScreen PowderDos
+        {
+            get
+            {
+                //UpdateJobComponents();
+                return ModbusService.PowderDoses[0];
             }
         }
 
@@ -334,11 +362,11 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void Back2Pages()
-        {
-            Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
-            Application.Current.MainPage.Navigation.PopAsync();
-        }
+        //private void Back2Pages()
+        //{
+        //    Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+        //    Application.Current.MainPage.Navigation.PopAsync();
+        //}
 
         private void Back3Pages()
         {
@@ -360,6 +388,10 @@ namespace DosingApp.ViewModels
             if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Если идет дозация, то она будет завершена. Выйти?", "Да", "Нет"))
             {
                 ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
+                if (!isLoopReported)
+                {
+                    SaveReport();
+                }
                 ModbusService.MasterDispose();
                 IsExitJob = true;
                 Back3Pages();
@@ -388,6 +420,7 @@ namespace DosingApp.ViewModels
             double carrierRequiredVolume = 0;
             //double singleRequiredVolume = 0;
             double volumeDosRequiredVolume = 0;
+            double powderDosRequiredVolume = 0;
 
             foreach (var jobComponent in jobComponents)
             {
@@ -426,6 +459,12 @@ namespace DosingApp.ViewModels
                     volumeDosRequiredVolume = (double)jobComponent.Volume;
                     continue;
                 }
+
+                if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Powder) >= 0)
+                {
+                    powderDosRequiredVolume = (double)jobComponent.Volume;
+                    continue;
+                }
             }
 
             //collectorLoop = new CollectorLoop
@@ -448,6 +487,11 @@ namespace DosingApp.ViewModels
             volumeDosLoop = new VolumeDosLoop
             {
                 RequiredVolume = volumeDosRequiredVolume
+            };
+
+            powderDosLoop = new PowderDosLoop
+            {
+                RequiredVolume = powderDosRequiredVolume
             };
         }
 
@@ -487,6 +531,7 @@ namespace DosingApp.ViewModels
             }
 
             ModbusService.WriteSingleRegister32(VolumeDosModbus.VolumeRequired(1, (float)volumeDosLoop.RequiredVolume));
+            ModbusService.WriteSingleRegister32(PowderDosModbus.VolumeRequired(1, (float)powderDosLoop.RequiredVolume));
 
             ModbusService.WriteSingleRegister32(CommonModbus.VolumeRequired((float)commonLoop.CarrierRequiredVolume));
             ModbusService.WriteSingleRegister32(CommonModbus.Reserve((float)commonLoop.CarrierReserve));
@@ -496,7 +541,7 @@ namespace DosingApp.ViewModels
         {
             ModbusService.MasterMessages();
 
-            JobScreen.Update(Common, Collector1, Collector2, VolumeDos);
+            JobScreen.Update(Common, Collector1, Collector2, Collector3, Collector4, VolumeDos, PowderDos);
 
             IsLoopNotPause = !Common.IsLoopPause && Common.IsLoopActive;
             IsLoopCont = Common.IsLoopPause && Common.IsLoopActive;
@@ -556,6 +601,10 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.DisplayAlert("Предупреждение", "Отсутствует связь с ПЛК, вы будете перенаправлены на главную страницу", "Ok");
             {
                 ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
+                if (!isLoopReported)
+                {
+                    SaveReport();
+                }
                 ModbusService.MasterDispose();
                 IsExitJob = true;
                 Back3Pages();
@@ -566,7 +615,7 @@ namespace DosingApp.ViewModels
         {
             Report report = new Report {
                 ReportDateTime = DateTime.Now,
-
+                IsCompleted = IsLoopDone,
                 AssignmentName = Job.Name,
                 AssignmentPlace = Job.Assignment.Place,
                 AssignmentNote = Job.Assignment.Note,

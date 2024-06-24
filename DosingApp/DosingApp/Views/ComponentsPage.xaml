@@ -25,6 +25,10 @@
                 <Button 
                     Text="Загрузить из файла" 
                     Command="{Binding LoadFileCommand}"/>
+                <Button 
+                    Text="Редактировать каталог" 
+                    Command="{Binding GroupedComponentsViewModel.EditManufacturerCommand}"
+                    CommandParameter="{Binding Manufacturer}"/>
             </StackLayout>
 
             <StackLayout>

@@ -13,6 +13,7 @@ namespace DosingApp.Models
         public const string ThreeWay = "ТХК";
         public const string Carrier = "Носитель";
         public const string Dry = "Загр. вручную";
+        public const string Powder = "ПД";
     }
 
     public class Mixer
@@ -24,9 +25,15 @@ namespace DosingApp.Models
         public int? Volume { get; set; }
         public int? Single { get; set; }
         public int? ThreeWay { get; set; }
+        public int? Powder { get; set; }
 
         public bool IsUsedMixer { get; set; }
         public string Url { get; set; }
+
+        // ограничение по количеству дозаторов
+        public const int MaxCollectors = 4;
+        public const int MaxVolumes = 1;
+        public const int MaxPowders = 1;
 
         public List<string> GetDispensers()
         {
@@ -35,6 +42,7 @@ namespace DosingApp.Models
             //dispensers.AddRange(GetSingleDispensers());
             dispensers.AddRange(GetVolumeDispensers());
             //dispensers.AddRange(GetThreeWayDispensers());
+            dispensers.AddRange(GetPowderDispensers());
             return dispensers;
         }
 
@@ -91,5 +99,18 @@ namespace DosingApp.Models
         //    }
         //    return dispensers;
         //}
+
+        public List<string> GetPowderDispensers()
+        {
+            var dispensers = new List<string>();
+            if (Powder != null)
+            {
+                for (int s = 1; s <= Powder; s++)
+                {
+                    dispensers.Add(DispenserSuffix.Powder + s.ToString());
+                }
+            }
+            return dispensers;
+        }
     }
 }

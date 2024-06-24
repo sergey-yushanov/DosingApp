@@ -9,7 +9,7 @@ namespace DosingApp.Models.Modbus
 {
     public static class CommonModbus
     {
-        public static ushort numberOfPoints = 52;
+        public static ushort numberOfPoints = 58;
         //public static ushort numberOfFloats = 12;
         public static ushort floatOffset = 2;
 
@@ -42,8 +42,10 @@ namespace DosingApp.Models.Modbus
             LOOP_MAN_CLEAR = (ushort)16,
             LOOP_MAN_PASS = (ushort)32,
 
-            COL_DRY_ENABLE = (ushort)64,
-            COL_DRY_DISABLE = (ushort)128,
+            //COL_DRY_ENABLE = (ushort)64,
+            //COL_DRY_DISABLE = (ushort)128,
+            PDOS_DRY_ENABLE = (ushort)64,
+            PDOS_DRY_DISABLE = (ushort)128,
 
             PUMP_MAN_START = (ushort)256,
             PUMP_MAN_STOP = (ushort)512,
@@ -57,6 +59,12 @@ namespace DosingApp.Models.Modbus
             ACK = (ushort)32768
         }
 
+        //public enum ControlWord2 : ushort
+        //{
+        //    PDOS_DRY_ENABLE = (ushort)1,
+        //    PDOS_DRY_DISABLE = (ushort)2
+        //}
+
         public enum StatusWord
         {
             LOOP_ACTIVE = (ushort)0,
@@ -66,13 +74,15 @@ namespace DosingApp.Models.Modbus
             PUMP_COM = (ushort)8,
             VLV_COM = (ushort)9,
             COL_DRY_ON = (ushort)10,
-            VDOS_DRY_ON = (ushort)11
+            VDOS_DRY_ON = (ushort)11,
+            PDOS_DRY_ON = (ushort)12
         }
 
         public enum Register : ushort
         {
             CW = (ushort)0,
             SW = (ushort)1,
+            //CW_2 = (ushort)90,
         }
 
         public enum Register32 : ushort
@@ -106,7 +116,11 @@ namespace DosingApp.Models.Modbus
             COL_FINE_VOL_1_2 = 46,
             COL_FINE_VOL_2_3 = 48,
 
-            VDOS_DELAY_VOL = 50
+            VDOS_DELAY_VOL = 50,
+
+            PDOS_FINE_K5 = 52,
+            PDOS_DELAY_VOL = 54,
+            PDOS_DRY = 56
         }
 
         public static ushort GetRegister(Register register)
@@ -190,6 +204,16 @@ namespace DosingApp.Models.Modbus
             return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.VDOS_DRY_DISABLE };
         }
 
+        public static RegisterValue PowderDosDryEnable()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.PDOS_DRY_ENABLE };
+        }
+
+        public static RegisterValue PowderDosDryDisable()
+        {
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.PDOS_DRY_DISABLE };
+        }
+
         public static RegisterValue32 VolumeRatio(float volumeRatio)
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.CAR_VOL_RATIO), Value = Record32.Value(volumeRatio) };
@@ -238,6 +262,11 @@ namespace DosingApp.Models.Modbus
             return new RegisterValue32() { Register = GetRegister32(Register32.VDOS_FINE_K4), Value = Record32.Value(k) };
         }
 
+        public static RegisterValue32 PowderDosFineK5(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.PDOS_FINE_K5), Value = Record32.Value(k) };
+        }
+
         public static RegisterValue32 CollectorDry(float k)
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.COL_DRY), Value = Record32.Value(k) };
@@ -246,6 +275,11 @@ namespace DosingApp.Models.Modbus
         public static RegisterValue32 VolumeDosDry(float k)
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.VDOS_DRY), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 PowderDosDry(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.PDOS_DRY), Value = Record32.Value(k) };
         }
 
         public static RegisterValue32 CollectorFillReqVol(float k)
@@ -306,6 +340,11 @@ namespace DosingApp.Models.Modbus
         public static RegisterValue32 VolumeDosDelayVolume(float k)
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.VDOS_DELAY_VOL), Value = Record32.Value(k) };
+        }
+
+        public static RegisterValue32 PowderDosDelayVolume(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.PDOS_DELAY_VOL), Value = Record32.Value(k) };
         }
     }
 }

@@ -21,6 +21,8 @@ namespace DosingApp.Models
         public string OperatorName { get; set; }
         public string DriverName { get; set; }
 
+        public bool IsCompleted { get; set; }
+
         public ICollection<ReportComponent> ReportComponents { get; set; }
     }
 }

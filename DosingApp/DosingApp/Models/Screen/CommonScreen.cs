@@ -31,11 +31,17 @@ namespace DosingApp.Models.Screen
         private double volumeDosFineK4;
         private double volumeDosDelayVolume;
         private double collectorFillReqVol;
+        
+        private double powderDosFineK5;
+        private double powderDosDelayVolume;
 
         private double collectorDry;
 
         private bool isVolumeDosDry;
         private double volumeDosDry;
+
+        private bool isPowderDosDry;
+        private double powderDosDry;
 
         private bool isCollectorFineK11Focused;
         private bool isCollectorFineK12Focused;
@@ -56,8 +62,12 @@ namespace DosingApp.Models.Screen
         private bool isVolumeDosDelayVolumeFocused;
         private bool isCollectorFillReqVolFocused;
 
+        private bool isPowderDosFineK5Focused;
+        private bool isPowderDosDelayVolumeFocused;
+
         private bool isVolumeDosDryFocused;
         private bool isCollectorDryFocused;
+        private bool isPowderDosDryFocused;
 
         private bool pumpCommand;
 
@@ -151,6 +161,14 @@ namespace DosingApp.Models.Screen
 
             if (!IsVolumeDosDryFocused)
                 VolumeDosDry = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.VDOS_DRY));
+
+            if (!IsPowderDosFineK5Focused)
+                PowderDosFineK5 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.PDOS_FINE_K5));
+            if (!IsPowderDosDelayVolumeFocused)
+                PowderDosDelayVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.PDOS_DELAY_VOL));
+
+            if (!IsPowderDosDryFocused)
+                PowderDosDry = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.PDOS_DRY));
         }
 
         //public void InitNew(Common common, bool showSettings)
@@ -195,6 +213,18 @@ namespace DosingApp.Models.Screen
             set { SetProperty(ref volumeDosDelayVolume, value); }
         }
 
+        public double PowderDosFineK5
+        {
+            get { return powderDosFineK5; }
+            set { SetProperty(ref powderDosFineK5, value); }
+        }
+
+        public double PowderDosDelayVolume
+        {
+            get { return powderDosDelayVolume; }
+            set { SetProperty(ref powderDosDelayVolume, value); }
+        }
+
         public double CollectorFillReqVol
         {
             get { return collectorFillReqVol; }
@@ -211,6 +241,12 @@ namespace DosingApp.Models.Screen
         {
             get { return volumeDosDry; }
             set { SetProperty(ref volumeDosDry, value); }
+        }
+
+        public double PowderDosDry
+        {
+            get { return powderDosDry; }
+            set { SetProperty(ref powderDosDry, value); }
         }
 
         public double CollectorFineK21
@@ -369,6 +405,18 @@ namespace DosingApp.Models.Screen
             set { SetProperty(ref isVolumeDosDelayVolumeFocused, value); }
         }
 
+        public bool IsPowderDosFineK5Focused
+        {
+            get { return isPowderDosFineK5Focused; }
+            set { SetProperty(ref isPowderDosFineK5Focused, value); }
+        }
+
+        public bool IsPowderDosDelayVolumeFocused
+        {
+            get { return isPowderDosDelayVolumeFocused; }
+            set { SetProperty(ref isPowderDosDelayVolumeFocused, value); }
+        }
+
         public bool IsCollectorFillReqVolFocused
         {
             get { return isCollectorFillReqVolFocused; }
@@ -391,6 +439,18 @@ namespace DosingApp.Models.Screen
         {
             get { return isVolumeDosDryFocused; }
             set { SetProperty(ref isVolumeDosDryFocused, value); }
+        }
+
+        public bool IsPowderDosDry
+        {
+            get { return isPowderDosDry; }
+            set { SetProperty(ref isPowderDosDry, value); }
+        }
+
+        public bool IsPowderDosDryFocused
+        {
+            get { return isPowderDosDryFocused; }
+            set { SetProperty(ref isPowderDosDryFocused, value); }
         }
 
         public bool PumpCommand

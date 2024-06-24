@@ -30,10 +30,12 @@ namespace DosingApp.Services
 
         private Mixer mixer;
         private CommonScreen common;
-        private CollectorScreen collector1;
-        private CollectorScreen collector2;
-        private SingleDosScreen singleDos;
-        private VolumeDosScreen volumeDos;
+        
+        private List<CollectorScreen> collectors;
+
+        private List<SingleDosScreen> singleDoses;
+        private List<VolumeDosScreen> volumeDoses;
+        private List<PowderDosScreen> powderDoses;
         #endregion Attributes
 
         #region Constructor
@@ -62,28 +64,40 @@ namespace DosingApp.Services
             set { SetProperty(ref mixer, value); }
         }
 
-        public CollectorScreen Collector1
+        public List<CollectorScreen> Collectors
         {
-            get { return collector1; }
-            set { SetProperty(ref collector1, value); }
+            get { return collectors; }
+            set { SetProperty(ref collectors, value); }
         }
 
-        public CollectorScreen Collector2
+        //public CollectorScreen Collector1
+        //{
+        //    get { return collector1; }
+        //    set { SetProperty(ref collector1, value); }
+        //}
+
+        //public CollectorScreen Collector2
+        //{
+        //    get { return collector2; }
+        //    set { SetProperty(ref collector2, value); }
+        //}
+
+        public List<SingleDosScreen> SingleDoses
         {
-            get { return collector2; }
-            set { SetProperty(ref collector2, value); }
+            get { return singleDoses; }
+            set { SetProperty(ref singleDoses, value); }
         }
 
-        public SingleDosScreen SingleDos
+        public List<VolumeDosScreen> VolumeDoses
         {
-            get { return singleDos; }
-            set { SetProperty(ref singleDos, value); }
+            get { return volumeDoses; }
+            set { SetProperty(ref volumeDoses, value); }
         }
 
-        public VolumeDosScreen VolumeDos
+        public List<PowderDosScreen> PowderDoses
         {
-            get { return volumeDos; }
-            set { SetProperty(ref volumeDos, value); }
+            get { return powderDoses; }
+            set { SetProperty(ref powderDoses, value); }
         }
 
         public CommonScreen Common
@@ -119,9 +133,21 @@ namespace DosingApp.Services
             //Console.WriteLine(Collectors[0].Valves.Count);
 
             Common = new CommonScreen();
-            Collector1 = new CollectorScreen(1);
-            Collector2 = new CollectorScreen(2);
-            VolumeDos = new VolumeDosScreen(1);
+            Collectors = new List<CollectorScreen>();
+            for (int i = 1; i <= (int)Mixer.MaxCollectors; i++)
+            {
+                Collectors.Add(new CollectorScreen(i));
+            }
+            VolumeDoses = new List<VolumeDosScreen>();
+            for (int i = 1; i <= (int)Mixer.MaxVolumes; i++)
+            {
+                VolumeDoses.Add(new VolumeDosScreen(i));
+            }
+            PowderDoses = new List<PowderDosScreen>();
+            for (int i = 1; i <= (int)Mixer.MaxPowders; i++)
+            {
+                PowderDoses.Add(new PowderDosScreen(i));
+            }
         }
 
         public void MasterCreate()
@@ -183,9 +209,18 @@ namespace DosingApp.Services
                 return;
 
             Common.Update(ReadRegisters(Registers.Common, CommonModbus.numberOfPoints));
-            Collector1.Update(ReadRegisters(Registers.Collectors[0], CollectorModbus.numberOfPoints));
-            Collector2.Update(ReadRegisters(Registers.Collectors[1], CollectorModbus.numberOfPoints));
-            VolumeDos.Update(ReadRegisters(Registers.VolumeDoses[0], VolumeDosModbus.numberOfPoints));
+            for (int i = 0; i < Mixer.Collector; i++)
+            {
+                Collectors[i].Update(ReadRegisters(Registers.Collectors[i], CollectorModbus.numberOfPoints));
+            }
+            for (int i = 0; i < Mixer.Volume; i++)
+            {
+                VolumeDoses[i].Update(ReadRegisters(Registers.VolumeDoses[i], VolumeDosModbus.numberOfPoints));
+            }
+            for (int i = 0; i < Mixer.Powder; i++)
+            {
+                PowderDoses[i].Update(ReadRegisters(Registers.PowderDoses[i], PowderDosModbus.numberOfPoints));
+            }
         }
 
         private void UpdateClientState()
@@ -237,6 +272,7 @@ namespace DosingApp.Services
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.WriteLine($"{DateTime.Now}\tError reading {numberOfPoints} registers with start address HR_{startAddress}");
                 return new ushort[numberOfPoints];
             }
         }

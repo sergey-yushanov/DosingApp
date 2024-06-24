@@ -37,8 +37,9 @@ namespace DosingApp.ViewModels
         public ICommand LoadFileCommand { get; protected set; }
 
         public bool IsEditMode { get; protected set; }
-        RecipeViewModel RecipeViewModel;
-        RecipeComponentViewModel RecipeComponentViewModel;
+        public RecipeViewModel RecipeViewModel;
+        public RecipeComponentViewModel RecipeComponentViewModel;
+        public GroupedComponentsViewModel groupedComponentsViewModel;
         #endregion Attributes
 
         #region Constructor
@@ -61,6 +62,12 @@ namespace DosingApp.ViewModels
         #endregion Constructor
 
         #region Properties
+        public GroupedComponentsViewModel GroupedComponentsViewModel
+        {
+            get { return groupedComponentsViewModel; }
+            set { SetProperty(ref groupedComponentsViewModel, value); }
+        }
+
         public ObservableCollection<Component> Components
         {
             get { return components; }
@@ -218,6 +225,29 @@ namespace DosingApp.ViewModels
             {
                 using (AppDbContext db = App.GetContext())
                 {
+                    string message = "Невозможно удалить компонент";
+
+                    var recipeComponents = db.RecipeComponents.Where(rc => rc.ComponentId == componentViewModel.Component.ComponentId).ToList();
+                    var jobComponents = db.JobComponents.Where(jc => jc.ComponentId == componentViewModel.Component.ComponentId).ToList();
+
+                    if (jobComponents.Count > 0)
+                    {
+                        message += ", так как он использовался в выполненных заданиях";
+                    }
+                    else if (recipeComponents.Count > 0)
+                    {
+                        var recipeIds = recipeComponents.Select(rc => rc.RecipeId).ToList();
+                        var recipes = db.Recipes.Where(r => recipeIds.Contains(r.RecipeId)).ToList();
+                        string recipesNames = string.Join("\n", recipes.Select(r => "- " + r.Name));
+                        message += " пока он используется в следующих рецептах:\n\n" + recipesNames;
+                    }
+
+                    if (recipeComponents.Count > 0 || jobComponents.Count > 0)
+                    {
+                        Application.Current.MainPage.DisplayAlert("Предупреждение", message, "Ok");
+                        return;
+                    }
+
                     db.Components.Remove(componentViewModel.Component);
                     db.SaveChanges();
                 }
@@ -251,6 +281,8 @@ namespace DosingApp.ViewModels
             }
             Back();
         }
+
+        
         #endregion Commands
 
         #region Methods

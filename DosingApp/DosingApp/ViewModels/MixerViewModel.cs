@@ -81,6 +81,19 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public int? Powder
+        {
+            get { return Mixer.Powder; }
+            set
+            {
+                if (Mixer.Powder != value)
+                {
+                    Mixer.Powder = value;
+                    OnPropertyChanged(nameof(Powder));
+                }
+            }
+        }
+
         public string Url
         {
             get { return Mixer.Url; }

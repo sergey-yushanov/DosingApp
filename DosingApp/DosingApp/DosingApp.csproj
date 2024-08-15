@@ -24,6 +24,14 @@
     <Compile Remove="Migrations\20230819211258_AddReportComponentsModels.Designer.cs" />
     <Compile Remove="Migrations\20230827141019_AddUrlProperty.cs" />
     <Compile Remove="Migrations\20230827141019_AddUrlProperty.Designer.cs" />
+    <Compile Remove="Migrations\20240815160018_AddPropertiesToReport.cs" />
+    <Compile Remove="Migrations\20240815160018_AddPropertiesToReport.Designer.cs" />
+    <Compile Remove="Migrations\20240815164122_ChangePropertiesTypeInReport.cs" />
+    <Compile Remove="Migrations\20240815164122_ChangePropertiesTypeInReport.Designer.cs" />
+    <Compile Remove="Migrations\20240815164522_AddStartDateTimePropertyInJob.cs" />
+    <Compile Remove="Migrations\20240815164522_AddStartDateTimePropertyInJob.Designer.cs" />
+    <Compile Remove="Migrations\20240815172726_AddPropertiesForReportAndJob.cs" />
+    <Compile Remove="Migrations\20240815172726_AddPropertiesForReportAndJob.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +50,7 @@
     <None Remove="Resources\Fonts\timesi.ttf" />
     <None Remove="Resources\Invoices\Требование-накладная М-11 %28шаблон%29.xlsx" />
     <None Remove="Resources\Reports\Отчетность v.4.xlsx" />
+    <None Remove="Resources\Reports\Отчетность v.5.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,6 +69,7 @@
     <EmbeddedResource Include="Resources\Fonts\timesi.ttf" />
     <EmbeddedResource Include="Resources\Invoices\Требование-накладная М-11 (шаблон).xlsx" />
     <EmbeddedResource Include="Resources\Reports\Отчетность v.4.xlsx" />
+    <EmbeddedResource Include="Resources\Reports\Отчетность v.5.xlsx" />
   </ItemGroup>
 
   <ItemGroup>

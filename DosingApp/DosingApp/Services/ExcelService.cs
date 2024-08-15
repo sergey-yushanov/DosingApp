@@ -164,7 +164,7 @@ namespace DosingApp.Services
 
                 MergeCells mergeCells = new MergeCells();
                 int cellsCountOffset = rowOffsetIndex;
-                List<string> mergeColumnNames = new List<string>() { "B", "C", "D", "E", "F", "J", "K", "L" };
+                List<string> mergeColumnNames = new List<string>() { "B", "C", "D", "E", "F", "G", "H", "L", "M", "N", "O" };
                 foreach (int cellsCount in mergeCellsCounts)
                 {
                     string firstRowIndex = cellsCountOffset.ToString();

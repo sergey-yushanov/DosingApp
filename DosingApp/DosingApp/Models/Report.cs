@@ -23,6 +23,10 @@ namespace DosingApp.Models
 
         public bool IsCompleted { get; set; }
 
+        public string DosingTime { get; set; }
+        public string VolumeRate { get; set; }
+        public string ProcessedArea { get; set; }
+
         public ICollection<ReportComponent> ReportComponents { get; set; }
     }
 }

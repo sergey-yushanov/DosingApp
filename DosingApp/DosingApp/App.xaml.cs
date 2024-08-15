@@ -34,7 +34,7 @@ namespace DosingApp
         public const string DESTINVOICEFILENAME = "Требование-накладная М-11.xlsx";
         public const string PDFINVOICEFILENAME = "Требование-накладная М-11.pdf";
 
-        public const string SOURCEREPORTFILENAME = "Отчетность v.4.xlsx";
+        public const string SOURCEREPORTFILENAME = "Отчетность v.5.xlsx";
 
         public static string FolderPath { get; set; }
         public static string ReportsFolderPath { get; set; }

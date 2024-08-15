@@ -123,8 +123,8 @@ namespace DosingApp.ViewModels
                     foreach (ReportComponent reportComponent in reportComponents)
                     {
                         row[indexComponent, 7] = reportComponent.Name;
-                        row[indexComponent, 8] = ((double)reportComponent.RequiredVolume).ToString("N2");
-                        row[indexComponent, 9] = ((double)reportComponent.DosedVolume).ToString("N2");
+                        row[indexComponent, 8] = reportComponent.RequiredVolume?.ToString("N2");
+                        row[indexComponent, 9] = reportComponent.DosedVolume?.ToString("N2");
 
                         rowDataType[indexComponent, 7] = CellValues.String;
                         rowDataType[indexComponent, 8] = CellValues.Number;

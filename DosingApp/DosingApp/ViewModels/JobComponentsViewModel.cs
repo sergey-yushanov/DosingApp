@@ -381,6 +381,7 @@ namespace DosingApp.ViewModels
             ModbusSendRequirements();
             Thread.Sleep(1000);
             ModbusService.WriteSingleRegister(CommonModbus.LoopStart());
+            JobScreen.StartDateTime = DateTime.Now;
         }
 
         private async void StopJob()
@@ -623,7 +624,7 @@ namespace DosingApp.ViewModels
                 AssignmentNote = Job.Assignment.Note,
                 RecipeName = Job.Recipe.Name,
                 OperatorName = App.ActiveUser.DisplayName,
-                DosingTime = now.Subtract(Job.StartDateTime),
+                DosingTime = now.Subtract(JobScreen.StartDateTime),
                 VolumeRate = Job.VolumeRate
             };
 

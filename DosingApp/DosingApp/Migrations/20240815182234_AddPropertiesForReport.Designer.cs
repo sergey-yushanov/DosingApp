@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DosingApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240815172726_AddPropertiesForReportAndJob")]
-    partial class AddPropertiesForReportAndJob
+    [Migration("20240815182234_AddPropertiesForReport")]
+    partial class AddPropertiesForReport
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -407,9 +407,6 @@ namespace DosingApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("SourceType")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("StartDateTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Unit")

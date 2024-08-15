@@ -10,6 +10,7 @@ namespace DosingApp.Models.Screen
     public class JobScreen : BaseViewModel
     {
         public ObservableCollection<JobComponentScreen> JobComponentScreens { get; set; }
+        public DateTime StartDateTime;
         private double? progressBarValue;
         private double? requiredVolume;
         private double? dosedVolume;

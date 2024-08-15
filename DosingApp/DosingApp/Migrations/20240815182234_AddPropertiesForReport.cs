@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DosingApp.Migrations
 {
-    public partial class AddPropertiesForReportAndJob : Migration
+    public partial class AddPropertiesForReport : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,12 +17,6 @@ namespace DosingApp.Migrations
                 name: "VolumeRate",
                 table: "Reports",
                 nullable: true);
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "StartDateTime",
-                table: "Jobs",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -34,10 +28,6 @@ namespace DosingApp.Migrations
             migrationBuilder.DropColumn(
                 name: "VolumeRate",
                 table: "Reports");
-
-            migrationBuilder.DropColumn(
-                name: "StartDateTime",
-                table: "Jobs");
         }
     }
 }

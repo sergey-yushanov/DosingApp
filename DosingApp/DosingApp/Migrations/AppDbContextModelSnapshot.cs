@@ -407,9 +407,6 @@ namespace DosingApp.Migrations
                     b.Property<string>("SourceType")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("StartDateTime")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Unit")
                         .HasColumnType("TEXT");
 

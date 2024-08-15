@@ -30,6 +30,8 @@
     <Compile Remove="Migrations\20240815164122_ChangePropertiesTypeInReport.Designer.cs" />
     <Compile Remove="Migrations\20240815164522_AddStartDateTimePropertyInJob.cs" />
     <Compile Remove="Migrations\20240815164522_AddStartDateTimePropertyInJob.Designer.cs" />
+    <Compile Remove="Migrations\20240815172726_AddPropertiesForReportAndJob.cs" />
+    <Compile Remove="Migrations\20240815172726_AddPropertiesForReportAndJob.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

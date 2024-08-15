@@ -145,14 +145,14 @@ namespace DosingApp.ViewModels
                     rowDataType[indexComponent, 9] = CellValues.Number;
 
 
-                    string dosingTimeAddString = report.IsCompleted ? "" : " !";
+                    string dosingTimeAddString = report.IsCompleted ? "" : " ?";
 
                     for (int i = 0; i <= reportComponents.Count; i++)
                     {
                         row[i, 0] = indexReport.ToString();
                         row[i, 1] = report.ReportDateTime.ToString("dd.MM.yyyy");
                         row[i, 2] = report.ReportDateTime.ToString("HH:mm");
-                        row[i, 3] = report.DosingTime.TotalMinutes.ToString("N1") + dosingTimeAddString;
+                        row[i, 3] = report.DosingTime.TotalMinutes.ToString("N0") + dosingTimeAddString;
                         row[i, 4] = report.AssignmentName;
                         row[i, 5] = report.RecipeName;
                         row[i, 6] = report.VolumeRate?.ToString("N2");
@@ -167,8 +167,8 @@ namespace DosingApp.ViewModels
                         rowDataType[i, 3] = CellValues.String;
                         rowDataType[i, 4] = CellValues.String;
                         rowDataType[i, 5] = CellValues.String;
-                        rowDataType[i, 6] = CellValues.String;
-                        rowDataType[i, 10] = CellValues.String;
+                        rowDataType[i, 6] = CellValues.Number;
+                        rowDataType[i, 10] = CellValues.Number;
                         rowDataType[i, 11] = CellValues.String;
                         rowDataType[i, 12] = CellValues.String;
                         rowDataType[i, 13] = CellValues.String;

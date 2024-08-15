@@ -48,6 +48,7 @@
     <None Remove="Resources\Fonts\timesi.ttf" />
     <None Remove="Resources\Invoices\Требование-накладная М-11 %28шаблон%29.xlsx" />
     <None Remove="Resources\Reports\Отчетность v.4.xlsx" />
+    <None Remove="Resources\Reports\Отчетность v.5.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +67,7 @@
     <EmbeddedResource Include="Resources\Fonts\timesi.ttf" />
     <EmbeddedResource Include="Resources\Invoices\Требование-накладная М-11 (шаблон).xlsx" />
     <EmbeddedResource Include="Resources\Reports\Отчетность v.4.xlsx" />
+    <EmbeddedResource Include="Resources\Reports\Отчетность v.5.xlsx" />
   </ItemGroup>
 
   <ItemGroup>

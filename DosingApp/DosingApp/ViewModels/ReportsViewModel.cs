@@ -106,7 +106,7 @@ namespace DosingApp.ViewModels
                 };
                 ExcelService.InsertDataIntoCells(reportPath, sheetName, excelCells);
 
-                int columnsNum = 11;
+                int columnsNum = 14;
                 List<int> mergeCellsCounts = new List<int>();
                 List<List<string>> values = new List<List<string>>();
                 List<List<CellValues>> valuesDataType = new List<List<CellValues>>();

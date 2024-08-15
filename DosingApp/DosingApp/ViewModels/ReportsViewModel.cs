@@ -117,39 +117,18 @@ namespace DosingApp.ViewModels
                     string[,] row = new string[reportComponents.Count + 1, columnsNum];
                     CellValues[,] rowDataType = new CellValues[reportComponents.Count + 1, columnsNum];
 
-                    for (int i = 0; i <= reportComponents.Count; i++)
-                    {
-                        row[i, 0] = indexReport.ToString();
-                        row[i, 1] = report.ReportDateTime.ToString("dd.MM.yyyy");
-                        row[i, 2] = report.ReportDateTime.ToString("HH:mm");
-                        row[i, 3] = report.AssignmentName;
-                        row[i, 4] = report.RecipeName;
-                        row[i, 8] = report.AssignmentPlace;
-                        row[i, 9] = report.AssignmentNote;
-                        row[i, 10] = report.OperatorName;
-
-                        rowDataType[i, 0] = CellValues.String;
-                        rowDataType[i, 1] = CellValues.String;
-                        rowDataType[i, 2] = CellValues.String;
-                        rowDataType[i, 3] = CellValues.String;
-                        rowDataType[i, 4] = CellValues.String;
-                        rowDataType[i, 8] = CellValues.String;
-                        rowDataType[i, 9] = CellValues.String;
-                        rowDataType[i, 10] = CellValues.String;
-                    }
-
                     double totalRequiredVolume = 0;
                     double totalDosedVolume = 0;
                     int indexComponent = 0;
                     foreach (ReportComponent reportComponent in reportComponents)
                     {
-                        row[indexComponent, 5] = reportComponent.Name;
-                        row[indexComponent, 6] = ((double)reportComponent.RequiredVolume).ToString("N2");
-                        row[indexComponent, 7] = ((double)reportComponent.DosedVolume).ToString("N2");
+                        row[indexComponent, 7] = reportComponent.Name;
+                        row[indexComponent, 8] = ((double)reportComponent.RequiredVolume).ToString("N2");
+                        row[indexComponent, 9] = ((double)reportComponent.DosedVolume).ToString("N2");
 
-                        rowDataType[indexComponent, 5] = CellValues.String;
-                        rowDataType[indexComponent, 6] = CellValues.Number;
-                        rowDataType[indexComponent, 7] = CellValues.Number;
+                        rowDataType[indexComponent, 7] = CellValues.String;
+                        rowDataType[indexComponent, 8] = CellValues.Number;
+                        rowDataType[indexComponent, 9] = CellValues.Number;
 
                         totalRequiredVolume += (double)reportComponent.RequiredVolume;
                         totalDosedVolume += (double)reportComponent.DosedVolume;
@@ -157,13 +136,43 @@ namespace DosingApp.ViewModels
                         indexComponent++;
                     }
 
-                    row[indexComponent, 5] = "Объем партии";
-                    row[indexComponent, 6] = totalRequiredVolume.ToString("N2");
-                    row[indexComponent, 7] = totalDosedVolume.ToString("N2");
+                    row[indexComponent, 7] = "Объем партии";
+                    row[indexComponent, 8] = totalRequiredVolume.ToString("N2");
+                    row[indexComponent, 9] = totalDosedVolume.ToString("N2");
 
-                    rowDataType[indexComponent, 5] = CellValues.String;
-                    rowDataType[indexComponent, 6] = CellValues.Number;
-                    rowDataType[indexComponent, 7] = CellValues.Number;
+                    rowDataType[indexComponent, 7] = CellValues.String;
+                    rowDataType[indexComponent, 8] = CellValues.Number;
+                    rowDataType[indexComponent, 9] = CellValues.Number;
+
+
+                    string dosingTimeAddString = report.IsCompleted ? "" : " !";
+
+                    for (int i = 0; i <= reportComponents.Count; i++)
+                    {
+                        row[i, 0] = indexReport.ToString();
+                        row[i, 1] = report.ReportDateTime.ToString("dd.MM.yyyy");
+                        row[i, 2] = report.ReportDateTime.ToString("HH:mm");
+                        row[i, 3] = report.DosingTime.TotalMinutes.ToString("N1") + dosingTimeAddString;
+                        row[i, 4] = report.AssignmentName;
+                        row[i, 5] = report.RecipeName;
+                        row[i, 6] = report.VolumeRate?.ToString("N2");
+                        row[i, 10] = report.VolumeRate != 0.0 ? (totalDosedVolume / report.VolumeRate)?.ToString("N2") : "0.00";
+                        row[i, 11] = report.AssignmentPlace;
+                        row[i, 12] = report.AssignmentNote;
+                        row[i, 13] = report.OperatorName;
+
+                        rowDataType[i, 0] = CellValues.String;
+                        rowDataType[i, 1] = CellValues.String;
+                        rowDataType[i, 2] = CellValues.String;
+                        rowDataType[i, 3] = CellValues.String;
+                        rowDataType[i, 4] = CellValues.String;
+                        rowDataType[i, 5] = CellValues.String;
+                        rowDataType[i, 6] = CellValues.String;
+                        rowDataType[i, 10] = CellValues.String;
+                        rowDataType[i, 11] = CellValues.String;
+                        rowDataType[i, 12] = CellValues.String;
+                        rowDataType[i, 13] = CellValues.String;
+                    }
 
                     for (int i = 0; i < row.GetLength(0); i++)
                     {

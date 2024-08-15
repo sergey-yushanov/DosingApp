@@ -24,6 +24,12 @@
     <Compile Remove="Migrations\20230819211258_AddReportComponentsModels.Designer.cs" />
     <Compile Remove="Migrations\20230827141019_AddUrlProperty.cs" />
     <Compile Remove="Migrations\20230827141019_AddUrlProperty.Designer.cs" />
+    <Compile Remove="Migrations\20240815160018_AddPropertiesToReport.cs" />
+    <Compile Remove="Migrations\20240815160018_AddPropertiesToReport.Designer.cs" />
+    <Compile Remove="Migrations\20240815164122_ChangePropertiesTypeInReport.cs" />
+    <Compile Remove="Migrations\20240815164122_ChangePropertiesTypeInReport.Designer.cs" />
+    <Compile Remove="Migrations\20240815164522_AddStartDateTimePropertyInJob.cs" />
+    <Compile Remove="Migrations\20240815164522_AddStartDateTimePropertyInJob.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

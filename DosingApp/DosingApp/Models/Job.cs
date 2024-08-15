@@ -74,7 +74,10 @@ namespace DosingApp.Models
         public double? PartyVolume { get; set; }
         public double? VolumeRate { get; set; }
 
+        public DateTime StartDateTime { get; set; }
+
         public string Name { get { return Assignment?.Name; } }
+
 
         //public double? PartyRemainSize { get; set; }
         //public bool? IsRunning { get; set; }

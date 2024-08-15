@@ -613,14 +613,18 @@ namespace DosingApp.ViewModels
 
         public void SaveReport()
         {
+            DateTime now = DateTime.Now;
+
             Report report = new Report {
-                ReportDateTime = DateTime.Now,
+                ReportDateTime = now,
                 IsCompleted = IsLoopDone,
                 AssignmentName = Job.Name,
                 AssignmentPlace = Job.Assignment.Place,
                 AssignmentNote = Job.Assignment.Note,
                 RecipeName = Job.Recipe.Name,
-                OperatorName = App.ActiveUser.DisplayName
+                OperatorName = App.ActiveUser.DisplayName,
+                DosingTime = now.Subtract(Job.StartDateTime),
+                VolumeRate = Job.VolumeRate
             };
 
             List<ReportComponent> reportComponents = new List<ReportComponent>();

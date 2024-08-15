@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DosingApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240815160018_AddPropertiesToReport")]
-    partial class AddPropertiesToReport
+    [Migration("20240815172726_AddPropertiesForReportAndJob")]
+    partial class AddPropertiesForReportAndJob
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -409,6 +409,9 @@ namespace DosingApp.Migrations
                     b.Property<string>("SourceType")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("StartDateTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Unit")
                         .HasColumnType("TEXT");
 
@@ -646,7 +649,7 @@ namespace DosingApp.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("DosingTime")
+                    b.Property<TimeSpan>("DosingTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DriverName")
@@ -658,17 +661,14 @@ namespace DosingApp.Migrations
                     b.Property<string>("OperatorName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProcessedArea")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("RecipeName")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ReportDateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("VolumeRate")
-                        .HasColumnType("TEXT");
+                    b.Property<double?>("VolumeRate")
+                        .HasColumnType("REAL");
 
                     b.HasKey("ReportId");
 

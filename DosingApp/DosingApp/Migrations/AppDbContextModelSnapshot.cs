@@ -407,6 +407,9 @@ namespace DosingApp.Migrations
                     b.Property<string>("SourceType")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("StartDateTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Unit")
                         .HasColumnType("TEXT");
 
@@ -644,7 +647,7 @@ namespace DosingApp.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("DosingTime")
+                    b.Property<TimeSpan>("DosingTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DriverName")
@@ -656,17 +659,14 @@ namespace DosingApp.Migrations
                     b.Property<string>("OperatorName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProcessedArea")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("RecipeName")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ReportDateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("VolumeRate")
-                        .HasColumnType("TEXT");
+                    b.Property<double?>("VolumeRate")
+                        .HasColumnType("REAL");
 
                     b.HasKey("ReportId");
 

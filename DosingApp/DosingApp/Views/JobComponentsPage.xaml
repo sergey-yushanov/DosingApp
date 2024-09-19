@@ -40,13 +40,21 @@
         <StackLayout 
             Margin="{StaticResource PageMargin}">
 
-            <StackLayout>
+            <StackLayout
+                Grid.Row="1" Orientation="Horizontal" Spacing="0">
                 <Label
                     Text="{Binding StatusText}"
                     TextColor="{Binding StatusColor}"
                     FontSize="Medium"
                     FontAttributes="Bold"
                     HorizontalOptions="StartAndExpand"/>
+
+                <Label
+                    Text="{Binding DosingTime, StringFormat='{}{0:hh}:{0:mm}:{0:ss}'}"
+                    FontSize="Medium"
+                    FontAttributes="Bold"
+                    HorizontalOptions="EndAndExpand"/>
+                
             </StackLayout>
 
             <StackLayout Padding="0,5">

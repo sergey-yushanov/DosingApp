@@ -65,6 +65,8 @@ namespace DosingApp.ViewModels
         private string statusText;
         private Color statusColor;
 
+        private TimeSpan dosingTime;
+
         public ICommand StartJobCommand { get; protected set; }
         public ICommand StopJobCommand { get; protected set; }
         public ICommand PauseJobCommand { get; protected set; }
@@ -354,6 +356,12 @@ namespace DosingApp.ViewModels
                 //return WebSocketService.Common; 
             }
         }
+
+        public TimeSpan DosingTime
+        {
+            get { return dosingTime; }
+            set { SetProperty(ref dosingTime, value); }
+        }
         #endregion Properties
 
         #region Commands
@@ -569,6 +577,12 @@ namespace DosingApp.ViewModels
             else if (IsLoopDone) { StatusText = "Дозация завершена"; StatusColor = Color.FromHex("#00C000"); }
             else if (Common.IsLoopPause) { StatusText = "Дозация приостановлена"; StatusColor = StatusColor = Color.Gray; }
             else { StatusText = "Идёт дозация"; StatusColor = Color.Orange; }
+
+            DateTime now = DateTime.Now;
+            if (JobScreen.StartDateTime == DateTime.MinValue)
+                DosingTime = TimeSpan.Zero;
+            else
+                DosingTime = now.Subtract(JobScreen.StartDateTime);
         }
 
         //public void Update(CommonScreen common, CollectorScreen collector)
@@ -615,6 +629,8 @@ namespace DosingApp.ViewModels
         public void SaveReport()
         {
             DateTime now = DateTime.Now;
+            if (JobScreen.StartDateTime == DateTime.MinValue)
+                JobScreen.StartDateTime = now;
 
             Report report = new Report {
                 ReportDateTime = now,

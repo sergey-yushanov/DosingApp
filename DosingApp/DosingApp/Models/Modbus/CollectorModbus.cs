@@ -9,7 +9,7 @@ namespace DosingApp.Models.Modbus
 {
     public static class CollectorModbus
     {
-        public static ushort numberOfPoints = 29;
+        public static ushort numberOfPoints = 34;
         //public static ushort numberOfFloats = 11;
         public static ushort floatOffset = 7;
 
@@ -43,12 +43,14 @@ namespace DosingApp.Models.Modbus
             VLV_2_MAN_CLS = (ushort)32,
             VLV_3_MAN_OPN = (ushort)64,
             VLV_3_MAN_CLS = (ushort)128,
-            VLV_4_MAN_OPN = (ushort)256,
-            VLV_4_MAN_CLS = (ushort)512,
+            VLV_5_MAN_OPN = (ushort)256,
+            VLV_5_MAN_CLS = (ushort)512,
             VOL_RST = (ushort)1024,
-            
-            DRY_ENABLE = (ushort)2048,
-            DRY_DISABLE = (ushort)4096
+            VLV_4_MAN_OPN = (ushort)2048,
+            VLV_4_MAN_CLS = (ushort)4096
+
+            //DRY_ENABLE = (ushort)2048,
+            //DRY_DISABLE = (ushort)4096
         }
 
         public enum StatusWord
@@ -59,11 +61,12 @@ namespace DosingApp.Models.Modbus
             VLV_1_COM = (ushort)3,
             VLV_2_COM = (ushort)4,
             VLV_3_COM = (ushort)5,
-            VLV_4_COM = (ushort)6,
-            
-            VLV_1_DRY_RUN = (ushort)7,
-            VLV_2_DRY_RUN = (ushort)8,
-            VLV_3_DRY_RUN = (ushort)9
+            VLV_5_COM = (ushort)6,
+            VLV_4_COM = (ushort)7
+
+            //VLV_1_DRY_RUN = (ushort)7,
+            //VLV_2_DRY_RUN = (ushort)8,
+            //VLV_3_DRY_RUN = (ushort)9
         }
 
         public enum Register
@@ -74,7 +77,8 @@ namespace DosingApp.Models.Modbus
             DOSE_ORDER = (ushort)3,
             VLV_1_ORDER = (ushort)4,
             VLV_2_ORDER = (ushort)5,
-            VLV_3_ORDER = (ushort)6
+            VLV_3_ORDER = (ushort)6,
+            VLV_4_ORDER = (ushort)33
         }
 
         public enum Register32
@@ -89,7 +93,9 @@ namespace DosingApp.Models.Modbus
             VLV_2_REQ_VOL = (ushort)21,
             VLV_2_DOSE_VOL = (ushort)23,
             VLV_3_REQ_VOL = (ushort)25,
-            VLV_3_DOSE_VOL = (ushort)27
+            VLV_3_DOSE_VOL = (ushort)27,
+            VLV_4_REQ_VOL = (ushort)29,
+            VLV_4_DOSE_VOL = (ushort)31
         }
 
         public static ushort GetRegister(ushort collectorNumber, Register register)
@@ -121,6 +127,7 @@ namespace DosingApp.Models.Modbus
                 case 2: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_2_MAN_OPN };
                 case 3: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_3_MAN_OPN };
                 case 4: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_4_MAN_OPN };
+                case 5: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_5_MAN_OPN };
                 default: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)0 };
             }
         }
@@ -133,6 +140,7 @@ namespace DosingApp.Models.Modbus
                 case 2: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_2_MAN_CLS };
                 case 3: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_3_MAN_CLS };
                 case 4: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_4_MAN_CLS };
+                case 5: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_5_MAN_CLS };
                 default: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)0 };
             }
         }
@@ -149,6 +157,7 @@ namespace DosingApp.Models.Modbus
                 case 1: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.VLV_1_ORDER), Value = (ushort)order };
                 case 2: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.VLV_2_ORDER), Value = (ushort)order };
                 case 3: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.VLV_3_ORDER), Value = (ushort)order };
+                case 4: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.VLV_4_ORDER), Value = (ushort)order };
                 default: return new RegisterValue() { Register = 0, Value = (ushort)0 };
             }
         }
@@ -173,6 +182,7 @@ namespace DosingApp.Models.Modbus
                 case 1: return new RegisterValue32() { Register = GetRegister32(collectorNumber, Register32.VLV_1_REQ_VOL), Value = Record32.Value(volumeRequired) };
                 case 2: return new RegisterValue32() { Register = GetRegister32(collectorNumber, Register32.VLV_2_REQ_VOL), Value = Record32.Value(volumeRequired) };
                 case 3: return new RegisterValue32() { Register = GetRegister32(collectorNumber, Register32.VLV_3_REQ_VOL), Value = Record32.Value(volumeRequired) };
+                case 4: return new RegisterValue32() { Register = GetRegister32(collectorNumber, Register32.VLV_4_REQ_VOL), Value = Record32.Value(volumeRequired) };
                 default: return new RegisterValue32() { Register = GetRegister32(0, 0), Value = 0 };
             }
         }

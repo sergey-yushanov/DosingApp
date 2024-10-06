@@ -52,7 +52,7 @@ namespace DosingApp.Models
             if (Collector != null)
             {
                 for (int c = 1; c <= Collector; c++)
-                for (int v = 1; v <= 3; v++) // в коллекторе 3 клапана
+                for (int v = 1; v <= 4; v++) // в коллекторе 4 клапана
                 {
                     dispensers.Add(c.ToString() + DispenserSuffix.Collector + v.ToString());
                 }

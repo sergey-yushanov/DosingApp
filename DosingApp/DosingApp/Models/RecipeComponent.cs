@@ -22,11 +22,11 @@ namespace DosingApp.Models
 
         public string Name { get { return Component?.Name; } }
 
-        // проверяем, является ли клапан четвертым в коллекторе - он всегда вода
-        public bool IsFourthValve()
+        // проверяем, является ли клапан пятым в коллекторе - он всегда вода
+        public bool IsWaterValve()
         {
-            string fourthValve = DispenserSuffix.Collector + "4";
-            int index = Dispenser != null ? Dispenser.IndexOf(fourthValve) : -1;
+            string waterValve = DispenserSuffix.Collector + "5";
+            int index = Dispenser != null ? Dispenser.IndexOf(waterValve) : -1;
             return index != -1;
         }
 

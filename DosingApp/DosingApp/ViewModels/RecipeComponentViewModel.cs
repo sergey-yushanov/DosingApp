@@ -109,10 +109,10 @@ namespace DosingApp.ViewModels
         {
             get 
             {
-                IsComponentEnabled = !RecipeComponent.IsFourthValve();
-                if (RecipeComponent.IsFourthValve())
+                IsComponentEnabled = !RecipeComponent.IsWaterValve();
+                if (RecipeComponent.IsWaterValve())
                 {
-                    SetFourthValveComponent();
+                    SetWaterValveComponent();
                 }
                 return RecipeComponent.Dispenser;
             }
@@ -184,7 +184,7 @@ namespace DosingApp.ViewModels
             Component = Components.FirstOrDefault(c => c.ComponentId == RecipeComponent.ComponentId);
         }
 
-        public void SetFourthValveComponent()
+        public void SetWaterValveComponent()
         {
             Component = Components.FirstOrDefault(c => c.Name == Water.GetComponent().Name);
         }

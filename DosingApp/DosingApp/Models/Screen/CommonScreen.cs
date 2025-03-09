@@ -35,6 +35,8 @@ namespace DosingApp.Models.Screen
         private double powderDosFineK5;
         private double powderDosDelayVolume;
 
+        private double carrierDeltaVolume;
+
         private double collectorDry;
 
         private bool isVolumeDosDry;
@@ -68,6 +70,8 @@ namespace DosingApp.Models.Screen
         private bool isVolumeDosDryFocused;
         private bool isCollectorDryFocused;
         private bool isPowderDosDryFocused;
+
+        private bool isCarrierDeltaVolumeFocused;
 
         private bool pumpCommand;
 
@@ -169,6 +173,9 @@ namespace DosingApp.Models.Screen
 
             if (!IsPowderDosDryFocused)
                 PowderDosDry = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.PDOS_DRY));
+
+            if (!IsCarrierDeltaVolumeFocused)
+                CarrierDeltaVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_DELTA_VOL));
         }
 
         //public void InitNew(Common common, bool showSettings)
@@ -307,6 +314,12 @@ namespace DosingApp.Models.Screen
         {
             get { return collectorFineVol_2_3; }
             set { SetProperty(ref collectorFineVol_2_3, value); }
+        }
+
+        public double CarrierDeltaVolume
+        {
+            get { return carrierDeltaVolume; }
+            set { SetProperty(ref carrierDeltaVolume, value); }
         }
 
         public bool IsCollectorFineK11Focused
@@ -451,6 +464,12 @@ namespace DosingApp.Models.Screen
         {
             get { return isPowderDosDryFocused; }
             set { SetProperty(ref isPowderDosDryFocused, value); }
+        }
+
+        public bool IsCarrierDeltaVolumeFocused
+        {
+            get { return isCarrierDeltaVolumeFocused; }
+            set { SetProperty(ref isCarrierDeltaVolumeFocused, value); }
         }
 
         public bool PumpCommand

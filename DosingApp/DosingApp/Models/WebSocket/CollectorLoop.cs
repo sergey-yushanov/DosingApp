@@ -37,7 +37,7 @@ namespace DosingApp.Models.WebSocket
             Number = number;
             ValveNums = new List<int>();
             RequiredVolumes = new List<double>();
-            DosedVolumes = new List<double>(3);
+            DosedVolumes = new List<double>(4);
         }
     }
 }

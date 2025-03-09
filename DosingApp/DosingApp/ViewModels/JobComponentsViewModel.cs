@@ -42,7 +42,7 @@ namespace DosingApp.ViewModels
         //private ObservableCollection<JobComponent> jobComponentsError;
         private CommonLoop commonLoop;
         private static readonly int nCollectors = Mixer.MaxCollectors;
-        private static readonly int nDoseValves = 3;
+        private static readonly int nDoseValves = 4;
         private ObservableCollection<CollectorLoop> collectorsLoop;
 
         //private SingleDosLoop singleDosLoop;

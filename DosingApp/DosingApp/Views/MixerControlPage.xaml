@@ -522,7 +522,31 @@
                     HeightRequest="1"
                     Color="LightGray"
                     Margin ="0, 0, 0, 0"/>
-                
+
+                <StackLayout>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Text="Недолив носителя для выключения насоса, л"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Entry
+                            Grid.Column="1"
+                            Text="{Binding Common.CarrierDeltaVolume, Converter={StaticResource DoubleConverter}}"
+                            Keyboard="Numeric"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="End"
+                            IsFocused="{Binding Common.IsCarrierDeltaVolumeFocused}"
+                            ReturnCommand="{Binding Source={x:Reference MixerControl}, Path=BindingContext.CarrierDeltaVolumeCommand}"
+                            ReturnCommandParameter="{Binding Common}"/>
+
+                    </Grid>
+                </StackLayout>
+
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

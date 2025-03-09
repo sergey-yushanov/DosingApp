@@ -22,7 +22,7 @@ namespace DosingApp.Services
         #region Attributes
         private const byte slaveId = 1;
         private const string defaultUrl = "192.168.3.5";
-        private string url;
+        readonly private string url;
 
         private TcpClient tcpClient;
         private IModbusMaster modbusMaster;
@@ -45,8 +45,8 @@ namespace DosingApp.Services
             GetActiveMixer();
             if (Mixer != null)
             {
-                url = (Mixer.Url != null) ? Mixer.Url: defaultUrl;
-                CreateMixerControl(Mixer);
+                url = Mixer.Url ?? defaultUrl;
+                CreateMixerControl();
                 MasterCreate();
             }
         }
@@ -122,7 +122,7 @@ namespace DosingApp.Services
             }
         }
 
-        public void CreateMixerControl(Mixer mixer)
+        public void CreateMixerControl()
         {
             // todo: для других типов дозаторов сделать аналогично
             //Collectors = new List<CollectorScreen>((int)mixer.Collector);
@@ -132,7 +132,7 @@ namespace DosingApp.Services
             //}
             //Console.WriteLine(Collectors[0].Valves.Count);
 
-            Common = new CommonScreen();
+            Common = new CommonScreen(Mixer.IsAirTemperatureSensor);
             Collectors = new List<CollectorScreen>();
             for (int i = 1; i <= (int)Mixer.MaxCollectors; i++)
             {
@@ -227,7 +227,7 @@ namespace DosingApp.Services
         {
             if (tcpClient != null)
             {
-                IsConnected = (tcpClient.Client != null) ? tcpClient.Connected : false;
+                IsConnected = (tcpClient.Client != null) && tcpClient.Connected;
             }
             else
             {

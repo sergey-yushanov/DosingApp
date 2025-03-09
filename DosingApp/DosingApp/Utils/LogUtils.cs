@@ -9,7 +9,7 @@ namespace DosingApp.Utils
 {
     public class LogUtils
     {
-        string logsFilePath = string.Empty;
+        readonly string logsFilePath = string.Empty;
 
         public LogUtils(string folderPath, string logsFolder)
         {

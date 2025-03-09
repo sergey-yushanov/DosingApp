@@ -26,6 +26,8 @@ namespace DosingApp.Models
         public TimeSpan DosingTime { get; set; }
         public double? VolumeRate { get; set; }
 
+        public string AirTemperature { get; set; }
+
         public ICollection<ReportComponent> ReportComponents { get; set; }
     }
 }

@@ -440,13 +440,11 @@ namespace DosingApp.ViewModels
 
         private void Collector1ValveAdjustableOpen(object valveAdjustableInstance)
         {
-            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableOpen(1));
         }
 
         private void Collector1ValveAdjustableClose(object valveAdjustableInstance)
         {
-            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableClose(1));
         }
 
@@ -470,13 +468,11 @@ namespace DosingApp.ViewModels
 
         private void Collector2ValveAdjustableOpen(object valveAdjustableInstance)
         {
-            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableOpen(2));
         }
 
         private void Collector2ValveAdjustableClose(object valveAdjustableInstance)
         {
-            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableClose(2));
         }
 
@@ -500,13 +496,11 @@ namespace DosingApp.ViewModels
 
         private void Collector3ValveAdjustableOpen(object valveAdjustableInstance)
         {
-            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableOpen(3));
         }
 
         private void Collector3ValveAdjustableClose(object valveAdjustableInstance)
         {
-            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableClose(3));
         }
 
@@ -530,13 +524,11 @@ namespace DosingApp.ViewModels
 
         private void Collector4ValveAdjustableOpen(object valveAdjustableInstance)
         {
-            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableOpen(4));
         }
 
         private void Collector4ValveAdjustableClose(object valveAdjustableInstance)
         {
-            ValveAdjustableScreen valveAdjustableScreen = valveAdjustableInstance as ValveAdjustableScreen;
             ModbusService.WriteSingleRegister(CollectorModbus.ValveAdjustableClose(4));
         }
 

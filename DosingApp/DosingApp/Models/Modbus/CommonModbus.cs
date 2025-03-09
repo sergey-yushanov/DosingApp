@@ -9,7 +9,7 @@ namespace DosingApp.Models.Modbus
 {
     public static class CommonModbus
     {
-        public static ushort numberOfPoints = 60;
+        public static ushort numberOfPoints = 62;
         //public static ushort numberOfFloats = 12;
         public static ushort floatOffset = 2;
 
@@ -122,7 +122,9 @@ namespace DosingApp.Models.Modbus
             PDOS_DELAY_VOL = 54,
             PDOS_DRY = 56,
 
-            CAR_DELTA_VOL = 58
+            CAR_DELTA_VOL = 58,
+
+            AIR_TEMP = 60
         }
 
         public static ushort GetRegister(Register register)
@@ -353,5 +355,10 @@ namespace DosingApp.Models.Modbus
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.CAR_DELTA_VOL), Value = Record32.Value(volume) };
         }
+
+        //public static RegisterValue32 AirTemperature(float temperature)
+        //{
+        //    return new RegisterValue32() { Register = GetRegister32(Register32.AIR_TEMP), Value = Record32.Value(temperature) };
+        //}
     }
 }

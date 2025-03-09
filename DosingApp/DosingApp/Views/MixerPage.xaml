@@ -73,6 +73,22 @@
                         Text="{Binding ThreeWay}" 
                         Keyboard="Numeric"/>-->
 
+                    <Label 
+                        Text="Дополнительные функции"
+                        TextColor="{StaticResource LabelEntryColor}"/>
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        Padding="0,10">
+                        <Label 
+                            Text="Датчик температуры воздуха"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Switch 
+                            IsToggled="{Binding IsAirTemperatureSensor}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" />
+                    </StackLayout>
+
                 </StackLayout>
                 <StackLayout>
                     <Grid>

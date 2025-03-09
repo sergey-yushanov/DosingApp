@@ -107,8 +107,10 @@ namespace DosingApp.Models.Screen
 
         public void Update(ushort[] registers)
         {
-            union_bit_field_s status = new union_bit_field_s();
-            status.w = registers[(int)CollectorModbus.Register.SW];
+            union_bit_field_s status = new union_bit_field_s
+            {
+                w = registers[(int)CollectorModbus.Register.SW]
+            };
             ValveAdjustable.Open = status.s[(int)CollectorModbus.StatusWord.VADJ_OPN];
             Valves[4].Command = status.s[(int)CollectorModbus.StatusWord.VLV_1_COM];
             Valves[3].Command = status.s[(int)CollectorModbus.StatusWord.VLV_2_COM];

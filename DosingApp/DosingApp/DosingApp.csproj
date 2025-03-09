@@ -51,6 +51,7 @@
     <None Remove="Resources\Invoices\Требование-накладная М-11 %28шаблон%29.xlsx" />
     <None Remove="Resources\Reports\Отчетность v.4.xlsx" />
     <None Remove="Resources\Reports\Отчетность v.5.xlsx" />
+    <None Remove="Resources\Reports\Отчетность v.6.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,6 +71,7 @@
     <EmbeddedResource Include="Resources\Invoices\Требование-накладная М-11 (шаблон).xlsx" />
     <EmbeddedResource Include="Resources\Reports\Отчетность v.4.xlsx" />
     <EmbeddedResource Include="Resources\Reports\Отчетность v.5.xlsx" />
+    <EmbeddedResource Include="Resources\Reports\Отчетность v.6.xlsx" />
   </ItemGroup>
 
   <ItemGroup>

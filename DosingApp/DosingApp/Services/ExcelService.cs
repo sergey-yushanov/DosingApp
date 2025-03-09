@@ -54,7 +54,7 @@ namespace DosingApp.Services
             part.Worksheet = new Worksheet(new SheetData());
 
             //  Here are created the sheets, you can add all the child sheets that you need.
-            var sheets = wbPart.Workbook.AppendChild(
+            _ = wbPart.Workbook.AppendChild(
                 new Sheets(
                     new Sheet()
                     {
@@ -164,7 +164,7 @@ namespace DosingApp.Services
 
                 MergeCells mergeCells = new MergeCells();
                 int cellsCountOffset = rowOffsetIndex;
-                List<string> mergeColumnNames = new List<string>() { "B", "C", "D", "E", "F", "G", "H", "L", "M", "N", "O" };
+                List<string> mergeColumnNames = new List<string>() { "B", "C", "D", "E", "F", "G", "H", "I", "M", "N", "O", "P" };
                 foreach (int cellsCount in mergeCellsCounts)
                 {
                     string firstRowIndex = cellsCountOffset.ToString();
@@ -428,10 +428,10 @@ namespace DosingApp.Services
             }
         }
 
-        public void CreateReport(Report report, List<ReportComponent> reportComponents)
-        {
+        //public void CreateReport(Report report, List<ReportComponent> reportComponents)
+        //{
 
-        }
+        //}
 
         public string InvoicePrepareToPrint(Report report, List<ReportComponent> reportComponents)
         {

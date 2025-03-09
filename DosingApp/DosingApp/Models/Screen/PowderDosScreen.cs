@@ -41,8 +41,10 @@ namespace DosingApp.Models.Screen
 
         public void Update(ushort[] registers)
         {
-            union_bit_field_s status = new union_bit_field_s();
-            status.w = registers[(int)PowderDosModbus.Register.SW];
+            union_bit_field_s status = new union_bit_field_s
+            {
+                w = registers[(int)PowderDosModbus.Register.SW]
+            };
             PumpCommand = status.s[(int)PowderDosModbus.StatusWord.PUMP_COM];
             Valve.Command = status.s[(int)PowderDosModbus.StatusWord.VLV_COM];
 

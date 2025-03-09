@@ -106,7 +106,7 @@ namespace DosingApp.ViewModels
                 };
                 ExcelService.InsertDataIntoCells(reportPath, sheetName, excelCells);
 
-                int columnsNum = 14;
+                int columnsNum = 15;
                 List<int> mergeCellsCounts = new List<int>();
                 List<List<string>> values = new List<List<string>>();
                 List<List<CellValues>> valuesDataType = new List<List<CellValues>>();
@@ -122,13 +122,13 @@ namespace DosingApp.ViewModels
                     int indexComponent = 0;
                     foreach (ReportComponent reportComponent in reportComponents)
                     {
-                        row[indexComponent, 7] = reportComponent.Name;
-                        row[indexComponent, 8] = reportComponent.RequiredVolume?.ToString("N2");
-                        row[indexComponent, 9] = reportComponent.DosedVolume?.ToString("N2");
+                        row[indexComponent, 8] = reportComponent.Name;
+                        row[indexComponent, 9] = reportComponent.RequiredVolume?.ToString("N2");
+                        row[indexComponent, 10] = reportComponent.DosedVolume?.ToString("N2");
 
-                        rowDataType[indexComponent, 7] = CellValues.String;
-                        rowDataType[indexComponent, 8] = CellValues.Number;
+                        rowDataType[indexComponent, 8] = CellValues.String;
                         rowDataType[indexComponent, 9] = CellValues.Number;
+                        rowDataType[indexComponent, 10] = CellValues.Number;
 
                         totalRequiredVolume += (double)reportComponent.RequiredVolume;
                         totalDosedVolume += (double)reportComponent.DosedVolume;
@@ -136,13 +136,13 @@ namespace DosingApp.ViewModels
                         indexComponent++;
                     }
 
-                    row[indexComponent, 7] = "Объем партии";
-                    row[indexComponent, 8] = totalRequiredVolume.ToString("N2");
-                    row[indexComponent, 9] = totalDosedVolume.ToString("N2");
+                    row[indexComponent, 8] = "Объем партии";
+                    row[indexComponent, 9] = totalRequiredVolume.ToString("N2");
+                    row[indexComponent, 10] = totalDosedVolume.ToString("N2");
 
-                    rowDataType[indexComponent, 7] = CellValues.String;
-                    rowDataType[indexComponent, 8] = CellValues.Number;
+                    rowDataType[indexComponent, 8] = CellValues.String;
                     rowDataType[indexComponent, 9] = CellValues.Number;
+                    rowDataType[indexComponent, 10] = CellValues.Number;
 
 
                     string dosingTimeAddString = report.IsCompleted ? "" : " ?";
@@ -152,14 +152,15 @@ namespace DosingApp.ViewModels
                         row[i, 0] = indexReport.ToString();
                         row[i, 1] = report.ReportDateTime.ToString("dd.MM.yyyy");
                         row[i, 2] = report.ReportDateTime.ToString("HH:mm");
-                        row[i, 3] = report.DosingTime.TotalMinutes.ToString("N0") + dosingTimeAddString;
-                        row[i, 4] = report.AssignmentName;
-                        row[i, 5] = report.RecipeName;
-                        row[i, 6] = report.VolumeRate?.ToString("N2");
-                        row[i, 10] = report.VolumeRate != 0.0 ? (totalDosedVolume / report.VolumeRate)?.ToString("N2") : "0.00";
-                        row[i, 11] = report.AssignmentPlace;
-                        row[i, 12] = report.AssignmentNote;
-                        row[i, 13] = report.OperatorName;
+                        row[i, 3] = report.AirTemperature;
+                        row[i, 4] = report.DosingTime.TotalMinutes.ToString("N0") + dosingTimeAddString;
+                        row[i, 5] = report.AssignmentName;
+                        row[i, 6] = report.RecipeName;
+                        row[i, 7] = report.VolumeRate?.ToString("N2");
+                        row[i, 11] = report.VolumeRate != 0.0 ? (totalDosedVolume / report.VolumeRate)?.ToString("N2") : "0.00";
+                        row[i, 12] = report.AssignmentPlace;
+                        row[i, 13] = report.AssignmentNote;
+                        row[i, 14] = report.OperatorName;
 
                         rowDataType[i, 0] = CellValues.String;
                         rowDataType[i, 1] = CellValues.String;
@@ -167,11 +168,12 @@ namespace DosingApp.ViewModels
                         rowDataType[i, 3] = CellValues.String;
                         rowDataType[i, 4] = CellValues.String;
                         rowDataType[i, 5] = CellValues.String;
-                        rowDataType[i, 6] = CellValues.Number;
-                        rowDataType[i, 10] = CellValues.Number;
-                        rowDataType[i, 11] = CellValues.String;
+                        rowDataType[i, 6] = CellValues.String;
+                        rowDataType[i, 7] = CellValues.Number;
+                        rowDataType[i, 11] = CellValues.Number;
                         rowDataType[i, 12] = CellValues.String;
                         rowDataType[i, 13] = CellValues.String;
+                        rowDataType[i, 14] = CellValues.String;
                     }
 
                     for (int i = 0; i < row.GetLength(0); i++)

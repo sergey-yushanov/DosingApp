@@ -132,7 +132,7 @@ namespace DosingApp.Services
 
             Collector = new CollectorScreen(1);
             SingleDos = new SingleDosScreen(1);
-            Common = new CommonScreen();
+            Common = new CommonScreen(false);
         }
 
         public void ClientCreate()

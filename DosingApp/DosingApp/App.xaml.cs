@@ -9,6 +9,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Rg.Plugins.Popup.Extensions;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,7 +35,7 @@ namespace DosingApp
         public const string DESTINVOICEFILENAME = "Требование-накладная М-11.xlsx";
         public const string PDFINVOICEFILENAME = "Требование-накладная М-11.pdf";
 
-        public const string SOURCEREPORTFILENAME = "Отчетность v.5.xlsx";
+        public const string SOURCEREPORTFILENAME = "Отчетность v.6.xlsx";
 
         public static string FolderPath { get; set; }
         public static string ReportsFolderPath { get; set; }
@@ -43,8 +44,15 @@ namespace DosingApp
 
         public static LogUtils Logger { get; set; }
 
+        public static NumberFormatInfo NumberFormatInfo { get; set; }
+
         public App()
         {
+            NumberFormatInfo = new NumberFormatInfo
+            {
+                NumberDecimalSeparator = "."
+            };
+
             InitializeComponent();
 
             Task.Run(async () => await GetPermissionsAsync()).Wait();

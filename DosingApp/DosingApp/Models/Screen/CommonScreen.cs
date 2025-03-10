@@ -78,6 +78,7 @@ namespace DosingApp.Models.Screen
         private bool isCarrierDeltaVolumeFocused;
 
         private bool pumpCommand;
+        private bool carrierValveCommand;
 
         private bool isLoopActive;
         private bool isLoopPause;
@@ -113,6 +114,7 @@ namespace DosingApp.Models.Screen
                 w = registers[(int)CommonModbus.Register.SW]
             };
             PumpCommand = status.s[(int)CommonModbus.StatusWord.PUMP_COM];
+            CarrierValveCommand = status.s[(int)CommonModbus.StatusWord.VLV_COM];
             IsVolumeDosDry = status.s[(int)CommonModbus.StatusWord.VDOS_DRY_ON];
             IsLoopActive = status.s[(int)CommonModbus.StatusWord.LOOP_ACTIVE];
             IsLoopPause = status.s[(int)CommonModbus.StatusWord.LOOP_PAUSE];
@@ -513,6 +515,12 @@ namespace DosingApp.Models.Screen
         {
             get { return pumpCommand; }
             set { SetProperty(ref pumpCommand, value); }
+        }
+
+        public bool CarrierValveCommand
+        {
+            get { return carrierValveCommand; }
+            set { SetProperty(ref carrierValveCommand, value); }
         }
 
         public bool IsLoopActive

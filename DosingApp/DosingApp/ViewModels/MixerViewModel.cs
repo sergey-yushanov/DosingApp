@@ -133,6 +133,19 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public bool IsAirTemperatureSensor
+        {
+            get { return Mixer.IsAirTemperatureSensor; }
+            set
+            {
+                if (Mixer.IsAirTemperatureSensor != value)
+                {
+                    Mixer.IsAirTemperatureSensor = value;
+                    OnPropertyChanged(nameof(IsAirTemperatureSensor));
+                }
+            }
+        }
+
         public bool IsValid
         {
             get { return (!String.IsNullOrEmpty(Name)); }

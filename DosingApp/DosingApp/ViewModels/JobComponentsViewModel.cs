@@ -65,6 +65,8 @@ namespace DosingApp.ViewModels
         private string statusText;
         private Color statusColor;
 
+        private string airTemperature;
+
         private TimeSpan dosingTime;
 
         public ICommand StartJobCommand { get; protected set; }
@@ -194,6 +196,12 @@ namespace DosingApp.ViewModels
         //    get { return progressBarValue; }
         //    set { SetProperty(ref progressBarValue, value); }
         //}
+
+        public string AirTemperature
+        {
+            get { return airTemperature; }
+            set { SetProperty(ref airTemperature, value); }
+        }
 
         public string Title
         {
@@ -641,7 +649,8 @@ namespace DosingApp.ViewModels
                 RecipeName = Job.Recipe.Name,
                 OperatorName = App.ActiveUser.DisplayName,
                 DosingTime = now.Subtract(JobScreen.StartDateTime),
-                VolumeRate = Job.VolumeRate
+                VolumeRate = Job.VolumeRate,
+                AirTemperature = Common.AirTemperature
             };
 
             List<ReportComponent> reportComponents = new List<ReportComponent>();

@@ -30,6 +30,8 @@ namespace DosingApp.Models
         public bool IsUsedMixer { get; set; }
         public string Url { get; set; }
 
+        public bool IsAirTemperatureSensor { get; set; }
+
         // ограничение по количеству дозаторов
         public const int MaxCollectors = 4;
         public const int MaxVolumes = 1;

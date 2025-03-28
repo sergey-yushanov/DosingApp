@@ -13,6 +13,10 @@ namespace DosingApp.Models.Screen
         public double? CarrierRequiredVolume { get; set; }
         public double? CarrierDosedVolume { get; set; }
 
+        private double airTemperatureSensor;
+        private string airTemperature;
+        private bool isAirTemperatureSensor;
+
         private double collectorFineK11;
         private double collectorFineK12;
         private double collectorFineK13;
@@ -74,16 +78,18 @@ namespace DosingApp.Models.Screen
         private bool isCarrierDeltaVolumeFocused;
 
         private bool pumpCommand;
+        private bool carrierValveCommand;
 
         private bool isLoopActive;
         private bool isLoopPause;
         private bool isLoopRun;
         private bool isLoopDone;
 
-        public CommonScreen()
+        public CommonScreen(bool isAirTemperatureSensor)
         {
             ValveAdjustable = new ValveAdjustableScreen() { Name = "РегКл" };
             Flowmeter = new FlowmeterScreen();
+            this.isAirTemperatureSensor = isAirTemperatureSensor;
         }
 
         public void Update(Common common, bool showSettings)
@@ -103,9 +109,12 @@ namespace DosingApp.Models.Screen
 
         public void Update(ushort[] registers)
         {
-            union_bit_field_s status = new union_bit_field_s();
-            status.w = registers[(int)CommonModbus.Register.SW];
+            union_bit_field_s status = new union_bit_field_s
+            {
+                w = registers[(int)CommonModbus.Register.SW]
+            };
             PumpCommand = status.s[(int)CommonModbus.StatusWord.PUMP_COM];
+            CarrierValveCommand = status.s[(int)CommonModbus.StatusWord.VLV_COM];
             IsVolumeDosDry = status.s[(int)CommonModbus.StatusWord.VDOS_DRY_ON];
             IsLoopActive = status.s[(int)CommonModbus.StatusWord.LOOP_ACTIVE];
             IsLoopPause = status.s[(int)CommonModbus.StatusWord.LOOP_PAUSE];
@@ -122,6 +131,8 @@ namespace DosingApp.Models.Screen
 
             CarrierDosedVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_DOSE_VOL));
             CarrierRequiredVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_REQ_VOL));
+
+            AirTemperatureSensor = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.AIR_TEMP));
 
             if (!IsCollectorFineK11Focused)
                 CollectorFineK11 = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.COL_FINE_K11));
@@ -178,11 +189,39 @@ namespace DosingApp.Models.Screen
                 CarrierDeltaVolume = CommonModbus.Record32.Value(Modbus.Utils.ConcatUshorts(registers, (int)CommonModbus.Register32.CAR_DELTA_VOL));
         }
 
+        private void AirTemperatureUpdate()
+        {
+            if (!this.isAirTemperatureSensor || this.airTemperatureSensor < -30.0 || this.airTemperatureSensor > 100.0)
+            {
+                this.AirTemperature = "--.-";
+            }
+            else
+            {
+                this.AirTemperature = airTemperatureSensor.ToString("N1", App.NumberFormatInfo);
+            }
+        }
+
         //public void InitNew(Common common, bool showSettings)
         //{
         //    ValveAdjustable.InitNew(common.ValveAdjustable, showSettings);
         //    Flowmeter.InitNew(common.Flowmeter, showSettings);
         //}
+
+        public double AirTemperatureSensor
+        {
+            get { return airTemperatureSensor; }
+            set
+            {
+                AirTemperatureUpdate();
+                SetProperty(ref airTemperatureSensor, value); 
+            }
+        }
+
+        public string AirTemperature
+        {
+            get { return airTemperature; }
+            set { SetProperty(ref airTemperature, value); }
+        }
 
         public double CollectorFineK11
         {
@@ -478,6 +517,12 @@ namespace DosingApp.Models.Screen
             set { SetProperty(ref pumpCommand, value); }
         }
 
+        public bool CarrierValveCommand
+        {
+            get { return carrierValveCommand; }
+            set { SetProperty(ref carrierValveCommand, value); }
+        }
+
         public bool IsLoopActive
         {
             get { return isLoopActive; }
@@ -501,5 +546,7 @@ namespace DosingApp.Models.Screen
             get { return isLoopDone; }
             set { SetProperty(ref isLoopDone, value); }
         }
+
+
     }
 }

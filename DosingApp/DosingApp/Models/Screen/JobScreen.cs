@@ -83,11 +83,13 @@ namespace DosingApp.Models.Screen
         {
             DosedVolume = 0;
 
-            List<CollectorScreen> collectors = new List<CollectorScreen>();
-            collectors.Add(collectorScreen1);
-            collectors.Add(collectorScreen2);
-            collectors.Add(collectorScreen3);
-            collectors.Add(collectorScreen4);
+            List<CollectorScreen> collectors = new List<CollectorScreen>
+            {
+                collectorScreen1,
+                collectorScreen2,
+                collectorScreen3,
+                collectorScreen4
+            };
 
             for (int i = 0; i < JobComponentScreens.Count; i++)
             {

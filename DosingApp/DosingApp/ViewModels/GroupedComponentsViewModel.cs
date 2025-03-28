@@ -181,8 +181,7 @@ namespace DosingApp.ViewModels
 
         private void EditManufacturer(object manufacturerInstance)
         {
-            Manufacturer manufacturer = manufacturerInstance as Manufacturer;
-            if (manufacturer != null && manufacturer.ManufacturerId != 0)
+            if (manufacturerInstance is Manufacturer manufacturer && manufacturer.ManufacturerId != 0)
             {
                 ManufacturerViewModel manufacturerViewModel = new ManufacturerViewModel(manufacturer) { GroupedComponentsViewModel = this };
                 Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);

@@ -5,7 +5,7 @@ namespace DosingApp.DataContext
 {
     public class AppDbContext : DbContext
     {
-        private string _dbPath;
+        readonly private string _dbPath;
 
         public DbSet<Mixer> Mixers { get; set; }
         public DbSet<AgrYear> AgrYears { get; set; }

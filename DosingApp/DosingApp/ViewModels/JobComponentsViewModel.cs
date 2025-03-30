@@ -458,7 +458,7 @@ namespace DosingApp.ViewModels
                     //requiredVolumes.Add((double)jobComponent.Volume);
 
                     int collectorIndex = (int)Char.GetNumericValue(jobComponent.Dispenser[0]) - 1;
-                    CollectorsLoop[collectorIndex].ValveNums.Add(jobComponent.GetDispenserNumber());
+                    CollectorsLoop[collectorIndex].ValveNums.Add(DispenserNumber.Offset(jobComponent.Dispenser));
                     CollectorsLoop[collectorIndex].RequiredVolumes.Add((double)jobComponent.Volume);
                     
                     continue;

@@ -17,6 +17,15 @@ namespace DosingApp.Models
         public const string Valve = "Кл";
     }
 
+    public static class DispenserNumber
+    {
+        public static int Offset(string Dispenser)
+        {
+            char number = Dispenser[2];
+            return Int32.Parse(number.ToString());
+        }
+    }
+
     public class Mixer
     {
         public int MixerId { get; set; }

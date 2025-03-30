@@ -35,15 +35,9 @@ namespace DosingApp.Models
         //public double? ErrorVolume { get; set; }
         //public string DosedVolumeInfo { get { return ((double)DosedVolume).ToString("N", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeUnit; } }
 
-        public int GetCollectorNumber()
-        {
-            return 1;
-        }
-
-        public int GetDispenserNumber()
-        {
-            char number = Dispenser[Dispenser.Length - 1];
-            return Int32.Parse(number.ToString());
-        }
+        //public int GetCollectorNumber()
+        //{
+        //    return 1;
+        //}
     }
 }

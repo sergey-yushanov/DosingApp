@@ -137,7 +137,7 @@ namespace DosingApp.Models.Screen
 
             if (Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
             {
-                DosedVolume = collector.DosedVolumes[GetDispenserNumber() - 1];
+                DosedVolume = collector.DosedVolumes[DispenserNumber.Offset(Dispenser) - 1];
             }
 
             if (Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
@@ -164,7 +164,7 @@ namespace DosingApp.Models.Screen
             if (Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
             {
                 int collectorIndex = (int)Char.GetNumericValue(Dispenser[0]) - 1;
-                DosedVolume = collectors[collectorIndex].DosedVolumes[GetDispenserNumber() - 1];
+                DosedVolume = collectors[collectorIndex].DosedVolumes[DispenserNumber.Offset(Dispenser) - 1];
             }
 
             if (Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
@@ -178,22 +178,6 @@ namespace DosingApp.Models.Screen
             }
 
             DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);
-        }
-
-        //public int GetCollectorNumber()
-        //{
-        //    return 1;
-        //}
-
-        //public int GetSingleNumber()
-        //{
-        //    return 1;
-        //}
-
-        public int GetDispenserNumber()
-        {
-            char number = Dispenser[Dispenser.Length - 1];
-            return Int32.Parse(number.ToString());
         }
     }
 }

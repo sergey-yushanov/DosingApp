@@ -7,13 +7,14 @@ namespace DosingApp.Models
 {
     public static class DispenserSuffix
     {
-        public const string Collector = "Кол";
+        public const string Collector = "К";
         public const string Volume = "ОбД";
         public const string Single = "ОД";
         public const string ThreeWay = "ТХК";
         public const string Carrier = "Носитель";
         public const string Dry = "Загр. вручную";
         public const string Powder = "ПД";
+        public const string Valve = "Кл";
     }
 
     public class Mixer
@@ -56,7 +57,7 @@ namespace DosingApp.Models
                 for (int c = 1; c <= Collector; c++)
                 for (int v = 1; v <= 4; v++) // в коллекторе 4 клапана
                 {
-                    dispensers.Add(c.ToString() + DispenserSuffix.Collector + v.ToString());
+                    dispensers.Add(c.ToString() + DispenserSuffix.Collector + v.ToString() + DispenserSuffix.Valve);
                 }
             }
             return dispensers;

@@ -25,7 +25,7 @@ namespace DosingApp.Models
         // проверяем, является ли клапан пятым в коллекторе - он всегда вода
         public bool IsWaterValve()
         {
-            string waterValve = DispenserSuffix.Collector + "5";
+            string waterValve = "5" + DispenserSuffix.Valve;
             int index = Dispenser != null ? Dispenser.IndexOf(waterValve) : -1;
             return index != -1;
         }

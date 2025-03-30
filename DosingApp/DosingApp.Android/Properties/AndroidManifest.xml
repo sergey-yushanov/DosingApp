@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.24" package="ru.ghills.mixapp" android:installLocation="preferExternal" android:versionCode="1">
-	<uses-sdk android:minSdkVersion="29" android:targetSdkVersion="29" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.25" package="ru.ghills.mixapp" android:installLocation="preferExternal" android:versionCode="1">
+	<uses-sdk android:minSdkVersion="29" android:targetSdkVersion="24" />
 	<application android:label="MixApp" android:icon="@mipmap/icon" android:requestLegacyExternalStorage="true"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

@@ -39,7 +39,10 @@ namespace DosingApp.Models.Modbus
             VLV_MAN_CLS = (ushort)2,
             VOL_RST = (ushort)4,
             PUMP_MAN_START = (ushort)8,
-            PUMP_MAN_STOP = (ushort)16
+            PUMP_MAN_STOP = (ushort)16,
+
+            PDOS_DRY_ENABLE = (ushort)16384,
+            PDOS_DRY_DISABLE = (ushort)32768
         }
 
         public enum StatusWord
@@ -108,6 +111,16 @@ namespace DosingApp.Models.Modbus
         public static RegisterValue32 VolumeRequired(ushort powderDosNumber, float volumeRequired)
         {
             return new RegisterValue32() { Register = GetRegister32(powderDosNumber, Register32.REQ_VOL), Value = Record32.Value(volumeRequired) };
+        }
+
+        public static RegisterValue PowderDosDryEnable()
+        {
+            return new RegisterValue() { Register = GetRegister(1, Register.CW), Value = (ushort)ControlWord.PDOS_DRY_ENABLE };
+        }
+
+        public static RegisterValue PowderDosDryDisable()
+        {
+            return new RegisterValue() { Register = GetRegister(1, Register.CW), Value = (ushort)ControlWord.PDOS_DRY_DISABLE };
         }
     }
 }

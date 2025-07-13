@@ -37,7 +37,10 @@ namespace DosingApp.Models.Modbus
         {
             VLV_MAN_OPN = (ushort)1,
             VLV_MAN_CLS = (ushort)2,
-            VOL_RST = (ushort)4
+            VOL_RST = (ushort)4,
+
+            VDOS_DRY_ENABLE = (ushort)16384,
+            VDOS_DRY_DISABLE = (ushort)32768
         }
 
         public enum StatusWord
@@ -95,6 +98,16 @@ namespace DosingApp.Models.Modbus
         public static RegisterValue32 VolumeRequired(ushort volumeDosNumber, float volumeRequired)
         {
             return new RegisterValue32() { Register = GetRegister32(volumeDosNumber, Register32.REQ_VOL), Value = Record32.Value(volumeRequired) };
+        }
+
+        public static RegisterValue VolumeDosDryEnable()
+        {
+            return new RegisterValue() { Register = GetRegister(1, Register.CW), Value = (ushort)ControlWord.VDOS_DRY_ENABLE };
+        }
+
+        public static RegisterValue VolumeDosDryDisable()
+        {
+            return new RegisterValue() { Register = GetRegister(1, Register.CW), Value = (ushort)ControlWord.VDOS_DRY_DISABLE };
         }
     }
 }

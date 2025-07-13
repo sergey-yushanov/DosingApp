@@ -58,7 +58,7 @@
                         Keyboard="Numeric"/>
 
                     <Label 
-                        Text="Url"
+                        Text="IP-адрес"
                         TextColor="{StaticResource LabelEntryColor}"/>
                     <Entry 
                         Placeholder="Введите адрес или оставьте поле пустым"

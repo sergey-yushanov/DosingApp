@@ -216,6 +216,19 @@ namespace DosingApp.ViewModels
             get { return title; }
             set { SetProperty(ref title, value); }
         }
+
+        public bool IsMotherLiquor
+        {
+            get { return Recipe.IsMotherLiquor; }
+            set
+            {
+                if (Recipe.IsMotherLiquor != value)
+                {
+                    Recipe.IsMotherLiquor = value;
+                    OnPropertyChanged(nameof(IsMotherLiquor));
+                }
+            }
+        }
         #endregion Properties
 
         #region Commands

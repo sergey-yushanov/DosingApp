@@ -464,12 +464,12 @@ namespace DosingApp.ViewModels
 
         private void VolumeDosDryEnable(object commonInstance)
         {
-            ModbusService.WriteSingleRegister(CommonModbus.VolumeDosDryEnable());
+            ModbusService.WriteSingleRegister(VolumeDosModbus.VolumeDosDryEnable());
         }
 
         private void VolumeDosDryDisable(object commonInstance)
         {
-            ModbusService.WriteSingleRegister(CommonModbus.VolumeDosDryDisable());
+            ModbusService.WriteSingleRegister(VolumeDosModbus.VolumeDosDryDisable());
         }
 
         private void VolumeDosDelayVolume(object commonInstance)
@@ -486,12 +486,12 @@ namespace DosingApp.ViewModels
 
         private void PowderDosDryEnable(object commonInstance)
         {
-            ModbusService.WriteSingleRegister(CommonModbus.PowderDosDryEnable());
+            ModbusService.WriteSingleRegister(PowderDosModbus.PowderDosDryEnable());
         }
 
         private void PowderDosDryDisable(object commonInstance)
         {
-            ModbusService.WriteSingleRegister(CommonModbus.PowderDosDryDisable());
+            ModbusService.WriteSingleRegister(PowderDosModbus.PowderDosDryDisable());
         }
 
         private void PowderDosDelayVolume(object commonInstance)

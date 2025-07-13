@@ -79,14 +79,6 @@
                         </Grid>
 
                         <Label 
-                            Text="Заметка"
-                            TextColor="{StaticResource LabelEntryColor}"/>
-                        <Editor 
-                            Placeholder="Введите текст заметки здесь"
-                            Text="{Binding Note}" 
-                            Keyboard="Chat"/>
-
-                        <Label 
                             Text="Минимум носителя в запасе, %" 
                             TextColor="{StaticResource LabelEntryColor}"/>
                         <Entry 
@@ -94,6 +86,29 @@
                             Text="{Binding CarrierReserve}" 
                             Keyboard="Numeric" />
 
+                        <Label 
+                            Text="Маточный раствор"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <StackLayout 
+                            Orientation="Horizontal"
+                            Padding="0,10">
+                            <Label 
+                                Text="Да / Нет"
+                                FontSize="Medium"
+                                HorizontalOptions="StartAndExpand"/>
+                            <Switch 
+                                IsToggled="{Binding IsMotherLiquor}"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="End" />
+                        </StackLayout>
+
+                        <Label 
+                            Text="Заметка"
+                            TextColor="{StaticResource LabelEntryColor}"/>
+                        <Editor 
+                            Placeholder="Введите текст заметки здесь"
+                            Text="{Binding Note}" 
+                            Keyboard="Chat"/>
 
                         <Label HorizontalTextAlignment="Start" Padding="0,10,0,5">
                             <Label.FormattedText>

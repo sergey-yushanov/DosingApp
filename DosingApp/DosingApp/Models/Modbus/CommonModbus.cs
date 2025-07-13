@@ -44,8 +44,8 @@ namespace DosingApp.Models.Modbus
 
             //COL_DRY_ENABLE = (ushort)64,
             //COL_DRY_DISABLE = (ushort)128,
-            PDOS_DRY_ENABLE = (ushort)64,
-            PDOS_DRY_DISABLE = (ushort)128,
+            //PDOS_DRY_ENABLE = (ushort)64,
+            //PDOS_DRY_DISABLE = (ushort)128,
 
             PUMP_MAN_START = (ushort)256,
             PUMP_MAN_STOP = (ushort)512,
@@ -53,8 +53,8 @@ namespace DosingApp.Models.Modbus
             VLV_MAN_CLS = (ushort)2048,
             VOL_RST = (ushort)4096,
 
-            VDOS_DRY_ENABLE = (ushort)8192,
-            VDOS_DRY_DISABLE = (ushort)16384,
+            MOTHER_LIQUOR_ENABLE = (ushort)8192,
+            MOTHER_LIQUOR_DISABLE = (ushort)16384,
 
             ACK = (ushort)32768
         }
@@ -198,24 +198,14 @@ namespace DosingApp.Models.Modbus
             return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.VOL_RST };
         }
 
-        public static RegisterValue VolumeDosDryEnable()
+        public static RegisterValue MotherLiquorEnable()
         {
-            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.VDOS_DRY_ENABLE };
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.MOTHER_LIQUOR_ENABLE };
         }
 
-        public static RegisterValue VolumeDosDryDisable()
+        public static RegisterValue MotherLiquorDisable()
         {
-            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.VDOS_DRY_DISABLE };
-        }
-
-        public static RegisterValue PowderDosDryEnable()
-        {
-            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.PDOS_DRY_ENABLE };
-        }
-
-        public static RegisterValue PowderDosDryDisable()
-        {
-            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.PDOS_DRY_DISABLE };
+            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.MOTHER_LIQUOR_DISABLE };
         }
 
         public static RegisterValue32 VolumeRatio(float volumeRatio)

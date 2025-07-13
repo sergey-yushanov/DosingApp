@@ -552,6 +552,15 @@ namespace DosingApp.ViewModels
 
             ModbusService.WriteSingleRegister32(CommonModbus.VolumeRequired((float)commonLoop.CarrierRequiredVolume));
             ModbusService.WriteSingleRegister32(CommonModbus.Reserve((float)commonLoop.CarrierReserve));
+
+            if (Job.Recipe.IsMotherLiquor)
+            {
+                ModbusService.WriteSingleRegister(CommonModbus.MotherLiquorEnable());
+            }
+            else
+            {
+                ModbusService.WriteSingleRegister(CommonModbus.MotherLiquorDisable());
+            }
         }
 
         public void UpdateJobComponents()

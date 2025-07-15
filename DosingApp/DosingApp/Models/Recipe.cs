@@ -22,6 +22,7 @@ namespace DosingApp.Models
         public double? CarrierReserve { get; set; }
 
         public bool IsMotherLiquor { get; set; }
+        public double? FillMotherLiquorVolume { get; set; }
 
         public ICollection<RecipeComponent> RecipeComponents { get; set; }
     }

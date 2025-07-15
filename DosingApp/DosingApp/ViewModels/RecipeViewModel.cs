@@ -205,6 +205,11 @@ namespace DosingApp.ViewModels
             get { return (!String.IsNullOrEmpty(Name)); }
         }
 
+        public bool IsAllValid
+        {
+            get { return (!String.IsNullOrEmpty(Name)) && (Carrier != null) && (!IsMotherLiquor || (IsMotherLiquor && !String.IsNullOrEmpty(FillMotherLiquorVolume))); }
+        }
+
         public bool IsBack
         {
             get { return isBack; }
@@ -227,6 +232,34 @@ namespace DosingApp.ViewModels
                     Recipe.IsMotherLiquor = value;
                     OnPropertyChanged(nameof(IsMotherLiquor));
                 }
+            }
+        }
+
+        public string FillMotherLiquorVolume
+        {
+            get
+            {
+                if (Recipe.FillMotherLiquorVolume == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    return Recipe.FillMotherLiquorVolume.ToString();
+                }
+            }
+            set
+            {
+                try
+                {
+                    Recipe.FillMotherLiquorVolume = double.Parse(value);
+                    Recipe.FillMotherLiquorVolume = PercentLimits(Recipe.FillMotherLiquorVolume);
+                }
+                catch
+                {
+                    Recipe.FillMotherLiquorVolume = null;
+                }
+                OnPropertyChanged(nameof(FillMotherLiquorVolume));
             }
         }
         #endregion Properties

@@ -102,6 +102,22 @@
                                 HorizontalOptions="End" />
                         </StackLayout>
 
+                        <Label
+                            IsVisible="{Binding IsMotherLiquor}"
+                            HorizontalTextAlignment="Start">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Предварительная подача носителя, %" TextColor="{StaticResource LabelEntryColor}"/>
+                                    <Span Text=" *" TextColor="{StaticResource AlertColor}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Entry 
+                            IsVisible="{Binding IsMotherLiquor}"
+                            Placeholder="Введите объём" 
+                            Text="{Binding FillMotherLiquorVolume}" 
+                            Keyboard="Numeric" />
+
                         <Label 
                             Text="Заметка"
                             TextColor="{StaticResource LabelEntryColor}"/>

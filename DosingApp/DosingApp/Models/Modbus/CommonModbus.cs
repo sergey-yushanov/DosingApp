@@ -42,11 +42,6 @@ namespace DosingApp.Models.Modbus
             LOOP_MAN_CLEAR = (ushort)16,
             LOOP_MAN_PASS = (ushort)32,
 
-            //COL_DRY_ENABLE = (ushort)64,
-            //COL_DRY_DISABLE = (ushort)128,
-            //PDOS_DRY_ENABLE = (ushort)64,
-            //PDOS_DRY_DISABLE = (ushort)128,
-
             PUMP_MAN_START = (ushort)256,
             PUMP_MAN_STOP = (ushort)512,
             VLV_MAN_OPN = (ushort)1024,
@@ -58,12 +53,6 @@ namespace DosingApp.Models.Modbus
 
             ACK = (ushort)32768
         }
-
-        //public enum ControlWord2 : ushort
-        //{
-        //    PDOS_DRY_ENABLE = (ushort)1,
-        //    PDOS_DRY_DISABLE = (ushort)2
-        //}
 
         public enum StatusWord
         {
@@ -82,7 +71,6 @@ namespace DosingApp.Models.Modbus
         {
             CW = (ushort)0,
             SW = (ushort)1,
-            //CW_2 = (ushort)90,
         }
 
         public enum Register32 : ushort
@@ -124,7 +112,9 @@ namespace DosingApp.Models.Modbus
 
             CAR_DELTA_VOL = 58,
 
-            AIR_TEMP = 60
+            AIR_TEMP = 60,
+
+            COL_FILL_MOTHER_LIQUOR_VOL = 62
         }
 
         public static ushort GetRegister(Register register)
@@ -217,14 +207,6 @@ namespace DosingApp.Models.Modbus
         {
             return new RegisterValue32() { Register = GetRegister32(Register32.CAR_REQ_VOL), Value = Record32.Value(volumeRequired) };
         }
-
-        //public static RegisterValue32 VolumeDosed(ushort[] registers)
-        //{
-        //    Record32.Value( (volumeRequired)
-        //    registers[GetRegister32(Register32.CAR_DOSE_VOL)]
-
-        //    return new RegisterValue32() { Register = GetRegister32(Register32.CAR_DOSE_VOL), Value = Record32.Value(volumeRequired) };
-        //}
 
         public static RegisterValue32 Reserve(float reserve)
         {
@@ -346,9 +328,9 @@ namespace DosingApp.Models.Modbus
             return new RegisterValue32() { Register = GetRegister32(Register32.CAR_DELTA_VOL), Value = Record32.Value(volume) };
         }
 
-        //public static RegisterValue32 AirTemperature(float temperature)
-        //{
-        //    return new RegisterValue32() { Register = GetRegister32(Register32.AIR_TEMP), Value = Record32.Value(temperature) };
-        //}
+        public static RegisterValue32 CollectorFillMotherLiquorVol(float k)
+        {
+            return new RegisterValue32() { Register = GetRegister32(Register32.COL_FILL_MOTHER_LIQUOR_VOL), Value = Record32.Value(k) };
+        }
     }
 }

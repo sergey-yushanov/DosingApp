@@ -151,7 +151,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label 
-                            Text="Объем для наполнения коллектора, л"
+                            Text="Наполнение коллектора (не маточный раствор), л"
                             FontSize="Medium"
                             VerticalOptions="Center"/>
                         <Entry

@@ -70,7 +70,8 @@ namespace DosingApp.ViewModels
             Recipe newRecipe = new Recipe()
             {
                 CarrierReserve = (double?)20.0,
-                CarrierId = GetWaterCarrier().ComponentId
+                CarrierId = GetWaterCarrier().ComponentId,
+                FillMotherLiquorVolume = (double?)30.0
             };
             Application.Current.MainPage.Navigation.PushAsync(new RecipePage(new RecipeViewModel(newRecipe) { RecipesViewModel = this }));
         }
@@ -110,9 +111,10 @@ namespace DosingApp.ViewModels
             RecipeViewModel recipeViewModel = recipeInstance as RecipeViewModel;
             if (recipeViewModel.Recipe != null)
             {
-                if (!recipeViewModel.IsValid)
+                if (!recipeViewModel.IsAllValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название рецепта", "Ok");
+                    string message = recipeViewModel.IsMotherLiquor ? "Задайте название рецепта, носитель смеси и объём предварительной подачи носителя" : "Задайте название рецепта и носитель смеси";
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", message, "Ok");
                     return;
                 }
 

@@ -45,6 +45,8 @@ namespace DosingApp.ViewModels
         private static readonly int nDoseValves = 4;
         private ObservableCollection<CollectorLoop> collectorsLoop;
 
+        private int nUsingCollectors = 1;
+
         //private SingleDosLoop singleDosLoop;
         private VolumeDosLoop volumeDosLoop;
         private PowderDosLoop powderDosLoop;
@@ -433,6 +435,8 @@ namespace DosingApp.ViewModels
         {
             //var valveNums = new List<int>();
             //var requiredVolumes = new List<double>();
+
+            var collectors = new HashSet<int>();
             
             double carrierRequiredVolume = 0;
             //double singleRequiredVolume = 0;
@@ -460,7 +464,9 @@ namespace DosingApp.ViewModels
                     int collectorIndex = (int)Char.GetNumericValue(jobComponent.Dispenser[0]) - 1;
                     CollectorsLoop[collectorIndex].ValveNums.Add(DispenserNumber.Offset(jobComponent.Dispenser));
                     CollectorsLoop[collectorIndex].RequiredVolumes.Add((double)jobComponent.Volume);
-                    
+
+                    collectors.Add(collectorIndex);
+
                     continue;
                 }
 
@@ -483,6 +489,8 @@ namespace DosingApp.ViewModels
                     continue;
                 }
             }
+
+            nUsingCollectors = collectors.Count();
 
             //collectorLoop = new CollectorLoop
             //{
@@ -563,6 +571,7 @@ namespace DosingApp.ViewModels
             }
 
             double fillMotherLiquorVolume = ((float)Job.Recipe.FillMotherLiquorVolume) * ((float)commonLoop.CarrierRequiredVolume) / 100.0;
+            fillMotherLiquorVolume = nUsingCollectors > 0 ? (fillMotherLiquorVolume / nUsingCollectors) : 0.0;
             ModbusService.WriteSingleRegister32(CommonModbus.CollectorFillMotherLiquorVol((float)fillMotherLiquorVolume));
         }
 

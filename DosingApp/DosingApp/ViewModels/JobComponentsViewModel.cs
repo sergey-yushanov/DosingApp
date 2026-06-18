@@ -32,6 +32,8 @@ namespace DosingApp.ViewModels
 
         private JobScreen jobScreen;
 
+        private Mixer mixer;
+
         private bool isRunning;
         private bool isCompleted;
         private Color progressBarColor;
@@ -561,6 +563,15 @@ namespace DosingApp.ViewModels
             {
                 ModbusService.WriteSingleRegister(CommonModbus.MotherLiquorDisable());
             }
+
+            if (ModbusService.Mixer.IsMainValve)
+            {
+                ModbusService.WriteSingleRegister(CommonModbus.MainValveEnable());
+            }
+            else
+            {
+                ModbusService.WriteSingleRegister(CommonModbus.MainValveDisable());
+            }
         }
 
         public void UpdateJobComponents()
@@ -683,6 +694,14 @@ namespace DosingApp.ViewModels
 
             isLoopReported = true;
         }
+
+        //public void LoadUsedMixer()
+        //{
+        //    using (AppDbContext db = App.GetContext())
+        //    {
+        //        mixer = db.Mixers.Where(rc => rc.IsUsedMixer == true).FirstOrDefault();
+        //    }
+        //}
         #endregion Methods
     }
 }

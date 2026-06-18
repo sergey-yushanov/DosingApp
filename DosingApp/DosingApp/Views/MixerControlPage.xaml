@@ -524,6 +524,35 @@
                     Color="LightGray"
                     Margin ="0, 0, 0, 0"/>
 
+                <!--<StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="9*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label 
+                            Text="Главный клапан на воду"
+                            FontSize="Medium"
+                            VerticalOptions="Center"/>
+                        <Button
+                            Grid.Column="2"
+                            Text="Да"
+                            TextColor="{Binding Common.IsMainValve, Converter={StaticResource ColorConverter}, ConverterParameter='Work'}"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.MainValveEnableCommand}"/>
+                        <Button
+                            Grid.Column="3"
+                            Text="Нет"
+                            Command="{Binding Source={x:Reference MixerControl}, Path=BindingContext.MainValveDisableCommand}"/>
+                    </Grid>
+                </StackLayout>-->
+
+
                 <StackLayout>
                     <Grid>
                         <Grid.ColumnDefinitions>

@@ -44,8 +44,9 @@ namespace DosingApp.Models.Modbus
 
             //COL_DRY_ENABLE = (ushort)64,
             //COL_DRY_DISABLE = (ushort)128,
-            //PDOS_DRY_ENABLE = (ushort)64,
-            //PDOS_DRY_DISABLE = (ushort)128,
+            
+            //MAIN_VLV_ENABLE = (ushort)64,
+            //MAIN_VLV_DISABLE = (ushort)128,
 
             PUMP_MAN_START = (ushort)256,
             PUMP_MAN_STOP = (ushort)512,
@@ -75,7 +76,8 @@ namespace DosingApp.Models.Modbus
             VLV_COM = (ushort)9,
             COL_DRY_ON = (ushort)10,
             VDOS_DRY_ON = (ushort)11,
-            PDOS_DRY_ON = (ushort)12
+            //PDOS_DRY_ON = (ushort)12,
+            //MAIN_VLV_ON = (ushort)12
         }
 
         public enum Register : ushort
@@ -207,6 +209,16 @@ namespace DosingApp.Models.Modbus
         {
             return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.MOTHER_LIQUOR_DISABLE };
         }
+
+        //public static RegisterValue MainValveEnable()
+        //{
+        //    return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.MAIN_VLV_ENABLE };
+        //}
+
+        //public static RegisterValue MainValveDisable()
+        //{
+        //    return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.MAIN_VLV_DISABLE };
+        //}
 
         public static RegisterValue32 VolumeRatio(float volumeRatio)
         {

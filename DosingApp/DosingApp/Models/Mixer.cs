@@ -42,6 +42,8 @@ namespace DosingApp.Models
 
         public bool IsAirTemperatureSensor { get; set; }
 
+        public bool IsMainValve { get; set; }
+
         // ограничение по количеству дозаторов
         public const int MaxCollectors = 4;
         public const int MaxVolumes = 1;

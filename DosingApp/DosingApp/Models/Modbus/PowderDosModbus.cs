@@ -40,6 +40,7 @@ namespace DosingApp.Models.Modbus
             VOL_RST = (ushort)4,
             PUMP_MAN_START = (ushort)8,
             PUMP_MAN_STOP = (ushort)16,
+            VLV_SKIP = (ushort)32,
 
             PDOS_DRY_ENABLE = (ushort)16384,
             PDOS_DRY_DISABLE = (ushort)32768
@@ -86,6 +87,11 @@ namespace DosingApp.Models.Modbus
         public static RegisterValue ValveClose(ushort powderDosNumber)
         {
             return new RegisterValue() { Register = GetRegister(powderDosNumber, Register.CW), Value = (ushort)ControlWord.VLV_MAN_CLS };
+        }
+
+        public static RegisterValue ValveSkip(ushort powderDosNumber)
+        {
+            return new RegisterValue() { Register = GetRegister(powderDosNumber, Register.CW), Value = (ushort)ControlWord.VLV_SKIP };
         }
 
         public static RegisterValue VolumeReset(ushort powderDosNumber)

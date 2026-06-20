@@ -40,7 +40,7 @@ namespace DosingApp.Models.Modbus
             LOOP_MAN_PAUSE = (ushort)4,
             LOOP_MAN_CONT = (ushort)8,
             LOOP_MAN_CLEAR = (ushort)16,
-            LOOP_MAN_PASS = (ushort)32,
+            //LOOP_MAN_PASS = (ushort)32,
 
             //COL_DRY_ENABLE = (ushort)64,
             //COL_DRY_DISABLE = (ushort)128,
@@ -62,8 +62,8 @@ namespace DosingApp.Models.Modbus
 
         //public enum ControlWord2 : ushort
         //{
-        //    PDOS_DRY_ENABLE = (ushort)1,
-        //    PDOS_DRY_DISABLE = (ushort)2
+        //    PDOS_DRY_SKIP = (ushort)1,
+        //    PDOS_DRY_SKIP = (ushort)2
         //}
 
         public enum StatusWord
@@ -165,10 +165,10 @@ namespace DosingApp.Models.Modbus
             return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.LOOP_MAN_CLEAR };
         }
 
-        public static RegisterValue LoopPass()
-        {
-            return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.LOOP_MAN_PASS };
-        }
+        //public static RegisterValue LoopPass()
+        //{
+        //    return new RegisterValue() { Register = GetRegister(Register.CW), Value = (ushort)ControlWord.LOOP_MAN_PASS };
+        //}
 
         public static RegisterValue Ack()
         {

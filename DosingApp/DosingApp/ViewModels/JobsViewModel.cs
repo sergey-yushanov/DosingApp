@@ -1,5 +1,6 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
+using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -63,16 +64,25 @@ namespace DosingApp.ViewModels
                     Application.Current.MainPage.DisplayAlert("Предупреждение", "Не задан размер партии смеси", "Ok");
                     return;
                 }
-                using (AppDbContext db = App.GetContext())
+
+                ModbusService modbusService = new ModbusService();
+                if (!modbusService.IsConnected)
                 {
-                    db.Entry(jobViewModel.Job).State = EntityState.Added;
-                    db.SaveChanges();
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Не установлена связь с контроллером. Проверьте сетевое соединение.", "Ok");
+                }
+                else
+                {
+                    using (AppDbContext db = App.GetContext())
+                    {
+                        db.Entry(jobViewModel.Job).State = EntityState.Added;
+                        db.SaveChanges();
 
-                    var jobComponents = GetJobComponents(jobViewModel.Job);
-                    jobComponents.ForEach(jc => db.Entry(jc).State = EntityState.Added);
-                    db.SaveChanges();
+                        var jobComponents = GetJobComponents(jobViewModel.Job);
+                        jobComponents.ForEach(jc => db.Entry(jc).State = EntityState.Added);
+                        db.SaveChanges();
 
-                    Application.Current.MainPage.Navigation.PushAsync(new JobComponentsPage(new JobComponentsViewModel(jobViewModel.Job, jobComponents)));
+                        Application.Current.MainPage.Navigation.PushAsync(new JobComponentsPage(new JobComponentsViewModel(jobViewModel.Job, jobComponents)));
+                    }
                 }
             }
         }

@@ -36,10 +36,11 @@ namespace DosingApp.Models.Screen
             get { return dosedVolumeError; }
             set 
             {
-                IsDosedVolumeGood = (float)Math.Abs((decimal)value) < 0.05;
-                IsDosedVolumeNotGood = (float)Math.Abs((decimal)value) >= 0.05 && (float)Math.Abs((decimal)value) < 1;
-                DosedVolumeErrorInfo = String.Format("{0,12:P2}", Convert.ToDouble(value));
-                SetProperty(ref dosedVolumeError, value); 
+                double default_value = value.GetValueOrDefault();
+                IsDosedVolumeGood = (float)Math.Abs((decimal)default_value) < 0.05;
+                IsDosedVolumeNotGood = (float)Math.Abs((decimal)default_value) >= 0.05 && (float)Math.Abs((decimal)default_value) < 1;
+                DosedVolumeErrorInfo = String.Format("{0,12:P2}", Convert.ToDouble(default_value));
+                SetProperty(ref dosedVolumeError, default_value); 
             }
         }
 
@@ -97,6 +98,14 @@ namespace DosingApp.Models.Screen
         public bool IsNotDry { get { return Dispenser != DispenserSuffix.Dry; } }
         public bool IsVisible { get; set; }
 
+        private bool isSkipVisible;
+
+        public bool IsSkipVisible
+        {
+            get { return isSkipVisible; }
+            set { SetProperty(ref isSkipVisible, value); }
+        }
+
         public JobComponentScreen(JobComponent jobComponent)
         {
             Volume = jobComponent.Volume;
@@ -111,15 +120,8 @@ namespace DosingApp.Models.Screen
             ConsistencyInfo = jobComponent.ConsistencyInfo;
             DispenserInfo = jobComponent.DispenserInfo;
 
-            if ((Dispenser == DispenserSuffix.Carrier) || (Dispenser == DispenserSuffix.Dry))
-            {
-                //IsVisible = false;
-                IsVisible = true;
-            }
-            else
-            {
-                IsVisible = true;
-            }
+            IsVisible = true;
+            isSkipVisible = false;
         }
 
         public void Update(CommonScreen common, CollectorScreen collector, SingleDosScreen singleDos)
@@ -165,16 +167,20 @@ namespace DosingApp.Models.Screen
             {
                 int collectorIndex = (int)Char.GetNumericValue(Dispenser[0]) - 1;
                 DosedVolume = collectors[collectorIndex].DosedVolumes[DispenserNumber.Offset(Dispenser) - 1];
+                int nValves = collectors[collectorIndex].GetValvesNum();
+                IsSkipVisible = collectors[collectorIndex].Valves[nValves - DispenserNumber.Offset(Dispenser)].Command;
             }
 
             if (Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
             {
                 DosedVolume = volumeDos.DosedVolume;
+                //IsSkipVisible = volumeDos.Valve.Command;
             }
 
             if (Dispenser.IndexOf(DispenserSuffix.Powder) >= 0)
             {
                 DosedVolume = powderDos.DosedVolume;
+                //IsSkipVisible = powderDos.Valve.Command;
             }
 
             DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);

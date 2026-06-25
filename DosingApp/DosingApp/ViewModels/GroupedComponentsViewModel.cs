@@ -27,8 +27,8 @@ namespace DosingApp.ViewModels
         public ICommand EditManufacturerCommand { get; protected set; }
 
         public bool IsEditMode { get; protected set; }
-        RecipeViewModel RecipeViewModel;
-        RecipeComponentViewModel RecipeComponentViewModel;
+        readonly RecipeViewModel RecipeViewModel;
+        readonly RecipeComponentViewModel RecipeComponentViewModel;
         #endregion Attributes
 
         #region Constructor
@@ -101,11 +101,11 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void Back2Pages()
-        {
-            Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
-            Application.Current.MainPage.Navigation.PopAsync();
-        }
+        //private void Back2Pages()
+        //{
+        //    Application.Current.MainPage.Navigation.RemovePage(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+        //    Application.Current.MainPage.Navigation.PopAsync();
+        //}
 
         private void CreateManufacturer()
         {
@@ -131,12 +131,12 @@ namespace DosingApp.ViewModels
                         return;
                     }
 
-                    var jobComponents = db.JobComponents.Where(jc => componentIds.Contains((int)jc.ComponentId)).ToList();
-                    var jobIds = jobComponents.Select(jc => jc.JobId).Distinct().ToList();
-                    var jobs = db.Jobs.Where(j => jobIds.Contains(j.JobId)).ToList();
-                    db.JobComponents.RemoveRange(jobComponents);
-                    db.Jobs.RemoveRange(jobs);
-                    db.SaveChanges();
+                    //var jobComponents = db.JobComponents.Where(jc => componentIds.Contains((int)jc.ComponentId)).ToList();
+                    //var jobIds = jobComponents.Select(jc => jc.JobId).Distinct().ToList();
+                    //var jobs = db.Jobs.Where(j => jobIds.Contains(j.JobId)).ToList();
+                    //db.JobComponents.RemoveRange(jobComponents);
+                    //db.Jobs.RemoveRange(jobs);
+                    //db.SaveChanges();
                 }
 
                 if (await Application.Current.MainPage.DisplayAlert("Предупреждение", "Вы хотите удалить каталог вместе со всеми его компонентами?", "Да", "Нет"))

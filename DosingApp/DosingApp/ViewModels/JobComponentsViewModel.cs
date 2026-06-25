@@ -451,22 +451,12 @@ namespace DosingApp.ViewModels
 
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
                 {
-                    //valveNums.Add(jobComponent.GetDispenserNumber());
-                    //requiredVolumes.Add((double)jobComponent.Volume);
-
                     int collectorIndex = (int)Char.GetNumericValue(jobComponent.Dispenser[0]) - 1;
                     CollectorsLoop[collectorIndex].ValveNums.Add(DispenserNumber.Offset(jobComponent.Dispenser));
                     CollectorsLoop[collectorIndex].RequiredVolumes.Add((double)jobComponent.Volume);
-                    
+
                     continue;
                 }
-
-
-                //if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
-                //{
-                //    singleRequiredVolume = (double)jobComponent.Volume;
-                //    continue;
-                //}
 
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
                 {
@@ -481,22 +471,11 @@ namespace DosingApp.ViewModels
                 }
             }
 
-            //collectorLoop = new CollectorLoop
-            //{
-            //    ValveNums = valveNums,
-            //    RequiredVolumes = requiredVolumes
-            //};
-
             commonLoop = new CommonLoop
             {
                 CarrierRequiredVolume = carrierRequiredVolume,
                 CarrierReserve = (double)Job.Recipe.CarrierReserve
             };
-
-            //singleDosLoop = new SingleDosLoop
-            //{
-            //    RequiredVolume = singleRequiredVolume
-            //};
 
             volumeDosLoop = new VolumeDosLoop
             {

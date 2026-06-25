@@ -693,32 +693,10 @@ namespace DosingApp.ViewModels
             Job.AssignmentRemainSize = Job.AssignmentSize;
             Job.Unit = Job.Assignment.Unit;
 
-            // Size и Volume в Сделать смесь становятся одним и тем же
-            // Связано это с отказом задания в других ед. измерения, отличных от литров
-            //Job.PartySize = Job.AssignmentSize;
-            //Job.PartyVolume = Job.AssignmentSize;
             Job.PartyVolume = null;
-
-            //SizeInfoVisibility = Job.AssignmentSize != null;
 
             LoadItems();
             InitSelectedItems();
-
-            //switch (DestType)
-            //{
-            //    case SourceDestType.Facility:
-            //        Job.PartyVolume = DestFacilityTank?.Volume;
-            //        break;
-            //    case SourceDestType.Transport:
-            //        Job.PartyVolume = DestTransportTank?.Volume;
-            //        break;
-            //    case SourceDestType.Applicator:
-            //        Job.PartyVolume = DestApplicatorTank?.Volume;
-            //        break;
-            //}
-
-            //Job.PartySize = GetPartySquare();  // посчитаем площадь, на которую хватает
-            //Job.PartyCount = GetPartyCount();
         }
 
         public void CalculateVolume()
@@ -829,25 +807,25 @@ namespace DosingApp.ViewModels
             return (Job.VolumeRate != 0 && tmpVolume != null && Job.VolumeRate != null) ? (tmpVolume / Job.VolumeRate) : 0.0;
         }
 
-        private int? GetPartyCount()
-        {            
-            double? countSquare = 0.0;
-            double? countVolume = 0.0;
-            if (Job.PartySize != 0.0 && Job.PartySize != null && Job.AssignmentSize != null)
-            {
-                countSquare = Job.AssignmentSize / Job.PartySize;
-                if (Job.VolumeRate != 0.0 && Job.VolumeRate != null)
-                {
-                    countVolume = countSquare / Job.VolumeRate;
-                }
-            }
+        //private int? GetPartyCount()
+        //{            
+        //    double? countSquare = 0.0;
+        //    double? countVolume = 0.0;
+        //    if (Job.PartySize != 0.0 && Job.PartySize != null && Job.AssignmentSize != null)
+        //    {
+        //        countSquare = Job.AssignmentSize / Job.PartySize;
+        //        if (Job.VolumeRate != 0.0 && Job.VolumeRate != null)
+        //        {
+        //            countVolume = countSquare / Job.VolumeRate;
+        //        }
+        //    }
             
-            var decimalCountSquare = (decimal)countSquare;
-            var decimalCountVolume = (decimal)countVolume;
+        //    var decimalCountSquare = (decimal)countSquare;
+        //    var decimalCountVolume = (decimal)countVolume;
 
-            var decimalCount = String.Equals(Job.Unit, SizeUnit.Square) ? decimalCountSquare : decimalCountVolume;
-            return (int)Math.Ceiling(decimalCount);
-        }
+        //    var decimalCount = String.Equals(Job.Unit, SizeUnit.Square) ? decimalCountSquare : decimalCountVolume;
+        //    return (int)Math.Ceiling(decimalCount);
+        //}
         #endregion Methods
     }
 }

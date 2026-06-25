@@ -19,6 +19,8 @@ namespace DosingApp.ViewModels
         private ObservableCollection<Assignment> assignments;
         private Assignment selectedAssignment;
 
+        private bool hasAllDispensers = false;
+
         public ICommand SaveCommand { get; protected set; }
         #endregion Attributes
 
@@ -72,16 +74,21 @@ namespace DosingApp.ViewModels
                 }
                 else
                 {
-                    using (AppDbContext db = App.GetContext())
+                    var jobComponents = GetJobComponents(jobViewModel.Job);
+                    if (hasAllDispensers)
+                    { 
+                        using (AppDbContext db = App.GetContext())
+                        {
+                            db.Entry(jobViewModel.Job).State = EntityState.Added;
+                            db.SaveChanges();
+                            jobComponents.ForEach(jc => db.Entry(jc).State = EntityState.Added);
+                            db.SaveChanges();
+                            Application.Current.MainPage.Navigation.PushAsync(new JobComponentsPage(new JobComponentsViewModel(jobViewModel.Job, jobComponents)));
+                        }
+                    }
+                    else
                     {
-                        db.Entry(jobViewModel.Job).State = EntityState.Added;
-                        db.SaveChanges();
-
-                        var jobComponents = GetJobComponents(jobViewModel.Job);
-                        jobComponents.ForEach(jc => db.Entry(jc).State = EntityState.Added);
-                        db.SaveChanges();
-
-                        Application.Current.MainPage.Navigation.PushAsync(new JobComponentsPage(new JobComponentsViewModel(jobViewModel.Job, jobComponents)));
+                        Application.Current.MainPage.DisplayAlert("Предупреждение", "Не для всех компонентов назначен дозатор. Проверьте рецепт.", "Ok");
                     }
                 }
             }
@@ -112,6 +119,7 @@ namespace DosingApp.ViewModels
             using (AppDbContext db = App.GetContext())
             {
                 var recipeComponents = db.RecipeComponents.Where(rc => rc.RecipeId == job.RecipeId).OrderBy(rc => rc.Order).ToList();
+                hasAllDispensers = recipeComponents.All(rc => rc.Dispenser != null);
                 recipeComponents.ForEach(rc => rc.Component = db.Components.FirstOrDefault(c => c.ComponentId == rc.ComponentId));
                 return recipeComponents;
             }
@@ -125,8 +133,11 @@ namespace DosingApp.ViewModels
             {
                 JobId = job.JobId,
                 Job = job,
-                ComponentId = rc.ComponentId,
-                Component = rc.Component,
+                //ComponentId = rc.ComponentId,
+                //Component = rc.Component,
+                Name = rc.Component.Name,
+                Consistency = rc.Component.Consistency,
+                Density = rc.Component.Density,
                 Order = rc.Order,
                 Volume = GetVolume(rc, job),
                 VolumeRate = rc.VolumeRate,
@@ -154,8 +165,11 @@ namespace DosingApp.ViewModels
             {
                 JobId = job.JobId,
                 Job = job,
-                ComponentId = recipeCarrier.ComponentId,
-                Component = recipeCarrier,
+                //ComponentId = recipeCarrier.ComponentId,
+                //Component = recipeCarrier,
+                Name = recipeCarrier.Name,
+                Consistency = recipeCarrier.Consistency,
+                Density = recipeCarrier.Density,
                 Order = 0,
                 Volume = carrierVolume,
                 VolumeRate = carrierVolumeRate,

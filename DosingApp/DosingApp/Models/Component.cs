@@ -12,18 +12,22 @@ namespace DosingApp.Models
 
         public static Manufacturer GetManufacturer()
         {
-            Manufacturer manufacturer = new Manufacturer();
-            manufacturer.Name = Name;
+            Manufacturer manufacturer = new Manufacturer
+            {
+                Name = Name
+            };
             return manufacturer;
         }
 
         public static Component GetComponent()
         {
-            Component component = new Component();
-            component.Name = Name;
-            component.Consistency = Consistency;
-            component.Density = Density;
-            component.Manufacturer = GetManufacturer();
+            Component component = new Component
+            {
+                Name = Name,
+                Consistency = Consistency,
+                Density = Density,
+                Manufacturer = GetManufacturer()
+            };
             return component;
         }
     }

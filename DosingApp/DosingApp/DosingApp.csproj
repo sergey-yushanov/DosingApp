@@ -34,6 +34,8 @@
     <Compile Remove="Migrations\20240815172726_AddPropertiesForReportAndJob.Designer.cs" />
     <Compile Remove="Migrations\20260625201801_RemoveComponentsLink.cs" />
     <Compile Remove="Migrations\20260625201801_RemoveComponentsLink.Designer.cs" />
+    <Compile Remove="Migrations\20260627105545_RemoveComponentId.cs" />
+    <Compile Remove="Migrations\20260627105545_RemoveComponentId.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

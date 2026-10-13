@@ -74,8 +74,21 @@
                         Keyboard="Numeric"/>-->
 
                     <Label 
-                        Text="Дополнительные функции"
+                        Text="Другие параметры"
                         TextColor="{StaticResource LabelEntryColor}"/>
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        Padding="0,10">
+                        <Label 
+                            Text="Главный клапан на воду"
+                            FontSize="Medium"
+                            HorizontalOptions="StartAndExpand"/>
+                        <Switch 
+                            IsToggled="{Binding IsMainValve}"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="End" />
+                    </StackLayout>
+
                     <StackLayout 
                         Orientation="Horizontal"
                         Padding="0,10">

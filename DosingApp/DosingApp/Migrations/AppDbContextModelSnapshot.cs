@@ -459,11 +459,20 @@ namespace DosingApp.Migrations
                     b.Property<int?>("ComponentId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Consistency")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("Density")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("Dispenser")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("JobId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("Order")
                         .HasColumnType("INTEGER");
@@ -516,6 +525,9 @@ namespace DosingApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsAirTemperatureSensor")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsMainValve")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsUsedMixer")

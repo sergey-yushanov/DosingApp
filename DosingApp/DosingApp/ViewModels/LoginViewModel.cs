@@ -62,7 +62,7 @@ namespace DosingApp.ViewModels
         {
             using (UserDbContext db = App.GetUserContext())
             {
-                User user = db.Users.FirstOrDefault(u => u.Username == Username);
+                User user = db.Users.FirstOrDefault(u => u.Username == Username.Trim());
 
                 if (user != null)
                 {
@@ -73,7 +73,7 @@ namespace DosingApp.ViewModels
                         App.ActiveUser = user;
                         Application.Current.MainPage.Navigation.PopPopupAsync();
                         MainViewModel.SetUserAccess();
-                        MainViewModel.Name = App.ActiveUser.DisplayName != null ? App.ActiveUser.DisplayName : App.ActiveUser.Username;
+                        MainViewModel.Name = App.ActiveUser.DisplayName ?? App.ActiveUser.Username;
                         Username = null;
                         Password = null;
                     }
@@ -85,7 +85,7 @@ namespace DosingApp.ViewModels
                 }
                 else
                 {
-                    Application.Current.MainPage.DisplayAlert("Авторизация", "Пользователь с именем " + Username + " не зарегистрирован", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Авторизация", "Пользователь с именем " + Username.Trim() + " не зарегистрирован", "Ok");
                     Username = null;
                     Password = null;
                 }

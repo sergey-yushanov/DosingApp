@@ -38,19 +38,13 @@ namespace DosingApp.ViewModels
         private string title;
 
         // loop variables
-        //private ObservableCollection<JobComponent> jobComponentsDosed;
-        //private ObservableCollection<JobComponent> jobComponentsError;
         private CommonLoop commonLoop;
         private static readonly int nCollectors = Mixer.MaxCollectors;
         private static readonly int nDoseValves = 4;
         private ObservableCollection<CollectorLoop> collectorsLoop;
 
-        //private SingleDosLoop singleDosLoop;
         private VolumeDosLoop volumeDosLoop;
         private PowderDosLoop powderDosLoop;
-        //private double progressBarValue;
-        //private double requiredVolume;
-        //private double dosedVolume;
         private bool isPause;
 
         private bool isLoopNotPause;
@@ -75,7 +69,8 @@ namespace DosingApp.ViewModels
         public ICommand ContJobCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
 
-        //public WebSocketService WebSocketService { get; protected set; }
+        public ICommand SkipComponentCommand { get; protected set; }
+
         public ModbusService ModbusService { get; protected set; }
 
         public bool IsExitJob { get; set; }
@@ -85,6 +80,8 @@ namespace DosingApp.ViewModels
         #region Constructor
         public JobComponentsViewModel(Job job, List<JobComponent> jobComponents)
         {
+            ModbusService = new ModbusService();
+
             IsLoopDone = false;
             isLoopReported = false;
 
@@ -97,17 +94,6 @@ namespace DosingApp.ViewModels
                 CollectorsLoop.Add(new CollectorLoop(i));
             }
 
-            //JobComponents = new ObservableCollection<JobComponent>(jobComponents);
-
-            //requiredVolume = 0;
-
-            //JobComponentScreens = new ObservableCollection<JobComponentScreen>();
-            //for(int i = 0; i < jobComponents.Count; i++)
-            //{
-            //    JobComponentScreens.Add(new JobComponentScreen(jobComponents[i]));
-            //    //requiredVolume += (double)jobComponents[i].Volume;
-            //}
-
             Title = "Задание: " + Job.Name + "\nКомпоненты";
             StartJobCommand = new Command(StartJob);
             StopJobCommand = new Command(StopJob);
@@ -115,20 +101,9 @@ namespace DosingApp.ViewModels
             ContJobCommand = new Command(ContJob);
             BackCommand = new Command(Back);
 
-            //WebSocketService = new WebSocketService();
-            //if (WebSocketService.Mixer != null)
-            //{
-            //MakeRequirements(jobComponents);
-            //WebSocketSendRequirements();
-            //ModbusSendRequirements();
-            //}
+            SkipComponentCommand = new Command(SkipComponent);
 
-            ModbusService = new ModbusService();
             IsNotInitializedLoop = false;
-            //if (!ModbusService.IsConnected)
-            //{
-            //    IsNotInitializedLoop = true;
-            //}
 
             if (ModbusService.Mixer != null)
             {
@@ -138,7 +113,7 @@ namespace DosingApp.ViewModels
             }
 
             IsExitJob = false;
-            //ModbusService = new ModbusService();
+
             UpdateJobComponents();
 
             isLoopWasActive = false;
@@ -342,7 +317,6 @@ namespace DosingApp.ViewModels
             {
                 //UpdateJobComponents();
                 return ModbusService.VolumeDoses[0];
-                //return WebSocketService.SingleDos;
             }
         }
 
@@ -359,9 +333,7 @@ namespace DosingApp.ViewModels
         {
             get 
             {
-                //UpdateJobComponents();
                 return ModbusService.Common;
-                //return WebSocketService.Common; 
             }
         }
 
@@ -393,7 +365,6 @@ namespace DosingApp.ViewModels
 
         private void StartJob()
         {
-            //WebSocketService.CommonLoopMessage(new CommonLoop { CommandStart = true });
             ModbusSendRequirements();
             Thread.Sleep(1000);
             ModbusService.WriteSingleRegister(CommonModbus.LoopStart());
@@ -417,14 +388,40 @@ namespace DosingApp.ViewModels
 
         private void PauseJob()
         {
-            //WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
             ModbusService.WriteSingleRegister(CommonModbus.LoopPause());
         }
 
         private void ContJob()
         {
-            //WebSocketService.CommonLoopMessage(new CommonLoop { CommandPause = true });
             ModbusService.WriteSingleRegister(CommonModbus.LoopContinue());
+        }
+
+        private async void SkipComponent(object jobComponentScreenInstanse)
+        {
+            JobComponentScreen jobComponentScreen = jobComponentScreenInstanse as JobComponentScreen;
+
+            if (await Application.Current.MainPage.DisplayAlert("Пропустить дозацию?", $"Компонент: {jobComponentScreen.Name}\nДозатор: {jobComponentScreen.Dispenser}", "Да", "Нет"))
+            {
+                if (jobComponentScreen.Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
+                {
+                    ushort collectorNumber = (ushort)Char.GetNumericValue(jobComponentScreen.Dispenser[0]);
+                    ushort valveNumber = (ushort)DispenserNumber.Offset(jobComponentScreen.Dispenser);
+                    ModbusService.WriteSingleRegister(CollectorModbus.ValveSkip(collectorNumber, valveNumber));
+                }
+
+                if (jobComponentScreen.Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
+                {
+                    ushort valveDosNumber = (ushort)Char.GetNumericValue(jobComponentScreen.Dispenser[jobComponentScreen.Dispenser.Length - 1]);
+                    ModbusService.WriteSingleRegister(VolumeDosModbus.ValveSkip(valveDosNumber));
+                }
+
+                if (jobComponentScreen.Dispenser.IndexOf(DispenserSuffix.Powder) >= 0)
+                {
+                    ushort powderDosNumber = (ushort)Char.GetNumericValue(jobComponentScreen.Dispenser[jobComponentScreen.Dispenser.Length - 1]);
+                    ModbusService.WriteSingleRegister(PowderDosModbus.ValveSkip(powderDosNumber));
+                }
+            }
+
         }
         #endregion Commands
 
@@ -454,22 +451,12 @@ namespace DosingApp.ViewModels
 
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
                 {
-                    //valveNums.Add(jobComponent.GetDispenserNumber());
-                    //requiredVolumes.Add((double)jobComponent.Volume);
-
                     int collectorIndex = (int)Char.GetNumericValue(jobComponent.Dispenser[0]) - 1;
                     CollectorsLoop[collectorIndex].ValveNums.Add(DispenserNumber.Offset(jobComponent.Dispenser));
                     CollectorsLoop[collectorIndex].RequiredVolumes.Add((double)jobComponent.Volume);
-                    
+
                     continue;
                 }
-
-
-                //if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Single) >= 0)
-                //{
-                //    singleRequiredVolume = (double)jobComponent.Volume;
-                //    continue;
-                //}
 
                 if (jobComponent.Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
                 {
@@ -484,22 +471,11 @@ namespace DosingApp.ViewModels
                 }
             }
 
-            //collectorLoop = new CollectorLoop
-            //{
-            //    ValveNums = valveNums,
-            //    RequiredVolumes = requiredVolumes
-            //};
-
             commonLoop = new CommonLoop
             {
                 CarrierRequiredVolume = carrierRequiredVolume,
                 CarrierReserve = (double)Job.Recipe.CarrierReserve
             };
-
-            //singleDosLoop = new SingleDosLoop
-            //{
-            //    RequiredVolume = singleRequiredVolume
-            //};
 
             volumeDosLoop = new VolumeDosLoop
             {
@@ -510,16 +486,6 @@ namespace DosingApp.ViewModels
             {
                 RequiredVolume = powderDosRequiredVolume
             };
-        }
-
-        public void WebSocketSendRequirements()
-        {            
-            //WebSocketService.CollectorLoopMessage(1, collectorLoop);
-            //WebSocketService.SingleLoopMessage(1, singleDosLoop);
-            //WebSocketService.CommonLoopMessage(commonLoop);
-
-
-            //WebSocketService.AllLoopMessage(commonLoop, collectorLoop, singleDosLoop);
         }
 
         public void ModbusSendRequirements()
@@ -561,6 +527,15 @@ namespace DosingApp.ViewModels
             {
                 ModbusService.WriteSingleRegister(CommonModbus.MotherLiquorDisable());
             }
+
+            if (ModbusService.Mixer.IsMainValve)
+            {
+                ModbusService.WriteSingleRegister(CommonModbus.MainValveEnable());
+            }
+            else
+            {
+                ModbusService.WriteSingleRegister(CommonModbus.MainValveDisable());
+            }
         }
 
         public void UpdateJobComponents()
@@ -601,32 +576,6 @@ namespace DosingApp.ViewModels
             else
                 DosingTime = now.Subtract(JobScreen.StartDateTime);
         }
-
-        //public void Update(CommonScreen common, CollectorScreen collector)
-        //{
-        //    Console.WriteLine(common.CarrierDosedVolume);
-        //    Console.WriteLine(Dispenser);
-
-
-        //    if (Dispenser == DispenserSuffix.Dry)
-        //        return;
-
-        //    if (Dispenser == DispenserSuffix.Carrier)
-        //        DosedVolume = common.CarrierDosedVolume;
-        //    else
-        //        DosedVolume = collector.DosedVolumes[GetDispenserNumber() - 1];
-
-        //    DosedVolumeError = (Volume - DosedVolume) / Volume * 100;
-        //}
-
-        /*        public void LoadJobComponents()
-                {
-                    using (AppDbContext db = App.GetContext())
-                    {
-                        var recipeComponentsDb = db.RecipeComponents.Where(rc => rc.RecipeId == Job.RecipeId);
-                    }
-                }*/
-
 
         public void ExitJob()
         {

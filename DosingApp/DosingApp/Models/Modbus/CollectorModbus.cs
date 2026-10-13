@@ -9,7 +9,7 @@ namespace DosingApp.Models.Modbus
 {
     public static class CollectorModbus
     {
-        public static ushort numberOfPoints = 34;
+        public static ushort numberOfPoints = 35;
         //public static ushort numberOfFloats = 11;
         public static ushort floatOffset = 7;
 
@@ -53,6 +53,14 @@ namespace DosingApp.Models.Modbus
             //DRY_DISABLE = (ushort)4096
         }
 
+        public enum ControlWord2 : ushort
+        {
+            VLV_1_SKIP = (ushort)1,
+            VLV_2_SKIP = (ushort)2,
+            VLV_3_SKIP = (ushort)4,
+            VLV_4_SKIP = (ushort)8
+        }
+
         public enum StatusWord
         {
             VADJ_OPN = (ushort)0,
@@ -78,7 +86,8 @@ namespace DosingApp.Models.Modbus
             VLV_1_ORDER = (ushort)4,
             VLV_2_ORDER = (ushort)5,
             VLV_3_ORDER = (ushort)6,
-            VLV_4_ORDER = (ushort)33
+            VLV_4_ORDER = (ushort)33,
+            CW2 = (ushort)34,
         }
 
         public enum Register32
@@ -142,6 +151,18 @@ namespace DosingApp.Models.Modbus
                 case 4: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_4_MAN_CLS };
                 case 5: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)ControlWord.VLV_5_MAN_CLS };
                 default: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW), Value = (ushort)0 };
+            }
+        }
+
+        public static RegisterValue ValveSkip(ushort collectorNumber, ushort valveNumber)
+        {
+            switch (valveNumber)
+            {
+                case 1: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW2), Value = (ushort)ControlWord2.VLV_1_SKIP };
+                case 2: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW2), Value = (ushort)ControlWord2.VLV_2_SKIP };
+                case 3: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW2), Value = (ushort)ControlWord2.VLV_3_SKIP };
+                case 4: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW2), Value = (ushort)ControlWord2.VLV_4_SKIP };
+                default: return new RegisterValue() { Register = GetRegister(collectorNumber, Register.CW2), Value = (ushort)0 };
             }
         }
 

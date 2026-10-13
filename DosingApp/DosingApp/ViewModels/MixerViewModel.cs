@@ -146,6 +146,19 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public bool IsMainValve
+        {
+            get { return Mixer.IsMainValve; }
+            set
+            {
+                if (Mixer.IsMainValve != value)
+                {
+                    Mixer.IsMainValve = value;
+                    OnPropertyChanged(nameof(IsMainValve));
+                }
+            }
+        }
+
         public bool IsValid
         {
             get { return (!String.IsNullOrEmpty(Name)); }

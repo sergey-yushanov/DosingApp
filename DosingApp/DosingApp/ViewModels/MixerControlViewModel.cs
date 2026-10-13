@@ -108,6 +108,9 @@ namespace DosingApp.ViewModels
         public ICommand PowderDosDelayVolumeCommand { get; protected set; }
 
         public ICommand CarrierDeltaVolumeCommand { get; protected set; }
+
+        //public ICommand MainValveEnableCommand { get; protected set; }
+        //public ICommand MainValveDisableCommand { get; protected set; }
         #endregion Attributes
 
         #region Constructor
@@ -165,6 +168,9 @@ namespace DosingApp.ViewModels
                 PowderDosDelayVolumeCommand = new Command(PowderDosDelayVolume);
 
                 CarrierDeltaVolumeCommand = new Command(CarrierDeltaVolume);
+
+                //MainValveEnableCommand = new Command(MainValveEnable);
+                //MainValveDisableCommand = new Command(MainValveDisable);
             }
         }
         #endregion Constructor
@@ -505,6 +511,16 @@ namespace DosingApp.ViewModels
             CommonScreen commonScreen = commonInstance as CommonScreen;
             ModbusService.WriteSingleRegister32(CommonModbus.CarrierDeltaVolume((float)commonScreen.CarrierDeltaVolume));
         }
+
+        //private void MainValveEnable(object commonInstance)
+        //{
+        //    ModbusService.WriteSingleRegister(CommonModbus.MainValveEnable());
+        //}
+
+        //private void MainValveDisable(object commonInstance)
+        //{
+        //    ModbusService.WriteSingleRegister(CommonModbus.MainValveDisable());
+        //}
         #endregion Commands
 
         #region Methods

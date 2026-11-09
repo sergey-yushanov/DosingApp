@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <UserSecretsId>a3c43cca-e9e0-4fae-8c6c-4d0c26030304</UserSecretsId>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,6 +37,18 @@
     <Compile Remove="Migrations\20260625201801_RemoveComponentsLink.Designer.cs" />
     <Compile Remove="Migrations\20260627105545_RemoveComponentId.cs" />
     <Compile Remove="Migrations\20260627105545_RemoveComponentId.Designer.cs" />
+    <Compile Remove="Migrations\20261108082023_DictionaryPesticides.cs" />
+    <Compile Remove="Migrations\20261108082023_DictionaryPesticides.Designer.cs" />
+    <Compile Remove="Migrations\20261108122932_DictionaryUnits.cs" />
+    <Compile Remove="Migrations\20261108122932_DictionaryUnits.Designer.cs" />
+    <Compile Remove="Migrations\20261108133420_DictionariesUnitsPesticides.cs" />
+    <Compile Remove="Migrations\20261108133420_DictionariesUnitsPesticides.Designer.cs" />
+    <Compile Remove="Migrations\20261108135104_MakeUnitFKNullable.cs" />
+    <Compile Remove="Migrations\20261108135104_MakeUnitFKNullable.Designer.cs" />
+    <Compile Remove="Migrations\20261108205137_AddTechOperation.cs" />
+    <Compile Remove="Migrations\20261108205137_AddTechOperation.Designer.cs" />
+    <Compile Remove="Migrations\20261108215706_AddTechOperation.cs" />
+    <Compile Remove="Migrations\20261108215706_AddTechOperation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -84,6 +97,7 @@
     <PackageReference Include="FileHelpers" Version="3.5.0" />
     <PackageReference Include="FreeSpire.Office" Version="8.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
@@ -138,11 +152,17 @@
     <Compile Update="Views\JobComponentsPage.xaml.cs">
       <DependentUpon>JobComponentsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\SyncProgressPage.xaml.cs">
+      <DependentUpon>SyncProgressPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ManualControlPage.xaml.cs">
       <DependentUpon>ManualControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MixerControlPage.xaml.cs">
       <DependentUpon>MixerControlPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RemotePage.xaml.cs">
+      <DependentUpon>RemotePage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MixerPage.xaml.cs">
       <DependentUpon>MixerPage.xaml</DependentUpon>

@@ -18,6 +18,7 @@ namespace DosingApp.ViewModels
         private bool accessMainParams;
         private bool accessAdditionalParams;
         private bool accessAdminParams;
+        private bool accessRemote;
         private string name;
         #endregion Attributes
 
@@ -71,6 +72,12 @@ namespace DosingApp.ViewModels
             set { SetProperty(ref accessAdminParams, value); }
         }
 
+        public bool AccessRemote
+        {
+            get { return accessRemote; }
+            set { SetProperty(ref accessRemote, value); }
+        }
+
         public string Name
         {
             get { return name; }
@@ -112,6 +119,8 @@ namespace DosingApp.ViewModels
 
             this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.ManualControl, Group = MenuItemGroup.Control, Title = "Ручное управление", MainViewModel = this });
 
+            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Remote, Group = MenuItemGroup.Remote, Title = "Синхронизация", MainViewModel = this });
+
             this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Login, Group = MenuItemGroup.LoginMenu, Title = "Логин", MainViewModel = this });
 
             if (AccessAdminParams)
@@ -132,6 +141,7 @@ namespace DosingApp.ViewModels
             AccessMainParams = (App.ActiveUser != null) && (App.ActiveUser.AccessMainParams || App.ActiveUser.AccessAdminParams);
             AccessAdditionalParams = (App.ActiveUser != null) && (App.ActiveUser.AccessAdditionalParams || App.ActiveUser.AccessAdminParams);
             AccessAdminParams = (App.ActiveUser != null) && (App.ActiveUser.AccessAdminParams);
+            AccessRemote = (App.ActiveUser != null);
             LoadMenu();
         }
         #endregion Methods

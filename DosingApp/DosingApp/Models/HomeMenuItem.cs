@@ -24,7 +24,8 @@ namespace DosingApp.Models
         Mixers,
         ManualControl,
         MixerControl,
-        Login
+        Login,
+        Remote
     }
 
     public static class MenuItemGroup
@@ -35,6 +36,7 @@ namespace DosingApp.Models
         public static string AdminParams = "Инженерное меню";
         public static string LoginMenu = "Авторизация";
         public static string Control = "Управление";
+        public static string Remote = "Удалённый доступ";
     }
 
     public class HomeMenuItem

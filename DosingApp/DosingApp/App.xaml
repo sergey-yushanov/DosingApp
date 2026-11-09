@@ -10,6 +10,7 @@
         <!-- Application resource dictionary -->
         <ResourceDictionary>
             <Thickness x:Key="PageMargin">20</Thickness>
+            <Thickness x:Key="PageMarginExtra">60</Thickness>
             <Color x:Key="LabelEntryColor">#0000FF</Color>
             <Color x:Key="TitleColor">#FFFFFF</Color>
             <Color x:Key="AlertColor">#FF0000</Color>

@@ -1,4 +1,5 @@
 ﻿using DosingApp.Models;
+using DosingApp.Models.AgroAssist.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace DosingApp.DataContext
@@ -29,21 +30,19 @@ namespace DosingApp.DataContext
         public DbSet<Report> Reports { get; set; }
         public DbSet<ReportComponent> ReportComponents { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    //modelBuilder.Entity<Manufacturer>().ToTable("Manufacturers", t => t.ExcludeFromMigrations());
-        //}
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<Pesticide> Pesticides { get; set; }
+        public DbSet<TechOperation> TechOperations { get; set; }
+        public DbSet<PlanInventory> PlanInventories { get; set; }
 
         public AppDbContext(string dbPath)
         {
             _dbPath = dbPath;
-            //this.Database.Migrate();
         }
 
         public AppDbContext()
         {
             _dbPath = "";
-            //this.Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

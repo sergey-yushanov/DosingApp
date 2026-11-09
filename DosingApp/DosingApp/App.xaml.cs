@@ -1,5 +1,6 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
+using DosingApp.Models.AgroAssist;
 using DosingApp.Services;
 using DosingApp.Utils;
 using DosingApp.ViewModels;
@@ -9,6 +10,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Rg.Plugins.Popup.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -65,9 +67,6 @@ namespace DosingApp
 
             CopyFonts();
 
-            //ExcelService excelService = new ExcelService();
-            //excelService.GenerateExcel(Path.Combine(ReportsFolderPath, "test.xlsx"), "testSheet");
-
             var lastAppliedMigration = GetContext().Database.GetAppliedMigrations().LastOrDefault();
             var lastDefinedMigration = GetContext().Database.GetMigrations().LastOrDefault();
             Console.WriteLine($"Last applied migration id: {lastAppliedMigration}");
@@ -82,10 +81,10 @@ namespace DosingApp
 
 
             GetContext().Database.Migrate();
+            GetUserContext().Database.Migrate();
 
-            //GetUserContext().Database.Migrate();
             //GetUserContext().Database.EnsureDeleted();
-            GetUserContext().Database.EnsureCreated();
+            //GetUserContext().Database.EnsureCreated();
 
             CreateAdminUser();
             CreateWaterComponent();
@@ -195,21 +194,14 @@ namespace DosingApp
         // Получение контекста БД при запуске приложения
         public static AppDbContext GetContext()
         {
-            //var appDbContextFactory = new AppDbContextFactory();
-            //string dbPath = DependencyService.Get<IPath>().GetDatabasePath(DBFILENAME);
             string dbPath = Path.Combine(FolderPath, DBFILENAME);
-            //Console.WriteLine(dbPath);
-            //return appDbContextFactory.CreateDbContext(new string[] { dbPath });
-            //return new AppDbContext(dbPath);
             return new AppDbContext(dbPath);
-            //return new AppDbContext();
         }
 
         // Получение контекста БД пользователей при запуске приложения
         public static UserDbContext GetUserContext()
         {
             var userDbContextFactory = new UserDbContextFactory();
-            //string dbPath = DependencyService.Get<IPath>().GetDatabasePath(USERDBFILENAME);
             string dbPath = Path.Combine(FolderPath, USERDBFILENAME);
             return userDbContextFactory.CreateDbContext(new string[] { dbPath });
         }

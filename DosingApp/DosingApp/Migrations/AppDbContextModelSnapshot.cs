@@ -33,6 +33,103 @@ namespace DosingApp.Migrations
                     b.ToTable("AgrYears");
                 });
 
+            modelBuilder.Entity("DosingApp.Models.AgroAssist.Data.Pesticide", b =>
+                {
+                    b.Property<Guid>("PesticideGuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("UnitId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PesticideGuid");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("Pesticides");
+                });
+
+            modelBuilder.Entity("DosingApp.Models.AgroAssist.Data.PlanInventory", b =>
+                {
+                    b.Property<Guid>("PlanInventoryGuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("EntityGuid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("EntityTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double?>("PlanAreaHectare")
+                        .HasColumnType("REAL");
+
+                    b.Property<Guid?>("TechOperationGuid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("Total")
+                        .HasColumnType("REAL");
+
+                    b.Property<int?>("UnitId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PlanInventoryGuid");
+
+                    b.ToTable("PlanInventories");
+                });
+
+            modelBuilder.Entity("DosingApp.Models.AgroAssist.Data.TechOperation", b =>
+                {
+                    b.Property<Guid>("TechOperationGuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("FactAreaHectare")
+                        .HasColumnType("REAL");
+
+                    b.Property<Guid?>("FieldGuid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("PlanAreaHectare")
+                        .HasColumnType("REAL");
+
+                    b.Property<int?>("SeasonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SeqId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("StructureGuid")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("TechOperationGuid");
+
+                    b.ToTable("TechOperations");
+                });
+
+            modelBuilder.Entity("DosingApp.Models.AgroAssist.Data.Unit", b =>
+                {
+                    b.Property<int>("UnitId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UnitId");
+
+                    b.ToTable("Units");
+                });
+
             modelBuilder.Entity("DosingApp.Models.Applicator", b =>
                 {
                     b.Property<int>("ApplicatorId")
@@ -756,6 +853,13 @@ namespace DosingApp.Migrations
                     b.HasIndex("TransportId");
 
                     b.ToTable("TransportTanks");
+                });
+
+            modelBuilder.Entity("DosingApp.Models.AgroAssist.Data.Pesticide", b =>
+                {
+                    b.HasOne("DosingApp.Models.AgroAssist.Data.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId");
                 });
 
             modelBuilder.Entity("DosingApp.Models.ApplicatorTank", b =>

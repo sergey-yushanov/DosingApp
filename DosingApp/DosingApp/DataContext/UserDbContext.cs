@@ -14,6 +14,11 @@ namespace DosingApp.DataContext
             _dbPath = dbPath;
         }
 
+        public UserDbContext()
+        {
+            _dbPath = "";
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"Filename={_dbPath}");

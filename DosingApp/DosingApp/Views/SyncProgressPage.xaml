@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    x:Class="DosingApp.Views.SyncProgressPage"
+    xmlns:Helpers="clr-namespace:DosingApp.Helpers"
+    CloseWhenBackgroundIsClicked="False">
+
+    <!--You can set an animation in the xaml file or in the csharp code behind-->
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            HasBackgroundAnimation="False"/>
+    </pages:PopupPage.Animation>
+    <!--You can use any elements here which are extended from Xamarin.Forms.View-->
+
+    <ContentPage.Resources>
+        <Helpers:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <Helpers:ProgressConverter x:Key="ProgressConverter"/>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        
+        <StackLayout
+            Margin="{StaticResource PageMarginExtra}"
+            BackgroundColor="White"
+            VerticalOptions="Center">
+
+            <StackLayout
+                Margin="{StaticResource PageMargin}">
+
+                <Label
+                    Text="Синхронизация данных"
+                    FontAttributes="Bold" 
+                    FontSize="18"
+                    TextColor="Black"/>
+
+                <ActivityIndicator
+                    IsRunning="{Binding IsLoading}"
+                    Color="#2196F3"
+                    HorizontalOptions="Center" />
+
+                <Label 
+                    Text="{Binding StatusText}"
+                    TextColor="Gray" />
+
+                <Button
+                    Text="Отмена"
+                    Command="{Binding CancelCommand}"
+                    IsVisible="{Binding IsLoading}" />
+
+                <Button 
+                    Text="Закрыть"
+                    Command="{Binding CloseCommand}"
+                    IsVisible="{Binding IsFinished}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</pages:PopupPage>

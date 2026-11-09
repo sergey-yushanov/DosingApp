@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using DosingApp.Models.AgroAssist;
 using DosingApp.Models.AgroAssist.Dto;
+using System.Threading;
 
 namespace DosingApp.Services
 {
@@ -29,6 +30,7 @@ namespace DosingApp.Services
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri(baseAddress);
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            _httpClient.Timeout = TimeSpan.FromSeconds(30);
         }
 
         private async Task<string> GetValidTokenAsync()
@@ -53,6 +55,39 @@ namespace DosingApp.Services
             _tokenExpirationTime = DateTime.UtcNow.AddSeconds(authResult.AccessTokenExpiresIn);
 
             return _cachedToken;
+        }
+
+        public async Task<bool> IsServerReachableAsync(TimeSpan? timeout = null, CancellationToken userCt = default)
+        {
+            using (var cts = CancellationTokenSource.CreateLinkedTokenSource(userCt))
+            {
+                cts.CancelAfter(timeout ?? TimeSpan.FromSeconds(5));
+                try
+                {
+                    using (var response = await _httpClient.GetAsync("account/users/current", HttpCompletionOption.ResponseHeadersRead, cts.Token).ConfigureAwait(false))
+                    {
+                        return true;   // любой статус = связь есть
+                    }
+                }
+                catch (OperationCanceledException) when (userCt.IsCancellationRequested)
+                {
+                    throw;             // отменил пользователь
+                }
+                catch (OperationCanceledException)
+                {
+                    return false;      // таймаут
+                }
+                catch (HttpRequestException)
+                {
+                    return false;      // сеть/DNS/TLS на уровне .NET
+                }
+                catch (Exception ex)
+                {
+                    // на всякий случай — логируем и считаем «нет связи»
+                    System.Diagnostics.Debug.WriteLine($"[Reach] {ex.GetType().Name}: {ex.Message}");
+                    return false;
+                }
+            }
         }
 
         public async Task<T> GetAsync<T>(string endpoint)

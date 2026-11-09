@@ -14,6 +14,11 @@ using System.Threading.Tasks;
 
 namespace DosingApp.Services.Import
 {
+    public static class TechOperationDefaults
+    {
+        public static Guid TechOperationTypeGuid = new Guid("a7030eda-e022-4209-bef6-560c0064a9c0");
+    }
+
     public class TechOperationImportService
     {
         private readonly ApiService _api;
@@ -27,7 +32,7 @@ namespace DosingApp.Services.Import
             techUpsert = new GenericUpsertService<TechOperationDto, TechOperation, Guid>(db, new TechOperationMapper());
         }
 
-        public async Task<int> LoadAllAsync(IProgress<int> progress = null, CancellationToken ct = default)
+        public async Task<TechOperationsListResponseDto> LoadAllAsync(IProgress<int> progress = null, CancellationToken ct = default)
         {
             ct.ThrowIfCancellationRequested();
 
@@ -42,9 +47,11 @@ namespace DosingApp.Services.Import
             url = QueryHelpers.AddQueryString(url, "status_ids", "1");
             url = QueryHelpers.AddQueryString(url, "status_ids", "2");
 
-            var dtos = await _api.GetAsync<TechOperationsListResponseDto>(url).ConfigureAwait(false);
+            var responseDtos = await _api.GetAsync<TechOperationsListResponseDto>(url).ConfigureAwait(false);
+            var dtos = new TechOperationsListResponseDto();
+            dtos.AddRange(responseDtos.Where(to => to.TechoperationTypeGuid == TechOperationDefaults.TechOperationTypeGuid));
 
-            if (dtos == null || dtos.Count == 0) return 0;
+            if (dtos == null || dtos.Count == 0) return dtos;
 
             // 1. Родители
             var techCount = await techUpsert.SaveAsync(dtos, ct).ConfigureAwait(false);
@@ -79,9 +86,7 @@ namespace DosingApp.Services.Import
                     await _db.SaveChangesAsync(ct).ConfigureAwait(false);
                 }
             }
-
-            progress?.Report(techCount + invCount);
-            return techCount + invCount;
+            return dtos;
         }
     }
 }

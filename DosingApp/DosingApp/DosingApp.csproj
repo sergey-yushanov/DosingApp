@@ -45,10 +45,18 @@
     <Compile Remove="Migrations\20261108133420_DictionariesUnitsPesticides.Designer.cs" />
     <Compile Remove="Migrations\20261108135104_MakeUnitFKNullable.cs" />
     <Compile Remove="Migrations\20261108135104_MakeUnitFKNullable.Designer.cs" />
+    <Compile Remove="Migrations\20261108135443_AddDictionariesUnitsPesticides.cs" />
+    <Compile Remove="Migrations\20261108135443_AddDictionariesUnitsPesticides.Designer.cs" />
     <Compile Remove="Migrations\20261108205137_AddTechOperation.cs" />
     <Compile Remove="Migrations\20261108205137_AddTechOperation.Designer.cs" />
     <Compile Remove="Migrations\20261108215706_AddTechOperation.cs" />
     <Compile Remove="Migrations\20261108215706_AddTechOperation.Designer.cs" />
+    <Compile Remove="Migrations\20261108222911_AddTechOperationPlanInventory.cs" />
+    <Compile Remove="Migrations\20261108222911_AddTechOperationPlanInventory.Designer.cs" />
+    <Compile Remove="Migrations\20261109083124_AddPesticideGuidToComponent.cs" />
+    <Compile Remove="Migrations\20261109083124_AddPesticideGuidToComponent.Designer.cs" />
+    <Compile Remove="Migrations\20261109101114_AddTechOperationGuidToRecipe.cs" />
+    <Compile Remove="Migrations\20261109101114_AddTechOperationGuidToRecipe.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

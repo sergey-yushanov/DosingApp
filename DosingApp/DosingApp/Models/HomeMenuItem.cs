@@ -36,7 +36,7 @@ namespace DosingApp.Models
         public static string AdminParams = "Инженерное меню";
         public static string LoginMenu = "Авторизация";
         public static string Control = "Управление";
-        public static string Remote = "Удалённый доступ";
+        public static string Remote = "Синхронизация с сервером";
     }
 
     public class HomeMenuItem

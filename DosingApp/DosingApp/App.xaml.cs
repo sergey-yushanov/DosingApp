@@ -139,7 +139,7 @@ namespace DosingApp
                 {
                     if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Storage))
                     {
-                        await Application.Current.MainPage.DisplayAlert("Предупреждение", "Необходим доступ к документам", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Предупреждение", "Необходим доступ к документам.", "Ok");
                     }
 
                     status = await CrossPermissions.Current.RequestPermissionAsync<StoragePermission>();

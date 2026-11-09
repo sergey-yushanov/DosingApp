@@ -50,8 +50,6 @@ namespace DosingApp.Migrations
 
                     b.HasKey("PesticideGuid");
 
-                    b.HasIndex("UnitId");
-
                     b.ToTable("Pesticides");
                 });
 
@@ -313,6 +311,9 @@ namespace DosingApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Packing")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("PesticideGuid")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ComponentId");
@@ -697,6 +698,9 @@ namespace DosingApp.Migrations
                     b.Property<int?>("ProcessingTypeId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("TechOperationGuid")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("RecipeId");
 
                     b.HasIndex("CarrierId");
@@ -853,13 +857,6 @@ namespace DosingApp.Migrations
                     b.HasIndex("TransportId");
 
                     b.ToTable("TransportTanks");
-                });
-
-            modelBuilder.Entity("DosingApp.Models.AgroAssist.Data.Pesticide", b =>
-                {
-                    b.HasOne("DosingApp.Models.AgroAssist.Data.Unit", "Unit")
-                        .WithMany()
-                        .HasForeignKey("UnitId");
                 });
 
             modelBuilder.Entity("DosingApp.Models.ApplicatorTank", b =>

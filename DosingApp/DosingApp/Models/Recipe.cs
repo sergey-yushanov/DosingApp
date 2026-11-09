@@ -24,5 +24,7 @@ namespace DosingApp.Models
         public bool IsMotherLiquor { get; set; }
 
         public ICollection<RecipeComponent> RecipeComponents { get; set; }
+
+        public Guid? TechOperationGuid { get; set; }
     }
 }

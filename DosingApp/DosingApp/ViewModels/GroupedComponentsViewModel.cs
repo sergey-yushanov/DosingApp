@@ -159,7 +159,7 @@ namespace DosingApp.ViewModels
             {
                 if (!manufacturerViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название производителя", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название производителя.", "Ok");
                     return;
                 }
 

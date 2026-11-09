@@ -197,7 +197,7 @@ namespace DosingApp.ViewModels
         {
             if (!IsValid)
             {
-                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название объекта", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название объекта.", "Ok");
                 return;
             }
 
@@ -239,7 +239,7 @@ namespace DosingApp.ViewModels
             {
                 if (!facilityTankViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название емкости", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название емкости.", "Ok");
                     return;
                 }
 

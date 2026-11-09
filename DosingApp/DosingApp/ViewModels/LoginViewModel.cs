@@ -80,12 +80,12 @@ namespace DosingApp.ViewModels
                     else
                     {
                         Password = null;
-                        Application.Current.MainPage.DisplayAlert("Авторизация", "Пароль указан неверно", "Ok");
+                        Application.Current.MainPage.DisplayAlert("Авторизация", "Пароль указан неверно.", "Ok");
                     }
                 }
                 else
                 {
-                    Application.Current.MainPage.DisplayAlert("Авторизация", "Пользователь с именем " + Username.Trim() + " не зарегистрирован", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Авторизация", "Пользователь с именем " + Username.Trim() + " не зарегистрирован.", "Ok");
                     Username = null;
                     Password = null;
                 }

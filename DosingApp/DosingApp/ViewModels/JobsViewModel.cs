@@ -63,14 +63,14 @@ namespace DosingApp.ViewModels
             {
                 if (jobViewModel.Job.AssignmentSize == null)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Не задан размер партии смеси", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Не задан размер партии смеси.", "Ok");
                     return;
                 }
 
                 ModbusService modbusService = new ModbusService();
                 if (!modbusService.IsConnected)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Не установлена связь с контроллером. Проверьте сетевое соединение.", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Нет связи", "Проверьте подключение к сети Wi-Fi установки.", "OK");
                 }
                 else
                 {

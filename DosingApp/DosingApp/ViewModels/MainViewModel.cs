@@ -119,7 +119,7 @@ namespace DosingApp.ViewModels
 
             this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.ManualControl, Group = MenuItemGroup.Control, Title = "Ручное управление", MainViewModel = this });
 
-            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Remote, Group = MenuItemGroup.Remote, Title = "Синхронизация", MainViewModel = this });
+            this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Remote, Group = MenuItemGroup.Remote, Title = "Обмен данными", MainViewModel = this });
 
             this.MainMenu.Add(new MenuItemViewModel { Id = MenuItemType.Login, Group = MenuItemGroup.LoginMenu, Title = "Логин", MainViewModel = this });
 

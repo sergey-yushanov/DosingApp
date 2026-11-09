@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DosingApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261108222911_AddTechOperationPlanInventory")]
-    partial class AddTechOperationPlanInventory
+    [Migration("20261109122626_AddDictionariesAndAdditionalFields")]
+    partial class AddDictionariesAndAdditionalFields
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,8 +51,6 @@ namespace DosingApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("PesticideGuid");
-
-                    b.HasIndex("UnitId");
 
                     b.ToTable("Pesticides");
                 });
@@ -315,6 +313,9 @@ namespace DosingApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Packing")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("PesticideGuid")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ComponentId");
@@ -699,6 +700,9 @@ namespace DosingApp.Migrations
                     b.Property<int?>("ProcessingTypeId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("TechOperationGuid")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("RecipeId");
 
                     b.HasIndex("CarrierId");
@@ -855,13 +859,6 @@ namespace DosingApp.Migrations
                     b.HasIndex("TransportId");
 
                     b.ToTable("TransportTanks");
-                });
-
-            modelBuilder.Entity("DosingApp.Models.AgroAssist.Data.Pesticide", b =>
-                {
-                    b.HasOne("DosingApp.Models.AgroAssist.Data.Unit", "Unit")
-                        .WithMany()
-                        .HasForeignKey("UnitId");
                 });
 
             modelBuilder.Entity("DosingApp.Models.ApplicatorTank", b =>

@@ -13,6 +13,5 @@ namespace DosingApp.Models.AgroAssist.Data
         public string Description { get; set; }
 
         public int? UnitId { get; set; }
-        public virtual Unit Unit { get; set; }
     }
 }

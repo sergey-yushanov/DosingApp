@@ -87,7 +87,7 @@ namespace DosingApp.ViewModels
             {
                 if (!facilityViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название объекта", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название объекта.", "Ok");
                     return;
                 }
 

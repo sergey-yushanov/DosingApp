@@ -24,17 +24,16 @@ namespace DosingApp.Services.Import
             _upsert = new GenericUpsertService<PesticideDto, Pesticide, Guid>(db, new PesticideMapper());
         }
 
-        public async Task<int> LoadAllAsync(IProgress<int> progress = null, CancellationToken ct = default)
+        public async Task<PesticidesListResponseDto> LoadAllAsync(IProgress<int> progress = null, CancellationToken ct = default)
         {
             ct.ThrowIfCancellationRequested();
 
-            var dtos = await _api.GetAsync<PesticidesListResponseDto>("dictionaries/pesticides/list?is_default=true").ConfigureAwait(false);
+            var dtos = await _api.GetAsync<PesticidesListResponseDto>("dictionaries/pesticides/list?is_default=false").ConfigureAwait(false);
+            dtos.AddRange(await _api.GetAsync<PesticidesListResponseDto>("dictionaries/pesticides/list?is_default=true").ConfigureAwait(false));
 
-            if (dtos == null || dtos.Count == 0) return 0;
-
-            var saved = await _upsert.SaveAsync(dtos, ct).ConfigureAwait(false);
-            progress?.Report(saved);
-            return saved;
+            if (dtos == null || dtos.Count == 0) return new PesticidesListResponseDto();
+            await _upsert.SaveAsync(dtos, ct).ConfigureAwait(false);
+            return dtos;
         }
     }
 }

@@ -77,6 +77,8 @@ namespace DosingApp.Models
         public double? Density { get; set; }
         public string Packing { get; set; }
 
+        public Guid? PesticideGuid { get; set; }
+
         public bool IsLiquid()
         {
             return String.Equals(Consistency, ComponentConsistency.Liquid);

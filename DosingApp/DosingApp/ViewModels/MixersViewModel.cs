@@ -86,7 +86,7 @@ namespace DosingApp.ViewModels
             {
                 if (!mixerViewModel.IsValid)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название установки", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название установки.", "Ok");
                     return;
                 }
 

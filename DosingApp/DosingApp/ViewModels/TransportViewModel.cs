@@ -126,7 +126,7 @@ namespace DosingApp.ViewModels
         {
             if (!IsValid)
             {
-                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название транспорта", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название транспорта.", "Ok");
                 return;
             }
 
@@ -168,7 +168,7 @@ namespace DosingApp.ViewModels
             {
                 if (!transportTankViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название емкости", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название емкости.", "Ok");
                     return;
                 }
 

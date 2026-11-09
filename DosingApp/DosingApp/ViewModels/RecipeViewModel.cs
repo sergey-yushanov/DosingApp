@@ -258,7 +258,7 @@ namespace DosingApp.ViewModels
         {
             if (!IsValid)
             {
-                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название рецепта", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название рецепта.", "Ok");
                 return;
             }
 
@@ -301,7 +301,7 @@ namespace DosingApp.ViewModels
             {
                 if (!recipeComponentViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Выберите компонент", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Выберите компонент.", "Ok");
                     return;
                 }
 

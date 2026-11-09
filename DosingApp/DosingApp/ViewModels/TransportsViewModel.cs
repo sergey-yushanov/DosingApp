@@ -87,7 +87,7 @@ namespace DosingApp.ViewModels
             {
                 if (!transportViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название транспорта", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название транспорта.", "Ok");
                     return;
                 }
 

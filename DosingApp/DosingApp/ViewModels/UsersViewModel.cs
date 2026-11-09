@@ -87,19 +87,19 @@ namespace DosingApp.ViewModels
 
             if (!userViewModel.IsValidUsername)
             {
-                Application.Current.MainPage.DisplayAlert("Ошибка", "Имя пользователя не указано", "Ok");
+                Application.Current.MainPage.DisplayAlert("Ошибка", "Имя пользователя не указано.", "Ok");
                 return;
             }
 
             if (IsExistUser(userViewModel.User))
             {
-                Application.Current.MainPage.DisplayAlert("Ошибка", "Пользователь с таким именем существует", "Ok");
+                Application.Current.MainPage.DisplayAlert("Ошибка", "Пользователь с таким именем существует.", "Ok");
                 return;
             }
 
             if (!userViewModel.IsValidPassword)
             {
-                Application.Current.MainPage.DisplayAlert("Ошибка", "Пароль пользователя не задан", "Ok");
+                Application.Current.MainPage.DisplayAlert("Ошибка", "Пароль пользователя не задан.", "Ok");
                 return;
             }
 

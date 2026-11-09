@@ -87,7 +87,7 @@ namespace DosingApp.ViewModels
             {
                 if (!applicatorViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название аппликатора", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название аппликатора.", "Ok");
                     return;
                 }
 

@@ -38,6 +38,8 @@ namespace DosingApp.Services.Import
             dtos.AddRange(await _api.GetAsync<UnitsListResponseDto>("dictionaries/units?group_id=11").ConfigureAwait(false));
             dtos.AddRange(await _api.GetAsync<UnitsListResponseDto>("dictionaries/units?group_id=12").ConfigureAwait(false));
             dtos.AddRange(await _api.GetAsync<UnitsListResponseDto>("dictionaries/units?group_id=13").ConfigureAwait(false));
+            dtos.AddRange(await _api.GetAsync<UnitsListResponseDto>("dictionaries/units?group_id=14").ConfigureAwait(false));
+            dtos.AddRange(await _api.GetAsync<UnitsListResponseDto>("dictionaries/units?group_id=15").ConfigureAwait(false));
 
             if (dtos == null || dtos.Count == 0) return 0;
 

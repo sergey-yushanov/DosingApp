@@ -91,7 +91,7 @@ namespace DosingApp.ViewModels
             {
                 if (!agrYearViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название сельхоз. года", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название сельхоз. года.", "Ok");
                     return;
                 }
 

@@ -91,7 +91,7 @@ namespace DosingApp.ViewModels
             {
                 if (!processingTypeViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название вида обработки", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название вида обработки.", "Ok");
                     return;
                 }
 

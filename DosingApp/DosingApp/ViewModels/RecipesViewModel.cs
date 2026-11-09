@@ -112,7 +112,7 @@ namespace DosingApp.ViewModels
             {
                 if (!recipeViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название рецепта", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название рецепта.", "Ok");
                     return;
                 }
 

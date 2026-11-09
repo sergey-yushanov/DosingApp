@@ -400,7 +400,7 @@ namespace DosingApp.ViewModels
         {
             JobComponentScreen jobComponentScreen = jobComponentScreenInstanse as JobComponentScreen;
 
-            if (await Application.Current.MainPage.DisplayAlert("Пропустить дозацию?", $"Компонент: {jobComponentScreen.Name}\nДозатор: {jobComponentScreen.Dispenser}", "Да", "Нет"))
+            if (await Application.Current.MainPage.DisplayAlert("Пропустить дозацию?", $"Компонент: {jobComponentScreen.Name}\nДозатор: {jobComponentScreen.Dispenser}.", "Да", "Нет"))
             {
                 if (jobComponentScreen.Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
                 {
@@ -579,7 +579,7 @@ namespace DosingApp.ViewModels
 
         public void ExitJob()
         {
-            Application.Current.MainPage.DisplayAlert("Предупреждение", "Отсутствует связь с ПЛК, вы будете перенаправлены на главную страницу", "Ok");
+            Application.Current.MainPage.DisplayAlert("Предупреждение", "Отсутствует связь с ПЛК, вы будете перенаправлены на главную страницу.", "Ok");
             {
                 ModbusService.WriteSingleRegister(CommonModbus.LoopStop());
                 if (!isLoopReported)

@@ -95,7 +95,7 @@ namespace DosingApp.ViewModels
             {
                 if (!assignmentViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название задания, выберите рецепт, введите норму вылива и размер партии смеси", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название задания, выберите рецепт, введите норму вылива и размер партии смеси.", "Ok");
                     return;
                 }
 

@@ -86,7 +86,7 @@ namespace DosingApp.ViewModels
             {
                 if (!fieldViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название поля", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название поля.", "Ok");
                     return;
                 }
 

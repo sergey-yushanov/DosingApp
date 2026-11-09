@@ -86,7 +86,7 @@ namespace DosingApp.ViewModels
             {
                 if (!cropViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название культуры", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название культуры.", "Ok");
                     return;
                 }
 

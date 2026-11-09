@@ -18,7 +18,7 @@ namespace DosingApp.Models.AgroAssist.Dto
         [JsonIgnore]
         public string TechoperationExtId { get; set; }
 
-        [JsonIgnore]
+        [JsonPropertyName("techoperation_type_guid")]
         public Guid TechoperationTypeGuid { get; set; }
 
         [JsonIgnore]

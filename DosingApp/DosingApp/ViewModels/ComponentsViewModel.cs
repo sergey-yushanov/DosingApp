@@ -264,7 +264,7 @@ namespace DosingApp.ViewModels
             {
                 if (!componentViewModel.IsValid)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название и форму компонента", "Ok");
+                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Задайте название и форму компонента.", "Ok");
                     return;
                 }
 

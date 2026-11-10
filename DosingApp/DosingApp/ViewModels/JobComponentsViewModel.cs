@@ -26,6 +26,8 @@ namespace DosingApp.ViewModels
     public class JobComponentsViewModel : BaseViewModel
     {
         #region Attributes
+        private bool demoMode;
+
         public Job Job { get; private set; }
         private ObservableCollection<JobComponent> jobComponents;
         private ObservableCollection<JobComponentScreen> jobComponentScreens;
@@ -69,6 +71,8 @@ namespace DosingApp.ViewModels
         public ICommand ContJobCommand { get; protected set; }
         public ICommand BackCommand { get; protected set; }
 
+        public ICommand DemoJobCommand { get; protected set; }
+
         public ICommand SkipComponentCommand { get; protected set; }
 
         public ModbusService ModbusService { get; protected set; }
@@ -78,9 +82,9 @@ namespace DosingApp.ViewModels
         #endregion Attributes
 
         #region Constructor
-        public JobComponentsViewModel(Job job, List<JobComponent> jobComponents)
+        public JobComponentsViewModel(Job job, List<JobComponent> jobComponents, ModbusService modbusService, bool demoMode)
         {
-            ModbusService = new ModbusService();
+            DemoMode = demoMode;
 
             IsLoopDone = false;
             isLoopReported = false;
@@ -101,26 +105,54 @@ namespace DosingApp.ViewModels
             ContJobCommand = new Command(ContJob);
             BackCommand = new Command(Back);
 
+            DemoJobCommand = new Command(DemoJob);
+
             SkipComponentCommand = new Command(SkipComponent);
 
             IsNotInitializedLoop = false;
+            IsExitJob = false;
+            isLoopWasActive = false;
+
+            ModbusService = modbusService;
+            // Подписываемся на изменения в самом сервисе Modbus, 
+            // чтобы IsConnected обновлялся, когда сервис подключается/отключается
+            ModbusService.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(ModbusService.IsConnected))
+                {
+                    OnPropertyChanged(nameof(IsConnected));
+                }
+            };
 
             if (ModbusService.Mixer != null)
             {
-                ModbusService.WriteSingleRegister(CommonModbus.LoopClear());
+                if (NoDemoMode)
+                    ModbusService.WriteSingleRegister(CommonModbus.LoopClear());
                 MakeRequirements(jobComponents);
-                ModbusSendRequirements();
+                if (NoDemoMode)
+                    ModbusSendRequirements();
             }
-
-            IsExitJob = false;
-
             UpdateJobComponents();
-
-            isLoopWasActive = false;
         }
         #endregion Constructor
 
         #region Properties
+        public bool DemoMode
+        {
+            get => demoMode;
+            set 
+            {
+                if (SetProperty(ref demoMode, value))
+                {
+                    OnPropertyChanged(nameof(IsConnected));
+                }
+            }
+        }
+
+        public bool NoDemoMode => !DemoMode;
+
+        public bool IsConnected => ModbusService.IsConnected && NoDemoMode;
+
         public JobScreen JobScreen
         {
             get { return jobScreen; }
@@ -363,6 +395,12 @@ namespace DosingApp.ViewModels
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
+        private void DemoJob()
+        {
+            JobScreen.StartDateTime = DateTime.Now;
+            JobScreen.DemoUpdate();
+        }
+
         private void StartJob()
         {
             ModbusSendRequirements();
@@ -540,9 +578,11 @@ namespace DosingApp.ViewModels
 
         public void UpdateJobComponents()
         {
-            ModbusService.MasterMessages();
-
-            JobScreen.Update(Common, Collector1, Collector2, Collector3, Collector4, VolumeDos, PowderDos);
+            if (NoDemoMode)
+            {
+                ModbusService.MasterMessages();
+                JobScreen.Update(Common, Collector1, Collector2, Collector3, Collector4, VolumeDos, PowderDos);
+            }
 
             IsLoopNotPause = !Common.IsLoopPause && Common.IsLoopActive;
             IsLoopCont = Common.IsLoopPause && Common.IsLoopActive;

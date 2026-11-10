@@ -20,6 +20,7 @@ namespace DosingApp.ViewModels
         private Assignment selectedAssignment;
 
         private bool hasAllDispensers = false;
+        private bool demoMode = false;
 
         public ICommand SaveCommand { get; protected set; }
         #endregion Attributes
@@ -56,39 +57,39 @@ namespace DosingApp.ViewModels
         #endregion Properties
 
         #region Commands
-        private void SaveJob(object jobInstance)
+        private async void SaveJob(object jobInstance)
         {
             JobViewModel jobViewModel = jobInstance as JobViewModel;
             if (jobViewModel.Job != null && jobViewModel.IsValid)
             {
                 if (jobViewModel.Job.AssignmentSize == null)
                 {
-                    Application.Current.MainPage.DisplayAlert("Предупреждение", "Не задан размер партии смеси.", "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Предупреждение", "Не задан размер партии смеси.", "OK");
                     return;
                 }
 
                 ModbusService modbusService = new ModbusService();
                 if (!modbusService.IsConnected)
                 {
-                    Application.Current.MainPage.DisplayAlert("Нет связи", "Проверьте подключение к сети Wi-Fi установки.", "OK");
+                    demoMode = await Application.Current.MainPage.DisplayAlert("Нет связи", "Проверьте подключение к сети Wi-Fi установки. Использовать демо-режим?", "Да", "Нет");
                 }
-                else
+                if (modbusService.IsConnected || demoMode)
                 {
                     var jobComponents = GetJobComponents(jobViewModel.Job);
                     if (hasAllDispensers)
-                    { 
+                    {
                         using (AppDbContext db = App.GetContext())
                         {
                             db.Entry(jobViewModel.Job).State = EntityState.Added;
                             db.SaveChanges();
                             jobComponents.ForEach(jc => db.Entry(jc).State = EntityState.Added);
                             db.SaveChanges();
-                            Application.Current.MainPage.Navigation.PushAsync(new JobComponentsPage(new JobComponentsViewModel(jobViewModel.Job, jobComponents)));
+                            await Application.Current.MainPage.Navigation.PushAsync(new JobComponentsPage(new JobComponentsViewModel(jobViewModel.Job, jobComponents, modbusService, demoMode)));
                         }
                     }
                     else
                     {
-                        Application.Current.MainPage.DisplayAlert("Предупреждение", "Не для всех компонентов назначен дозатор. Проверьте рецепт.", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Предупреждение", "Не для всех компонентов назначен дозатор. Проверьте рецепт.", "OK");
                     }
                 }
             }

@@ -1,4 +1,5 @@
-﻿using DosingApp.Models.WebSocket;
+﻿using DosingApp.Helpers;
+using DosingApp.Models.WebSocket;
 using DosingApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -181,6 +182,38 @@ namespace DosingApp.Models.Screen
             {
                 DosedVolume = powderDos.DosedVolume;
                 //IsSkipVisible = powderDos.Valve.Command;
+            }
+
+            DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);
+        }
+
+        public void DemoUpdate()
+        {
+            if (Dispenser == DispenserSuffix.Dry)
+            {
+                DosedVolume = 0;
+                return;
+            }
+
+            if (Dispenser == DispenserSuffix.Carrier)
+            {
+                DosedVolume = RandomExtensions.NextNearPercent((double)Volume);
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
+            {
+                int collectorIndex = (int)Char.GetNumericValue(Dispenser[0]) - 1;
+                DosedVolume = RandomExtensions.NextNearPercent((double)Volume);
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
+            {
+                DosedVolume = RandomExtensions.NextNearPercent((double)Volume);
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Powder) >= 0)
+            {
+                DosedVolume = RandomExtensions.NextNearPercent((double)Volume);
             }
 
             DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);

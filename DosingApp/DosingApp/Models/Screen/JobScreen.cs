@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using DosingApp.Helpers;
 
 namespace DosingApp.Models.Screen
 {
@@ -95,21 +96,21 @@ namespace DosingApp.Models.Screen
             {
                 JobComponentScreens[i].Update(commonScreen, collectors, volumeDosScreen, powderDosScreen);
                 DosedVolume += (double?)JobComponentScreens[i].DosedVolume;
-
-                //Console.Write(JobComponentScreens[i].Dispenser + ": ");
-                //Console.WriteLine((double?)JobComponentScreens[i].DosedVolume);
             }
-
             ProgressBarValue = DosedVolume / RequiredVolume;
-
-            //for (int i = 0; i < JobComponentScreens.Count; i++)
-            //{
-            //    Console.WriteLine(JobComponentScreens[i].DosedVolume);
-            //}
-            //Console.WriteLine("=========");
-
-            //OnPropertyChanged(nameof(JobComponentScreens));
         }
 
+
+        public void DemoUpdate()
+        {
+            DosedVolume = 0;
+
+            for (int i = 0; i < JobComponentScreens.Count; i++)
+            {
+                JobComponentScreens[i].DemoUpdate();
+                DosedVolume += (double?)JobComponentScreens[i].DosedVolume;
+            }
+            ProgressBarValue = DosedVolume / RequiredVolume;
+        }
     }
 }

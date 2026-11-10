@@ -182,6 +182,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
+
                         <Button 
                             Grid.Column="1" 
                             Text="Далее" 

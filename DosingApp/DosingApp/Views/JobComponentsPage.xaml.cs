@@ -26,6 +26,7 @@ namespace DosingApp.Views
             BindingContext = ViewModel;
 
             this.cancellation = new CancellationTokenSource();
+
             TimerStart();
         }
 

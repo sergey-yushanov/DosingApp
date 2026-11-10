@@ -608,6 +608,7 @@ namespace DosingApp.ViewModels
             if (IsLoopStart) { StatusText = "Ожидание запуска дозации"; StatusColor = Color.Gray; }
             else if (IsLoopDone) { StatusText = "Дозация завершена"; StatusColor = Color.FromHex("#00C000"); }
             else if (Common.IsLoopPause) { StatusText = "Дозация приостановлена"; StatusColor = StatusColor = Color.Gray; }
+            else if (DemoMode) { StatusText = "Демо дозации"; StatusColor = Color.Orange; }
             else { StatusText = "Идёт дозация"; StatusColor = Color.Orange; }
 
             DateTime now = DateTime.Now;
@@ -648,7 +649,8 @@ namespace DosingApp.ViewModels
                 OperatorName = App.ActiveUser.DisplayName,
                 DosingTime = now.Subtract(JobScreen.StartDateTime),
                 VolumeRate = Job.VolumeRate,
-                AirTemperature = Common.AirTemperature
+                AirTemperature = Common.AirTemperature,
+                JobId = Job.JobId
             };
 
             List<ReportComponent> reportComponents = new List<ReportComponent>();

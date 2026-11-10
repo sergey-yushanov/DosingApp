@@ -29,5 +29,8 @@ namespace DosingApp.Models
         public string AirTemperature { get; set; }
 
         public ICollection<ReportComponent> ReportComponents { get; set; }
+
+        public int? JobId { get; set; }
+        public bool IsUploaded { get; set; } = false;
     }
 }

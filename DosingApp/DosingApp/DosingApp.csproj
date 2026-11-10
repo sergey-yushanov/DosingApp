@@ -57,6 +57,8 @@
     <Compile Remove="Migrations\20261109083124_AddPesticideGuidToComponent.Designer.cs" />
     <Compile Remove="Migrations\20261109101114_AddTechOperationGuidToRecipe.cs" />
     <Compile Remove="Migrations\20261109101114_AddTechOperationGuidToRecipe.Designer.cs" />
+    <Compile Remove="Migrations\20261110083836_AddJobReportRelation.cs" />
+    <Compile Remove="Migrations\20261110083836_AddJobReportRelation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,7 +12,8 @@ namespace DosingApp.Helpers
         public static double NextNearPercent(double baseValue, double percent)
         {
             double radius = baseValue * percent;
-            return baseValue + (_random.NextDouble() * 2 - 1) * radius;
+            var value = baseValue + (_random.NextDouble() * 2 - 1) * radius;
+            return Math.Round(value, 2);
         }
 
         // Перегрузка 2: процент по умолчанию (2%)

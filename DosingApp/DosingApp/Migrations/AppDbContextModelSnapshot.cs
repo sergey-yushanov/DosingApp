@@ -775,6 +775,12 @@ namespace DosingApp.Migrations
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsUploaded")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("JobId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("OperatorName")
                         .HasColumnType("TEXT");
 

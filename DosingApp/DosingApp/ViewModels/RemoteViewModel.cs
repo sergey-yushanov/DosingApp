@@ -18,6 +18,7 @@ using System.Threading;
 using DosingApp.Views;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Services;
+using DosingApp.Services.Export;
 
 namespace DosingApp.ViewModels
 {
@@ -49,7 +50,7 @@ namespace DosingApp.ViewModels
             syncService = new SyncService();
 
             DownloadCommand = new Command(async () => await DownloadAsync(), () => !IsBusy);
-            UploadCommand = new Command(Upload);
+            UploadCommand = new Command(async() => await UploadAsync(), () => !IsBusy);
         }
         #endregion Constructor
 
@@ -139,9 +140,54 @@ namespace DosingApp.ViewModels
             }
         }
 
-        private void Upload()
+        private async Task UploadAsync()
         {
-            ;
+            if (!await apiService.IsServerReachableAsync().ConfigureAwait(false))
+            {
+                await Device.InvokeOnMainThreadAsync(async () => await Application.Current.MainPage.DisplayAlert("Нет связи", "Сервер недоступен. Проверьте интернет.", "OK"));
+                return;
+            }
+
+            if (IsBusy) return;
+            IsBusy = true;
+
+            var cts = new CancellationTokenSource();
+            var popupVm = new SyncProgressViewModel(cts);
+            var popup = new SyncProgressPage(popupVm);
+
+            // Открыть всплывающее окно
+            await PopupNavigation.Instance.PushAsync(popup);
+
+            try
+            {
+                var progress = new Progress<SyncProgress>(p => popupVm.Apply(p));
+
+                using (var db = App.GetContext())
+                {
+                    var builder = new WithdrawalPayloadBuilder(db);
+                    var sync = new WithdrawalSyncService(apiService);
+                    var orchestrator = new WithdrawalSyncOrchestrator(db, builder, sync);
+
+                    var summary = await orchestrator.PushAsync(progress, cts.Token);
+                    await Device.InvokeOnMainThreadAsync(() => popupVm.ShowSuccess(
+                        $"Отправка завершена\n" +
+                        $"Создано: {summary.Created}  |  Обновлено: {summary.Updated}  |  Удалено: {summary.Deleted}  |  Ошибок: {summary.Failed}"
+                    ));
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                await Device.InvokeOnMainThreadAsync(() => popupVm.ShowCancelled("Загрузка отменена"));
+            }
+            catch (Exception ex)
+            {
+                await Device.InvokeOnMainThreadAsync(() => popupVm.ShowError($"Ошибка: {ex.Message}"));
+            }
+            finally
+            {
+                IsBusy = false;
+                cts.Dispose();
+            }
         }
         #endregion Commands
 

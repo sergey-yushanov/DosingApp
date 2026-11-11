@@ -1,5 +1,6 @@
 ﻿using DosingApp.DataContext;
 using DosingApp.Models;
+using DosingApp.Models.AgroAssist.Data;
 using DosingApp.Services;
 using DosingApp.Views;
 using Microsoft.EntityFrameworkCore;
@@ -126,6 +127,15 @@ namespace DosingApp.ViewModels
             }
         }
 
+        public List<PlanInventory> LoadPlanInventories(Job job)
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                var planInventories = db.PlanInventories.Where(pi => pi.TechOperationGuid == job.Recipe.TechOperationGuid).ToList();
+                return planInventories;
+            }
+        }
+
         public List<JobComponent> GetJobComponents(Job job)
         {
             var jobComponents = new List<JobComponent>();
@@ -144,7 +154,8 @@ namespace DosingApp.ViewModels
                 VolumeRate = rc.VolumeRate,
                 VolumeUnit = GetVolumeUnit(rc),
                 VolumeRateUnit = rc.VolumeRateUnit,
-                Dispenser = rc.Dispenser
+                Dispenser = rc.Dispenser,
+                PlanInventoryGuid = rc.PlanInventoryGuid
             }));
 
             var carrierVolume = GetCarrierVolume(job, jobComponents);

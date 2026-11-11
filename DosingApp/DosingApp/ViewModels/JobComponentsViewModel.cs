@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using DosingApp.DataContext;
 using DosingApp.Models;
+using DosingApp.Models.AgroAssist.Data;
 using DosingApp.Models.Files;
 using DosingApp.Models.Modbus;
 using DosingApp.Models.Screen;
@@ -126,12 +127,12 @@ namespace DosingApp.ViewModels
 
             if (ModbusService.Mixer != null)
             {
-                if (NoDemoMode)
-                    ModbusService.WriteSingleRegister(CommonModbus.LoopClear());
+                if (NoDemoMode) ModbusService.WriteSingleRegister(CommonModbus.LoopClear());
                 MakeRequirements(jobComponents);
-                if (NoDemoMode)
-                    ModbusSendRequirements();
+                if (NoDemoMode) ModbusSendRequirements();
             }
+
+            if (DemoMode) JobScreen.DemoInit();
             UpdateJobComponents();
         }
         #endregion Constructor
@@ -639,6 +640,10 @@ namespace DosingApp.ViewModels
             if (JobScreen.StartDateTime == DateTime.MinValue)
                 JobScreen.StartDateTime = now;
 
+            bool? uploaded = null;
+            if (Job.Recipe.TechOperationGuid != null)
+                uploaded = false;
+
             Report report = new Report {
                 ReportDateTime = now,
                 IsCompleted = IsLoopDone,
@@ -650,7 +655,8 @@ namespace DosingApp.ViewModels
                 DosingTime = now.Subtract(JobScreen.StartDateTime),
                 VolumeRate = Job.VolumeRate,
                 AirTemperature = Common.AirTemperature,
-                JobId = Job.JobId
+                JobId = Job.JobId,
+                IsUploaded = uploaded
             };
 
             List<ReportComponent> reportComponents = new List<ReportComponent>();
@@ -665,14 +671,87 @@ namespace DosingApp.ViewModels
                 });
             }
 
+
+            List<Withdrawal> withdrawalsInsert = new List<Withdrawal>();
+            List<Withdrawal> withdrawalsUpdate = new List<Withdrawal>();
+            var entityWithdrawals = GetWithdrawals(Job.Recipe.TechOperationGuid.GetValueOrDefault());
+            var techOperation = GetTechOperation(Job.Recipe.TechOperationGuid.GetValueOrDefault());
+            var inventories = GetInventories(Job.Recipe.TechOperationGuid.GetValueOrDefault());
+
+            foreach (var jobComponentScreen in JobScreen.JobComponentScreens)
+            {
+                if (techOperation != null && jobComponentScreen.PlanInventoryGuid != Guid.Empty)
+                {
+                    Guid entityGuid = inventories[jobComponentScreen.PlanInventoryGuid].EntityGuid.GetValueOrDefault();
+                    entityWithdrawals.TryGetValue(entityGuid, out Withdrawal curWithdrawal);
+
+                    if (curWithdrawal != null)
+                    {
+                        curWithdrawal.Total += jobComponentScreen.DosedVolume;
+                        curWithdrawal.SyncState = WithdrawalSyncState.Modified;
+                        withdrawalsUpdate.Add(curWithdrawal);
+                    }
+                    else
+                    {
+                        withdrawalsInsert.Add(new Withdrawal
+                        {
+                            WithdrawalExtId = Guid.NewGuid().ToString(),
+                            TechoperationGuid = techOperation.TechOperationGuid,
+                            StructureGuid = techOperation.StructureGuid,
+                            FieldGuid = techOperation.FieldGuid,
+                            EntityGuid = inventories[jobComponentScreen.PlanInventoryGuid].EntityGuid,
+                            EntityTypeId = inventories[jobComponentScreen.PlanInventoryGuid].EntityTypeId,
+                            Total = jobComponentScreen.DosedVolume,
+                            FactAreaHectare = techOperation.PlanAreaHectare,
+                            UnitId = inventories[jobComponentScreen.PlanInventoryGuid].UnitId,
+                            SyncState = WithdrawalSyncState.New
+                        });
+                    }
+                }
+            }
+
             using (AppDbContext db = App.GetContext())
             {
                 db.Reports.Add(report);
                 db.ReportComponents.AddRange(reportComponents);
+                db.Withdrawals.AddRange(withdrawalsInsert);
+                db.Withdrawals.UpdateRange(withdrawalsUpdate);
                 db.SaveChanges();
             }
 
             isLoopReported = true;
+        }
+
+        private TechOperation GetTechOperation(Guid techOperationGuid)
+        {
+            using (AppDbContext db = App.GetContext())
+            {
+                return db.TechOperations.FirstOrDefault(to => to.TechOperationGuid == techOperationGuid);
+            }
+        }
+
+        private Dictionary<Guid, PlanInventory> GetInventories(Guid techOperationGuid)
+        {
+            var inventories = new Dictionary<Guid, PlanInventory>();
+            using (AppDbContext db = App.GetContext())
+            {
+                var planInventories = db.PlanInventories.Where(pi => pi.TechOperationGuid == techOperationGuid);
+                foreach (var c in planInventories)
+                    inventories[c.PlanInventoryGuid] = c;
+                return inventories;
+            }
+        }
+
+        private Dictionary<Guid, Withdrawal> GetWithdrawals(Guid techOperationGuid)
+        {
+            var withdrawalsDict = new Dictionary<Guid, Withdrawal>();
+            using (AppDbContext db = App.GetContext())
+            {
+                var withdrawals = db.Withdrawals.Where(w => w.TechoperationGuid == techOperationGuid);
+                foreach (var w in withdrawals)
+                    withdrawalsDict[w.EntityGuid.GetValueOrDefault()] = w;
+                return withdrawalsDict;
+            }
         }
         #endregion Methods
     }

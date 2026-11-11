@@ -137,5 +137,33 @@ namespace DosingApp.Services
                 throw;
             }
         }
+
+        public async Task<TResponse> PatchAsync<TRequest, TResponse>(string endpoint, TRequest data)
+        {
+            try
+            {
+                string jsonPayload = JsonSerializer.Serialize(data, _jsonOptions);
+
+                var method = new HttpMethod("PATCH");
+                var request = new HttpRequestMessage(method, endpoint)
+                {
+                    Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json")
+                };
+
+                string token = await GetValidTokenAsync();
+                request.Headers.Add("x-token", token);
+
+                HttpResponseMessage response = await _httpClient.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<TResponse>(jsonResponse, _jsonOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка PATCH ({endpoint}): {ex.Message}");
+                throw;
+            }
+        }
     }
 }

@@ -193,6 +193,12 @@ namespace DosingApp.Services.Import
                 volumeRate = p.Total.Value / p.PlanAreaHectare.Value;
             }
 
+            Guid? planInventoryGuid = Guid.Empty;
+            if (p.PlanInventoryGuid != Guid.Empty)
+            {
+                planInventoryGuid = p.PlanInventoryGuid;
+            }
+
             return new RecipeComponent
             {
                 Recipe = recipe,
@@ -201,6 +207,7 @@ namespace DosingApp.Services.Import
                 VolumeRate = volumeRate,
                 VolumeRateUnit = null,
                 Dispenser = null,
+                PlanInventoryGuid = planInventoryGuid
             };
         }
 

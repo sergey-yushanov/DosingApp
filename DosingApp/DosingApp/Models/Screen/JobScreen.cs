@@ -101,6 +101,18 @@ namespace DosingApp.Models.Screen
         }
 
 
+        public void DemoInit()
+        {
+            DosedVolume = 0;
+
+            for (int i = 0; i < JobComponentScreens.Count; i++)
+            {
+                JobComponentScreens[i].DemoInit();
+                DosedVolume += (double?)JobComponentScreens[i].DosedVolume;
+            }
+            ProgressBarValue = DosedVolume / RequiredVolume;
+        }
+
         public void DemoUpdate()
         {
             DosedVolume = 0;

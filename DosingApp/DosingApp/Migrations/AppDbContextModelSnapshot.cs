@@ -128,6 +128,50 @@ namespace DosingApp.Migrations
                     b.ToTable("Units");
                 });
 
+            modelBuilder.Entity("DosingApp.Models.AgroAssist.Data.Withdrawal", b =>
+                {
+                    b.Property<int>("WithdrawalId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("EntityGuid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("EntityTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double?>("FactAreaHectare")
+                        .HasColumnType("REAL");
+
+                    b.Property<Guid?>("FieldGuid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("StructureGuid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SyncState")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("TechoperationGuid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double?>("Total")
+                        .HasColumnType("REAL");
+
+                    b.Property<int?>("UnitId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("WithdrawalExtId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("WithdrawalGuid")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("WithdrawalId");
+
+                    b.ToTable("Withdrawals");
+                });
+
             modelBuilder.Entity("DosingApp.Models.Applicator", b =>
                 {
                     b.Property<int>("ApplicatorId")
@@ -575,6 +619,9 @@ namespace DosingApp.Migrations
                     b.Property<int?>("Order")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("PlanInventoryGuid")
+                        .HasColumnType("TEXT");
+
                     b.Property<double?>("Volume")
                         .HasColumnType("REAL");
 
@@ -727,6 +774,9 @@ namespace DosingApp.Migrations
                     b.Property<int?>("Order")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("PlanInventoryGuid")
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("RecipeId")
                         .HasColumnType("INTEGER");
 
@@ -775,7 +825,7 @@ namespace DosingApp.Migrations
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsUploaded")
+                    b.Property<bool?>("IsUploaded")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("JobId")

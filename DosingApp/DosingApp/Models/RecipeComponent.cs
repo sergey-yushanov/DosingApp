@@ -20,6 +20,8 @@ namespace DosingApp.Models
         public string VolumeRateUnit { get; set; }
         public string Dispenser { get; set; }
 
+        public Guid? PlanInventoryGuid { get; set; }
+
         public string Name { get { return Component?.Name; } }
 
         // проверяем, является ли клапан пятым в коллекторе - он всегда вода

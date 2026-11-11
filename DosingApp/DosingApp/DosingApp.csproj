@@ -59,6 +59,12 @@
     <Compile Remove="Migrations\20261109101114_AddTechOperationGuidToRecipe.Designer.cs" />
     <Compile Remove="Migrations\20261110083836_AddJobReportRelation.cs" />
     <Compile Remove="Migrations\20261110083836_AddJobReportRelation.Designer.cs" />
+    <Compile Remove="Migrations\20261110124342_AddJobReportRelation.cs" />
+    <Compile Remove="Migrations\20261110124342_AddJobReportRelation.Designer.cs" />
+    <Compile Remove="Migrations\20261110195837_AddPlanInventoryToRecipeComponent.cs" />
+    <Compile Remove="Migrations\20261110195837_AddPlanInventoryToRecipeComponent.Designer.cs" />
+    <Compile Remove="Migrations\20261110212345_ChangeWithdrawals.cs" />
+    <Compile Remove="Migrations\20261110212345_ChangeWithdrawals.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

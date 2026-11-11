@@ -9,8 +9,7 @@ namespace DosingApp.Migrations
             migrationBuilder.AddColumn<bool>(
                 name: "IsUploaded",
                 table: "Reports",
-                nullable: false,
-                defaultValue: false);
+                nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "JobId",

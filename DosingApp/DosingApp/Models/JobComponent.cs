@@ -27,6 +27,8 @@ namespace DosingApp.Models
         public string VolumeRateUnit { get; set; }
         public string Dispenser { get; set; }
 
+        public Guid? PlanInventoryGuid { get; set; }
+
         //public string Name { get { return Component?.Name; } }
         //public string VolumeInfo { get { return ((double)Volume).ToString("N", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + VolumeUnit; } }
         public string VolumeInfo { get { return String.Format("{0,12:N2} {1}", (double)Volume, VolumeUnit); } }

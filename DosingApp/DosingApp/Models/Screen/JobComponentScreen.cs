@@ -107,6 +107,8 @@ namespace DosingApp.Models.Screen
             set { SetProperty(ref isSkipVisible, value); }
         }
 
+        public Guid PlanInventoryGuid { get; set; } = Guid.Empty;
+
         public JobComponentScreen(JobComponent jobComponent)
         {
             Volume = jobComponent.Volume;
@@ -123,6 +125,8 @@ namespace DosingApp.Models.Screen
 
             IsVisible = true;
             isSkipVisible = false;
+
+            PlanInventoryGuid = jobComponent.PlanInventoryGuid.GetValueOrDefault();
         }
 
         public void Update(CommonScreen common, CollectorScreen collector, SingleDosScreen singleDos)
@@ -187,6 +191,38 @@ namespace DosingApp.Models.Screen
             DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);
         }
 
+        public void DemoInit()
+        {
+            if (Dispenser == DispenserSuffix.Dry)
+            {
+                DosedVolume = 0;
+                return;
+            }
+
+            if (Dispenser == DispenserSuffix.Carrier)
+            {
+                DosedVolume = 0;
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
+            {
+                int collectorIndex = (int)Char.GetNumericValue(Dispenser[0]) - 1;
+                DosedVolume = 0;
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Volume) >= 0)
+            {
+                DosedVolume = 0;
+            }
+
+            if (Dispenser.IndexOf(DispenserSuffix.Powder) >= 0)
+            {
+                DosedVolume = 0;
+            }
+
+            DosedVolumeError = (double?)((DosedVolume - Volume) / Volume);
+        }
+
         public void DemoUpdate()
         {
             if (Dispenser == DispenserSuffix.Dry)
@@ -202,7 +238,6 @@ namespace DosingApp.Models.Screen
 
             if (Dispenser.IndexOf(DispenserSuffix.Collector) >= 0)
             {
-                int collectorIndex = (int)Char.GetNumericValue(Dispenser[0]) - 1;
                 DosedVolume = RandomExtensions.NextNearPercent((double)Volume);
             }
 

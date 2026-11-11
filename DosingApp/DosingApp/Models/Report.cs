@@ -31,6 +31,6 @@ namespace DosingApp.Models
         public ICollection<ReportComponent> ReportComponents { get; set; }
 
         public int? JobId { get; set; }
-        public bool IsUploaded { get; set; } = false;
+        public bool? IsUploaded { get; set; }
     }
 }

@@ -34,6 +34,7 @@ namespace DosingApp.DataContext
         public DbSet<Pesticide> Pesticides { get; set; }
         public DbSet<TechOperation> TechOperations { get; set; }
         public DbSet<PlanInventory> PlanInventories { get; set; }
+        public DbSet<Withdrawal> Withdrawals { get; set; }
 
         public AppDbContext(string dbPath)
         {
